@@ -1,0 +1,1724 @@
+[
+  {
+    "id": "c_se",
+    "title": "Software Engineer",
+    "field": "STEM",
+    "description": "Design, develop, and maintain software systems. Highly sought after globally and locally in Nigeria's booming tech sector.",
+    "demand": "Very High",
+    "salary_range": "₦2M - ₦15M / year",
+    "core_skills": [
+      "Programming",
+      "Problem Solving",
+      "System Design",
+      "Algorithms"
+    ],
+    "professional_bodies": [
+      "Computer Professionals Registration Council of Nigeria (CPN)",
+      "Nigeria Computer Society (NCS)"
+    ],
+    "required_cgpa_hint": "3.0+",
+    "icon": "Code",
+    "holland_code": [
+      "I",
+      "R",
+      "C"
+    ],
+    "outcome_tags": [
+      "income",
+      "technical",
+      "autonomy",
+      "stability"
+    ],
+    "experience_tags": [
+      "coding",
+      "research",
+      "math"
+    ]
+  },
+  {
+    "id": "c_ds",
+    "title": "Data Scientist",
+    "field": "STEM",
+    "description": "Extract insights from complex data to inform business decisions. A rapidly growing field across banking, telcos, and startups in Nigeria.",
+    "demand": "High",
+    "salary_range": "₦3M - ₦12M / year",
+    "core_skills": [
+      "Statistics",
+      "Python/R",
+      "Machine Learning",
+      "Data Visualization"
+    ],
+    "professional_bodies": [
+      "Data Science Nigeria (DSN)"
+    ],
+    "required_cgpa_hint": "3.5+",
+    "icon": "BarChart3",
+    "holland_code": [
+      "I",
+      "R",
+      "C"
+    ],
+    "outcome_tags": [
+      "income",
+      "technical",
+      "impact"
+    ],
+    "experience_tags": [
+      "coding",
+      "research",
+      "math"
+    ]
+  },
+  {
+    "id": "c_med",
+    "title": "Medical Doctor",
+    "field": "Medicine",
+    "description": "Diagnose, treat, and prevent illnesses. A universally respected and essential profession with strict regulatory requirements.",
+    "demand": "Very High",
+    "salary_range": "₦3M - ₦10M / year (Base)",
+    "core_skills": [
+      "Clinical Reasoning",
+      "Empathy",
+      "Anatomy",
+      "Medical Ethics"
+    ],
+    "professional_bodies": [
+      "Medical and Dental Council of Nigeria (MDCN)"
+    ],
+    "required_cgpa_hint": "4.0+",
+    "icon": "Stethoscope",
+    "holland_code": [
+      "I",
+      "S",
+      "A"
+    ],
+    "outcome_tags": [
+      "impact",
+      "status",
+      "stability"
+    ],
+    "experience_tags": [
+      "healthcare",
+      "research",
+      "community"
+    ]
+  },
+  {
+    "id": "c_law",
+    "title": "Corporate Lawyer",
+    "field": "Law",
+    "description": "Advise businesses on their legal rights, obligations, and transactions. Crucial for corporate governance and M&A in Nigeria.",
+    "demand": "Medium",
+    "salary_range": "₦1.5M - ₦20M / year",
+    "core_skills": [
+      "Legal Drafting",
+      "Negotiation",
+      "Corporate Law",
+      "Analytical Thinking"
+    ],
+    "professional_bodies": [
+      "Nigerian Bar Association (NBA)",
+      "Council of Legal Education"
+    ],
+    "required_cgpa_hint": "3.5+",
+    "icon": "Scale",
+    "holland_code": [
+      "E",
+      "C",
+      "S"
+    ],
+    "outcome_tags": [
+      "income",
+      "status",
+      "autonomy"
+    ],
+    "experience_tags": [
+      "debate",
+      "writing",
+      "research"
+    ]
+  },
+  {
+    "id": "c_acc",
+    "title": "Chartered Accountant",
+    "field": "Business",
+    "description": "Manage financial records, auditing, and tax strategies. Every business needs one.",
+    "demand": "High",
+    "salary_range": "₦1.2M - ₦15M / year",
+    "core_skills": [
+      "Financial Reporting",
+      "Taxation",
+      "Auditing",
+      "Attention to Detail"
+    ],
+    "professional_bodies": [
+      "Institute of Chartered Accountants of Nigeria (ICAN)"
+    ],
+    "required_cgpa_hint": "3.0+",
+    "icon": "Calculator",
+    "holland_code": [
+      "C",
+      "I",
+      "E"
+    ],
+    "outcome_tags": [
+      "income",
+      "stability",
+      "status"
+    ],
+    "experience_tags": [
+      "math",
+      "business",
+      "research"
+    ]
+  },
+  {
+    "id": "c_mass",
+    "title": "Journalist / Media Analyst",
+    "field": "Arts",
+    "description": "Investigate, analyze, and report news or media trends. Key in shaping public opinion and narrative.",
+    "demand": "Medium",
+    "salary_range": "₦800K - ₦5M / year",
+    "core_skills": [
+      "Writing",
+      "Research",
+      "Communication",
+      "Media Ethics"
+    ],
+    "professional_bodies": [
+      "Nigerian Union of Journalists (NUJ)"
+    ],
+    "required_cgpa_hint": "2.5+",
+    "icon": "Mic",
+    "holland_code": [
+      "A",
+      "S",
+      "E"
+    ],
+    "outcome_tags": [
+      "creativity",
+      "impact",
+      "social"
+    ],
+    "experience_tags": [
+      "writing",
+      "community",
+      "arts"
+    ]
+  },
+  {
+    "id": "c_econ",
+    "title": "Economic Consultant",
+    "field": "Social Sciences",
+    "description": "Analyze economic trends to provide advisory services to governments and corporations.",
+    "demand": "Medium",
+    "salary_range": "₦2M - ₦10M / year",
+    "core_skills": [
+      "Macroeconomics",
+      "Quantitative Analysis",
+      "Forecasting",
+      "Policy Analysis"
+    ],
+    "professional_bodies": [
+      "Nigerian Economic Society (NES)"
+    ],
+    "required_cgpa_hint": "3.5+",
+    "icon": "TrendingUp",
+    "holland_code": [
+      "I",
+      "E",
+      "C"
+    ],
+    "outcome_tags": [
+      "income",
+      "impact",
+      "status"
+    ],
+    "experience_tags": [
+      "research",
+      "math",
+      "business"
+    ]
+  },
+  {
+    "id": "c_civ",
+    "title": "Civil Engineer",
+    "field": "STEM",
+    "description": "Design and oversee the construction of public and private infrastructure.",
+    "demand": "High",
+    "salary_range": "₦1.5M - ₦8M / year",
+    "core_skills": [
+      "Structural Design",
+      "Project Management",
+      "Mathematics",
+      "AutoCAD"
+    ],
+    "professional_bodies": [
+      "Council for the Regulation of Engineering in Nigeria (COREN)",
+      "Nigerian Society of Engineers (NSE)"
+    ],
+    "required_cgpa_hint": "3.0+",
+    "icon": "HardHat",
+    "holland_code": [
+      "R",
+      "I",
+      "C"
+    ],
+    "outcome_tags": [
+      "impact",
+      "technical",
+      "stability"
+    ],
+    "experience_tags": [
+      "math",
+      "research",
+      "hands_on"
+    ]
+  },
+  {
+    "id": "c_nurs",
+    "title": "Registered Nurse",
+    "field": "Medicine",
+    "description": "Provide critical patient care and assist in medical procedures.",
+    "demand": "Very High",
+    "salary_range": "₦1M - ₦5M / year",
+    "core_skills": [
+      "Patient Care",
+      "Clinical Assistance",
+      "Compassion",
+      "First Aid"
+    ],
+    "professional_bodies": [
+      "Nursing and Midwifery Council of Nigeria (NMCN)"
+    ],
+    "required_cgpa_hint": "3.0+",
+    "icon": "HeartPulse",
+    "holland_code": [
+      "S",
+      "R",
+      "I"
+    ],
+    "outcome_tags": [
+      "impact",
+      "social",
+      "stability"
+    ],
+    "experience_tags": [
+      "healthcare",
+      "community",
+      "research"
+    ]
+  },
+  {
+    "id": "c_ba",
+    "title": "Business Administrator",
+    "field": "Business",
+    "description": "Oversee operations, manage teams, and drive business strategy to ensure organizational goals are met.",
+    "demand": "High",
+    "salary_range": "₦1M - ₦8M / year",
+    "core_skills": [
+      "Leadership",
+      "Strategic Planning",
+      "Operations Management",
+      "Communication"
+    ],
+    "professional_bodies": [
+      "Nigerian Institute of Management (NIM)"
+    ],
+    "required_cgpa_hint": "2.5+",
+    "icon": "Briefcase",
+    "holland_code": [
+      "E",
+      "S",
+      "C"
+    ],
+    "outcome_tags": [
+      "income",
+      "status",
+      "autonomy"
+    ],
+    "experience_tags": [
+      "business",
+      "community",
+      "teaching"
+    ]
+  },
+  {
+    "id": "c_cyber",
+    "title": "Cybersecurity Specialist",
+    "field": "STEM",
+    "description": "Protect computer networks, servers, and sensitive data from cyber threats and intrusions.",
+    "demand": "Very High",
+    "salary_range": "₦3M - ₦14M / year",
+    "core_skills": [
+      "Network Security",
+      "Cryptography",
+      "Ethical Hacking",
+      "Risk Assessment"
+    ],
+    "professional_bodies": [
+      "Cyber Security Association of Nigeria (CSEAN)"
+    ],
+    "required_cgpa_hint": "3.2+",
+    "icon": "ShieldAlert",
+    "holland_code": [
+      "I",
+      "R",
+      "C"
+    ],
+    "outcome_tags": [
+      "income",
+      "technical",
+      "autonomy"
+    ],
+    "experience_tags": [
+      "coding",
+      "research",
+      "math"
+    ]
+  },
+  {
+    "id": "c_web",
+    "title": "Web Developer",
+    "field": "STEM",
+    "description": "Build, design, and optimize user-friendly websites and web applications for businesses.",
+    "demand": "Very High",
+    "salary_range": "₦1.5M - ₦10M / year",
+    "core_skills": [
+      "React/Vue",
+      "Node.js",
+      "HTML/CSS/JS",
+      "REST APIs"
+    ],
+    "professional_bodies": [
+      "NCS",
+      "Developer Communities Nigeria"
+    ],
+    "required_cgpa_hint": "2.8+",
+    "icon": "Globe",
+    "holland_code": [
+      "I",
+      "A",
+      "R"
+    ],
+    "outcome_tags": [
+      "income",
+      "creativity",
+      "autonomy"
+    ],
+    "experience_tags": [
+      "coding",
+      "design",
+      "research"
+    ]
+  },
+  {
+    "id": "c_ux",
+    "title": "UI/UX Designer",
+    "field": "Arts",
+    "description": "Design wireframes, mockups, and research user behaviors to build intuitive interfaces.",
+    "demand": "High",
+    "salary_range": "₦1.8M - ₦9M / year",
+    "core_skills": [
+      "Figma",
+      "User Research",
+      "Wireframing",
+      "Interaction Design"
+    ],
+    "professional_bodies": [
+      "UX Design Nigeria Community"
+    ],
+    "required_cgpa_hint": "2.5+",
+    "icon": "Layers",
+    "holland_code": [
+      "A",
+      "I",
+      "R"
+    ],
+    "outcome_tags": [
+      "creativity",
+      "income",
+      "social"
+    ],
+    "experience_tags": [
+      "design",
+      "research",
+      "arts"
+    ]
+  },
+  {
+    "id": "c_pharm",
+    "title": "Clinical Pharmacist",
+    "field": "Medicine",
+    "description": "Dispense medications, counsel patients, and monitor therapeutic drug regimens in clinical settings.",
+    "demand": "Very High",
+    "salary_range": "₦1.8M - ₦6M / year",
+    "core_skills": [
+      "Pharmacology",
+      "Drug Interactions",
+      "Patient Counseling",
+      "Ethics"
+    ],
+    "professional_bodies": [
+      "Pharmacists Council of Nigeria (PCN)",
+      "Pharmaceutical Society of Nigeria"
+    ],
+    "required_cgpa_hint": "3.5+",
+    "icon": "Activity",
+    "holland_code": [
+      "I",
+      "S",
+      "C"
+    ],
+    "outcome_tags": [
+      "impact",
+      "stability",
+      "status"
+    ],
+    "experience_tags": [
+      "healthcare",
+      "research",
+      "math"
+    ]
+  },
+  {
+    "id": "c_mech",
+    "title": "Mechanical Engineer",
+    "field": "STEM",
+    "description": "Design, manufacture, and maintain mechanical systems and industrial machinery.",
+    "demand": "High",
+    "salary_range": "₦1.5M - ₦9M / year",
+    "core_skills": [
+      "Thermodynamics",
+      "CAD/SolidWorks",
+      "Machine Design",
+      "Fluid Mechanics"
+    ],
+    "professional_bodies": [
+      "COREN",
+      "Nigerian Institution of Mechanical Engineers"
+    ],
+    "required_cgpa_hint": "3.0+",
+    "icon": "Settings",
+    "holland_code": [
+      "R",
+      "I",
+      "C"
+    ],
+    "outcome_tags": [
+      "income",
+      "technical",
+      "stability"
+    ],
+    "experience_tags": [
+      "math",
+      "research",
+      "hands_on"
+    ]
+  },
+  {
+    "id": "c_agri",
+    "title": "Agricultural Consultant",
+    "field": "Science",
+    "description": "Advise farmers and agribusinesses on crop yields, soil management, and modern farming technologies.",
+    "demand": "High",
+    "salary_range": "₦1.2M - ₦7M / year",
+    "core_skills": [
+      "Agronomy",
+      "Soil Science",
+      "Farm Management",
+      "Agribusiness Strategy"
+    ],
+    "professional_bodies": [
+      "Agricultural Society of Nigeria (ASN)"
+    ],
+    "required_cgpa_hint": "3.0+",
+    "icon": "Leaf",
+    "holland_code": [
+      "R",
+      "I",
+      "S"
+    ],
+    "outcome_tags": [
+      "impact",
+      "autonomy",
+      "technical"
+    ],
+    "experience_tags": [
+      "research",
+      "community",
+      "hands_on"
+    ]
+  },
+  {
+    "id": "c_fin",
+    "title": "Financial Analyst",
+    "field": "Business",
+    "description": "Analyze financial data, market trends, and investment opportunities to guide corporate financial choices.",
+    "demand": "High",
+    "salary_range": "₦2.5M - ₦14M / year",
+    "core_skills": [
+      "Financial Modeling",
+      "Market Analysis",
+      "Valuation",
+      "Excel & SQL"
+    ],
+    "professional_bodies": [
+      "CFA Society Nigeria",
+      "Chartered Institute of Bankers of Nigeria"
+    ],
+    "required_cgpa_hint": "3.5+",
+    "icon": "TrendingUp",
+    "holland_code": [
+      "I",
+      "C",
+      "E"
+    ],
+    "outcome_tags": [
+      "income",
+      "status",
+      "technical"
+    ],
+    "experience_tags": [
+      "math",
+      "research",
+      "business"
+    ]
+  },
+  {
+    "id": "c_hr",
+    "title": "Human Resource Manager",
+    "field": "Business",
+    "description": "Recruit, train, manage employee relations, and coordinate administrative operations.",
+    "demand": "Medium",
+    "salary_range": "₦1.2M - ₦9M / year",
+    "core_skills": [
+      "Conflict Resolution",
+      "Recruitment",
+      "Labor Law",
+      "Strategic Planning"
+    ],
+    "professional_bodies": [
+      "Chartered Institute of Personnel Management of Nigeria (CIPM)"
+    ],
+    "required_cgpa_hint": "2.8+",
+    "icon": "Users",
+    "holland_code": [
+      "S",
+      "E",
+      "C"
+    ],
+    "outcome_tags": [
+      "social",
+      "stability",
+      "autonomy"
+    ],
+    "experience_tags": [
+      "community",
+      "business",
+      "teaching"
+    ]
+  },
+  {
+    "id": "c_geol",
+    "title": "Petroleum Geologist",
+    "field": "Science",
+    "description": "Study earth composition and structures to locate oil, gas, mineral, or groundwater resources.",
+    "demand": "High",
+    "salary_range": "₦3M - ₦18M / year",
+    "core_skills": [
+      "Seismic Interpretation",
+      "Stratigraphy",
+      "Spatial Mapping",
+      "Data Modeling"
+    ],
+    "professional_bodies": [
+      "Nigerian Association of Petroleum Explorationists (NAPE)"
+    ],
+    "required_cgpa_hint": "3.5+",
+    "icon": "Compass",
+    "holland_code": [
+      "I",
+      "R",
+      "E"
+    ],
+    "outcome_tags": [
+      "income",
+      "technical",
+      "autonomy"
+    ],
+    "experience_tags": [
+      "research",
+      "math",
+      "hands_on"
+    ]
+  },
+  {
+    "id": "c_biotech",
+    "title": "Biotechnologist",
+    "field": "Science",
+    "description": "Utilize biological systems and organisms to create medical treatments, agricultural hybrids, and new chemicals.",
+    "demand": "Medium",
+    "salary_range": "₦1.5M - ₦8M / year",
+    "core_skills": [
+      "Molecular Biology",
+      "Genetic Engineering",
+      "Lab Diagnostics",
+      "Data Recording"
+    ],
+    "professional_bodies": [
+      "Biotechnology Society of Nigeria (BSN)"
+    ],
+    "required_cgpa_hint": "3.5+",
+    "icon": "Dna",
+    "holland_code": [
+      "I",
+      "R",
+      "S"
+    ],
+    "outcome_tags": [
+      "impact",
+      "technical",
+      "stability"
+    ],
+    "experience_tags": [
+      "research",
+      "healthcare",
+      "math"
+    ]
+  },
+  {
+    "id": "c_edu",
+    "title": "Educational Administrator",
+    "field": "Social Sciences",
+    "description": "Direct academic policies, manage faculty, and oversee operations at DELSU or tertiary colleges.",
+    "demand": "Medium",
+    "salary_range": "₦1M - ₦6M / year",
+    "core_skills": [
+      "Curriculum Planning",
+      "Leadership",
+      "School Finance",
+      "Student Counseling"
+    ],
+    "professional_bodies": [
+      "Teachers Registration Council of Nigeria (TRCN)"
+    ],
+    "required_cgpa_hint": "3.0+",
+    "icon": "BookOpen",
+    "holland_code": [
+      "S",
+      "E",
+      "I"
+    ],
+    "outcome_tags": [
+      "impact",
+      "social",
+      "stability"
+    ],
+    "experience_tags": [
+      "teaching",
+      "community",
+      "research"
+    ]
+  },
+  {
+    "id": "c_pr",
+    "title": "Public Relations Manager",
+    "field": "Arts",
+    "description": "Coordinate media communications, handle press releases, and maintain a favorable public brand image.",
+    "demand": "Medium",
+    "salary_range": "₦1M - ₦7M / year",
+    "core_skills": [
+      "Copywriting",
+      "Crisis Management",
+      "Public Speaking",
+      "Media Relations"
+    ],
+    "professional_bodies": [
+      "Nigerian Institute of Public Relations (NIPR)"
+    ],
+    "required_cgpa_hint": "2.8+",
+    "icon": "MessageSquare",
+    "holland_code": [
+      "E",
+      "S",
+      "A"
+    ],
+    "outcome_tags": [
+      "creativity",
+      "status",
+      "social"
+    ],
+    "experience_tags": [
+      "writing",
+      "community",
+      "arts"
+    ]
+  },
+  {
+    "id": "c_mkt",
+    "title": "Digital Marketer",
+    "field": "Business",
+    "description": "Oversee paid advertising, SEO strategies, brand social campaigns, and client conversion funnels.",
+    "demand": "High",
+    "salary_range": "₦1M - ₦8M / year",
+    "core_skills": [
+      "SEO/SEM",
+      "Content Strategy",
+      "Google Analytics",
+      "Copywriting"
+    ],
+    "professional_bodies": [
+      "National Institute of Marketing of Nigeria (NIMN)"
+    ],
+    "required_cgpa_hint": "2.5+",
+    "icon": "Megaphone",
+    "holland_code": [
+      "E",
+      "A",
+      "S"
+    ],
+    "outcome_tags": [
+      "income",
+      "creativity",
+      "autonomy"
+    ],
+    "experience_tags": [
+      "writing",
+      "business",
+      "design"
+    ]
+  },
+  {
+    "id": "c_dba",
+    "title": "Database Administrator",
+    "field": "STEM",
+    "description": "Set up, protect, monitor, and optimize backend database systems and storage servers.",
+    "demand": "High",
+    "salary_range": "₦2M - ₦10M / year",
+    "core_skills": [
+      "SQL & NoSQL",
+      "Backup recovery",
+      "Query Optimization",
+      "Performance Tuning"
+    ],
+    "professional_bodies": [
+      "Computer Professionals of Nigeria"
+    ],
+    "required_cgpa_hint": "3.0+",
+    "icon": "Database",
+    "holland_code": [
+      "C",
+      "I",
+      "R"
+    ],
+    "outcome_tags": [
+      "technical",
+      "stability",
+      "income"
+    ],
+    "experience_tags": [
+      "coding",
+      "math",
+      "research"
+    ]
+  },
+  {
+    "id": "c_net",
+    "title": "Network Architect",
+    "field": "STEM",
+    "description": "Design and build data communication networks, local intranets, and cloud routing infrastructure.",
+    "demand": "High",
+    "salary_range": "₦2.5M - ₦12M / year",
+    "core_skills": [
+      "Cisco Systems",
+      "Cloud Networking",
+      "Routing Protocols",
+      "Firewalls"
+    ],
+    "professional_bodies": [
+      "NCS",
+      "CCIE Professional Association"
+    ],
+    "required_cgpa_hint": "3.2+",
+    "icon": "Server",
+    "holland_code": [
+      "R",
+      "I",
+      "C"
+    ],
+    "outcome_tags": [
+      "income",
+      "technical",
+      "stability"
+    ],
+    "experience_tags": [
+      "coding",
+      "math",
+      "research"
+    ]
+  },
+  {
+    "id": "c_rx",
+    "title": "Industrial Pharmacist",
+    "field": "Medicine",
+    "description": "Research, formulate, test, and manufacture pharmaceutical products and vaccines for commercial supply.",
+    "demand": "High",
+    "salary_range": "₦1.8M - ₦7M / year",
+    "core_skills": [
+      "Biopharmaceutics",
+      "Formulation",
+      "Quality Control",
+      "Regulatory Affairs"
+    ],
+    "professional_bodies": [
+      "Pharmaceutical Society of Nigeria (PSN)"
+    ],
+    "required_cgpa_hint": "3.5+",
+    "icon": "Pill",
+    "holland_code": [
+      "I",
+      "R",
+      "C"
+    ],
+    "outcome_tags": [
+      "technical",
+      "stability",
+      "impact"
+    ],
+    "experience_tags": [
+      "research",
+      "healthcare",
+      "math"
+    ]
+  },
+  {
+    "id": "c_dent",
+    "title": "Dental Surgeon",
+    "field": "Medicine",
+    "description": "Diagnose, treat, and perform surgical procedures relating to teeth, gums, and oral health.",
+    "demand": "Very High",
+    "salary_range": "₦2.5M - ₦9M / year",
+    "core_skills": [
+      "Oral Surgery",
+      "Diagnosis",
+      "Patient Care",
+      "Surgical Precision"
+    ],
+    "professional_bodies": [
+      "MDCN",
+      "Nigerian Dental Association"
+    ],
+    "required_cgpa_hint": "3.8+",
+    "icon": "Activity",
+    "holland_code": [
+      "R",
+      "I",
+      "S"
+    ],
+    "outcome_tags": [
+      "income",
+      "status",
+      "impact"
+    ],
+    "experience_tags": [
+      "healthcare",
+      "research",
+      "hands_on"
+    ]
+  },
+  {
+    "id": "c_chem_eng",
+    "title": "Chemical Engineer",
+    "field": "STEM",
+    "description": "Oversee manufacturing chemical processes, raw materials refine strategies, and petrochemical plant processing.",
+    "demand": "High",
+    "salary_range": "₦3M - ₦15M / year",
+    "core_skills": [
+      "Process Design",
+      "Refinery Safety",
+      "Mass Transfer",
+      "Fluid Dynamics"
+    ],
+    "professional_bodies": [
+      "COREN",
+      "Nigerian Society of Chemical Engineers"
+    ],
+    "required_cgpa_hint": "3.2+",
+    "icon": "FlaskConical",
+    "holland_code": [
+      "R",
+      "I",
+      "C"
+    ],
+    "outcome_tags": [
+      "income",
+      "technical",
+      "stability"
+    ],
+    "experience_tags": [
+      "math",
+      "research",
+      "hands_on"
+    ]
+  },
+  {
+    "id": "c_geo_eng",
+    "title": "Geotechnical Engineer",
+    "field": "STEM",
+    "description": "Analyze soil, rock composition, and geological conditions to design building foundation supports.",
+    "demand": "High",
+    "salary_range": "₦2M - ₦10M / year",
+    "core_skills": [
+      "Soil Mechanics",
+      "Foundation Design",
+      "Geological Mapping",
+      "CAD"
+    ],
+    "professional_bodies": [
+      "COREN",
+      "NSE"
+    ],
+    "required_cgpa_hint": "3.0+",
+    "icon": "HardHat",
+    "holland_code": [
+      "R",
+      "I",
+      "C"
+    ],
+    "outcome_tags": [
+      "technical",
+      "stability",
+      "impact"
+    ],
+    "experience_tags": [
+      "math",
+      "research",
+      "hands_on"
+    ]
+  },
+  {
+    "id": "c_env",
+    "title": "Environmental Officer",
+    "field": "Science",
+    "description": "Monitor and implement conservation strategies, pollution control, and climate impact assessments.",
+    "demand": "Medium",
+    "salary_range": "₦1M - ₦6M / year",
+    "core_skills": [
+      "Pollution Control",
+      "Environmental Law",
+      "Eco Auditing",
+      "Risk Assessment"
+    ],
+    "professional_bodies": [
+      "Environmental Society of Nigeria"
+    ],
+    "required_cgpa_hint": "2.8+",
+    "icon": "Globe",
+    "holland_code": [
+      "I",
+      "R",
+      "E"
+    ],
+    "outcome_tags": [
+      "impact",
+      "autonomy",
+      "technical"
+    ],
+    "experience_tags": [
+      "research",
+      "community",
+      "hands_on"
+    ]
+  },
+  {
+    "id": "c_food",
+    "title": "Food Technologist",
+    "field": "Science",
+    "description": "Ensure food processing safety, quality production, shelf life extension, and nutritional auditing.",
+    "demand": "High",
+    "salary_range": "₦1.2M - ₦6M / year",
+    "core_skills": [
+      "Food Safety (HACCP)",
+      "Quality Assurance",
+      "Biochemistry",
+      "Microbiology"
+    ],
+    "professional_bodies": [
+      "Nigerian Institute of Food Science and Technology (NIFST)"
+    ],
+    "required_cgpa_hint": "3.0+",
+    "icon": "Leaf",
+    "holland_code": [
+      "I",
+      "R",
+      "C"
+    ],
+    "outcome_tags": [
+      "technical",
+      "impact",
+      "stability"
+    ],
+    "experience_tags": [
+      "research",
+      "healthcare",
+      "hands_on"
+    ]
+  },
+  {
+    "id": "c_bank",
+    "title": "Investment Banker",
+    "field": "Business",
+    "description": "Advise corporate clients on capital raising, mergers, equity trading, and portfolios.",
+    "demand": "High",
+    "salary_range": "₦3M - ₦20M / year",
+    "core_skills": [
+      "Investment Analysis",
+      "M&A Strategy",
+      "Excel Modeling",
+      "Capital Markets"
+    ],
+    "professional_bodies": [
+      "Chartered Institute of Stockbrokers (CIS)",
+      "CIBN"
+    ],
+    "required_cgpa_hint": "3.6+",
+    "icon": "Coins",
+    "holland_code": [
+      "E",
+      "I",
+      "C"
+    ],
+    "outcome_tags": [
+      "income",
+      "status",
+      "technical"
+    ],
+    "experience_tags": [
+      "math",
+      "business",
+      "research"
+    ]
+  },
+  {
+    "id": "c_brand",
+    "title": "Brand Manager",
+    "field": "Business",
+    "description": "Lead commercial campaigns, brand positioning strategies, and public marketing launches.",
+    "demand": "Medium",
+    "salary_range": "₦1.5M - ₦9M / year",
+    "core_skills": [
+      "Brand Strategy",
+      "Market Research",
+      "Product Marketing",
+      "Team Collaboration"
+    ],
+    "professional_bodies": [
+      "NIMN",
+      "APCON"
+    ],
+    "required_cgpa_hint": "2.8+",
+    "icon": "Award",
+    "holland_code": [
+      "E",
+      "S",
+      "A"
+    ],
+    "outcome_tags": [
+      "income",
+      "creativity",
+      "status"
+    ],
+    "experience_tags": [
+      "business",
+      "writing",
+      "design"
+    ]
+  },
+  {
+    "id": "c_creative",
+    "title": "Creative Director",
+    "field": "Arts",
+    "description": "Direct design schemes, advertising narratives, commercial layouts, and video production themes.",
+    "demand": "Medium",
+    "salary_range": "₦1.8M - ₦10M / year",
+    "core_skills": [
+      "Art Direction",
+      "Graphic Design",
+      "Content Strategy",
+      "Creative Leadership"
+    ],
+    "professional_bodies": [
+      "Association of Advertising Agencies of Nigeria (AAAN)"
+    ],
+    "required_cgpa_hint": "2.5+",
+    "icon": "Palette",
+    "holland_code": [
+      "A",
+      "E",
+      "I"
+    ],
+    "outcome_tags": [
+      "creativity",
+      "autonomy",
+      "status"
+    ],
+    "experience_tags": [
+      "design",
+      "arts",
+      "writing"
+    ]
+  },
+  {
+    "id": "c_copy",
+    "title": "Copywriter / Content Creator",
+    "field": "Arts",
+    "description": "Draft high-converting web scripts, sales copies, blog content, and brand advertising stories.",
+    "demand": "High",
+    "salary_range": "₦1M - ₦7M / year",
+    "core_skills": [
+      "Creative Writing",
+      "SEO",
+      "Copy Editing",
+      "Brand Storytelling"
+    ],
+    "professional_bodies": [
+      "AAAN",
+      "Copywriting Circles Nigeria"
+    ],
+    "required_cgpa_hint": "2.5+",
+    "icon": "PenTool",
+    "holland_code": [
+      "A",
+      "S",
+      "E"
+    ],
+    "outcome_tags": [
+      "creativity",
+      "autonomy",
+      "income"
+    ],
+    "experience_tags": [
+      "writing",
+      "arts",
+      "business"
+    ]
+  },
+  {
+    "id": "c_pol",
+    "title": "Political Analyst",
+    "field": "Social Sciences",
+    "description": "Analyze state policies, election outcomes, public sentiments, and political governance affairs.",
+    "demand": "Medium",
+    "salary_range": "₦1.2M - ₦8M / year",
+    "core_skills": [
+      "Policy Research",
+      "Governance Auditing",
+      "Data Collection",
+      "Public Speaking"
+    ],
+    "professional_bodies": [
+      "Nigerian Political Science Association"
+    ],
+    "required_cgpa_hint": "3.0+",
+    "icon": "Landmark",
+    "holland_code": [
+      "E",
+      "I",
+      "S"
+    ],
+    "outcome_tags": [
+      "impact",
+      "status",
+      "social"
+    ],
+    "experience_tags": [
+      "research",
+      "debate",
+      "community"
+    ]
+  },
+  {
+    "id": "c_soc",
+    "title": "Social Researcher",
+    "field": "Social Sciences",
+    "description": "Investigate group behaviors, cultural dynamics, community demographics, and societal trends.",
+    "demand": "Medium",
+    "salary_range": "₦1M - ₦6M / year",
+    "core_skills": [
+      "Qualitative Studies",
+      "Demographics",
+      "Interviewing",
+      "Statistical Analysis"
+    ],
+    "professional_bodies": [
+      "Nigerian Anthropological and Sociological Association (NASA)"
+    ],
+    "required_cgpa_hint": "3.0+",
+    "icon": "BookOpen",
+    "holland_code": [
+      "I",
+      "S",
+      "A"
+    ],
+    "outcome_tags": [
+      "impact",
+      "social",
+      "stability"
+    ],
+    "experience_tags": [
+      "research",
+      "community",
+      "writing"
+    ]
+  },
+  {
+    "id": "c_cloud",
+    "title": "Cloud Infrastructure Architect",
+    "field": "STEM",
+    "description": "Design and implement cloud environments, serverless computing solutions, and virtual networks for modern organizations.",
+    "demand": "Very High",
+    "salary_range": "₦3.5M - ₦16M / year",
+    "core_skills": [
+      "AWS/Azure",
+      "Linux Administration",
+      "Infrastructure as Code",
+      "Docker/Kubernetes"
+    ],
+    "professional_bodies": [
+      "Computer Professionals Registration Council of Nigeria (CPN)",
+      "Nigeria Computer Society (NCS)"
+    ],
+    "required_cgpa_hint": "3.2+",
+    "icon": "Cloud",
+    "holland_code": [
+      "I",
+      "R",
+      "C"
+    ],
+    "outcome_tags": [
+      "income",
+      "technical",
+      "autonomy"
+    ],
+    "experience_tags": [
+      "coding",
+      "research",
+      "math"
+    ]
+  },
+  {
+    "id": "c_info",
+    "title": "Information Systems Analyst",
+    "field": "STEM",
+    "description": "Organize, analyze, and manage information storage, digital libraries, and database indexing systems for universities and agencies.",
+    "demand": "Medium",
+    "salary_range": "₦1M - ₦6M / year",
+    "core_skills": [
+      "Metadata Indexing",
+      "Digital Archiving",
+      "Information Retrieval",
+      "Content Management Systems"
+    ],
+    "professional_bodies": [
+      "Librarians' Registration Council of Nigeria (LRCN)"
+    ],
+    "required_cgpa_hint": "2.8+",
+    "icon": "Library",
+    "holland_code": [
+      "C",
+      "I",
+      "R"
+    ],
+    "outcome_tags": [
+      "technical",
+      "stability",
+      "income"
+    ],
+    "experience_tags": [
+      "coding",
+      "research",
+      "math"
+    ]
+  },
+  {
+    "id": "c_artist",
+    "title": "Fine Artist / Sculptor",
+    "field": "Arts",
+    "description": "Create visual artwork, sculptures, paintings, and cultural exhibitions. Crucial for Delta's rich artistic heritage conservation.",
+    "demand": "Medium",
+    "salary_range": "₦800K - ₦5M / year",
+    "core_skills": [
+      "Drawing & Sketching",
+      "Color Theory",
+      "Material Selection",
+      "Exhibition Curation"
+    ],
+    "professional_bodies": [
+      "Society of Nigerian Artists (SNA)"
+    ],
+    "required_cgpa_hint": "2.5+",
+    "icon": "Paintbrush",
+    "holland_code": [
+      "A",
+      "R",
+      "S"
+    ],
+    "outcome_tags": [
+      "creativity",
+      "autonomy",
+      "social"
+    ],
+    "experience_tags": [
+      "arts",
+      "design",
+      "community"
+    ]
+  },
+  {
+    "id": "c_sound",
+    "title": "Music Producer / Sound Engineer",
+    "field": "Arts",
+    "description": "Record, edit, and mix audio tracks, voiceovers, and musical compositions. Essential for Nigeria's thriving entertainment sector.",
+    "demand": "High",
+    "salary_range": "₦1.2M - ₦10M / year",
+    "core_skills": [
+      "Audio Mixing",
+      "Digital Audio Workstations",
+      "Acoustics",
+      "Music Composition"
+    ],
+    "professional_bodies": [
+      "Musical Society of Nigeria (MUSON)",
+      "Audio Engineering Society"
+    ],
+    "required_cgpa_hint": "2.5+",
+    "icon": "Music",
+    "holland_code": [
+      "A",
+      "R",
+      "I"
+    ],
+    "outcome_tags": [
+      "creativity",
+      "autonomy",
+      "income"
+    ],
+    "experience_tags": [
+      "arts",
+      "hands_on",
+      "research"
+    ]
+  },
+  {
+    "id": "c_director",
+    "title": "Theatre Director / Scriptwriter",
+    "field": "Arts",
+    "description": "Direct stage plays, film productions, and manage script developments for theatrical companies and Nollywood.",
+    "demand": "Medium",
+    "salary_range": "₦1M - ₦8M / year",
+    "core_skills": [
+      "Stage Direction",
+      "Creative Writing",
+      "Casting",
+      "Screenwriting"
+    ],
+    "professional_bodies": [
+      "National Association of Nigerian Theatre Arts Practitioners (NANTAP)"
+    ],
+    "required_cgpa_hint": "2.5+",
+    "icon": "Film",
+    "holland_code": [
+      "A",
+      "S",
+      "E"
+    ],
+    "outcome_tags": [
+      "creativity",
+      "social",
+      "status"
+    ],
+    "experience_tags": [
+      "arts",
+      "community",
+      "debate"
+    ]
+  },
+  {
+    "id": "c_petrol",
+    "title": "Petroleum Engineer",
+    "field": "STEM",
+    "description": "Design and implement drilling and extraction strategies for crude oil and gas reservoirs, highly relevant in Delta State.",
+    "demand": "High",
+    "salary_range": "₦3.5M - ₦22M / year",
+    "core_skills": [
+      "Reservoir Engineering",
+      "Drilling Operations",
+      "Petrophysics",
+      "Production Modeling"
+    ],
+    "professional_bodies": [
+      "Society of Petroleum Engineers (SPE) Nigeria",
+      "COREN"
+    ],
+    "required_cgpa_hint": "3.5+",
+    "icon": "HardHat",
+    "holland_code": [
+      "R",
+      "I",
+      "E"
+    ],
+    "outcome_tags": [
+      "income",
+      "technical",
+      "status"
+    ],
+    "experience_tags": [
+      "math",
+      "research",
+      "hands_on"
+    ]
+  },
+  {
+    "id": "c_power",
+    "title": "Power Systems Engineer",
+    "field": "STEM",
+    "description": "Design, monitor, and optimize electricity grids, substation installations, and renewable solar power projects.",
+    "demand": "High",
+    "salary_range": "₦1.8M - ₦10M / year",
+    "core_skills": [
+      "Grid Design",
+      "High-Voltage Safety",
+      "Power Flow Analysis",
+      "Solar Integration"
+    ],
+    "professional_bodies": [
+      "COREN",
+      "NSE",
+      "IEEE Nigeria Section"
+    ],
+    "required_cgpa_hint": "3.2+",
+    "icon": "Zap",
+    "holland_code": [
+      "R",
+      "I",
+      "C"
+    ],
+    "outcome_tags": [
+      "impact",
+      "technical",
+      "stability"
+    ],
+    "experience_tags": [
+      "math",
+      "research",
+      "hands_on"
+    ]
+  },
+  {
+    "id": "c_counselor",
+    "title": "School Counselor / Psychologist",
+    "field": "Social Sciences",
+    "description": "Provide academic counseling, emotional support, and behavioral therapies to students in primary, secondary, or tertiary schools.",
+    "demand": "Medium",
+    "salary_range": "₦800K - ₦5M / year",
+    "core_skills": [
+      "Active Listening",
+      "Behavioral Analysis",
+      "Crisis Intervention",
+      "Empathy"
+    ],
+    "professional_bodies": [
+      "Counselling Association of Nigeria (CASSON)"
+    ],
+    "required_cgpa_hint": "2.8+",
+    "icon": "Heart",
+    "holland_code": [
+      "S",
+      "A",
+      "I"
+    ],
+    "outcome_tags": [
+      "impact",
+      "social",
+      "stability"
+    ],
+    "experience_tags": [
+      "community",
+      "teaching",
+      "healthcare"
+    ]
+  },
+  {
+    "id": "c_urban",
+    "title": "Urban & Regional Planner",
+    "field": "Social Sciences",
+    "description": "Design land-use plans, optimize city transportation layout systems, and manage regional urban development strategies.",
+    "demand": "Medium",
+    "salary_range": "₦1.2M - ₦7M / year",
+    "core_skills": [
+      "GIS Mapping",
+      "Land Use Laws",
+      "Environmental Impact",
+      "Infrastructure Planning"
+    ],
+    "professional_bodies": [
+      "Nigerian Institute of Town Planners (NITP)",
+      "Town Planners Registration Council (TOPREC)"
+    ],
+    "required_cgpa_hint": "3.0+",
+    "icon": "MapPin",
+    "holland_code": [
+      "I",
+      "R",
+      "E"
+    ],
+    "outcome_tags": [
+      "impact",
+      "technical",
+      "stability"
+    ],
+    "experience_tags": [
+      "research",
+      "math",
+      "community"
+    ]
+  },
+  {
+    "id": "c_biomed",
+    "title": "Biomedical Researcher",
+    "field": "Medicine",
+    "description": "Conduct clinical research laboratory analysis to study diseases, vaccine efficiencies, and cellular pathology mechanisms.",
+    "demand": "High",
+    "salary_range": "₦1.8M - ₦8M / year",
+    "core_skills": [
+      "Cell Culture",
+      "Assay Development",
+      "Scientific Writing",
+      "Statistical Modeling"
+    ],
+    "professional_bodies": [
+      "Nigerian Society of Biochemistry and Molecular Biology (NSBMB)"
+    ],
+    "required_cgpa_hint": "3.5+",
+    "icon": "FlaskConical",
+    "holland_code": [
+      "I",
+      "R",
+      "S"
+    ],
+    "outcome_tags": [
+      "impact",
+      "technical",
+      "stability"
+    ],
+    "experience_tags": [
+      "research",
+      "healthcare",
+      "math"
+    ]
+  },
+  {
+    "id": "c_micro",
+    "title": "Microbiologist / Quality Auditor",
+    "field": "Science",
+    "description": "Investigate bacterial, viral, and microbial cultures to manage hygiene control and safety in brewing, beverage, and medical companies.",
+    "demand": "High",
+    "salary_range": "₦1.2M - ₦6M / year",
+    "core_skills": [
+      "Aseptic Techniques",
+      "Pathogen Isolation",
+      "Quality Auditing",
+      "Microscopy"
+    ],
+    "professional_bodies": [
+      "Nigerian Society for Microbiology (NSM)"
+    ],
+    "required_cgpa_hint": "3.0+",
+    "icon": "Activity",
+    "holland_code": [
+      "I",
+      "R",
+      "C"
+    ],
+    "outcome_tags": [
+      "technical",
+      "impact",
+      "stability"
+    ],
+    "experience_tags": [
+      "research",
+      "healthcare",
+      "hands_on"
+    ]
+  },
+  {
+    "id": "c_forest",
+    "title": "Conservationist / Forestry Officer",
+    "field": "Science",
+    "description": "Coordinate wildlife conservation, delta mangrove protection strategies, and manage sustainable lumber harvesting plans.",
+    "demand": "Medium",
+    "salary_range": "₦1M - ₦5M / year",
+    "core_skills": [
+      "Ecosystem Management",
+      "Species Cataloging",
+      "Environmental Policy",
+      "Resource Surveying"
+    ],
+    "professional_bodies": [
+      "Forestry Association of Nigeria (FAN)"
+    ],
+    "required_cgpa_hint": "2.8+",
+    "icon": "Leaf",
+    "holland_code": [
+      "R",
+      "I",
+      "S"
+    ],
+    "outcome_tags": [
+      "impact",
+      "autonomy",
+      "social"
+    ],
+    "experience_tags": [
+      "research",
+      "community",
+      "hands_on"
+    ]
+  },
+  {
+    "id": "c_vet",
+    "title": "Livestock Consultant / Veterinarian",
+    "field": "Science",
+    "description": "Advise poultry, fish, and dairy farms on nutritional plans, medical therapies, and livestock breeding techniques.",
+    "demand": "High",
+    "salary_range": "₦1.5M - ₦8M / year",
+    "core_skills": [
+      "Animal Nutrition",
+      "Livestock Health",
+      "Artificial Insemination",
+      "Agri-logistics"
+    ],
+    "professional_bodies": [
+      "Nigerian Institute of Animal Science (NIAS)",
+      "Nigerian Veterinary Medical Association (NVMA)"
+    ],
+    "required_cgpa_hint": "3.2+",
+    "icon": "Activity",
+    "holland_code": [
+      "R",
+      "I",
+      "S"
+    ],
+    "outcome_tags": [
+      "impact",
+      "technical",
+      "stability"
+    ],
+    "experience_tags": [
+      "research",
+      "healthcare",
+      "hands_on"
+    ]
+  }
+]

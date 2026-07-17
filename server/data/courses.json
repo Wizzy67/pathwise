@@ -1,0 +1,36 @@
+{
+  "c_se": {
+    "100L": [
+      { "semester": 1, "code": "CSC 101", "title": "Introduction to Computer Science", "units": 3 },
+      { "semester": 1, "code": "MTH 101", "title": "General Mathematics I", "units": 3 },
+      { "semester": 2, "code": "CSC 102", "title": "Introduction to Problem Solving", "units": 3 }
+    ],
+    "200L": [
+      { "semester": 1, "code": "CSC 201", "title": "Computer Programming I", "units": 3 },
+      { "semester": 2, "code": "CSC 202", "title": "Computer Programming II", "units": 3 },
+      { "semester": 2, "code": "CSC 204", "title": "Fundamentals of Data Structures", "units": 3 }
+    ],
+    "300L": [
+      { "semester": 1, "code": "CSC 301", "title": "Structured Programming", "units": 3 },
+      { "semester": 1, "code": "CSC 305", "title": "Operating Systems I", "units": 3 },
+      { "semester": 2, "code": "CSC 399", "title": "SIWES / Industrial Training", "units": 6 }
+    ],
+    "400L": [
+      { "semester": 1, "code": "CSC 401", "title": "Software Engineering", "units": 3 },
+      { "semester": 1, "code": "CSC 403", "title": "Database Design and Management", "units": 3 },
+      { "semester": 2, "code": "CSC 499", "title": "Final Year Project", "units": 6 }
+    ]
+  },
+  "c_med": {
+    "100L": [
+      { "semester": 1, "code": "BIO 101", "title": "General Biology I", "units": 3 },
+      { "semester": 1, "code": "CHM 101", "title": "General Chemistry I", "units": 3 },
+      { "semester": 2, "code": "PHY 102", "title": "General Physics II", "units": 3 }
+    ],
+    "200L": [
+      { "semester": 1, "code": "ANA 201", "title": "Gross Anatomy I", "units": 4 },
+      { "semester": 1, "code": "PIO 201", "title": "Human Physiology I", "units": 4 },
+      { "semester": 2, "code": "BCH 202", "title": "Medical Biochemistry", "units": 4 }
+    ]
+  }
+}

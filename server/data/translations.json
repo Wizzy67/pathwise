@@ -1,0 +1,30 @@
+{
+  "en": {
+    "welcome_title": "Discover Your Perfect Career Path",
+    "welcome_subtitle": "Intelligent career and course advisory for Delta State University students.",
+    "get_started": "Get Started",
+    "login": "Log In",
+    "register": "Register",
+    "dashboard": "Dashboard",
+    "take_assessment": "Take Assessment",
+    "explore_careers": "Explore Careers",
+    "ai_advisor": "AI Advisor",
+    "my_roadmap": "My Roadmap",
+    "saved_careers": "Saved Careers",
+    "admin_panel": "Admin Panel"
+  },
+  "pidgin": {
+    "welcome_title": "Find Di Career Wey Correct For You",
+    "welcome_subtitle": "Smart career and course advise for DELSU students.",
+    "get_started": "Start Now",
+    "login": "Enter",
+    "register": "Register",
+    "dashboard": "My Page",
+    "take_assessment": "Take Test",
+    "explore_careers": "Check Careers",
+    "ai_advisor": "AI Advisor",
+    "my_roadmap": "My Path",
+    "saved_careers": "Saved Careers",
+    "admin_panel": "Oga Panel"
+  }
+}

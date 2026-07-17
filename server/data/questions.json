@@ -1,0 +1,71 @@
+[
+  {
+    "id": "q1",
+    "step": 1,
+    "question": "When faced with a complex problem, what is your first instinct?",
+    "options": [
+      {
+        "text": "Break it down into smaller, logical steps and solve systematically.",
+        "category_weights": { "STEM": 10, "Business": 2 }
+      },
+      {
+        "text": "Look at the human element and how it affects people's lives.",
+        "category_weights": { "Medicine": 8, "Social Sciences": 5, "Law": 3 }
+      },
+      {
+        "text": "Analyze the rules, regulations, and find a structured argument.",
+        "category_weights": { "Law": 10, "Business": 4 }
+      },
+      {
+        "text": "Brainstorm creative ways to express or communicate the issue.",
+        "category_weights": { "Arts": 10, "Social Sciences": 4 }
+      }
+    ]
+  },
+  {
+    "id": "q2",
+    "step": 2,
+    "question": "Which of these environments sounds most appealing for your daily work?",
+    "options": [
+      {
+        "text": "A tech hub or laboratory, surrounded by computers and data.",
+        "category_weights": { "STEM": 10 }
+      },
+      {
+        "text": "A fast-paced corporate office or boardroom.",
+        "category_weights": { "Business": 8, "Law": 6 }
+      },
+      {
+        "text": "A hospital, clinic, or community health center.",
+        "category_weights": { "Medicine": 10 }
+      },
+      {
+        "text": "A studio, newsroom, or open creative space.",
+        "category_weights": { "Arts": 8, "Social Sciences": 4 }
+      }
+    ]
+  },
+  {
+    "id": "q3",
+    "step": 3,
+    "question": "What kind of impact do you want to make in Nigeria?",
+    "options": [
+      {
+        "text": "Build scalable tech solutions and digital infrastructure.",
+        "category_weights": { "STEM": 10 }
+      },
+      {
+        "text": "Improve healthcare delivery and save lives directly.",
+        "category_weights": { "Medicine": 10 }
+      },
+      {
+        "text": "Drive economic growth, manage businesses, or enforce justice.",
+        "category_weights": { "Business": 7, "Law": 8 }
+      },
+      {
+        "text": "Influence culture, media, and social development.",
+        "category_weights": { "Arts": 7, "Social Sciences": 8 }
+      }
+    ]
+  }
+]
