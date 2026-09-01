@@ -66,15 +66,12 @@ const RegisterPage = () => {
       <style>{`
         /* ─── FULL-PAGE BACKGROUND + GLASS PANEL ─────────── */
         .rp-wrapper {
-          position: fixed;
-          inset: 0;
+          position: relative;
+          min-height: 100vh;
           width: 100%;
-          height: 100%;
           overflow: hidden;
           font-family: 'Inter', 'Open Sans', sans-serif;
           color: #ffffff;
-          background: #0A0C16;
-          padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
         }
 
         /* Background image layer */
@@ -111,13 +108,13 @@ const RegisterPage = () => {
         .rp-glass {
           position: relative;
           z-index: 1;
-          height: 100%;
+          min-height: 100vh;
           width: 50%;
           max-width: 650px;
-          margin-left: auto;
+          margin-left: auto; /* Anchors content to the right side */
           display: flex;
           flex-direction: column;
-          overflow-y: auto;
+          overflow-y: auto; /* Allows scrolling if form is taller than screen */
         }
 
         /* ── Full-width Header ── */
