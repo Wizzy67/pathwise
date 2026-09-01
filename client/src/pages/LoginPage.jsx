@@ -179,12 +179,15 @@ const LoginPage = () => {
       <style>{`
         /* ─── FULL-PAGE BACKGROUND + GLASS PANEL ─────────── */
         .lp-wrapper {
-          position: relative;
-          min-height: 100vh;
+          position: fixed;
+          inset: 0;
           width: 100%;
+          height: 100%;
           overflow: hidden;
           font-family: 'Inter', 'Open Sans', sans-serif;
           color: #ffffff;
+          background: #0A0C16;
+          padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
         }
 
         .lp-bg {
@@ -215,36 +218,14 @@ const LoginPage = () => {
           );
         }
 
-          inset: 0;
-          overflow: hidden;
-          z-index: 1;
-          pointer-events: none;
-        }
-        .ember {
-          position: absolute;
-          top: -10px;
-          background: rgba(255, 255, 255, 0.9);
-          border-radius: 50%;
-          box-shadow: 0 0 10px rgba(67, 97, 238, 0.8), 0 0 20px rgba(67, 97, 238, 0.4), inset 0 0 4px #ffffff;
-          opacity: 0;
-          animation: fall linear infinite;
-        }
-        @keyframes fall {
-          0% { transform: translateY(0) translateX(0) scale(1); opacity: 0; }
-          10% { opacity: 0.8; }
-          50% { transform: translateY(50vh) translateX(var(--drift)) scale(0.8); opacity: 1; }
-          90% { opacity: 0.6; }
-          100% { transform: translateY(105vh) translateX(calc(var(--drift) * 1.5)) scale(0.3); opacity: 0; }
-        }
-
         /* ── Right Container (formerly glass panel) ── */
         .lp-glass {
           position: relative;
           z-index: 1;
-          min-height: 100vh;
+          height: 100%;
           width: 50%;
           max-width: 650px;
-          margin-left: auto; /* Anchors content to the right side */
+          margin-left: auto;
           display: flex;
           flex-direction: column;
         }
