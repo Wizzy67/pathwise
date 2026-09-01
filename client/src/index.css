@@ -44,12 +44,6 @@
     --card-bg:        #ffffff;
   }
 
-  html {
-    background-color: #0A0C16;
-    overscroll-behavior: none;
-    -webkit-tap-highlight-color: transparent;
-  }
-
   body {
     background-color: var(--canvas);
     color: var(--ink);
@@ -57,7 +51,6 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     overflow-x: hidden;
-    overscroll-behavior: none;
   }
 
   h1, h2, h3, h4, h5, h6 {
