@@ -23,7 +23,7 @@ const RIASEC_DIMENSIONS = [
     ]
   },
   {
-    key: 'I', label: 'Investigative', color: '#0056FF', icon: Search,
+    key: 'I', label: 'Investigative', color: '#1944f1', icon: Search,
     desc: 'Analytical · Curious · Research-driven',
     statements: [
       'I enjoy researching and solving complex intellectual problems.',
@@ -129,7 +129,6 @@ const RATING_LABELS = ['', 'Strongly Disagree', 'Disagree', 'Neutral', 'Agree', 
 
 const QuizPage = () => {
   const [step, setStep] = useState(1);
-  // Sub-screen within Step 2 (0-5 = each RIASEC dimension)
   const [riasecDimIdx, setRiasecDimIdx] = useState(0);
 
   const [answers, setAnswers] = useState({
@@ -145,7 +144,6 @@ const QuizPage = () => {
   const { addNotification } = useNotification();
   const navigate = useNavigate();
 
-  // ── Helpers ──────────────────────────────────────────────────────────
   const setRiasecRating = (dimKey, stmtIdx, rating) => {
     setAnswers(prev => {
       const arr = [...(prev.riasec[dimKey] || [])];
@@ -168,7 +166,6 @@ const QuizPage = () => {
         : [...prev.priorExperiences, key]
     }));
 
-  // ── Preview Holland Code (for review step) ────────────────────────
   const previewHolland = useMemo(() => {
     const raw = {};
     RIASEC_DIMENSIONS.forEach(d => {
@@ -178,7 +175,6 @@ const QuizPage = () => {
     return sorted.slice(0, 3).map(([k]) => k).join('');
   }, [answers.riasec]);
 
-  // ── Validation ────────────────────────────────────────────────────
   const canProceed = () => {
     if (step === 1) return answers.cgpa !== '';
     if (step === 2) {
@@ -230,13 +226,18 @@ const QuizPage = () => {
     }
   };
 
-  // ── Current RIASEC dimension data ────────────────────────────────
   const currentDim = RIASEC_DIMENSIONS[riasecDimIdx];
 
   return (
-    <div className="min-h-screen bg-pw-black flex flex-col items-center py-10 px-4 relative overflow-hidden">
-      {/* Background glow */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[200px] rounded-full blur-[140px] pointer-events-none" style={{ background: 'rgba(0,86,255,0.04)' }} />
+    <div 
+      className="min-h-screen flex flex-col items-center py-10 px-4 relative overflow-hidden"
+      style={{ backgroundColor: 'var(--canvas)', fontFamily: "'Open Sans', sans-serif", color: 'var(--ink)' }}
+    >
+      <style>{`
+        h1, h2, h3, h4, h5, h6 { font-family: 'Nunito', sans-serif; }
+        .btn-hover:hover { filter: brightness(0.95); }
+        .btn-hover:active { transform: scale(0.98); }
+      `}</style>
 
       {/* Header bar with Back / Exit */}
       <div className="w-full max-w-2xl flex items-center justify-between mb-8 px-2 z-20">
@@ -244,13 +245,12 @@ const QuizPage = () => {
         
         <button
           onClick={handleExit}
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-pw-white/10 bg-pw-surface hover:bg-pw-surface2 text-pw-gray hover:text-pw-white text-xs font-bold transition-all active:scale-95 shadow-sm"
+          className="btn-hover flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-xs font-bold transition-all shadow-sm"
+          style={{ backgroundColor: 'var(--surface)', borderColor: 'var(--border)', color: 'var(--graphite)' }}
         >
           <X className="w-3.5 h-3.5" /> Exit Assessment
         </button>
       </div>
-
-
 
       {/* Step Indicator */}
       <div className="flex items-center gap-0 mb-10 w-full max-w-2xl px-2">
@@ -260,19 +260,20 @@ const QuizPage = () => {
           return (
             <div key={s.id} className="flex items-center flex-1 last:flex-none">
               <div className="flex flex-col items-center relative">
-                <div className={`w-9 h-9 rounded-xl flex items-center justify-center font-bold text-xs z-10 transition-all ${
-                  isCompleted ? 'bg-pw-blue text-white shadow-[0_0_10px_rgba(0,86,255,0.3)]' :
-                  isActive    ? 'bg-pw-blue text-white shadow-[0_0_18px_rgba(0,86,255,0.5)] ring-4 ring-pw-blue/15' :
-                  'bg-pw-surface border border-pw-white/10 text-pw-gray'
-                }`}>
+                <div className={`w-9 h-9 rounded-xl flex items-center justify-center font-bold text-xs z-10 transition-all`}
+                  style={{
+                    backgroundColor: isCompleted || isActive ? 'var(--blue)' : 'var(--surface)',
+                    color: isCompleted || isActive ? '#fff' : 'var(--graphite)',
+                    border: isCompleted || isActive ? 'none' : '1px solid var(--border)'
+                  }}>
                   {isCompleted ? <CheckCircle2 className="w-4 h-4" /> : s.id}
                 </div>
-                <span className={`absolute -bottom-6 text-[9px] whitespace-nowrap tracking-wider uppercase font-bold ${
-                  isActive ? 'text-pw-blue' : 'text-pw-gray/40'
-                }`}>{s.label}</span>
+                <span className="absolute -bottom-6 text-[9px] whitespace-nowrap tracking-wider uppercase font-bold"
+                  style={{ color: isActive ? 'var(--blue)' : 'var(--ash)' }}>{s.label}</span>
               </div>
               {i < STEPS.length - 1 && (
-                <div className={`flex-1 h-[2px] mx-2 transition-all duration-500 ${isCompleted ? 'bg-pw-blue' : 'bg-pw-white/5'}`} />
+                <div className="flex-1 h-[2px] mx-2 transition-all duration-500" 
+                     style={{ backgroundColor: isCompleted ? 'var(--blue)' : 'var(--border)' }} />
               )}
             </div>
           );
@@ -285,10 +286,10 @@ const QuizPage = () => {
           <div className="flex gap-1">
             {RIASEC_DIMENSIONS.map((d, i) => (
               <div key={d.key} className="flex-1 h-1.5 rounded-full transition-all duration-300"
-                style={{ backgroundColor: i <= riasecDimIdx ? d.color : 'rgba(255,255,255,0.07)' }} />
+                style={{ backgroundColor: i <= riasecDimIdx ? d.color : 'var(--border)' }} />
             ))}
           </div>
-          <p className="text-[10px] text-pw-gray mt-2 text-center">
+          <p className="text-[10px] mt-2 text-center" style={{ color: 'var(--graphite)' }}>
             Trait {riasecDimIdx + 1} of 6 — <span className="font-bold" style={{ color: currentDim.color }}>{currentDim.label}</span>
           </p>
         </div>
@@ -302,32 +303,34 @@ const QuizPage = () => {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -16 }}
           transition={{ duration: 0.22, ease: 'easeOut' }}
-          className="w-full max-w-2xl bg-pw-surface border border-pw-white/8 rounded-2xl p-6 sm:p-8 shadow-xl mt-4"
+          className="w-full max-w-2xl rounded-2xl p-6 sm:p-8 mt-4"
+          style={{ backgroundColor: 'var(--surface)', border: '1px solid var(--border)' }}
         >
 
           {/* ── STEP 1: Academic Profile ───────────────────────────────── */}
           {step === 1 && (
             <div>
-              <h2 className="text-pw-white text-xl font-bold text-center mb-1 flex items-center justify-center gap-2">
-                <GraduationCap className="w-5 h-5 text-pw-blue" /> Academic Profile
+              <h2 className="text-xl font-bold text-center mb-1 flex items-center justify-center gap-2" style={{ color: 'var(--ink)' }}>
+                <GraduationCap className="w-5 h-5" style={{ color: 'var(--blue)' }} /> Academic Profile
               </h2>
-              <p className="text-pw-gray text-xs text-center mb-8">
+              <p className="text-xs text-center mb-8" style={{ color: 'var(--graphite)' }}>
                 Your CGPA calibrates career match scores against DELSU course pre-requisites.
               </p>
               <div className="max-w-xs mx-auto space-y-4">
                 <div>
-                  <label className="text-pw-gray text-xs font-semibold uppercase tracking-wider block mb-2">Current CGPA (0.00 – 5.00)</label>
+                  <label className="text-xs font-semibold uppercase tracking-wider block mb-2" style={{ color: 'var(--graphite)' }}>Current CGPA (0.00 – 5.00)</label>
                   <input
                     type="number" step="0.01" min="0" max="5"
                     value={answers.cgpa}
                     onChange={e => setAnswers(p => ({ ...p, cgpa: e.target.value }))}
                     placeholder="e.g. 4.20"
-                    className="w-full bg-pw-black/40 border border-pw-white/10 focus:border-pw-blue rounded-xl px-4 py-3 text-sm text-pw-white placeholder-pw-gray/30 focus:outline-none transition-all"
+                    className="w-full rounded-xl px-4 py-3 text-sm focus:outline-none transition-all border"
+                    style={{ backgroundColor: 'var(--fog)', borderColor: 'var(--border)', color: 'var(--ink)' }}
                   />
                 </div>
-                <div className="mt-6 p-4 rounded-xl bg-pw-blue/5 border border-pw-blue/15">
-                  <p className="text-xs text-pw-gray leading-relaxed">
-                    PathWise uses a <span className="text-pw-blue font-bold">multi-dimensional intelligence engine</span> that analyses your personality, confidence levels, core values, and background — giving you the most accurate career match possible.
+                <div className="mt-6 p-4 rounded-xl" style={{ backgroundColor: 'var(--lavender)' }}>
+                  <p className="text-xs leading-relaxed" style={{ color: 'var(--graphite)' }}>
+                    PathWise uses a <span className="font-bold" style={{ color: 'var(--blue)' }}>multi-dimensional intelligence engine</span> that analyses your personality, confidence levels, core values, and background — giving you the most accurate career match possible.
                   </p>
                 </div>
               </div>
@@ -340,12 +343,12 @@ const QuizPage = () => {
               {/* Dimension header */}
               <div className="flex items-center gap-3 mb-5">
                 <div className="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0"
-                  style={{ background: currentDim.color + '20', border: `1.5px solid ${currentDim.color}55` }}>
+                  style={{ background: currentDim.color + '20' }}>
                   {<currentDim.icon className="w-5 h-5" style={{ color: currentDim.color }} />}
                 </div>
                 <div>
-                  <h2 className="text-pw-white text-lg font-bold leading-tight">{currentDim.label}</h2>
-                  <p className="text-pw-gray text-xs">{currentDim.desc}</p>
+                  <h2 className="text-lg font-bold leading-tight" style={{ color: 'var(--ink)' }}>{currentDim.label}</h2>
+                  <p className="text-xs" style={{ color: 'var(--graphite)' }}>{currentDim.desc}</p>
                 </div>
                 <div className="ml-auto">
                   <span className="text-xs font-bold px-3 py-1 rounded-full" style={{ background: currentDim.color + '22', color: currentDim.color }}>
@@ -354,8 +357,8 @@ const QuizPage = () => {
                 </div>
               </div>
 
-              <p className="text-pw-gray text-xs text-center mb-6 border-b border-pw-white/5 pb-4">
-                Rate each statement from <span className="text-red-400 font-bold">1 (Strongly Disagree)</span> to <span className="text-pw-blue font-bold">5 (Strongly Agree)</span>
+              <p className="text-xs text-center mb-6 border-b pb-4" style={{ color: 'var(--graphite)', borderColor: 'var(--border)' }}>
+                Rate each statement from <span className="font-bold" style={{ color: '#e74c3c' }}>1 (Strongly Disagree)</span> to <span className="font-bold" style={{ color: 'var(--blue)' }}>5 (Strongly Agree)</span>
               </p>
 
               <div className="space-y-6">
@@ -363,7 +366,7 @@ const QuizPage = () => {
                   const rating = answers.riasec[currentDim.key]?.[idx];
                   return (
                     <div key={idx}>
-                      <p className="text-pw-white text-sm font-medium leading-relaxed mb-3">{stmt}</p>
+                      <p className="text-sm font-medium leading-relaxed mb-3" style={{ color: 'var(--ink)' }}>{stmt}</p>
                       <div className="flex gap-2">
                         {[1,2,3,4,5].map(n => (
                           <button
@@ -373,10 +376,9 @@ const QuizPage = () => {
                             title={RATING_LABELS[n]}
                             className="flex-1 py-3 rounded-xl text-sm font-extrabold transition-all border"
                             style={{
-                              backgroundColor: rating === n ? currentDim.color : 'rgba(255,255,255,0.03)',
-                              borderColor: rating === n ? currentDim.color : 'rgba(255,255,255,0.08)',
-                              color: rating === n ? '#fff' : '#8B9CC8',
-                              boxShadow: rating === n ? `0 0 14px ${currentDim.color}55` : 'none',
+                              backgroundColor: rating === n ? currentDim.color : 'var(--fog)',
+                              borderColor: rating === n ? currentDim.color : 'var(--border)',
+                              color: rating === n ? '#fff' : 'var(--graphite)'
                             }}
                           >
                             {n}
@@ -384,7 +386,7 @@ const QuizPage = () => {
                         ))}
                       </div>
                       {rating && (
-                        <p className="text-[10px] text-pw-gray mt-1.5 text-right">{RATING_LABELS[rating]}</p>
+                        <p className="text-[10px] mt-1.5 text-right" style={{ color: 'var(--ash)' }}>{RATING_LABELS[rating]}</p>
                       )}
                     </div>
                   );
@@ -396,11 +398,11 @@ const QuizPage = () => {
           {/* ── STEP 3: SCCT Self-Efficacy ────────────────────────────── */}
           {step === 3 && (
             <div>
-              <h2 className="text-pw-white text-xl font-bold text-center mb-1">Career Confidence</h2>
-              <p className="text-pw-gray text-xs text-center mb-2">
+              <h2 className="text-xl font-bold text-center mb-1" style={{ color: 'var(--ink)' }}>Career Confidence</h2>
+              <p className="text-xs text-center mb-2" style={{ color: 'var(--graphite)' }}>
                 How confident do you feel in your ability to succeed in each of these fields?
               </p>
-              <p className="text-pw-gray/60 text-[10px] text-center mb-6">1 = Not at all confident · 5 = Very confident</p>
+              <p className="text-[10px] text-center mb-6" style={{ color: 'var(--ash)' }}>1 = Not at all confident · 5 = Very confident</p>
               <div className="space-y-5">
                 {SELF_EFFICACY_ITEMS.map(item => {
                   const rating = answers.selfEfficacy[item.field];
@@ -408,11 +410,11 @@ const QuizPage = () => {
                     <div key={item.field}>
                       <div className="flex items-start justify-between mb-2">
                         <div>
-                          <p className="text-pw-white text-sm font-bold">{item.label}</p>
-                          <p className="text-pw-gray text-xs">{item.desc}</p>
+                          <p className="text-sm font-bold" style={{ color: 'var(--ink)' }}>{item.label}</p>
+                          <p className="text-xs" style={{ color: 'var(--graphite)' }}>{item.desc}</p>
                         </div>
                         {rating && (
-                          <span className="text-xs font-bold px-2 py-1 rounded-full bg-green-500/10 text-green-400 ml-2 flex-shrink-0">{rating}/5</span>
+                          <span className="text-xs font-bold px-2 py-1 rounded-full bg-green-100 text-green-700 ml-2 flex-shrink-0">{rating}/5</span>
                         )}
                       </div>
                       <div className="flex gap-1.5">
@@ -423,10 +425,9 @@ const QuizPage = () => {
                             onClick={() => setSelfEfficacy(item.field, n)}
                             className="flex-1 py-2.5 rounded-xl text-xs font-extrabold transition-all border"
                             style={{
-                              backgroundColor: rating === n ? '#27AE60' : 'rgba(255,255,255,0.03)',
-                              borderColor: rating === n ? '#27AE60' : 'rgba(255,255,255,0.08)',
-                              color: rating === n ? '#fff' : '#8B9CC8',
-                              boxShadow: rating === n ? '0 0 12px #27AE6055' : 'none',
+                              backgroundColor: rating === n ? '#27AE60' : 'var(--fog)',
+                              borderColor: rating === n ? '#27AE60' : 'var(--border)',
+                              color: rating === n ? '#fff' : 'var(--graphite)'
                             }}
                           >
                             {n}
@@ -445,8 +446,8 @@ const QuizPage = () => {
             <div className="space-y-8">
               {/* Outcome Expectations */}
               <div>
-                <h2 className="text-pw-white text-lg font-bold mb-1">What Matters to You</h2>
-                <p className="text-pw-gray text-xs mb-5">
+                <h2 className="text-lg font-bold mb-1" style={{ color: 'var(--ink)' }}>What Matters to You</h2>
+                <p className="text-xs mb-5" style={{ color: 'var(--graphite)' }}>
                   What do you most value in a career? Rate each from 1 (not important) to 5 (essential).
                 </p>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -454,16 +455,16 @@ const QuizPage = () => {
                     const val = answers.outcomeExpectations[item.key];
                     const Icon = item.icon;
                     return (
-                      <div key={item.key} className="p-4 rounded-xl border border-pw-white/8 bg-pw-black/20">
+                      <div key={item.key} className="p-4 rounded-xl border" style={{ borderColor: 'var(--border)', backgroundColor: 'var(--canvas)' }}>
                         <div className="flex items-center gap-2 mb-3">
-                          <div className="w-7 h-7 rounded-lg bg-pw-blue/10 flex items-center justify-center">
-                            <Icon className="w-4 h-4 text-pw-blue" />
+                          <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ backgroundColor: 'var(--lavender)' }}>
+                            <Icon className="w-4 h-4" style={{ color: 'var(--blue)' }} />
                           </div>
                           <div className="flex-1 min-w-0">
-                            <p className="text-pw-white text-xs font-bold truncate">{item.label}</p>
-                            <p className="text-pw-gray text-[10px] truncate">{item.desc}</p>
+                            <p className="text-xs font-bold truncate" style={{ color: 'var(--ink)' }}>{item.label}</p>
+                            <p className="text-[10px] truncate" style={{ color: 'var(--graphite)' }}>{item.desc}</p>
                           </div>
-                          {val && <span className="text-xs font-bold text-pw-blue flex-shrink-0">{val}/5</span>}
+                          {val && <span className="text-xs font-bold flex-shrink-0" style={{ color: 'var(--blue)' }}>{val}/5</span>}
                         </div>
                         <div className="flex gap-1">
                           {[1,2,3,4,5].map(n => (
@@ -471,11 +472,11 @@ const QuizPage = () => {
                               key={n}
                               type="button"
                               onClick={() => setOutcome(item.key, n)}
-                              className="flex-1 py-2 rounded-lg text-xs font-bold transition-all"
+                              className="flex-1 py-2 rounded-lg text-xs font-bold transition-all border"
                               style={{
-                                backgroundColor: val === n ? '#0056FF' : 'rgba(255,255,255,0.05)',
-                                color: val === n ? '#fff' : '#8B9CC8',
-                                boxShadow: val === n ? '0 0 10px #0056FF44' : 'none',
+                                backgroundColor: val === n ? 'var(--blue)' : 'var(--fog)',
+                                borderColor: val === n ? 'var(--blue)' : 'transparent',
+                                color: val === n ? '#fff' : 'var(--graphite)'
                               }}
                             >
                               {n}
@@ -490,8 +491,8 @@ const QuizPage = () => {
 
               {/* Prior Experiences */}
               <div>
-                <h3 className="text-pw-white text-base font-bold mb-1">Your Background</h3>
-                <p className="text-pw-gray text-xs mb-4">
+                <h3 className="text-base font-bold mb-1" style={{ color: 'var(--ink)' }}>Your Background</h3>
+                <p className="text-xs mb-4" style={{ color: 'var(--graphite)' }}>
                   Which of these have you explored or tried before? Select all that apply.
                 </p>
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
@@ -504,10 +505,9 @@ const QuizPage = () => {
                         onClick={() => toggleExp(exp.key)}
                         className="p-3 rounded-xl border text-xs font-bold text-left transition-all"
                         style={{
-                          borderColor: sel ? '#9B59B6' : 'rgba(255,255,255,0.08)',
-                          backgroundColor: sel ? '#9B59B611' : 'rgba(255,255,255,0.02)',
-                          color: sel ? '#9B59B6' : '#8B9CC8',
-                          boxShadow: sel ? '0 0 10px #9B59B633' : 'none',
+                          borderColor: sel ? '#9B59B6' : 'var(--border)',
+                          backgroundColor: sel ? '#9B59B622' : 'var(--fog)',
+                          color: sel ? '#9B59B6' : 'var(--graphite)'
                         }}
                       >
                         {exp.label}
@@ -519,8 +519,8 @@ const QuizPage = () => {
 
               {/* Learning Style */}
               <div>
-                <h3 className="text-pw-white text-base font-bold mb-1">How Do You Learn Best?</h3>
-                <p className="text-pw-gray text-xs mb-4">
+                <h3 className="text-base font-bold mb-1" style={{ color: 'var(--ink)' }}>How Do You Learn Best?</h3>
+                <p className="text-xs mb-4" style={{ color: 'var(--graphite)' }}>
                   Choose the style that best describes how you absorb and apply new knowledge.
                 </p>
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
@@ -534,15 +534,14 @@ const QuizPage = () => {
                         onClick={() => setAnswers(p => ({ ...p, learningStyle: ls.key }))}
                         className="p-3.5 rounded-xl border transition-all flex flex-col gap-2"
                         style={{
-                          borderColor: sel ? '#9B59B6' : 'rgba(255,255,255,0.08)',
-                          backgroundColor: sel ? '#9B59B611' : 'rgba(255,255,255,0.02)',
-                          boxShadow: sel ? '0 0 12px #9B59B633' : 'none',
+                          borderColor: sel ? '#9B59B6' : 'var(--border)',
+                          backgroundColor: sel ? '#9B59B622' : 'var(--fog)'
                         }}
                       >
-                        <Icon className="w-4 h-4" style={{ color: sel ? '#9B59B6' : '#8B9CC8' }} />
+                        <Icon className="w-4 h-4" style={{ color: sel ? '#9B59B6' : 'var(--graphite)' }} />
                         <div>
-                          <p className="text-xs font-bold text-left" style={{ color: sel ? '#9B59B6' : '#fff' }}>{ls.label}</p>
-                          <p className="text-[10px] text-pw-gray text-left leading-tight mt-0.5">{ls.desc}</p>
+                          <p className="text-xs font-bold text-left" style={{ color: sel ? '#9B59B6' : 'var(--ink)' }}>{ls.label}</p>
+                          <p className="text-[10px] text-left leading-tight mt-0.5" style={{ color: 'var(--graphite)' }}>{ls.desc}</p>
                         </div>
                       </button>
                     );
@@ -555,51 +554,51 @@ const QuizPage = () => {
           {/* ── STEP 5: Review & Submit ───────────────────────────────── */}
           {step === 5 && (
             <div>
-              <h2 className="text-pw-white text-xl font-bold text-center mb-1">Almost There!</h2>
-              <p className="text-pw-gray text-xs text-center mb-6">Review your profile before we generate your personalised career matches.</p>
+              <h2 className="text-xl font-bold text-center mb-1" style={{ color: 'var(--ink)' }}>Almost There!</h2>
+              <p className="text-xs text-center mb-6" style={{ color: 'var(--graphite)' }}>Review your profile before we generate your personalised career matches.</p>
 
               {/* Career Type Preview */}
-              <div className="text-center mb-6 p-5 rounded-2xl border border-pw-blue/20 bg-pw-blue/5">
-                <p className="text-pw-gray text-xs mb-2 uppercase tracking-wider font-bold">Your Career Personality Type</p>
+              <div className="text-center mb-6 p-5 rounded-2xl border" style={{ backgroundColor: 'var(--lavender)', borderColor: 'var(--azure)' }}>
+                <p className="text-xs mb-2 uppercase tracking-wider font-bold" style={{ color: 'var(--graphite)' }}>Your Career Personality Type</p>
                 <div className="flex justify-center gap-2 mb-2">
                   {previewHolland.split('').map((letter, i) => {
                     const dim = RIASEC_DIMENSIONS.find(d => d.key === letter);
                     return (
                       <div key={i} className="w-14 h-14 rounded-xl flex items-center justify-center text-2xl font-extrabold text-white"
-                        style={{ background: `linear-gradient(135deg, ${dim?.color || '#0056FF'}, ${dim?.color || '#0056FF'}99)`, boxShadow: `0 0 18px ${dim?.color || '#0056FF'}44` }}>
+                        style={{ background: dim?.color || 'var(--blue)' }}>
                         {letter}
                       </div>
                     );
                   })}
                 </div>
-                <p className="text-pw-gray text-xs">
+                <p className="text-xs" style={{ color: 'var(--graphite)' }}>
                   {previewHolland.split('').map(k => RIASEC_DIMENSIONS.find(d => d.key === k)?.label).join(' · ')}
                 </p>
               </div>
 
               {/* Summary stats */}
               <div className="grid grid-cols-2 gap-3 mb-6">
-                <div className="p-3 rounded-xl bg-pw-white/3 border border-pw-white/8">
-                  <p className="text-pw-gray text-xs">CGPA</p>
-                  <p className="text-pw-white font-bold">{answers.cgpa || '—'}</p>
+                <div className="p-3 rounded-xl border" style={{ backgroundColor: 'var(--fog)', borderColor: 'var(--border)' }}>
+                  <p className="text-xs" style={{ color: 'var(--graphite)' }}>CGPA</p>
+                  <p className="font-bold" style={{ color: 'var(--ink)' }}>{answers.cgpa || '—'}</p>
                 </div>
-                <div className="p-3 rounded-xl bg-pw-white/3 border border-pw-white/8">
-                  <p className="text-pw-gray text-xs">Learning Style</p>
-                  <p className="text-pw-white font-bold capitalize">{answers.learningStyle?.replace('_', ' ') || '—'}</p>
+                <div className="p-3 rounded-xl border" style={{ backgroundColor: 'var(--fog)', borderColor: 'var(--border)' }}>
+                  <p className="text-xs" style={{ color: 'var(--graphite)' }}>Learning Style</p>
+                  <p className="font-bold capitalize" style={{ color: 'var(--ink)' }}>{answers.learningStyle?.replace('_', ' ') || '—'}</p>
                 </div>
-                <div className="p-3 rounded-xl bg-pw-white/3 border border-pw-white/8">
-                  <p className="text-pw-gray text-xs">Prior Experiences</p>
-                  <p className="text-pw-white font-bold">{answers.priorExperiences.length} selected</p>
+                <div className="p-3 rounded-xl border" style={{ backgroundColor: 'var(--fog)', borderColor: 'var(--border)' }}>
+                  <p className="text-xs" style={{ color: 'var(--graphite)' }}>Prior Experiences</p>
+                  <p className="font-bold" style={{ color: 'var(--ink)' }}>{answers.priorExperiences.length} selected</p>
                 </div>
-                <div className="p-3 rounded-xl bg-pw-white/3 border border-pw-white/8">
-                  <p className="text-pw-gray text-xs">Top Career Value</p>
-                  <p className="text-pw-white font-bold capitalize">
+                <div className="p-3 rounded-xl border" style={{ backgroundColor: 'var(--fog)', borderColor: 'var(--border)' }}>
+                  <p className="text-xs" style={{ color: 'var(--graphite)' }}>Top Career Value</p>
+                  <p className="font-bold capitalize" style={{ color: 'var(--ink)' }}>
                     {Object.entries(answers.outcomeExpectations).sort((a, b) => b[1] - a[1])[0]?.[0] || '—'}
                   </p>
                 </div>
               </div>
 
-              <p className="text-pw-gray text-xs text-center">
+              <p className="text-xs text-center" style={{ color: 'var(--graphite)' }}>
                 Submitting will run PathWise's intelligence engine to generate your personalised career matches and personality profile.
               </p>
             </div>
@@ -616,7 +615,8 @@ const QuizPage = () => {
             else setStep(s => Math.max(1, s - 1));
           }}
           disabled={step === 1 && riasecDimIdx === 0}
-          className="flex items-center gap-2 px-5 py-2.5 rounded-xl border border-pw-white/10 bg-pw-surface text-pw-gray text-xs font-bold transition-all disabled:opacity-30 disabled:pointer-events-none hover:text-pw-white hover:border-pw-white/20 active:scale-95"
+          className="btn-hover flex items-center gap-2 px-5 py-2.5 rounded-xl border text-xs font-bold transition-all disabled:opacity-30 disabled:pointer-events-none"
+          style={{ backgroundColor: 'var(--surface)', borderColor: 'var(--border)', color: 'var(--graphite)' }}
         >
           <ChevronLeft className="w-4 h-4" /> Previous
         </button>
@@ -628,7 +628,8 @@ const QuizPage = () => {
               else setStep(s => s + 1);
             }}
             disabled={!canProceed()}
-            className="flex items-center gap-2 px-6 py-2.5 rounded-xl bg-pw-blue text-white text-xs font-bold hover:bg-pw-azure disabled:opacity-40 transition-all shadow-[0_0_15px_rgba(0,86,255,0.25)] hover:shadow-[0_0_22px_rgba(0,86,255,0.4)] disabled:pointer-events-none active:scale-95"
+            className="btn-hover flex items-center gap-2 px-6 py-2.5 rounded-xl text-white text-xs font-bold disabled:opacity-40 transition-all disabled:pointer-events-none"
+            style={{ backgroundColor: 'var(--blue)' }}
           >
             {step === 2 && riasecDimIdx < 5 ? `Next: ${RIASEC_DIMENSIONS[riasecDimIdx + 1]?.label}` : 'Next Step'}
             <ChevronRight className="w-4 h-4" />
@@ -637,7 +638,8 @@ const QuizPage = () => {
           <button
             onClick={handleSubmit}
             disabled={isSubmitting}
-            className="flex items-center gap-2 px-8 py-2.5 rounded-xl bg-pw-blue text-white text-xs font-bold hover:bg-pw-azure disabled:opacity-60 transition-all shadow-[0_0_15px_rgba(0,86,255,0.25)] hover:shadow-[0_0_22px_rgba(0,86,255,0.4)] disabled:pointer-events-none active:scale-95"
+            className="btn-hover flex items-center gap-2 px-8 py-2.5 rounded-xl text-white text-xs font-bold disabled:opacity-60 transition-all disabled:pointer-events-none"
+            style={{ backgroundColor: 'var(--blue)' }}
           >
             {isSubmitting ? (
               <><Loader2 className="w-4 h-4 animate-spin" /> Analyzing Profile…</>

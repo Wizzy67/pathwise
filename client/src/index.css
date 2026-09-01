@@ -1,82 +1,68 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=Open+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* ─── Google Fonts ─────────────────────────────────────────── */
+/* ─── PathWise — Clean Warm Theme (Compass-Inspired) ──────── */
 
 @layer base {
   :root {
-    /* Core Palette - Premium Light Theme */
-    --black:    #FFFFFF; /* Custom White Background */
-    --surface:  #F8FAFC; /* Card background (Slate 50) */
-    --surface2: #F1F5F9; /* Alternate card background (Slate 100) */
-    --blue:     #0056FF; /* Brand Royal Blue */
-    --azure:    #2277FF; /* Brand Azure */
-    --lavender: #EEF2FF; /* Light Indigo background accent (Indigo 50) */
-    --white:    #030712; /* Slate 950 - Extremely dark slate for ultimate contrast */
-    --gray:     #1F2937; /* Gray 800 - Very dark gray for readable descriptions */
-    --muted:    #6B7280; /* Gray 500 - Clear borders/muted elements */
+    /* Core Palette — Warm Light */
+    --black:    #f5f3f3;   /* Warm off-white canvas */
+    --surface:  #ffffff;   /* Pure white cards */
+    --surface2: #ebe9e9;   /* Alternate card / input bg */
+    --blue:     #1944f1;   /* Brand vivid blue */
+    --azure:    #4d6ff5;   /* Lighter brand blue */
+    --lavender: #eef1fe;   /* Very light blue tint */
+    --white:    #111111;   /* Near-black primary text */
+    --gray:     #707070;   /* Graphite — secondary text */
+    --muted:    #adadad;   /* Ash — muted/placeholder */
 
-    /* Aliases for legacy CSS vars */
-    --bg:       #FFFFFF;
-    --bg2:      #F8FAFC;
-    --orange:   #0056FF;
-    --amber:    #2277FF;
-    --teal:     #EEF2FF;
-    --violet:   #2277FF;
+    /* Semantic aliases */
+    --bg:       #f5f3f3;
+    --bg2:      #ffffff;
+    --canvas:   #f5f3f3;
+    --ink:      #111111;
+    --graphite: #707070;
+    --ash:      #adadad;
+    --fog:      #ededed;
+    --mist:     #f2f2f2;
+    --silver:   #c2c2c2;
+    --border:   #dddcdc;
+    --border-subtle: #ebe9e9;
+
+    /* Legacy aliases */
+    --orange:   #1944f1;
+    --amber:    #4d6ff5;
+    --teal:     #eef1fe;
+    --violet:   #4d6ff5;
 
     /* Gradients */
-    --futurewave:     linear-gradient(135deg, #0056FF, #2277FF);
-    --midnight-surge: linear-gradient(135deg, #F8FAFC, #EEF2FF);
-    --card-bg:        rgba(255, 255, 255, 0.9);
-    --border:         rgba(0, 86, 255, 0.08);
-    --border-subtle:  rgba(15, 23, 42, 0.05);
-  }
-
-  :root.dark {
-    /* Core Palette - Premium Dark Theme */
-    --black:    #06060f; /* Deep dark page background */
-    --surface:  #0a0a1a; /* Dark card background */
-    --surface2: #101026; /* Alternate card background */
-    --blue:     #0056FF; /* Brand Royal Blue */
-    --azure:    #2277FF; /* Brand Azure */
-    --lavender: #131b33; /* Dark Indigo background accent */
-    --white:    #F8FAFC; /* Slate 50 - Very light slate for readable white text */
-    --gray:     #E2E8F0; /* Slate 200 - Light gray for readable descriptions */
-    --muted:    #475569; /* Slate 600 - Borders and muted elements */
-
-    /* Aliases for legacy CSS vars */
-    --bg:       #06060f;
-    --bg2:      #0a0a1a;
-    --orange:   #0056FF;
-    --amber:    #2277FF;
-    --teal:     #131b33;
-    --violet:   #2277FF;
-
-    /* Gradients & borders */
-    --futurewave:     linear-gradient(135deg, #0056FF, #2277FF);
-    --midnight-surge: linear-gradient(135deg, #0a0a1a, #101026);
-    --card-bg:        rgba(10, 10, 26, 0.9);
-    --border:         rgba(0, 86, 255, 0.15);
-    --border-subtle:  rgba(255, 255, 255, 0.05);
+    --futurewave:     linear-gradient(135deg, #1944f1, #4d6ff5);
+    --midnight-surge: linear-gradient(135deg, #f5f3f3, #eef1fe);
+    --card-bg:        #ffffff;
   }
 
   body {
-    @apply bg-pw-black text-pw-white font-inter antialiased overflow-x-hidden;
+    background-color: var(--canvas);
+    color: var(--ink);
+    font-family: 'Open Sans', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Outfit', sans-serif;
-    color: var(--white);
-    font-weight: 800; /* Extra bold headings for premium punchy look */
+    font-family: 'Nunito', sans-serif;
+    color: var(--ink);
+    font-weight: 800;
     letter-spacing: -0.015em;
   }
 
   p, span, li, label, input, select, textarea {
-    font-family: 'Inter', sans-serif;
-    font-weight: 500; /* Bolder body text for perfect contrast on white */
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 500;
   }
 
   * {
@@ -92,88 +78,90 @@
   background-clip: text;
 }
 
-/* ─── Mesh Background ───────────────────────────────────────── */
+/* ─── Mesh Background (subtle warm gradient) ────────────────── */
 .mesh-bg {
   position: fixed; inset: 0; z-index: 0; pointer-events: none;
   background:
-    radial-gradient(ellipse 80% 60% at 15% 10%, rgba(0,86,255,0.06) 0%, transparent 60%),
-    radial-gradient(ellipse 60% 50% at 85% 80%, rgba(34,119,255,0.04) 0%, transparent 55%),
-    radial-gradient(ellipse 50% 40% at 60% 40%, rgba(99,102,241,0.03) 0%, transparent 50%),
-    var(--black);
+    radial-gradient(ellipse 80% 60% at 50% 50%, rgba(25,68,241,0.04) 0%, transparent 70%),
+    radial-gradient(ellipse 60% 50% at 80% 20%, rgba(25,68,241,0.03) 0%, transparent 60%),
+    var(--canvas);
 }
 
-/* ─── Glass Card ────────────────────────────────────────────── */
+/* ─── Clean Card ────────────────────────────────────────────── */
 .glass-card {
-  background: rgba(255, 255, 255, 0.75);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(0, 86, 255, 0.08);
+  background: var(--surface);
+  border: 1px solid var(--border);
   border-radius: 16px;
 }
 
-/* ─── Blue Glow Button ──────────────────────────────────────── */
+/* ─── Primary Button (flat, clean) ──────────────────────────── */
 .btn-primary {
-  background: var(--futurewave);
+  background: var(--blue);
   color: #fff;
   font-weight: 700;
   border: none;
   border-radius: 12px;
   padding: 0.75rem 1.75rem;
   cursor: pointer;
-  transition: all 0.25s;
-  box-shadow: 0 0 25px rgba(0,86,255,0.35);
-  font-family: 'Inter', sans-serif;
+  transition: all 0.2s ease;
+  font-family: 'Open Sans', sans-serif;
 }
 .btn-primary:hover {
-  box-shadow: 0 0 45px rgba(0,86,255,0.55);
-  transform: translateY(-2px);
+  background: #1238d4;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(25,68,241,0.25);
 }
 
+/* ─── Ghost Button ──────────────────────────────────────────── */
 .btn-ghost {
   background: transparent;
-  color: var(--white);
-  border: 1px solid rgba(0,86,255,0.25);
+  color: var(--ink);
+  border: 1px solid var(--border);
   border-radius: 12px;
   padding: 0.75rem 1.75rem;
   cursor: pointer;
-  transition: all 0.25s;
-  font-family: 'Inter', sans-serif;
+  transition: all 0.2s ease;
+  font-family: 'Open Sans', sans-serif;
   font-weight: 600;
 }
 .btn-ghost:hover {
-  background: rgba(0,86,255,0.05);
-  border-color: rgba(0,86,255,0.4);
-  color: var(--blue);
-}
-
-/* ─── Particles ─────────────────────────────────────────────── */
-.particles { position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
-.particle {
-  position: absolute; border-radius: 50%;
-  animation: float linear infinite;
-  opacity: 0.3;
-  background: var(--blue);
-}
-
-@keyframes float {
-  0%   { transform: translateY(100vh) rotate(0deg); opacity: 0; }
-  10%  { opacity: 0.3; }
-  90%  { opacity: 0.3; }
-  100% { transform: translateY(-100px) rotate(720deg); opacity: 0; }
+  background: var(--fog);
+  border-color: var(--graphite);
+  color: var(--ink);
 }
 
 /* ─── Animations ────────────────────────────────────────────── */
-@keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 20px rgba(0,86,255,0.4); }
-  50%       { box-shadow: 0 0 40px rgba(0,86,255,0.7); }
-}
 @keyframes fadeDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes fadeUp   { from { opacity: 0; transform: translateY(30px);  } to { opacity: 1; transform: translateY(0); } }
 @keyframes fadeIn   { from { opacity: 0; } to { opacity: 1; } }
 @keyframes slideIn  { from { opacity: 0; transform: translateX(-30px); } to { opacity: 1; transform: translateX(0); } }
-@keyframes modalIn  { from { opacity: 0; transform: scale(0.92) translateY(16px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+@keyframes modalIn  { from { opacity: 0; transform: scale(0.94) translateY(12px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+@keyframes scaleIn  { from { opacity: 0; transform: scale(0.94); } to { opacity: 1; transform: scale(1); } }
+@keyframes slideUp  { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes wave     { 0%,100%{ transform: rotate(0deg); } 25%{ transform: rotate(-20deg); } 75%{ transform: rotate(20deg); } }
 @keyframes blink    { 0%,100%{ opacity:1; } 50%{ opacity:0; } }
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(25,68,241,0.15); }
+  50%       { box-shadow: 0 0 0 8px rgba(25,68,241,0); }
+}
+@keyframes float {
+  0%   { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+  10%  { opacity: 0.15; }
+  90%  { opacity: 0.15; }
+  100% { transform: translateY(-100px) rotate(720deg); opacity: 0; }
+}
+
+/* ─── Skeleton Loader ───────────────────────────────────────── */
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+.skeleton {
+  background: linear-gradient(90deg, var(--border) 25%, var(--surface2) 50%, var(--border) 75%);
+  border-radius: 12px;
+  background-size: 200% 100%;
+  animation: shimmer 1.5s linear infinite;
+}
 
 /* ─── Typewriter ────────────────────────────────────────────── */
 .typewriter-text.typewriter-active::after {
@@ -182,15 +170,24 @@
   color: var(--blue);
 }
 
+/* ─── Particles (very subtle) ───────────────────────────────── */
+.particles { position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
+.particle {
+  position: absolute; border-radius: 50%;
+  animation: float linear infinite;
+  opacity: 0.15;
+  background: var(--blue);
+}
+
 /* ─── Custom Scrollbar ──────────────────────────────────────── */
 ::-webkit-scrollbar       { width: 6px; }
-::-webkit-scrollbar-track { background: var(--black); }
-::-webkit-scrollbar-thumb { background: rgba(0,86,255,0.3); border-radius: 50px; }
-::-webkit-scrollbar-thumb:hover { background: rgba(0,86,255,0.6); }
+::-webkit-scrollbar-track { background: var(--canvas); }
+::-webkit-scrollbar-thumb { background: var(--silver); border-radius: 50px; }
+::-webkit-scrollbar-thumb:hover { background: var(--graphite); }
 
 /* ─── Nav Active State ──────────────────────────────────────── */
 .nav-item-active {
-  background: rgba(0,86,255,0.08);
+  background: rgba(25,68,241,0.06);
   color: var(--blue) !important;
   position: relative;
 }
@@ -199,26 +196,26 @@
   position: absolute;
   left: 0; top: 15%; bottom: 15%;
   width: 3px;
-  background: var(--futurewave);
+  background: var(--blue);
   border-radius: 0 3px 3px 0;
 }
 
 /* ─── Card ──────────────────────────────────────────────────── */
 .pw-card {
   background: var(--surface);
-  border: 1px solid var(--border-subtle);
+  border: 1px solid var(--border);
   border-radius: 16px;
-  transition: border-color 0.25s, transform 0.25s;
+  transition: border-color 0.2s, box-shadow 0.2s;
 }
 .pw-card:hover {
-  border-color: rgba(0,86,255,0.3);
-  transform: translateY(-2px);
+  border-color: var(--silver);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.06);
 }
 
 /* ─── Badge ─────────────────────────────────────────────────── */
 .pw-badge {
-  background: rgba(0,86,255,0.1);
-  border: 1px solid rgba(0,86,255,0.25);
+  background: var(--lavender);
+  border: 1px solid rgba(25,68,241,0.15);
   color: var(--blue);
   border-radius: 50px;
   padding: 0.2rem 0.75rem;
@@ -227,5 +224,5 @@
 }
 
 /* ─── Progress Bar ──────────────────────────────────────────── */
-.pw-progress-track { background: rgba(255,255,255,0.08); border-radius: 50px; overflow: hidden; }
-.pw-progress-fill  { height: 100%; border-radius: 50px; background: var(--futurewave); }
+.pw-progress-track { background: var(--fog); border-radius: 50px; overflow: hidden; }
+.pw-progress-fill  { height: 100%; border-radius: 50px; background: var(--blue); }

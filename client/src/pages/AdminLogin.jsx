@@ -57,29 +57,9 @@ const AdminLogin = () => {
     <>
       <style>{`
         .admin-page-container {
-          background: var(--bg); color: var(--white); font-family: 'Inter', sans-serif;
+          background: var(--canvas); color: var(--ink); font-family: 'Open Sans', sans-serif;
           height: 100vh; display: flex; overflow: hidden; width: 100%;
         }
-
-        /* ── GRID LINES ── */
-        .grid-lines {
-          position: fixed; inset: 0; z-index: 0; pointer-events: none;
-          background-image:
-            linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
-          background-size: 50px 50px;
-          mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 0%, transparent 100%);
-        }
-
-        /* ── FLOATING ORBS ── */
-        .orb {
-          position: fixed; border-radius: 50%; filter: blur(80px);
-          pointer-events: none; z-index: 0; animation: orbFloat ease-in-out infinite;
-        }
-        .orb-1 { width: 400px; height: 400px; background: rgba(0,86,255,0.06); top: -100px; left: -100px; animation-duration: 12s; }
-        .orb-2 { width: 350px; height: 350px; background: rgba(34,119,255,0.06); bottom: -100px; right: -100px; animation-duration: 15s; animation-delay: -5s; }
-        .orb-3 { width: 250px; height: 250px; background: rgba(34,119,255,0.04); top: 50%; left: 50%; transform: translate(-50%,-50%); animation-duration: 10s; animation-delay: -3s; }
-        @keyframes orbFloat { 0%,100%{transform:translate(0,0)} 33%{transform:translate(30px,-20px)} 66%{transform:translate(-20px,30px)} }
 
         /* ── LEFT PANEL ── */
         .left-panel {
@@ -87,62 +67,53 @@ const AdminLogin = () => {
           width: 45%; display: flex; flex-direction: column;
           justify-content: center; align-items: flex-start;
           padding: 4rem 4rem 4rem 5rem;
-          border-right: 1px solid rgba(255,255,255,0.05);
+          border-right: 1px solid var(--border);
+          background: var(--surface);
         }
         @media (max-width: 900px) { .left-panel { display: none; } }
 
         .shield-icon {
           width: 72px; height: 72px; border-radius: 20px;
-          background: linear-gradient(135deg, rgba(0,86,255,0.15), rgba(34,119,255,0.15));
-          border: 1px solid rgba(0,86,255,0.25);
+          background: var(--lavender);
+          border: 1px solid var(--border);
           display: flex; align-items: center; justify-content: center;
           font-size: 2rem; margin-bottom: 2rem;
-          box-shadow: 0 0 40px rgba(0,86,255,0.12);
-          animation: shieldPulse 4s ease-in-out infinite;
-        }
-        @keyframes shieldPulse {
-          0%,100% { box-shadow: 0 0 40px rgba(0,86,255,0.12); }
-          50%      { box-shadow: 0 0 70px rgba(0,86,255,0.25), 0 0 120px rgba(34,119,255,0.08); }
+          color: var(--blue);
         }
 
         .left-tag {
           font-size: 0.75rem; font-weight: 700; letter-spacing: 0.18em;
           text-transform: uppercase; color: var(--blue);
-          background: rgba(0,86,255,0.08); border: 1px solid rgba(0,86,255,0.2);
+          background: var(--mist); border: 1px solid var(--border);
           border-radius: 50px; padding: 0.35rem 1rem;
           margin-bottom: 1.8rem;
         }
 
         .left-title {
-          font-family: 'Outfit', sans-serif;
+          font-family: 'Nunito', sans-serif;
           font-size: clamp(2rem, 3.5vw, 3rem);
           font-weight: 900; line-height: 1.15;
-          margin-bottom: 1.2rem;
+          margin-bottom: 1.2rem; color: var(--ink);
         }
         .left-title .gradient-text {
-          background: linear-gradient(135deg, var(--blue), var(--azure));
-          -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+          color: var(--blue);
         }
-        .left-sub { color: var(--gray); font-size: 0.95rem; line-height: 1.75; max-width: 400px; margin-bottom: 3rem; }
+        .left-sub { color: var(--graphite); font-size: 0.95rem; line-height: 1.75; max-width: 400px; margin-bottom: 3rem; }
 
         .access-levels { display: flex; flex-direction: column; gap: 0.9rem; width: 100%; max-width: 380px; }
-        .access-item { display: flex; align-items: center; gap: 1rem; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07); border-radius: 14px; padding: 1rem 1.2rem; transition: all 0.3s; }
-        .access-item:hover { border-color: rgba(0,86,255,0.25); transform: translateX(4px); }
-        .access-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; animation: dotPulse 2s ease-in-out infinite; }
-        .access-dot.orange { background: var(--blue); box-shadow: 0 0 10px rgba(0,86,255,0.5); }
-        .access-dot.teal   { background: var(--azure);   box-shadow: 0 0 10px rgba(34,119,255,0.5);  animation-delay: 0.5s; }
-        .access-dot.violet { background: var(--blue); box-shadow: 0 0 10px rgba(0,86,255,0.5); animation-delay: 1s; }
-        @keyframes dotPulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
-        .access-text strong { display: block; font-size: 0.88rem; font-weight: 600; margin-bottom: 0.15rem; }
-        .access-text span { color: var(--gray); font-size: 0.78rem; }
+        .access-item { display: flex; align-items: center; gap: 1rem; background: var(--mist); border: 1px solid var(--border); border-radius: 14px; padding: 1rem 1.2rem; transition: all 0.3s; }
+        .access-item:hover { border-color: var(--blue); transform: translateX(4px); }
+        .access-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; background: var(--blue); }
+        .access-text strong { display: block; font-size: 0.88rem; font-weight: 600; margin-bottom: 0.15rem; color: var(--ink); }
+        .access-text span { color: var(--graphite); font-size: 0.78rem; }
 
         .warning-strip {
           display: flex; align-items: flex-start; gap: 0.7rem;
-          background: rgba(0,86,255,0.04); border: 1px solid rgba(0,86,255,0.12);
+          background: var(--lavender); border: 1px solid var(--border);
           border-radius: 12px; padding: 1rem 1.2rem;
           margin-top: 3rem; max-width: 380px;
         }
-        .warning-strip p { color: rgba(148,163,184,0.8); font-size: 0.78rem; line-height: 1.6; }
+        .warning-strip p { color: var(--graphite); font-size: 0.78rem; line-height: 1.6; }
         .warning-strip span { font-size: 1rem; flex-shrink: 0; margin-top: 2px; }
 
         /* ── RIGHT PANEL ── */
@@ -151,104 +122,85 @@ const AdminLogin = () => {
           flex: 1; display: flex; flex-direction: column;
           justify-content: center; align-items: center;
           padding: 3rem 2rem;
+          background: var(--canvas);
         }
         .form-wrap { width: 100%; max-width: 420px; }
 
-        .secure-badge { display: flex; align-items: center; justify-content: center; gap: 0.5rem; color: var(--teal); font-size: 0.78rem; font-weight: 600; margin-bottom: 2.5rem; }
-        .secure-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--teal); animation: dotPulse 1.5s ease-in-out infinite; }
-        .secure-line { flex: 1; max-width: 60px; height: 1px; background: linear-gradient(90deg, transparent, rgba(0,212,170,0.4)); }
-        .secure-line.r { background: linear-gradient(270deg, transparent, rgba(0,212,170,0.4)); }
+        .secure-badge { display: flex; align-items: center; justify-content: center; gap: 0.5rem; color: var(--blue); font-size: 0.78rem; font-weight: 600; margin-bottom: 2.5rem; }
+        .secure-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--blue); }
+        .secure-line { flex: 1; max-width: 60px; height: 1px; background: var(--border); }
+        .secure-line.r { background: var(--border); }
 
         .form-card {
-          background: rgba(255,255,255,0.04);
-          border: 1px solid rgba(255,255,255,0.08);
+          background: var(--surface);
+          border: 1px solid var(--border);
           border-radius: 28px; padding: 2.8rem;
-          backdrop-filter: blur(30px);
-          box-shadow: 0 30px 80px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.05) inset;
+          box-shadow: 0 4px 20px rgba(0,0,0,0.05);
           position: relative; overflow: hidden;
-          animation: cardIn 0.7s ease both;
-        }
-        @keyframes cardIn { from{opacity:0;transform:translateY(30px) scale(0.97)} to{opacity:1;transform:translateY(0) scale(1)} }
-        .form-card::before {
-          content: ''; position: absolute; inset: -1px;
-          background: linear-gradient(135deg, rgba(0,86,255,0.2), transparent 40%, rgba(34,119,255,0.2));
-          border-radius: 28px; z-index: -1;
         }
 
         .lock-wrap {
           width: 64px; height: 64px; border-radius: 18px; margin: 0 auto 1.5rem;
-          background: linear-gradient(135deg, rgba(0,86,255,0.15), rgba(34,119,255,0.15));
-          border: 1px solid rgba(0,86,255,0.25);
+          background: var(--mist);
+          border: 1px solid var(--border);
           display: flex; align-items: center; justify-content: center; font-size: 1.8rem;
-          box-shadow: 0 0 30px rgba(0,86,255,0.2);
-          animation: lockPulse 3s ease-in-out infinite;
+          color: var(--blue);
         }
-        @keyframes lockPulse { 0%,100%{box-shadow:0 0 30px rgba(0,86,255,0.2)} 50%{box-shadow:0 0 60px rgba(0,86,255,0.4)} }
 
-        .form-card h2 { font-family: 'Outfit', sans-serif; font-size: 1.6rem; font-weight: 900; text-align: center; margin-bottom: 0.4rem; }
-        .form-card .subtitle { color: var(--gray); font-size: 0.88rem; text-align: center; margin-bottom: 2rem; }
-        .divider { height: 1px; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent); margin-bottom: 2rem; }
+        .form-card h2 { font-family: 'Nunito', sans-serif; font-size: 1.6rem; font-weight: 900; text-align: center; margin-bottom: 0.4rem; color: var(--ink); }
+        .form-card .subtitle { color: var(--graphite); font-size: 0.88rem; text-align: center; margin-bottom: 2rem; }
+        .divider { height: 1px; background: var(--border); margin-bottom: 2rem; }
 
         .form-group { display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1.3rem; }
-        .form-label { font-size: 0.8rem; font-weight: 600; color: #CBD5E1; letter-spacing: 0.04em; }
+        .form-label { font-size: 0.8rem; font-weight: 600; color: var(--graphite); letter-spacing: 0.04em; }
         .input-wrap { position: relative; }
         .admin-input {
           width: 100%;
-          background: rgba(255,255,255,0.05);
-          border: 1px solid rgba(255,255,255,0.1);
+          background: var(--fog);
+          border: 1px solid var(--border);
           border-radius: 14px;
           padding: 0.9rem 3rem 0.9rem 1.1rem;
-          color: var(--white); font-size: 0.92rem; font-family: 'Inter', sans-serif;
+          color: var(--ink); font-size: 0.92rem; font-family: 'Open Sans', sans-serif;
           transition: all 0.3s; outline: none;
         }
-        .admin-input::placeholder { color: rgba(148,163,184,0.5); }
-        .admin-input:focus { border-color: var(--blue); background: rgba(0,86,255,0.07); box-shadow: 0 0 0 4px rgba(0,86,255,0.1); }
+        .admin-input::placeholder { color: var(--ash); }
+        .admin-input:focus { border-color: var(--blue); background: var(--mist); }
 
-        .field-icon { position: absolute; right: 1rem; top: 50%; transform: translateY(-50%); color: var(--gray); font-size: 1rem; transition: color 0.3s; }
+        .field-icon { position: absolute; right: 1rem; top: 50%; transform: translateY(-50%); color: var(--graphite); font-size: 1rem; transition: color 0.3s; }
         .field-icon.clickable { cursor: pointer; pointer-events: all; }
-        .field-icon.clickable:hover { color: var(--white); }
+        .field-icon.clickable:hover { color: var(--ink); }
         .admin-input:focus ~ .field-icon { color: var(--blue); }
 
         .attempts-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.8rem; }
-        .attempts-info { display: flex; align-items: center; gap: 0.4rem; color: rgba(148,163,184,0.6); font-size: 0.75rem; }
+        .attempts-info { display: flex; align-items: center; gap: 0.4rem; color: var(--graphite); font-size: 0.75rem; }
         .attempts-dots { display: flex; gap: 3px; }
-        .attempt-dot { width: 7px; height: 7px; border-radius: 50%; background: rgba(255,255,255,0.15); }
+        .attempt-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--border); }
         .attempt-dot.used { background: var(--blue); }
-        .forgot-text { color: var(--azure); font-size: 0.78rem; font-weight: 600; cursor: pointer; text-decoration: none; transition: opacity 0.2s; }
+        .forgot-text { color: var(--blue); font-size: 0.78rem; font-weight: 600; cursor: pointer; text-decoration: none; transition: opacity 0.2s; }
         .forgot-text:hover { opacity: 0.7; }
 
         .submit-btn {
           width: 100%; padding: 1rem;
-          background: linear-gradient(135deg, var(--blue), var(--azure));
+          background: var(--blue);
           color: #fff; border: none; border-radius: 14px;
           font-size: 0.95rem; font-weight: 700; cursor: pointer;
-          transition: all 0.3s; font-family: 'Inter', sans-serif;
-          box-shadow: 0 0 30px rgba(0,86,255,0.35);
-          position: relative; overflow: hidden;
+          transition: all 0.3s; font-family: 'Open Sans', sans-serif;
         }
-        .submit-btn::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(255,255,255,0.1), transparent); opacity: 0; transition: opacity 0.3s; }
-        .submit-btn:hover { transform: translateY(-2px); box-shadow: 0 0 50px rgba(0,86,255,0.55); }
-        .submit-btn:hover::before { opacity: 1; }
+        .submit-btn:hover { transform: translateY(-2px); background: var(--azure); }
         .submit-btn:active { transform: translateY(0); }
         .submit-btn:disabled { pointer-events: none; opacity: 0.6; cursor: not-allowed; }
 
-        .security-note { display: flex; align-items: center; justify-content: center; gap: 0.5rem; color: rgba(148,163,184,0.45); font-size: 0.73rem; margin-top: 1.8rem; text-align: center; }
-        .session-info { margin-top: 1.5rem; background: rgba(34,119,255,0.05); border: 1px solid rgba(34,119,255,0.15); border-radius: 12px; padding: 0.9rem 1.1rem; display: flex; align-items: center; gap: 0.8rem; }
-        .session-info p { color: rgba(148,163,184,0.7); font-size: 0.78rem; line-height: 1.5; }
+        .security-note { display: flex; align-items: center; justify-content: center; gap: 0.5rem; color: var(--ash); font-size: 0.73rem; margin-top: 1.8rem; text-align: center; }
+        .session-info { margin-top: 1.5rem; background: var(--mist); border: 1px solid var(--border); border-radius: 12px; padding: 0.9rem 1.1rem; display: flex; align-items: center; gap: 0.8rem; }
+        .session-info p { color: var(--graphite); font-size: 0.78rem; line-height: 1.5; }
         .session-info p strong { color: var(--blue); }
 
-        .version-tag { position: fixed; bottom: 1.5rem; right: 1.5rem; color: rgba(148,163,184,0.25); font-size: 0.7rem; font-family: 'Outfit', sans-serif; letter-spacing: 0.05em; z-index: 10; }
-        .clock { position: fixed; top: 1.5rem; right: 2rem; z-index: 10; color: rgba(148,163,184,0.4); font-size: 0.78rem; font-family: 'Outfit', sans-serif; letter-spacing: 0.05em; display: flex; align-items: center; gap: 0.5rem; }
-        .clock-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--teal); animation: dotPulse 2s ease-in-out infinite; }
+        .version-tag { position: fixed; bottom: 1.5rem; right: 1.5rem; color: var(--ash); font-size: 0.7rem; font-family: 'Nunito', sans-serif; letter-spacing: 0.05em; z-index: 10; }
+        .clock { position: fixed; top: 1.5rem; right: 2rem; z-index: 10; color: var(--ash); font-size: 0.78rem; font-family: 'Nunito', sans-serif; letter-spacing: 0.05em; display: flex; align-items: center; gap: 0.5rem; }
+        .clock-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--blue); }
       `}</style>
       
-      <div className="mesh-bg"></div>
-
       <div className="admin-page-container">
-        <div className="grid-lines"></div>
-        <div className="orb orb-1"></div>
-        <div className="orb orb-2"></div>
-        <div className="orb orb-3"></div>
 
         {/* CLOCK */}
         <div className="clock">
@@ -258,7 +210,7 @@ const AdminLogin = () => {
 
         {/* LEFT PANEL */}
         <div className="left-panel">
-          <div className="shield-icon text-pw-blue">
+          <div className="shield-icon">
             <Shield className="w-8 h-8" />
           </div>
           <div className="left-tag">⬡ System Administration</div>
@@ -272,21 +224,21 @@ const AdminLogin = () => {
 
           <div className="access-levels">
             <div className="access-item">
-              <div className="access-dot orange"></div>
+              <div className="access-dot"></div>
               <div className="access-text">
                 <strong>Full System Control</strong>
                 <span>Manage all student accounts &amp; data</span>
               </div>
             </div>
             <div className="access-item">
-              <div className="access-dot teal"></div>
+              <div className="access-dot"></div>
               <div className="access-text">
                 <strong>Analytics &amp; Reporting</strong>
                 <span>View platform-wide insights &amp; logs</span>
               </div>
             </div>
             <div className="access-item">
-              <div className="access-dot violet"></div>
+              <div className="access-dot"></div>
               <div className="access-text">
                 <strong>Content Management</strong>
                 <span>Update careers, courses &amp; notifications</span>
@@ -312,7 +264,7 @@ const AdminLogin = () => {
             </div>
 
             <div className="form-card">
-              <div className="lock-wrap flex items-center justify-center text-pw-blue">
+              <div className="lock-wrap">
                 <Lock className="w-6 h-6" />
               </div>
               <h2>Restricted Access</h2>
@@ -333,7 +285,7 @@ const AdminLogin = () => {
                       className="admin-input" 
                       required
                     />
-                    <span className="field-icon flex items-center justify-center"><Mail className="w-4 h-4 text-pw-gray" /></span>
+                    <span className="field-icon flex items-center justify-center"><Mail className="w-4 h-4" /></span>
                   </div>
                 </div>
 
@@ -350,7 +302,7 @@ const AdminLogin = () => {
                       required
                     />
                     <span className="field-icon clickable flex items-center justify-center" onClick={() => setShowPassword(!showPassword)}>
-                      {showPassword ? <EyeOff className="w-4 h-4 text-pw-gray" /> : <Eye className="w-4 h-4 text-pw-gray" />}
+                      {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                     </span>
                   </div>
                 </div>

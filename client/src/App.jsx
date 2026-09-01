@@ -40,7 +40,7 @@ function App() {
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
   }, [location.pathname]);
 
-  const isBare = BARE_ROUTES.some(r => location.pathname === r || location.pathname.startsWith(r + '/'));
+  const isBare = location.pathname === '/' || BARE_ROUTES.some(r => location.pathname === r || location.pathname.startsWith(r + '/'));
 
   return (
     <div className="flex flex-col min-h-screen bg-pw-black">

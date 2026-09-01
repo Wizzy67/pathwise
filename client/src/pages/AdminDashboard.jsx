@@ -31,77 +31,77 @@ const AdminDashboard = () => {
   }, [addNotification]);
 
   return (
-    <div className="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8 space-y-8">
+    <div className="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8 space-y-8" style={{ fontFamily: 'var(--font-body, "Open Sans")' }}>
       
       <div className="flex items-center gap-4">
-        <div className="w-14 h-14 rounded-2xl bg-pw-azure/10 flex items-center justify-center border border-pw-azure/30">
-          <ShieldCheck className="w-8 h-8 text-pw-azure" />
+        <div className="w-14 h-14 rounded-2xl bg-[var(--lavender)] flex items-center justify-center border border-[var(--border)]">
+          <ShieldCheck className="w-8 h-8 text-[var(--azure)]" />
         </div>
         <div>
-          <h1 className="text-3xl font-bold text-pw-white">Admin Dashboard</h1>
-          <p className="text-pw-gray">Welcome, {user?.username}. System status and analytics.</p>
+          <h1 className="text-3xl font-bold text-[var(--ink)]" style={{ fontFamily: 'var(--font-heading, "Nunito")' }}>Admin Dashboard</h1>
+          <p className="text-[var(--graphite)]">Welcome, {user?.username}. System status and analytics.</p>
         </div>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div className="bg-pw-surface border border-pw-white/10 rounded-2xl p-6 flex flex-col">
+        <div className="bg-[var(--surface)] border border-[var(--border)] rounded-2xl p-6 flex flex-col shadow-sm">
           <div className="flex justify-between items-start mb-4">
-            <h3 className="text-pw-gray font-medium">Total Students</h3>
-            <Users className="w-5 h-5 text-pw-azure" />
+            <h3 className="text-[var(--graphite)] font-medium">Total Students</h3>
+            <Users className="w-5 h-5 text-[var(--azure)]" />
           </div>
-          <p className="text-3xl font-bold text-pw-white">{loading ? '-' : stats.users}</p>
+          <p className="text-3xl font-bold text-[var(--ink)]">{loading ? '-' : stats.users}</p>
         </div>
         
-        <div className="bg-pw-surface border border-pw-white/10 rounded-2xl p-6 flex flex-col">
+        <div className="bg-[var(--surface)] border border-[var(--border)] rounded-2xl p-6 flex flex-col shadow-sm">
           <div className="flex justify-between items-start mb-4">
-            <h3 className="text-pw-gray font-medium">Career Profiles</h3>
-            <BookOpen className="w-5 h-5 text-pw-blue" />
+            <h3 className="text-[var(--graphite)] font-medium">Career Profiles</h3>
+            <BookOpen className="w-5 h-5 text-[var(--blue)]" />
           </div>
-          <p className="text-3xl font-bold text-pw-white">{loading ? '-' : stats.careers}</p>
+          <p className="text-3xl font-bold text-[var(--ink)]">{loading ? '-' : stats.careers}</p>
         </div>
 
-        <div className="bg-pw-surface border border-pw-white/10 rounded-2xl p-6 flex flex-col">
+        <div className="bg-[var(--surface)] border border-[var(--border)] rounded-2xl p-6 flex flex-col shadow-sm">
           <div className="flex justify-between items-start mb-4">
-            <h3 className="text-pw-gray font-medium">Course Data</h3>
-            <Database className="w-5 h-5 text-pw-azure" />
+            <h3 className="text-[var(--graphite)] font-medium">Course Data</h3>
+            <Database className="w-5 h-5 text-[var(--azure)]" />
           </div>
-          <p className="text-3xl font-bold text-pw-white">{loading ? '-' : stats.courses}</p>
+          <p className="text-3xl font-bold text-[var(--ink)]">{loading ? '-' : stats.courses}</p>
         </div>
 
-        <div className="bg-pw-surface border border-pw-white/10 rounded-2xl p-6 flex flex-col">
+        <div className="bg-[var(--surface)] border border-[var(--border)] rounded-2xl p-6 flex flex-col shadow-sm">
           <div className="flex justify-between items-start mb-4">
-            <h3 className="text-pw-gray font-medium">Questions</h3>
-            <Settings className="w-5 h-5 text-pw-blue" />
+            <h3 className="text-[var(--graphite)] font-medium">Questions</h3>
+            <Settings className="w-5 h-5 text-[var(--blue)]" />
           </div>
-          <p className="text-3xl font-bold text-pw-white">{loading ? '-' : stats.questions}</p>
+          <p className="text-3xl font-bold text-[var(--ink)]">{loading ? '-' : stats.questions}</p>
         </div>
       </div>
 
-      <div className="bg-pw-surface border border-pw-white/10 rounded-3xl overflow-hidden">
-        <div className="p-6 border-b border-pw-white/5 flex flex-col sm:flex-row justify-between sm:items-center gap-4">
-          <h2 className="text-xl font-bold text-pw-white">Recent Students</h2>
+      <div className="bg-[var(--surface)] border border-[var(--border)] rounded-3xl overflow-hidden shadow-sm">
+        <div className="p-6 border-b border-[var(--border)] flex flex-col sm:flex-row justify-between sm:items-center gap-4">
+          <h2 className="text-xl font-bold text-[var(--ink)]" style={{ fontFamily: 'var(--font-heading, "Nunito")' }}>Recent Students</h2>
           <div className="relative">
-            <input type="text" placeholder="Search students..." className="bg-pw-black border border-pw-white/10 text-pw-white text-sm rounded-xl pl-10 p-2.5 focus:ring-2 focus:ring-pw-blue focus:border-transparent w-full sm:w-64" />
-            <Search className="w-4 h-4 text-pw-gray absolute left-3 top-3" />
+            <input type="text" placeholder="Search students..." className="bg-[var(--fog)] border border-[var(--border)] text-[var(--ink)] text-sm rounded-xl pl-10 p-2.5 focus:ring-2 focus:ring-[var(--blue)] focus:border-transparent w-full sm:w-64" />
+            <Search className="w-4 h-4 text-[var(--graphite)] absolute left-3 top-3" />
           </div>
         </div>
         
         <div className="overflow-x-auto">
-          <table className="w-full text-sm text-left text-pw-gray">
-            <thead className="text-xs uppercase bg-pw-black border-b border-pw-white/5">
+          <table className="w-full text-sm text-left text-[var(--graphite)]">
+            <thead className="text-xs uppercase bg-[var(--mist)] border-b border-[var(--border)]">
               <tr>
-                <th className="px-6 py-4 font-medium text-pw-white">Name</th>
-                <th className="px-6 py-4 font-medium text-pw-white">Matric No</th>
-                <th className="px-6 py-4 font-medium text-pw-white">Department</th>
-                <th className="px-6 py-4 font-medium text-pw-white">Level</th>
-                <th className="px-6 py-4 font-medium text-pw-white">Joined</th>
+                <th className="px-6 py-4 font-medium text-[var(--ink)]">Name</th>
+                <th className="px-6 py-4 font-medium text-[var(--ink)]">Matric No</th>
+                <th className="px-6 py-4 font-medium text-[var(--ink)]">Department</th>
+                <th className="px-6 py-4 font-medium text-[var(--ink)]">Level</th>
+                <th className="px-6 py-4 font-medium text-[var(--ink)]">Joined</th>
               </tr>
             </thead>
             <tbody>
               {loading ? (
                 <tr>
                   <td colSpan="5" className="px-6 py-8 text-center">
-                    <Loader2 className="w-6 h-6 animate-spin text-pw-azure mx-auto" />
+                    <Loader2 className="w-6 h-6 animate-spin text-[var(--azure)] mx-auto" />
                   </td>
                 </tr>
               ) : users.length === 0 ? (
@@ -110,8 +110,8 @@ const AdminDashboard = () => {
                 </tr>
               ) : (
                 users.map(u => (
-                  <tr key={u.id} className="bg-pw-surface border-b border-pw-white/5 hover:bg-pw-black transition-colors">
-                    <td className="px-6 py-4 font-medium text-pw-white">{u.fullName}</td>
+                  <tr key={u.id} className="bg-[var(--surface)] border-b border-[var(--border)] hover:bg-[var(--mist)] transition-colors">
+                    <td className="px-6 py-4 font-medium text-[var(--ink)]">{u.fullName}</td>
                     <td className="px-6 py-4">{u.matricNo}</td>
                     <td className="px-6 py-4">{u.department}</td>
                     <td className="px-6 py-4">{u.level}</td>

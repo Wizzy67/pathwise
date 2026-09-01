@@ -1,93 +1,30 @@
-import { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { motion, useInView } from 'framer-motion';
-import {
-  Brain, BookOpen, MessageSquare, BarChart2,
-  ArrowRight, ChevronDown, GraduationCap, Briefcase, RefreshCw, Compass,
-  Zap, Shield, Target, GitCompare, Check
-} from 'lucide-react';
+import { motion } from 'framer-motion';
+import { Brain, BookOpen, Target, Sparkles, LogIn } from 'lucide-react';
+import PathWiseLogo from '../components/PathWiseLogo';
 
-/* ─── Typewriter hook ─── */
-function useTypewriter(words) {
-  const elRef = useRef(null);
-  useEffect(() => {
-    let wIdx = 0, cIdx = 0, deleting = false, timerId;
-    const el = elRef.current;
-    if (!el) return;
-    const tick = () => {
-      const word = words[wIdx];
-      // Show cursor by default during changes
-      el.classList.add('typewriter-active');
-
-      if (!deleting) {
-        el.textContent = word.slice(0, ++cIdx);
-        if (cIdx === word.length) { 
-          deleting = true; 
-          // Hide cursor when done typing (during static pause)
-          el.classList.remove('typewriter-active');
-          timerId = setTimeout(tick, 2200); 
-          return; 
-        }
-      } else {
-        el.textContent = word.slice(0, --cIdx);
-        if (cIdx === 0) { deleting = false; wIdx = (wIdx + 1) % words.length; }
-      }
-      timerId = setTimeout(tick, deleting ? 60 : 90);
-    };
-    timerId = setTimeout(tick, 1200);
-    return () => clearTimeout(timerId);
-  }, []);
-  return elRef;
-}
-
-/* ─── Scroll reveal wrapper ─── */
-function Reveal({ children, delay = 0, direction = 'up' }) {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: '-80px' });
-  const variants = {
-    hidden: {
-      opacity: 0,
-      y: direction === 'up' ? 30 : direction === 'down' ? -30 : 0,
-      x: direction === 'left' ? -30 : direction === 'right' ? 30 : 0,
-    },
-    visible: { opacity: 1, y: 0, x: 0 },
-  };
-  return (
-    <motion.div
-      ref={ref}
-      variants={variants}
-      initial="hidden"
-      animate={inView ? 'visible' : 'hidden'}
-      transition={{ duration: 0.6, delay, ease: 'easeOut' }}
-    >
-      {children}
-    </motion.div>
-  );
-}
-
-/* ─── Floating particles ─── */
-function Particles() {
-  const colors = ['#0056FF', '#2277FF', '#0056FF', '#2277FF'];
-  const particles = Array.from({ length: 28 }, (_, i) => ({
+/* ─── Falling Glass Embers ─── */
+function Embers() {
+  const embers = Array.from({ length: 35 }, (_, i) => ({
     id: i,
-    size: Math.random() * 5 + 2,
+    size: Math.random() * 4 + 2,
     left: Math.random() * 100,
-    duration: Math.random() * 18 + 10,
-    delay: Math.random() * -20,
-    color: colors[Math.floor(Math.random() * colors.length)],
+    duration: Math.random() * 8 + 6,
+    delay: Math.random() * -15,
+    drift: Math.random() * 40 - 20,
   }));
   return (
-    <div className="particles" aria-hidden="true">
-      {particles.map(p => (
+    <div className="embers-container" aria-hidden="true">
+      {embers.map(e => (
         <div
-          key={p.id}
-          className="particle"
+          key={e.id}
+          className="ember"
           style={{
-            width: p.size, height: p.size,
-            left: `${p.left}%`,
-            animationDuration: `${p.duration}s`,
-            animationDelay: `${p.delay}s`,
-            background: p.color,
+            width: e.size, height: e.size,
+            left: `${e.left}%`,
+            animationDuration: `${e.duration}s`,
+            animationDelay: `${e.delay}s`,
+            '--drift': `${e.drift}px`
           }}
         />
       ))}
@@ -95,372 +32,395 @@ function Particles() {
   );
 }
 
-/* ─── Stat card ─── */
-function Stat({ num, label }) {
-  return (
-    <div className="text-center">
-      <div className="font-outfit text-3xl md:text-4xl font-black bg-gradient-to-r from-pw-blue to-pw-azure bg-clip-text text-transparent">
-        {num}
-      </div>
-      <div className="text-pw-gray text-sm mt-1">{label}</div>
-    </div>
-  );
-}
-
-/* ─── Feature card ─── */
-function FeatureCard({ icon: Icon, iconBg, iconGlow, title, desc, delay }) {
-  // Generate smart watermark abbreviation
-  let watermark = '';
-  if (title.includes('Matching')) watermark = 'AI';
-  else if (title.includes('Roadmap')) watermark = 'CR';
-  else if (title.includes('Advisor')) watermark = 'AA';
-  else if (title.includes('Analyzer')) watermark = 'SA';
-
-  return (
-    <Reveal delay={delay} direction="up">
-      <div className="relative bg-gradient-to-b from-white/[0.04] to-transparent border border-white/[0.06] rounded-3xl p-8 text-left transition-all duration-300 hover:-translate-y-1.5 hover:border-pw-blue/30 hover:bg-pw-blue/[0.02] hover:shadow-[0_15px_40px_rgba(0,86,255,0.065)] flex flex-col h-full group overflow-hidden">
-        
-        {/* Glow bar at top hover */}
-        <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-pw-blue to-pw-azure opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-
-        {/* Icon & Category Header Watermark */}
-        <div className="flex justify-between items-start mb-6">
-          <div 
-            className="w-12 h-12 rounded-2xl flex items-center justify-center transition-all duration-300 group-hover:scale-105 shrink-0"
-            style={{ background: iconBg, boxShadow: `0 0 20px ${iconGlow}22` }}
-          >
-            <Icon className="w-5 h-5" style={{ color: iconGlow }} />
-          </div>
-          <span className="text-4xl font-extrabold text-white/[0.03] select-none font-outfit transition-colors duration-300 group-hover:text-pw-blue/10">
-            {watermark}
-          </span>
-        </div>
-
-        <h3 className="font-outfit font-extrabold text-pw-white text-lg mb-3 tracking-tight">{title}</h3>
-        <p className="text-pw-gray text-sm leading-relaxed">{desc}</p>
-      </div>
-    </Reveal>
-  );
-}
-
-/* ─── Audience card ─── */
-function AudienceCard({ icon: Icon, title, desc, bullets = [], delay }) {
-  // Generate first letters for watermarking
-  const splitTitle = title.split(' ');
-  const watermark = (splitTitle[0]?.[0] || '') + (splitTitle[1]?.[0] || '');
-
-  return (
-    <Reveal delay={delay} direction="up">
-      <div className="relative bg-gradient-to-b from-white/[0.04] to-transparent border border-white/[0.06] rounded-3xl p-8 text-left transition-all duration-300 hover:-translate-y-2 hover:border-pw-blue/30 hover:bg-pw-blue/[0.02] hover:shadow-[0_15px_40px_rgba(0,86,255,0.065)] flex flex-col h-full group overflow-hidden">
-        
-        {/* Glow bar at top hover */}
-        <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-pw-blue to-pw-azure opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-
-        {/* Icon & Category Header Watermark */}
-        <div className="flex justify-between items-start mb-6">
-          <div className="w-12 h-12 rounded-2xl bg-pw-blue/10 flex items-center justify-center text-pw-blue transition-all duration-300 group-hover:bg-pw-blue group-hover:text-white group-hover:scale-105 shrink-0">
-            {Icon && <Icon className="w-5 h-5" />}
-          </div>
-          <span className="text-4xl font-extrabold text-white/[0.03] select-none font-outfit transition-colors duration-300 group-hover:text-pw-blue/10">
-            {watermark}
-          </span>
-        </div>
-
-        <h3 className="font-outfit font-extrabold text-pw-white text-xl mb-3 tracking-tight">{title}</h3>
-        <p className="text-pw-gray text-sm leading-relaxed mb-6 flex-grow">{desc}</p>
-        
-        {/* Bullet benefits */}
-        <div className="space-y-3 pt-5 border-t border-white/5">
-          {bullets.map((bullet, idx) => (
-            <div key={idx} className="flex items-start gap-3 text-xs text-pw-gray font-semibold">
-              <div className="w-4 h-4 rounded-full bg-pw-blue/10 flex items-center justify-center shrink-0 mt-0.5">
-                <Check className="w-2.5 h-2.5 text-pw-blue" />
-              </div>
-              <span className="leading-snug">{bullet}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-    </Reveal>
-  );
-}
-
-/* ─── How it works step ─── */
-function HowStep({ number, icon: Icon, title, desc, delay }) {
-  return (
-    <Reveal delay={delay} direction="up">
-      <div className="relative flex flex-col items-center text-center">
-        <div className="relative mb-5">
-          <div className="w-16 h-16 rounded-full bg-pw-blue/10 border-2 border-pw-blue/40 flex items-center justify-center">
-            <Icon className="w-7 h-7 text-pw-blue" />
-          </div>
-          <span className="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-pw-blue text-white text-xs font-black flex items-center justify-center">
-            {number}
-          </span>
-        </div>
-        <h3 className="font-outfit font-bold text-pw-white text-lg mb-2">{title}</h3>
-        <p className="text-pw-gray text-sm leading-relaxed max-w-xs">{desc}</p>
-      </div>
-    </Reveal>
-  );
-}
-
-/* ═══════════════════════════════════════════════
-   MAIN PAGE
-   ═══════════════════════════════════════════════ */
 const LandingPage = () => {
-  const typeRef = useTypewriter(['Perfect Career Path', 'Ideal Future', 'Dream Career', 'Right Direction']);
-
-  const features = [
-    {
-      icon: Brain, iconBg: 'rgba(0,86,255,0.15)', iconGlow: '#0056FF',
-      title: 'AI-Powered Career Matching',
-      desc: 'Our weighted scoring algorithm analyzes your academic strengths, interests, skills, and personality across 4 dimensions to calculate your best-fit career match with precision.',
-    },
-    {
-      icon: BookOpen, iconBg: 'rgba(34,119,255,0.15)', iconGlow: '#2277FF',
-      title: 'DELSU Course Roadmap',
-      desc: 'Get a semester-by-semester course plan aligned with the Delta State University curriculum — from Year 1 all the way to graduation — tailored to your chosen career.',
-    },
-    {
-      icon: MessageSquare, iconBg: 'rgba(0,86,255,0.15)', iconGlow: '#0056FF',
-      title: 'AI Career Advisor',
-      desc: 'Ask anything, anytime. Our intelligent AI advisor answers your career questions, compares paths, and generates personalized study plans — instantly.',
-    },
-    {
-      icon: BarChart2, iconBg: 'rgba(34,119,255,0.15)', iconGlow: '#2277FF',
-      title: 'Skill Gap Analyzer',
-      desc: 'See exactly which skills you need to develop for your target career, with a visual gap analysis and actionable steps to close the gap faster.',
-    },
-  ];
-
-  const howSteps = [
-    { number: 1, icon: Target, title: 'Take the Assessment', desc: 'Answer 20 thoughtful questions about your strengths, interests, and goals. Takes under 5 minutes.' },
-    { number: 2, icon: Brain, title: 'Get Your Match', desc: 'Our AI engine scores you across 30+ career paths and surfaces your top fits with confidence scores.' },
-    { number: 3, icon: BookOpen, title: 'Follow Your Roadmap', desc: 'Get a personalized semester-by-semester DELSU course plan built around your matched career.' },
-    { number: 4, icon: MessageSquare, title: 'Chat with AI Advisor', desc: 'Ask follow-up questions, compare career options, and get personalized advice from our AI.' },
-  ];
-
-  const audiences = [
-    { 
-      icon: GraduationCap, 
-      title: 'Current Students', 
-      desc: 'Get matched to your best career path and follow a DELSU-aligned course roadmap from your very first year to stay on track.',
-      bullets: [
-        'Semester-by-semester course plans',
-        'Academic pre-requisite warnings',
-        'Direct alignment with DELSU syllabus'
-      ]
-    },
-    { 
-      icon: Briefcase, 
-      title: 'Fresh Graduates', 
-      desc: 'Translate your academic qualifications into targeted career options and start navigating local industries with confidence.',
-      bullets: [
-        'Local Nigerian industry mapping',
-        'Personalized skill gap analyzers',
-        'CV compatibility matching guidelines'
-      ]
-    },
-    { 
-      icon: GitCompare, 
-      title: 'Career Switchers', 
-      desc: 'Identify transferable skill adjacencies and map out transitional milestones to pivot fields without starting from scratch.',
-      bullets: [
-        'Transferable skill adjacency reports',
-        'Fast-track certification matching',
-        'Targeted skill building guidelines'
-      ]
-    },
-  ];
-
   return (
     <>
-      {/* Background layers */}
-      <div className="mesh-bg" aria-hidden="true" />
-      <Particles />
+      <style>{`
+        /* ─── FULL-PAGE BACKGROUND + GLASS PANEL ─────────── */
+        .land-wrapper {
+          position: relative;
+          min-height: 100vh;
+          width: 100%;
+          overflow: hidden;
+          font-family: 'Inter', 'Open Sans', sans-serif;
+          color: #ffffff;
+        }
 
-      {/* ── HERO ──────────────────────────────────── */}
-      <section className="relative z-10 min-h-screen flex flex-col items-center justify-center text-center px-4 pt-32 pb-16">
+        /* Background image layer */
+        .land-bg {
+          position: absolute;
+          inset: -10%; /* Oversize it slightly to allow panning */
+          background:
+            url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=1920&q=80')
+            center / cover no-repeat;
+          z-index: 0;
+          animation: kenBurns 20s ease-in-out infinite alternate;
+        }
+        
+        @keyframes kenBurns {
+          0% { transform: scale(1) translate(0, 0); }
+          100% { transform: scale(1.08) translate(-1%, -1%); }
+        }
+        
+        /* Smooth overlay gradient */
+        .land-bg::after {
+          content: '';
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(
+            to right,
+            rgba(10, 12, 22, 0.05) 0%,
+            rgba(10, 12, 22, 0.3) 30%,
+            rgba(10, 12, 22, 0.85) 65%,
+            rgba(10, 12, 22, 0.98) 100%
+          );
+        }
 
-        {/* Badge */}
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7 }}
-          className="inline-flex items-center gap-2 bg-pw-blue/10 border border-pw-blue/30 text-pw-blue rounded-full px-5 py-2 text-sm font-semibold mb-8"
-        >
-          <GraduationCap className="w-4 h-4" />
-          Built for Delta State University Students
-        </motion.div>
+        /* ── Falling Fire CSS ── */
+        .embers-container {
+          position: absolute;
+          inset: 0;
+          overflow: hidden;
+          z-index: 1; /* Above background, behind glass panel */
+          pointer-events: none;
+        }
+        .ember {
+          position: absolute;
+          top: -10px;
+          background: rgba(255, 255, 255, 0.9); /* Glassy white core */
+          border-radius: 50%;
+          box-shadow: 0 0 10px rgba(67, 97, 238, 0.8), 0 0 20px rgba(67, 97, 238, 0.4), inset 0 0 4px #ffffff;
+          opacity: 0;
+          animation: fall linear infinite;
+        }
+        @keyframes fall {
+          0% { 
+            transform: translateY(0) translateX(0) scale(1); 
+            opacity: 0; 
+          }
+          10% { opacity: 0.8; }
+          50% { 
+            transform: translateY(50vh) translateX(var(--drift)) scale(0.8); 
+            opacity: 1; 
+          }
+          90% { opacity: 0.6; }
+          100% { 
+            transform: translateY(105vh) translateX(calc(var(--drift) * 1.5)) scale(0.3); 
+            opacity: 0; 
+          }
+        }
 
-        {/* Headline */}
-        <motion.h1
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          className="font-outfit font-black text-[clamp(2.8rem,6vw,5rem)] leading-[1.05] max-w-4xl text-pw-white"
-        >
-          Discover Your<br />
-          <span className="bg-gradient-to-r from-pw-blue via-pw-azure to-pw-lavender bg-clip-text text-transparent typewriter-text" ref={typeRef} />
-        </motion.h1>
+        /* ── Right Container ── */
+        .land-glass {
+          position: relative;
+          z-index: 1;
+          min-height: 100vh;
+          width: 55%;
+          max-width: 650px;
+          margin-left: auto;
+          display: flex;
+          flex-direction: column;
+          overflow-y: auto;
+        }
 
-        {/* Sub */}
-        <motion.p
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.4 }}
-          className="text-pw-gray text-lg max-w-xl leading-relaxed mt-6"
-        >
-          PathWise is an AI-powered career advisory platform that analyzes your skills, personality,
-          and academic strengths to connect you with the career you were born for — and the courses to get you there.
-        </motion.p>
+        /* ── Header ── */
+        .land-header {
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          padding: 2.5rem 4rem;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          z-index: 10;
+        }
+        
+        .land-header-right a {
+          color: rgba(255,255,255,0.7);
+          text-decoration: none;
+          font-weight: 600;
+          font-size: 0.9rem;
+          transition: color 0.2s;
+        }
+        .land-header-right a:hover {
+          color: #fff;
+        }
 
-        {/* CTA Buttons */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.6 }}
-          className="flex flex-wrap items-center justify-center gap-4 mt-10"
-        >
-          <Link
-            to="/choice"
-            className="group inline-flex items-center gap-2 text-white font-bold rounded-full px-8 py-4 text-base hover:-translate-y-1 transition-all duration-300"
-            style={{ background: 'linear-gradient(135deg, #0056FF, #2277FF)', boxShadow: '0 0 30px rgba(0,86,255,0.4)' }}
-            onMouseEnter={e => e.currentTarget.style.boxShadow = '0 0 50px rgba(0,86,255,0.6)'}
-            onMouseLeave={e => e.currentTarget.style.boxShadow = '0 0 30px rgba(0,86,255,0.4)'}
-          >
-            Start Your Assessment <ArrowRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" />
-          </Link>
-          <a
-            href="#what-is"
-            className="inline-flex items-center gap-2 bg-transparent text-pw-blue border-2 border-pw-lavender/60 font-semibold rounded-full px-8 py-4 text-base hover:bg-pw-lavender/10 hover:border-pw-lavender hover:-translate-y-1 transition-all duration-300"
-          >
-            Learn More <ChevronDown className="w-4 h-4" />
-          </a>
-        </motion.div>
+        /* ── Content area ── */
+        .land-content {
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          padding: 6rem 4rem 4rem 2rem;
+          max-width: 500px;
+          margin: 0 auto;
+          width: 100%;
+          box-sizing: border-box;
+        }
 
-        {/* Scroll hint */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 1.2 }}
-          className="mt-16 flex flex-col items-center gap-2 text-pw-gray text-xs"
-        >
-          <span>Scroll to explore</span>
-          <span className="animate-bounce text-lg">↓</span>
-        </motion.div>
-      </section>
+        .land-badge {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.4rem;
+          background: rgba(67, 97, 238, 0.1);
+          border: 1px solid rgba(67, 97, 238, 0.25);
+          color: #4361EE;
+          padding: 0.4rem 1rem;
+          border-radius: 100px;
+          font-size: 0.72rem;
+          font-weight: 700;
+          letter-spacing: 0.1em;
+          text-transform: uppercase;
+          margin-bottom: 1.5rem;
+          width: fit-content;
+        }
 
-      {/* ── STATS STRIP ──────────────────────────── */}
-      <div className="relative z-10 border-y border-white/[0.06]">
-        <div className="max-w-5xl mx-auto px-4 py-10 flex flex-wrap items-center justify-center gap-12">
-          {[
-            { num: '30+', label: 'Career Paths Covered' },
-            { num: '6',   label: 'Major Fields' },
-            { num: 'AI',  label: 'AI-Powered Advisor' },
-            { num: 'DELSU', label: 'Curriculum Aligned' },
-          ].map(s => <Stat key={s.label} {...s} />)}
-        </div>
-      </div>
+        .land-heading {
+          font-family: 'Nunito', 'Outfit', sans-serif;
+          font-size: 3rem;
+          font-weight: 900;
+          color: #ffffff;
+          line-height: 1.1;
+          margin-bottom: 1rem;
+        }
+        .land-heading span {
+          color: #4361EE;
+        }
 
-      {/* ── WHAT IS PATHWISE ─────────────────────── */}
-      <section className="relative z-10 max-w-5xl mx-auto px-4 py-24" id="what-is">
-        <div className="text-center mb-16">
-          <Reveal>
-            <p className="text-pw-blue text-xs font-bold tracking-widest uppercase mb-3">What is PathWise?</p>
-            <div className="w-14 h-1 rounded-full mb-6 mx-auto" style={{ background: 'linear-gradient(90deg, #0056FF, #2277FF)' }} />
-            <h2 className="font-outfit font-extrabold text-[clamp(1.8rem,4vw,2.8rem)] text-pw-white mb-4">
-              Your Intelligent Career Guide,<br />Built for Nigerian Students
-            </h2>
-            <p className="text-pw-gray text-base leading-relaxed max-w-2xl mx-auto">
-              PathWise isn't just another career assessment. It's a full intelligent advisory system that understands you — and maps your future.
-            </p>
-          </Reveal>
-        </div>
+        .land-sub {
+          font-size: 0.95rem;
+          color: rgba(255, 255, 255, 0.55);
+          line-height: 1.6;
+          margin-bottom: 2.5rem;
+        }
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-          {features.map((f, i) => <FeatureCard key={f.title} {...f} delay={i * 0.1} />)}
-        </div>
-      </section>
+        /* Features List */
+        .land-features {
+          display: flex;
+          flex-direction: column;
+          gap: 1.5rem;
+          margin-bottom: 3rem;
+        }
+        
+        .land-feature {
+          display: flex;
+          align-items: flex-start;
+          gap: 1.2rem;
+        }
+        .land-feature-icon {
+          width: 42px;
+          height: 42px;
+          border-radius: 12px;
+          background: rgba(255, 255, 255, 0.03);
+          border: 1px solid rgba(255, 255, 255, 0.08);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: #4361EE;
+          flex-shrink: 0;
+        }
+        .land-feature-text h4 {
+          font-size: 0.95rem;
+          font-weight: 700;
+          margin: 0 0 0.2rem 0;
+          color: #fff;
+        }
+        .land-feature-text p {
+          font-size: 0.8rem;
+          color: rgba(255,255,255,0.45);
+          margin: 0;
+          line-height: 1.5;
+        }
 
-      {/* ── HOW IT WORKS ─────────────────────────── */}
-      <section className="relative z-10 border-t border-white/[0.06] py-24">
-        <div className="max-w-5xl mx-auto px-4">
-          <Reveal>
-            <p className="text-pw-blue text-xs font-bold tracking-widest uppercase mb-3">How it works</p>
-            <div className="w-14 h-1 rounded-full mb-6" style={{ background: 'linear-gradient(90deg, #0056FF, #2277FF)' }} />
-            <h2 className="font-outfit font-extrabold text-[clamp(1.8rem,4vw,2.8rem)] text-pw-white mb-14">
-              From Zero to Career Clarity<br />in 4 Simple Steps
-            </h2>
-          </Reveal>
+        /* ── Buttons ── */
+        .land-actions {
+          display: flex;
+          flex-direction: column;
+          gap: 1rem;
+        }
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
-            {howSteps.map((s, i) => <HowStep key={s.title} {...s} delay={i * 0.12} />)}
+        .land-btn-fill {
+          width: 100%;
+          padding: 1rem;
+          background: #4361EE;
+          border: none;
+          border-radius: 100px;
+          color: #ffffff;
+          font-size: 0.95rem;
+          font-weight: 700;
+          text-align: center;
+          text-decoration: none;
+          display: block;
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          box-shadow: 0 4px 20px rgba(67,97,238,0.3);
+          position: relative;
+          overflow: hidden;
+        }
+        .land-btn-fill::before {
+          content: '';
+          position: absolute;
+          top: -50%; left: -50%;
+          width: 200%; height: 200%;
+          background: linear-gradient(45deg, transparent 40%, rgba(255,255,255,0.15) 50%, transparent 60%);
+          transition: transform 0.6s;
+          transform: translateX(-100%);
+        }
+        .land-btn-fill:hover::before { transform: translateX(100%); }
+        .land-btn-fill:hover {
+          background: #3651D4;
+          box-shadow: 0 8px 35px rgba(67,97,238,0.5);
+          transform: translateY(-2px) scale(1.02);
+        }
+
+        .land-btn-ghost {
+          width: 100%;
+          padding: 1rem;
+          background: rgba(255, 255, 255, 0.04);
+          border: 1px solid rgba(255, 255, 255, 0.15);
+          border-radius: 100px;
+          color: rgba(255, 255, 255, 0.8);
+          font-size: 0.95rem;
+          font-weight: 700;
+          text-align: center;
+          text-decoration: none;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 0.5rem;
+          transition: all 0.2s ease;
+        }
+        .land-btn-ghost:hover {
+          background: rgba(255, 255, 255, 0.08);
+          color: #fff;
+          border-color: rgba(255,255,255,0.3);
+        }
+
+        /* ── MOBILE ── */
+        @media (max-width: 768px) {
+          .land-glass {
+            width: 100%;
+            max-width: 100%;
+            background: rgba(13, 15, 28, 0.75);
+          }
+          .land-header {
+            display: none;
+          }
+          .land-logo-text { display: none; }
+          
+          .land-content {
+            padding: 7rem 1.5rem 3rem;
+            max-width: 100%;
+          }
+          .land-heading {
+            font-size: 2.2rem;
+          }
+          
+          .land-bg::after {
+            background: linear-gradient(to bottom, rgba(10,12,22,0.1) 0%, rgba(10,12,22,0.85) 50%, rgba(10,12,22,0.98) 100%);
+          }
+        }
+      `}</style>
+
+      <div className="land-wrapper">
+        {/* Background */}
+        <div className="land-bg"></div>
+        <Embers />
+        
+        {/* Header */}
+        <header className="land-header">
+          <div className="land-logo">
+            <PathWiseLogo href="/" size={28} />
           </div>
-        </div>
-      </section>
+          <div className="land-header-right">
+            <Link to="/login">Sign In</Link>
+          </div>
+        </header>
 
-      {/* ── WHAT IS PATHWISE FOR? ─────────────────── */}
-      <section className="relative z-10 max-w-5xl mx-auto px-4 py-24">
-        <Reveal>
-          <p className="text-pw-blue text-xs font-bold tracking-widest uppercase mb-3">What is PathWise for?</p>
-          <div className="w-14 h-1 rounded-full mb-6" style={{ background: 'linear-gradient(90deg, #0056FF, #2277FF)' }} />
-          <h2 className="font-outfit font-extrabold text-[clamp(1.8rem,4vw,2.8rem)] text-pw-white mb-14">
-            Tailored Solutions for Every Stage
-          </h2>
-        </Reveal>
+        {/* Content Panel */}
+        <motion.div
+          className="land-glass"
+          initial={{ opacity: 0, x: 40 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+        >
+          <div className="land-content">
+            
+            <motion.div
+              className="land-badge"
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2, duration: 0.4 }}
+            >
+              <Sparkles size={12} /> Mobile-First Design
+            </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {audiences.map((a, i) => <AudienceCard key={a.title} {...a} delay={i * 0.12} />)}
-        </div>
-      </section>
+            <motion.h1
+              className="land-heading"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3, duration: 0.5 }}
+            >
+              Discover Your<br />
+              <span>Perfect Career</span>
+            </motion.h1>
 
-      {/* ── TRUST BADGES ─────────────────────────── */}
-      <section className="relative z-10 py-16 border-y border-pw-white/[0.05] bg-white/[0.02]">
-        <div className="max-w-4xl mx-auto px-4 flex flex-wrap items-center justify-center gap-10">
-          {[
-            { icon: Zap, label: 'AI-Powered Advisor' },
-            { icon: Shield, label: '100% Free for Students' },
-            { icon: GraduationCap, label: 'DELSU Curriculum Aligned' },
-            { icon: Compass, label: '30+ Career Paths' },
-          ].map(({ icon: Icon, label }) => (
-            <div key={label} className="flex items-center gap-3 text-pw-gray text-sm font-medium">
-              <div className="w-8 h-8 rounded-lg bg-pw-blue/10 border border-pw-blue/20 flex items-center justify-center">
-                <Icon className="w-4 h-4 text-pw-blue" />
+            <motion.p
+              className="land-sub"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4, duration: 0.5 }}
+            >
+              Take the scientifically-backed RIASEC assessment and get AI-powered career matches tailored perfectly to your DELSU profile.
+            </motion.p>
+
+            <motion.div
+              className="land-features"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5, duration: 0.5 }}
+            >
+              <div className="land-feature">
+                <div className="land-feature-icon"><Brain size={18} /></div>
+                <div className="land-feature-text">
+                  <h4>AI-Powered Matching</h4>
+                  <p>Our algorithm matches your strengths to over 30+ career paths.</p>
+                </div>
               </div>
-              {label}
-            </div>
-          ))}
-        </div>
-      </section>
+              <div className="land-feature">
+                <div className="land-feature-icon"><BookOpen size={18} /></div>
+                <div className="land-feature-text">
+                  <h4>DELSU Roadmap</h4>
+                  <p>Get a semester-by-semester course plan to keep you on track.</p>
+                </div>
+              </div>
+              <div className="land-feature">
+                <div className="land-feature-icon"><Target size={18} /></div>
+                <div className="land-feature-text">
+                  <h4>Skill Gap Analysis</h4>
+                  <p>See what skills you need to build to reach your dream job.</p>
+                </div>
+              </div>
+            </motion.div>
 
-      {/* ── CTA BOTTOM ───────────────────────────── */}
-      <section className="relative z-10 py-28 px-4 text-center overflow-hidden">
-        {/* Ambient glow behind CTA */}
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none" aria-hidden="true">
-          <div className="w-[600px] h-[600px] rounded-full blur-[120px]" style={{ background: 'rgba(0,86,255,0.08)' }} />
-        </div>
+            <motion.div
+              className="land-actions"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.6, duration: 0.5 }}
+            >
+              <Link to="/register" className="land-btn-fill">
+                Get Started for Free
+              </Link>
+              <Link to="/login" className="land-btn-ghost">
+                I already have an account
+              </Link>
+            </motion.div>
 
-        <Reveal>
-          <h2 className="font-outfit font-black text-[clamp(2rem,5vw,3.5rem)] text-pw-white mb-5">
-            Ready to Find Your Path?
-          </h2>
-          <p className="text-pw-gray text-lg max-w-md mx-auto leading-relaxed mb-10">
-            Take the 5-minute assessment and get your personalized career match, course roadmap, and AI-powered guidance — completely free.
-          </p>
-          <Link
-            to="/choice"
-            className="group inline-flex items-center gap-3 text-white font-black rounded-full px-10 py-5 text-lg hover:-translate-y-1 transition-all duration-300"
-            style={{ background: 'linear-gradient(135deg, #0056FF, #2277FF)', boxShadow: '0 0 40px rgba(0,86,255,0.45)' }}
-            onMouseEnter={e => e.currentTarget.style.boxShadow = '0 0 60px rgba(0,86,255,0.65)'}
-            onMouseLeave={e => e.currentTarget.style.boxShadow = '0 0 40px rgba(0,86,255,0.45)'}
-          >
-            Get Started — It's Free <ArrowRight className="w-5 h-5 transition-transform duration-200 group-hover:translate-x-1.5" />
-          </Link>
-          <p className="text-pw-muted text-xs mt-5">No credit card required · Takes under 5 minutes</p>
-        </Reveal>
-      </section>
+          </div>
+        </motion.div>
+      </div>
     </>
   );
 };

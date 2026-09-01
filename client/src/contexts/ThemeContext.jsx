@@ -1,25 +1,11 @@
-import { createContext, useContext, useState, useEffect } from 'react';
+import { createContext, useContext } from 'react';
 
 const ThemeContext = createContext();
 
 export const ThemeProvider = ({ children }) => {
-  const [isDarkMode, setIsDarkMode] = useState(() => {
-    const saved = localStorage.getItem('pathwise_dark_mode');
-    return saved ? JSON.parse(saved) : false;
-  });
-
-  useEffect(() => {
-    if (isDarkMode) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-    localStorage.setItem('pathwise_dark_mode', JSON.stringify(isDarkMode));
-  }, [isDarkMode]);
-
-  const toggleTheme = () => {
-    setIsDarkMode(prev => !prev);
-  };
+  // Light-only theme — no dark mode toggle needed
+  const isDarkMode = false;
+  const toggleTheme = () => {};
 
   return (
     <ThemeContext.Provider value={{ isDarkMode, toggleTheme }}>

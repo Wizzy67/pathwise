@@ -159,129 +159,126 @@ const WelcomePage = () => {
     <>
       <style>{`
         .welcome-page-container {
-          background: var(--black); color: var(--white); font-family: 'Inter', sans-serif;
+          background: var(--canvas); color: var(--ink); font-family: 'Open Sans', sans-serif;
           min-height: 100vh; display: flex;
         }
 
         /* ── SIDEBAR ── */
         .sidebar {
           width: 240px; min-height: 100vh; flex-shrink: 0;
-          background: var(--surface); border-right: 1px solid var(--border-subtle);
+          background: var(--surface); border-right: 1px solid var(--border);
           display: flex; flex-direction: column; padding: 1.5rem 0;
           position: relative; z-index: 5; backdrop-filter: blur(20px);
         }
-        .sidebar-logo { display: flex; align-items: center; gap: 0.7rem; padding: 0 1.4rem 1.5rem; border-bottom: 1px solid var(--border-subtle); margin-bottom: 1rem; }
-        .sidebar-logo-icon { width: 34px; height: 34px; border-radius: 9px; background: linear-gradient(135deg,var(--blue),var(--azure)); display: flex; align-items: center; justify-content: center; font-size: 1rem; box-shadow: 0 0 16px rgba(0,86,255,0.4); }
-        .sidebar-logo-text { font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 1.15rem; background: linear-gradient(135deg,var(--blue),var(--azure)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .sidebar-logo { display: flex; align-items: center; gap: 0.7rem; padding: 0 1.4rem 1.5rem; border-bottom: 1px solid var(--border); margin-bottom: 1rem; }
+        .sidebar-logo-icon { width: 34px; height: 34px; border-radius: 9px; background: var(--blue); display: flex; align-items: center; justify-content: center; font-size: 1rem; }
+        .sidebar-logo-text { font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 1.15rem; color: var(--blue); }
 
         .nav-section { padding: 0 0.8rem; margin-bottom: 0.5rem; }
-        .nav-label { font-size: 0.7rem; font-weight: 700; color: var(--gray); opacity: 0.7; letter-spacing: 0.1em; text-transform: uppercase; padding: 0 0.6rem; margin-bottom: 0.4rem; }
+        .nav-label { font-size: 0.7rem; font-weight: 700; color: var(--graphite); opacity: 0.7; letter-spacing: 0.1em; text-transform: uppercase; padding: 0 0.6rem; margin-bottom: 0.4rem; }
         .nav-item {
           display: flex; align-items: center; gap: 0.8rem;
           padding: 0.7rem 0.9rem; border-radius: 12px; cursor: pointer;
-          color: var(--gray); font-size: 0.88rem; font-weight: 500;
+          color: var(--graphite); font-size: 0.88rem; font-weight: 500;
           transition: all 0.2s; position: relative; text-decoration: none;
         }
-        .nav-item:hover { background: rgba(0,86,255,0.04); color: var(--white); }
-        .nav-item.active { background: rgba(0,86,255,0.08); color: var(--blue); }
+        .nav-item:hover { background: var(--fog); color: var(--ink); }
+        .nav-item.active { background: var(--lavender); color: var(--blue); }
         .nav-item.active::before { content: ''; position: absolute; left: 0; top: 20%; bottom: 20%; width: 3px; background: var(--blue); border-radius: 0 3px 3px 0; }
         .nav-icon { font-size: 1rem; width: 20px; text-align: center; }
         .nav-badge { margin-left: auto; background: var(--blue); color: #fff; font-size: 0.65rem; font-weight: 700; border-radius: 50px; padding: 0.15rem 0.5rem; }
 
-        .sidebar-bottom { margin-top: auto; padding: 1rem 0.8rem; border-top: 1px solid var(--border-subtle); }
+        .sidebar-bottom { margin-top: auto; padding: 1rem 0.8rem; border-top: 1px solid var(--border); }
         .user-chip { display: flex; align-items: center; gap: 0.8rem; padding: 0.7rem 0.9rem; border-radius: 12px; cursor: pointer; transition: all 0.2s; }
-        .user-chip:hover { background: rgba(0,86,255,0.04); }
-        .user-avatar { width: 34px; height: 34px; border-radius: 50%; background: linear-gradient(135deg,var(--azure),var(--blue)); display: flex; align-items: center; justify-content: center; font-size: 0.9rem; font-weight: 700; color: #fff; }
-        .user-name { font-size: 0.85rem; font-weight: 600; }
+        .user-chip:hover { background: var(--fog); }
+        .user-avatar { width: 34px; height: 34px; border-radius: 50%; background: var(--blue); display: flex; align-items: center; justify-content: center; font-size: 0.9rem; font-weight: 700; color: #fff; }
+        .user-name { font-size: 0.85rem; font-weight: 600; color: var(--ink); }
         .user-level { font-size: 0.72rem; color: var(--blue); }
 
         /* ── MAIN ── */
         .dash-main { flex: 1; position: relative; z-index: 1; }
-        .topbar { position: sticky; top: 0; background: var(--surface); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border-subtle); padding: 1rem 2rem; display: flex; align-items: center; justify-content: space-between; z-index: 4; }
-        .topbar-left h1 { font-family: 'Outfit', sans-serif; font-size: 1.3rem; font-weight: 800; }
-        .topbar-left p { color: var(--gray); font-size: 0.82rem; margin-top: 0.1rem; }
+        .topbar { position: sticky; top: 0; background: var(--surface); border-bottom: 1px solid var(--border); padding: 1rem 2rem; display: flex; align-items: center; justify-content: space-between; z-index: 4; }
+        .topbar-left h1 { font-family: 'Nunito', sans-serif; font-size: 1.3rem; font-weight: 800; color: var(--ink); }
+        .topbar-left p { color: var(--graphite); font-size: 0.82rem; margin-top: 0.1rem; }
         .topbar-right { display: flex; align-items: center; gap: 1rem; }
-        .notif-btn { width: 38px; height: 38px; border-radius: 10px; background: #FFFFFF; border: 1px solid rgba(0,86,255,0.12); display: flex; align-items: center; justify-content: center; cursor: pointer; position: relative; transition: all 0.2s; color: var(--white); }
-        .notif-btn:hover { background: rgba(0,86,255,0.03); }
-        .notif-dot { position: absolute; top: 6px; right: 6px; width: 8px; height: 8px; border-radius: 50%; background: var(--blue); border: 2px solid var(--black); }
+        .notif-btn { width: 38px; height: 38px; border-radius: 10px; background: var(--fog); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; cursor: pointer; position: relative; transition: all 0.2s; color: var(--graphite); }
+        .notif-btn:hover { background: var(--mist); }
+        .notif-dot { position: absolute; top: 6px; right: 6px; width: 8px; height: 8px; border-radius: 50%; background: var(--blue); border: 2px solid var(--surface); }
 
         /* ── DASHBOARD CONTENT ── */
         .dash-content { padding: 2rem; }
-        .welcome-banner { background: linear-gradient(135deg, rgba(0,86,255,0.12), rgba(34,119,255,0.06), rgba(227,231,252,0.08)); border: 1px solid rgba(0,86,255,0.2); border-radius: 20px; padding: 2rem; display: flex; align-items: center; justify-content: space-between; margin-bottom: 2rem; gap: 1rem; position: relative; overflow: hidden; }
-        .welcome-banner::before { content: ''; position: absolute; right: -40px; top: -40px; width: 200px; height: 200px; border-radius: 50%; background: rgba(0,86,255,0.06); }
-        .wb-left h2 { font-family: 'Outfit', sans-serif; font-size: 1.5rem; font-weight: 900; margin-bottom: 0.4rem; }
-        .wb-left p { color: var(--gray); font-size: 0.88rem; line-height: 1.6; }
+        .welcome-banner { background: var(--lavender); border: 1px solid var(--border); border-radius: 20px; padding: 2rem; display: flex; align-items: center; justify-content: space-between; margin-bottom: 2rem; gap: 1rem; position: relative; overflow: hidden; }
+        .wb-left h2 { font-family: 'Nunito', sans-serif; font-size: 1.5rem; font-weight: 900; margin-bottom: 0.4rem; color: var(--ink); }
+        .wb-left p { color: var(--graphite); font-size: 0.88rem; line-height: 1.6; }
         .xp-bar-wrap { margin-top: 1rem; }
-        .xp-label { display: flex; justify-content: space-between; color: var(--gray); font-size: 0.75rem; margin-bottom: 0.4rem; }
-        .xp-track { background: rgba(15,23,42,0.08); border-radius: 50px; height: 8px; overflow: hidden; }
-        .xp-fill { height: 100%; border-radius: 50px; background: linear-gradient(90deg,var(--blue),var(--azure)); width: 75%; }
+        .xp-label { display: flex; justify-content: space-between; color: var(--graphite); font-size: 0.75rem; margin-bottom: 0.4rem; }
+        .xp-track { background: var(--mist); border-radius: 50px; height: 8px; overflow: hidden; }
+        .xp-fill { height: 100%; border-radius: 50px; background: var(--blue); width: 75%; }
         .wb-right { display: flex; flex-direction: column; align-items: center; gap: 0.5rem; flex-shrink: 0; }
-        .level-badge { background: rgba(0,86,255,0.15); border: 1px solid rgba(0,86,255,0.3); border-radius: 50px; padding: 0.3rem 1rem; color: var(--blue); font-size: 0.78rem; font-weight: 700; }
-        .wb-right .big-score { font-family: 'Outfit', sans-serif; font-size: 2.5rem; font-weight: 900; background: linear-gradient(135deg,var(--blue),var(--azure)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .wb-right span { color: var(--gray); font-size: 0.8rem; }
+        .level-badge { background: var(--surface); border: 1px solid var(--border); border-radius: 50px; padding: 0.3rem 1rem; color: var(--blue); font-size: 0.78rem; font-weight: 700; }
+        .wb-right .big-score { font-family: 'Nunito', sans-serif; font-size: 2.5rem; font-weight: 900; color: var(--blue); }
+        .wb-right span { color: var(--graphite); font-size: 0.8rem; }
 
         .stats-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 1rem; margin-bottom: 2rem; }
-        .stat-card { background: rgba(255, 255, 255, 0.85); border: 1px solid rgba(0,86,255,0.1); border-radius: 16px; padding: 1.2rem; transition: all 0.3s; cursor: pointer; }
-        .stat-card:hover { border-color: rgba(0,86,255,0.3); transform: translateY(-3px); }
-        .stat-icon { font-size: 1.4rem; margin-bottom: 0.6rem; }
-        .stat-value { font-family: 'Outfit', sans-serif; font-size: 1.6rem; font-weight: 900; }
-        .stat-label { color: var(--gray); font-size: 0.78rem; margin-top: 0.2rem; }
+        .stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 1.2rem; transition: all 0.3s; cursor: pointer; }
+        .stat-card:hover { border-color: var(--blue); transform: translateY(-3px); }
+        .stat-icon { font-size: 1.4rem; margin-bottom: 0.6rem; color: var(--blue); }
+        .stat-value { font-family: 'Nunito', sans-serif; font-size: 1.6rem; font-weight: 900; color: var(--ink); }
+        .stat-label { color: var(--graphite); font-size: 0.78rem; margin-top: 0.2rem; }
         .stat-card:nth-child(1) .stat-value { color: var(--blue); }
         .stat-card:nth-child(2) .stat-value { color: var(--blue); }
         .stat-card:nth-child(3) .stat-value { color: var(--azure); }
         .stat-card:nth-child(4) .stat-value { color: var(--azure); }
 
         .main-grid { display: grid; grid-template-columns: 1fr 340px; gap: 1.5rem; }
-        .card { background: rgba(255, 255, 255, 0.85); border: 1px solid rgba(0,86,255,0.1); border-radius: 18px; padding: 1.5rem; }
-        .card h3 { font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 1rem; margin-bottom: 1.2rem; display: flex; align-items: center; gap: 0.5rem; }
-        .career-item { display: flex; align-items: center; gap: 1rem; padding: 0.9rem; border-radius: 12px; background: #FFFFFF; border: 1px solid rgba(0,86,255,0.1); margin-bottom: 0.7rem; transition: all 0.2s; cursor: pointer; }
-        .career-item:hover { border-color: rgba(0,86,255,0.25); background: rgba(0,86,255,0.04); }
-        .career-icon { font-size: 1.4rem; width: 38px; text-align: center; }
+        .card { background: var(--surface); border: 1px solid var(--border); border-radius: 18px; padding: 1.5rem; }
+        .card h3 { font-family: 'Nunito', sans-serif; font-weight: 700; font-size: 1rem; margin-bottom: 1.2rem; display: flex; align-items: center; gap: 0.5rem; color: var(--ink); }
+        .career-item { display: flex; align-items: center; gap: 1rem; padding: 0.9rem; border-radius: 12px; background: var(--surface); border: 1px solid var(--border); margin-bottom: 0.7rem; transition: all 0.2s; cursor: pointer; }
+        .career-item:hover { border-color: var(--blue); background: var(--mist); }
+        .career-icon { font-size: 1.4rem; width: 38px; text-align: center; color: var(--blue); }
         .career-info { flex: 1; }
-        .career-name { font-weight: 600; font-size: 0.9rem; margin-bottom: 0.25rem; }
-        .career-field { color: var(--gray); font-size: 0.75rem; }
-        .career-score { font-family: 'Outfit', sans-serif; font-size: 1.1rem; font-weight: 800; color: var(--blue); }
-        .progress-mini { height: 4px; border-radius: 2px; background: rgba(15,23,42,0.08); margin-top: 0.3rem; }
-        .progress-mini-fill { height: 100%; border-radius: 2px; background: linear-gradient(90deg,var(--blue),var(--azure)); }
+        .career-name { font-weight: 600; font-size: 0.9rem; margin-bottom: 0.25rem; color: var(--ink); }
+        .career-field { color: var(--graphite); font-size: 0.75rem; }
+        .career-score { font-family: 'Nunito', sans-serif; font-size: 1.1rem; font-weight: 800; color: var(--blue); }
+        .progress-mini { height: 4px; border-radius: 2px; background: var(--mist); margin-top: 0.3rem; }
+        .progress-mini-fill { height: 100%; border-radius: 2px; background: var(--blue); }
 
-        .tip-card { background: rgba(0,86,255,0.04); border: 1px solid rgba(0,86,255,0.15); border-radius: 14px; padding: 1rem; margin-bottom: 0.9rem; }
+        .tip-card { background: var(--mist); border: 1px solid var(--border); border-radius: 14px; padding: 1rem; margin-bottom: 0.9rem; }
         .tip-card h4 { color: var(--blue); font-size: 0.85rem; font-weight: 700; margin-bottom: 0.3rem; display: flex; align-items: center; gap: 0.4rem; }
-        .tip-card p { color: var(--gray); font-size: 0.82rem; line-height: 1.6; }
-        .cta-start { width: 100%; padding: 0.9rem; border-radius: 14px; background: linear-gradient(135deg,var(--blue),var(--azure)); color: #fff; border: none; font-size: 0.92rem; font-weight: 700; cursor: pointer; transition: all 0.3s; box-shadow: 0 0 25px rgba(0,86,255,0.3); text-decoration: none; display: block; text-align: center; }
-        .cta-start:hover { transform: translateY(-2px); box-shadow: 0 0 40px rgba(0,86,255,0.5); }
+        .tip-card p { color: var(--graphite); font-size: 0.82rem; line-height: 1.6; }
+        .cta-start { width: 100%; padding: 0.9rem; border-radius: 14px; background: var(--blue); color: #fff; border: none; font-size: 0.92rem; font-weight: 700; cursor: pointer; transition: all 0.3s; text-decoration: none; display: block; text-align: center; }
+        .cta-start:hover { transform: translateY(-2px); background: var(--azure); }
 
         /* ── MODALS & TOUR ── */
-        .welcome-modal-wrap { position: fixed; inset: 0; z-index: 100; display: flex; align-items: center; justify-content: center; background: rgba(15,23,42,0.4); backdrop-filter: blur(8px); }
-        .welcome-modal { background: #FFFFFF; border: 1px solid rgba(0,86,255,0.15); border-radius: 28px; padding: 3rem; max-width: 480px; width: calc(100% - 2rem); text-align: center; box-shadow: 0 20px 60px rgba(0,86,255,0.08); animation: modalIn 0.5s ease both; }
+        .welcome-modal-wrap { position: fixed; inset: 0; z-index: 100; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.4); backdrop-filter: blur(8px); }
+        .welcome-modal { background: var(--surface); border: 1px solid var(--border); border-radius: 28px; padding: 3rem; max-width: 480px; width: calc(100% - 2rem); text-align: center; animation: modalIn 0.5s ease both; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
         @keyframes modalIn { from{opacity:0;transform:scale(0.9) translateY(20px)} to{opacity:1;transform:scale(1) translateY(0)} }
         .modal-emoji { font-size: 3.5rem; margin-bottom: 1rem; display: block; animation: wave 1s ease-in-out 0.5s 3; }
         @keyframes wave { 0%,100%{transform:rotate(0deg)} 25%{transform:rotate(-20deg)} 75%{transform:rotate(20deg)} }
-        .welcome-modal h2 { font-family: 'Outfit', sans-serif; font-size: 1.8rem; font-weight: 900; margin-bottom: 0.7rem; }
-        .welcome-modal h2 span { background: linear-gradient(135deg,var(--blue),var(--azure)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .welcome-modal p { color: var(--gray); line-height: 1.7; margin-bottom: 2rem; font-size: 0.95rem; }
+        .welcome-modal h2 { font-family: 'Nunito', sans-serif; font-size: 1.8rem; font-weight: 900; margin-bottom: 0.7rem; color: var(--ink); }
+        .welcome-modal h2 span { color: var(--blue); }
+        .welcome-modal p { color: var(--graphite); line-height: 1.7; margin-bottom: 2rem; font-size: 0.95rem; }
         .modal-btns { display: flex; gap: 1rem; }
-        .modal-btn-skip { flex: 1; background: transparent; border: 1px solid rgba(15,23,42,0.15); color: var(--gray); border-radius: 14px; padding: 0.85rem; font-size: 0.92rem; cursor: pointer; transition: all 0.2s; font-family: 'Inter', sans-serif; }
-        .modal-btn-skip:hover { border-color: rgba(15,23,42,0.3); color: var(--white); }
-        .modal-btn-tour { flex: 2; background: linear-gradient(135deg,var(--blue),var(--azure)); color: #fff; border: none; border-radius: 14px; padding: 0.85rem; font-size: 0.92rem; font-weight: 700; cursor: pointer; transition: all 0.3s; font-family: 'Inter', sans-serif; box-shadow: 0 0 25px rgba(0,86,255,0.35); }
-        .modal-btn-tour:hover { box-shadow: 0 0 45px rgba(0,86,255,0.55); }
+        .modal-btn-skip { flex: 1; background: var(--mist); border: 1px solid var(--border); color: var(--graphite); border-radius: 14px; padding: 0.85rem; font-size: 0.92rem; cursor: pointer; transition: all 0.2s; font-family: 'Open Sans', sans-serif; }
+        .modal-btn-skip:hover { border-color: var(--blue); color: var(--ink); }
+        .modal-btn-tour { flex: 2; background: var(--blue); color: #fff; border: none; border-radius: 14px; padding: 0.85rem; font-size: 0.92rem; font-weight: 700; cursor: pointer; transition: all 0.3s; font-family: 'Open Sans', sans-serif; }
+        .modal-btn-tour:hover { background: var(--azure); }
 
         .tour-overlay { position: fixed; inset: 0; z-index: 9998; pointer-events: none; }
-        .spotlight { position: absolute; transition: all 0.5s cubic-bezier(0.4,0,0.2,1); border-radius: 16px; pointer-events: none; outline: 2px solid var(--blue); outline-offset: 3px; box-shadow: 0 0 0 9999px rgba(15,23,42,0.4), 0 0 30px rgba(0,86,255,0.2); }
-        .tour-tooltip { position: absolute; background: #FFFFFF; border: 1px solid rgba(0,86,255,0.15); border-radius: 18px; padding: 1.5rem; width: 300px; box-shadow: 0 20px 60px rgba(0,86,255,0.08); pointer-events: all; z-index: 9999; transition: all 0.4s; backdrop-filter: blur(20px); }
+        .spotlight { position: absolute; transition: all 0.5s cubic-bezier(0.4,0,0.2,1); border-radius: 16px; pointer-events: none; outline: 2px solid var(--blue); outline-offset: 3px; box-shadow: 0 0 0 9999px rgba(0,0,0,0.4); }
+        .tour-tooltip { position: absolute; background: var(--surface); border: 1px solid var(--border); border-radius: 18px; padding: 1.5rem; width: 300px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); pointer-events: all; z-index: 9999; transition: all 0.4s; }
         .tooltip-step { color: var(--blue); font-size: 0.75rem; font-weight: 700; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.4rem; }
         .tooltip-step-dots { display: flex; gap: 4px; margin-left: auto; }
-        .tooltip-step-dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(15,23,42,0.15); }
+        .tooltip-step-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--border); }
         .tooltip-step-dot.active { background: var(--blue); }
-        .tour-tooltip h4 { font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 1.05rem; margin-bottom: 0.5rem; }
-        .tour-tooltip p { color: var(--gray); font-size: 0.85rem; line-height: 1.6; margin-bottom: 1.2rem; }
+        .tour-tooltip h4 { font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 1.05rem; margin-bottom: 0.5rem; color: var(--ink); }
+        .tour-tooltip p { color: var(--graphite); font-size: 0.85rem; line-height: 1.6; margin-bottom: 1.2rem; }
         .tooltip-btns { display: flex; gap: 0.7rem; }
-        .btn-skip { background: transparent; border: 1px solid rgba(15,23,42,0.15); color: var(--gray); border-radius: 10px; padding: 0.55rem 1rem; font-size: 0.85rem; cursor: pointer; transition: all 0.2s; }
-        .btn-skip:hover { border-color: rgba(15,23,42,0.3); color: var(--white); }
-        .btn-next { flex: 1; background: linear-gradient(135deg,var(--blue),var(--azure)); color: #fff; border: none; border-radius: 10px; padding: 0.55rem 1rem; font-size: 0.85rem; font-weight: 700; cursor: pointer; transition: all 0.3s; }
-        .btn-next:hover { box-shadow: 0 0 20px rgba(0,86,255,0.4); }
+        .btn-skip { background: var(--mist); border: 1px solid var(--border); color: var(--graphite); border-radius: 10px; padding: 0.55rem 1rem; font-size: 0.85rem; cursor: pointer; transition: all 0.2s; }
+        .btn-skip:hover { border-color: var(--blue); color: var(--ink); }
+        .btn-next { flex: 1; background: var(--blue); color: #fff; border: none; border-radius: 10px; padding: 0.55rem 1rem; font-size: 0.85rem; font-weight: 700; cursor: pointer; transition: all 0.3s; }
+        .btn-next:hover { background: var(--azure); }
       `}</style>
-
-      <div className="mesh-bg"></div>
 
       <div className="welcome-page-container">
         {/* SIDEBAR */}
@@ -310,7 +307,7 @@ const WelcomePage = () => {
               <div className="user-avatar">{displayName.charAt(0)}</div>
               <div>
                 <div className="user-name">{user?.fullName || 'User'}</div>
-                <div className="user-level inline-flex items-center gap-1"><Sparkles className="w-3 h-3 text-pw-blue" /> Level {level} Explorer</div>
+                <div className="user-level inline-flex items-center gap-1"><Sparkles className="w-3 h-3 text-[var(--blue)]" /> Level {level} Explorer</div>
               </div>
             </div>
           </div>
@@ -327,9 +324,9 @@ const WelcomePage = () => {
               <div className="relative">
                 <button 
                   onClick={() => setShowNotifications(!showNotifications)}
-                  className={`notif-btn relative cursor-pointer focus:outline-none ${showNotifications ? 'bg-pw-white/5 text-pw-white' : ''}`}
+                  className={`notif-btn relative cursor-pointer focus:outline-none ${showNotifications ? 'bg-[var(--mist)]' : ''}`}
                 >
-                  <Bell className="w-4 h-4 text-pw-gray" />
+                  <Bell className="w-4 h-4 text-[var(--graphite)]" />
                   {unreadCount > 0 && <div className="notif-dot animate-pulse"></div>}
                 </button>
 
@@ -341,14 +338,14 @@ const WelcomePage = () => {
                         initial={{ opacity: 0, y: 10, scale: 0.95 }}
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                        className="absolute right-0 mt-2 w-80 bg-pw-surface border border-pw-white/10 rounded-2xl shadow-xl overflow-hidden z-50 p-1 text-left"
+                        className="absolute right-0 mt-2 w-80 bg-[var(--surface)] border border-[var(--border)] rounded-2xl shadow-sm overflow-hidden z-50 p-1 text-left"
                       >
-                        <div className="flex justify-between items-center p-3 border-b border-pw-white/5">
-                          <span className="text-xs font-bold text-pw-white">Notifications ({unreadCount})</span>
+                        <div className="flex justify-between items-center p-3 border-b border-[var(--border)]">
+                          <span className="text-xs font-bold text-[var(--ink)]">Notifications ({unreadCount})</span>
                           {unreadCount > 0 && (
                             <button 
                               onClick={markAllAsRead}
-                              className="text-[10px] text-pw-blue hover:underline font-semibold"
+                              className="text-[10px] text-[var(--blue)] hover:underline font-semibold"
                             >
                               Mark all as read
                             </button>
@@ -357,26 +354,26 @@ const WelcomePage = () => {
 
                         <div className="max-h-64 overflow-y-auto">
                           {notifications.length === 0 ? (
-                            <div className="p-8 text-center text-pw-gray text-xs">
+                            <div className="p-8 text-center text-[var(--graphite)] text-xs">
                               All caught up! 🎉
                             </div>
                           ) : (
-                            <div className="divide-y divide-pw-white/5">
+                            <div className="divide-y divide-[var(--border)]">
                               {notifications.map(n => (
                                 <div 
                                   key={n.id} 
-                                  className={`p-3 text-xs leading-relaxed flex items-start gap-2.5 transition-colors group/item relative ${n.read ? 'text-pw-gray/70' : 'text-pw-white bg-pw-blue/5'}`}
+                                  className={`p-3 text-xs leading-relaxed flex items-start gap-2.5 transition-colors group/item relative ${n.read ? 'text-[var(--graphite)]' : 'text-[var(--ink)] bg-[var(--lavender)]'}`}
                                 >
                                   {!n.read && (
-                                    <span className="w-1.5 h-1.5 rounded-full bg-pw-blue mt-1.5 shrink-0" />
+                                    <span className="w-1.5 h-1.5 rounded-full bg-[var(--blue)] mt-1.5 shrink-0" />
                                   )}
                                   <div className="flex-1 cursor-pointer" onClick={() => toggleRead(n.id)}>
                                     <p>{n.text}</p>
-                                    <span className="text-[10px] text-pw-gray/50 block mt-1">{n.time}</span>
+                                    <span className="text-[10px] text-[var(--ash)] block mt-1">{n.time}</span>
                                   </div>
                                   <button 
                                     onClick={() => deleteNotif(n.id)}
-                                    className="text-pw-gray hover:text-red-400 opacity-0 group-hover/item:opacity-100 transition-opacity shrink-0 ml-1"
+                                    className="text-[var(--graphite)] hover:text-red-600 opacity-0 group-hover/item:opacity-100 transition-opacity shrink-0 ml-1"
                                   >
                                     <X className="w-3.5 h-3.5" />
                                   </button>
@@ -391,7 +388,7 @@ const WelcomePage = () => {
                 </AnimatePresence>
               </div>
 
-              <div className="notif-btn cursor-pointer"><Settings className="w-4 h-4 text-pw-gray" /></div>
+              <div className="notif-btn cursor-pointer"><Settings className="w-4 h-4 text-[var(--graphite)]" /></div>
             </div>
           </div>
 
@@ -402,7 +399,7 @@ const WelcomePage = () => {
                 <h2>Good afternoon, {displayName} 👋</h2>
                 <p>{user?.department || 'Department'} · {welcomeLevelText} · DELSU</p>
                 <div className="xp-bar-wrap">
-                  <div className="xp-label"><span className="inline-flex items-center gap-1"><Sparkles className="w-3 h-3 text-pw-blue" /> {xp} XP — Level {level}</span><span>{xpMax - xp} XP to Level {level + 1}</span></div>
+                  <div className="xp-label"><span className="inline-flex items-center gap-1"><Sparkles className="w-3 h-3 text-[var(--blue)]" /> {xp} XP — Level {level}</span><span>{xpMax - xp} XP to Level {level + 1}</span></div>
                   <div className="xp-track"><div className="xp-fill" style={{ width: `${(xp / xpMax) * 100}%` }}></div></div>
                 </div>
               </div>
@@ -415,38 +412,38 @@ const WelcomePage = () => {
 
             {/* Stats */}
             <div className="stats-row">
-              <div className="stat-card"><div className="stat-icon flex items-center justify-center text-pw-blue"><Star className="w-5 h-5" /></div><div className="stat-value">{topMatchScore}</div><div className="stat-label">Best Career Match</div></div>
-              <div className="stat-card"><div className="stat-icon flex items-center justify-center text-pw-blue"><BookmarkCheck className="w-5 h-5" /></div><div className="stat-value">{careersSavedCount}</div><div className="stat-label">Saved Careers</div></div>
-              <div className="stat-card"><div className="stat-icon flex items-center justify-center text-pw-blue"><CheckCircle2 className="w-5 h-5" /></div><div className="stat-value">{assessmentStatus}</div><div className="stat-label">Assessment Complete</div></div>
-              <div className="stat-card"><div className="stat-icon flex items-center justify-center text-pw-blue"><Map className="w-5 h-5" /></div><div className="stat-value">{roadmapsExploredCount}</div><div className="stat-label">Roadmaps Explored</div></div>
+              <div className="stat-card"><div className="stat-icon flex items-center justify-center"><Star className="w-5 h-5" /></div><div className="stat-value">{topMatchScore}</div><div className="stat-label">Best Career Match</div></div>
+              <div className="stat-card"><div className="stat-icon flex items-center justify-center"><BookmarkCheck className="w-5 h-5" /></div><div className="stat-value">{careersSavedCount}</div><div className="stat-label">Saved Careers</div></div>
+              <div className="stat-card"><div className="stat-icon flex items-center justify-center"><CheckCircle2 className="w-5 h-5" /></div><div className="stat-value">{assessmentStatus}</div><div className="stat-label">Assessment Complete</div></div>
+              <div className="stat-card"><div className="stat-icon flex items-center justify-center"><Map className="w-5 h-5" /></div><div className="stat-value">{roadmapsExploredCount}</div><div className="stat-label">Roadmaps Explored</div></div>
             </div>
 
             {/* Main grid */}
             <div className="main-grid">
               <div>
                 <div className="card">
-                  <h3 className="flex items-center gap-2 text-pw-white"><Sparkles className="w-5 h-5 text-pw-blue" /> Your Top Career Matches</h3>
+                  <h3 className="flex items-center gap-2"><Sparkles className="w-5 h-5 text-[var(--blue)]" /> Your Top Career Matches</h3>
                   {matchedCareers.length > 0 ? (
                     matchedCareers.map((c, idx) => (
                       <div key={c.id} className="career-item">
-                        <span className="career-icon flex items-center justify-center text-pw-blue">
+                        <span className="career-icon flex items-center justify-center">
                           <Code className="w-5 h-5" />
                         </span>
                         <div className="career-info">
                           <div className="career-name">{c.title}</div>
                           <div className="career-field">{c.category}</div>
                           <div className="progress-mini">
-                            <div className="progress-mini-fill" style={{ width: `${c.score}%`, background: idx === 1 ? 'linear-gradient(90deg,var(--lavender),#c7cef5)' : idx === 2 ? 'linear-gradient(90deg,var(--azure),#5599ff)' : undefined }}></div>
+                            <div className="progress-mini-fill" style={{ width: `${c.score}%`, background: idx === 1 ? 'var(--lavender)' : idx === 2 ? 'var(--azure)' : undefined }}></div>
                           </div>
                         </div>
-                        <div className="career-score" style={{ color: idx === 1 ? 'var(--lavender)' : idx === 2 ? 'var(--azure)' : undefined }}>{c.score}%</div>
+                        <div className="career-score" style={{ color: idx === 1 ? 'var(--blue)' : idx === 2 ? 'var(--azure)' : undefined }}>{c.score}%</div>
                       </div>
                     ))
                   ) : (
-                    <div className="flex flex-col items-center justify-center py-8 text-center text-pw-gray text-xs gap-3">
-                      <Sparkles className="w-8 h-8 text-pw-blue/40" />
+                    <div className="flex flex-col items-center justify-center py-8 text-center text-[var(--graphite)] text-xs gap-3">
+                      <Sparkles className="w-8 h-8 text-[var(--mist)]" />
                       <p>No matches yet. Take the Career Assessment to unlock your matches!</p>
-                      <Link to="/quiz" className="px-4 py-2 rounded-xl bg-pw-blue text-white font-bold hover:bg-pw-azure transition-all">Take Assessment</Link>
+                      <Link to="/quiz" className="px-4 py-2 rounded-xl bg-[var(--blue)] text-white font-bold hover:bg-[var(--azure)] transition-all">Take Assessment</Link>
                     </div>
                   )}
                 </div>
@@ -454,15 +451,15 @@ const WelcomePage = () => {
 
               <div style={{display:'flex',flexDirection:'column',gap:'1rem'}}>
                 <div className="card">
-                  <h3 className="flex items-center gap-2 text-pw-white"><Compass className="w-5 h-5 text-pw-blue" /> Quick Actions</h3>
+                  <h3 className="flex items-center gap-2"><Compass className="w-5 h-5 text-[var(--blue)]" /> Quick Actions</h3>
                   <div className="tip-card">
-                    <h4 className="flex items-center gap-2 text-pw-white"><Brain className="w-4 h-4 text-pw-blue" /> Ask the AI Advisor</h4>
+                    <h4 className="flex items-center gap-2"><Brain className="w-4 h-4 text-[var(--blue)]" /> Ask the AI Advisor</h4>
                     <p>Get instant answers about careers, courses, and your next steps.</p>
                   </div>
                   {assessmentStatus === 'Pending' ? (
                     <Link to="/quiz" className="cta-start text-center">Start Career Assessment</Link>
                   ) : (
-                    <Link to="/advisor" className="cta-start text-center" style={{ background: 'linear-gradient(135deg, #0056FF, #2277FF)' }}>Talk to AI Advisor</Link>
+                    <Link to="/advisor" className="cta-start text-center" style={{ background: 'var(--blue)' }}>Talk to AI Advisor</Link>
                   )}
                 </div>
               </div>
@@ -475,7 +472,7 @@ const WelcomePage = () => {
       {tourState === 'modal' && (
         <div className="welcome-modal-wrap" id="welcome-modal">
           <div className="welcome-modal">
-            <span className="modal-emoji inline-flex items-center justify-center bg-pw-blue/10 p-4 rounded-full mb-2 text-pw-blue"><Sparkles className="w-8 h-8" /></span>
+            <span className="modal-emoji inline-flex items-center justify-center bg-[var(--lavender)] p-4 rounded-full mb-2 text-[var(--blue)]"><Sparkles className="w-8 h-8" /></span>
             <h2>Welcome to PathWise, <span>{displayName}!</span></h2>
             <p>Your account is all set up. PathWise will help you discover the perfect career path, get a semester-by-semester DELSU course roadmap, and access your AI advisor 24/7.<br/><br/>Would you like a quick 2-minute tour of the platform?</p>
             <div className="modal-btns">

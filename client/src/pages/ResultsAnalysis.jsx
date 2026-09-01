@@ -121,13 +121,17 @@ const ResultsAnalysis = () => {
   };
 
   return (
-    <div className="max-w-6xl mx-auto w-full space-y-8 pb-8">
+    <div className="max-w-6xl mx-auto w-full space-y-8 pb-8" style={{ fontFamily: "'Open Sans', sans-serif" }}>
+      <style>{`
+        h1, h2, h3, h4, h5, h6 { font-family: 'Nunito', sans-serif; }
+        .btn-hover:hover { filter: brightness(0.95); }
+      `}</style>
       <div className="flex flex-col gap-2">
-        <h1 className="text-3xl font-extrabold tracking-tight text-pw-white flex items-center gap-3">
-          <Calculator className="w-8 h-8 text-pw-blue" />
+        <h1 className="text-3xl font-extrabold tracking-tight flex items-center gap-3" style={{ color: 'var(--ink)' }}>
+          <Calculator className="w-8 h-8" style={{ color: 'var(--blue)' }} />
           Academic Results Analysis
         </h1>
-        <p className="text-pw-gray text-sm max-w-2xl leading-relaxed">
+        <p className="text-sm max-w-2xl leading-relaxed" style={{ color: 'var(--graphite)' }}>
           Upload your DELSU course codes and grades to analyze your technical/analytical strengths and dynamically align your career recommendations.
         </p>
       </div>
@@ -136,14 +140,15 @@ const ResultsAnalysis = () => {
         
         {/* Course Entry Form Workspace */}
         <div className="lg:col-span-2 space-y-6">
-          <div className="bg-pw-surface border border-pw-white/10 rounded-2xl p-6">
+          <div className="rounded-2xl p-6" style={{ backgroundColor: 'var(--surface)', border: '1px solid var(--border)' }}>
             <div className="flex justify-between items-center mb-6">
-              <h2 className="text-lg font-bold text-pw-white flex items-center gap-2">
-                <BookOpen className="w-5 h-5 text-pw-blue" /> Course Inputs
+              <h2 className="text-lg font-bold flex items-center gap-2" style={{ color: 'var(--ink)' }}>
+                <BookOpen className="w-5 h-5" style={{ color: 'var(--blue)' }} /> Course Inputs
               </h2>
 
               {/* MOCK CSV UPLOAD BUTTON */}
-              <label className="flex items-center gap-2 px-4 py-2 bg-pw-blue/10 border border-pw-blue/20 rounded-xl text-pw-blue text-xs font-bold hover:bg-pw-blue/20 transition-all cursor-pointer">
+              <label className="btn-hover flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer"
+                style={{ backgroundColor: 'var(--lavender)', color: 'var(--blue)' }}>
                 <Upload className="w-4 h-4" />
                 Upload CSV
                 <input type="file" accept=".csv" onChange={handleCSVUpload} className="hidden" />
@@ -159,7 +164,8 @@ const ResultsAnalysis = () => {
                       placeholder="e.g. CSC 301"
                       value={course.courseCode}
                       onChange={(e) => handleChangeRow(idx, 'courseCode', e.target.value)}
-                      className="w-1/3 bg-pw-black border border-pw-white/10 text-pw-white rounded-xl p-3 focus:ring-2 focus:ring-pw-blue focus:border-transparent text-sm uppercase"
+                      className="w-1/3 rounded-xl p-3 focus:ring-2 focus:border-transparent text-sm uppercase transition-all"
+                      style={{ backgroundColor: 'var(--fog)', border: '1px solid var(--border)', color: 'var(--ink)' }}
                       required
                     />
                     <input
@@ -167,12 +173,14 @@ const ResultsAnalysis = () => {
                       placeholder="Course Title (Optional)"
                       value={course.courseTitle}
                       onChange={(e) => handleChangeRow(idx, 'courseTitle', e.target.value)}
-                      className="flex-1 bg-pw-black border border-pw-white/10 text-pw-white rounded-xl p-3 focus:ring-2 focus:ring-pw-blue focus:border-transparent text-sm"
+                      className="flex-1 rounded-xl p-3 focus:ring-2 focus:border-transparent text-sm transition-all"
+                      style={{ backgroundColor: 'var(--fog)', border: '1px solid var(--border)', color: 'var(--ink)' }}
                     />
                     <select
                       value={course.grade}
                       onChange={(e) => handleChangeRow(idx, 'grade', e.target.value)}
-                      className="bg-pw-black border border-pw-white/10 text-pw-white rounded-xl p-3 focus:ring-2 focus:ring-pw-blue focus:border-transparent text-sm w-20 appearance-none text-center"
+                      className="rounded-xl p-3 focus:ring-2 focus:border-transparent text-sm w-20 appearance-none text-center transition-all"
+                      style={{ backgroundColor: 'var(--fog)', border: '1px solid var(--border)', color: 'var(--ink)' }}
                     >
                       {['A', 'B', 'C', 'D', 'E', 'F'].map(g => (
                         <option key={g} value={g}>{g}</option>
@@ -181,7 +189,7 @@ const ResultsAnalysis = () => {
                     <button
                       type="button"
                       onClick={() => handleRemoveRow(idx)}
-                      className="p-3 text-red-400 hover:text-red-300 hover:bg-red-400/10 rounded-xl transition-all"
+                      className="p-3 text-red-500 hover:text-red-700 hover:bg-red-50 rounded-xl transition-all"
                     >
                       <Trash2 className="w-4 h-4" />
                     </button>
@@ -189,11 +197,12 @@ const ResultsAnalysis = () => {
                 ))}
               </div>
 
-              <div className="flex gap-4 pt-4 border-t border-pw-white/5">
+              <div className="flex gap-4 pt-4 border-t" style={{ borderColor: 'var(--border)' }}>
                 <button
                   type="button"
                   onClick={handleAddRow}
-                  className="flex items-center gap-2 px-4 py-3 bg-pw-surface2 border border-pw-white/10 rounded-xl text-pw-white text-sm font-bold hover:bg-pw-white/5 transition-all"
+                  className="btn-hover flex items-center gap-2 px-4 py-3 border rounded-xl text-sm font-bold transition-all"
+                  style={{ backgroundColor: 'var(--mist)', borderColor: 'var(--border)', color: 'var(--ink)' }}
                 >
                   <Plus className="w-4 h-4" /> Add Row
                 </button>
@@ -201,7 +210,8 @@ const ResultsAnalysis = () => {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="flex-1 py-3 bg-pw-blue text-white text-sm font-bold rounded-xl hover:bg-pw-azure transition-all shadow-[0_0_20px_rgba(0,86,255,0.3)] disabled:opacity-50"
+                  className="btn-hover flex-1 py-3 text-white text-sm font-bold rounded-xl transition-all disabled:opacity-50"
+                  style={{ backgroundColor: 'var(--blue)' }}
                 >
                   {isSubmitting ? 'Analyzing Performance...' : 'Analyze Academic Performance →'}
                 </button>
@@ -212,14 +222,14 @@ const ResultsAnalysis = () => {
 
         {/* Real-time Insights Sidebar */}
         <div className="space-y-6">
-          <div className="bg-pw-surface border border-pw-white/10 rounded-2xl p-6">
-            <h2 className="text-lg font-bold text-pw-white flex items-center gap-2 mb-6">
-              <Brain className="w-5 h-5 text-pw-blue" /> Insights &amp; Alignment
+          <div className="rounded-2xl p-6" style={{ backgroundColor: 'var(--surface)', border: '1px solid var(--border)' }}>
+            <h2 className="text-lg font-bold flex items-center gap-2 mb-6" style={{ color: 'var(--ink)' }}>
+              <Brain className="w-5 h-5" style={{ color: 'var(--blue)' }} /> Insights &amp; Alignment
             </h2>
 
             {isLoading ? (
               <div className="py-12 flex justify-center items-center">
-                <div className="w-8 h-8 border-4 border-pw-blue border-t-transparent rounded-full animate-spin"></div>
+                <div className="w-8 h-8 border-4 border-t-transparent rounded-full animate-spin" style={{ borderColor: 'var(--blue)' }}></div>
               </div>
             ) : analysis ? (
               <div className="space-y-6">
@@ -227,17 +237,17 @@ const ResultsAnalysis = () => {
                 {/* Academic Strengths */}
                 {analysis.strengths && analysis.strengths.length > 0 && (
                   <div className="space-y-3">
-                    <h3 className="text-xs font-bold text-pw-gray tracking-wider uppercase flex items-center gap-1.5">
-                      <TrendingUp className="w-4 h-4 text-emerald-400" /> Academic Strengths
+                    <h3 className="text-xs font-bold tracking-wider uppercase flex items-center gap-1.5" style={{ color: 'var(--graphite)' }}>
+                      <TrendingUp className="w-4 h-4 text-emerald-600" /> Academic Strengths
                     </h3>
                     <div className="space-y-2">
                       {analysis.strengths.map((s, idx) => (
-                        <div key={idx} className="p-4 rounded-2xl bg-emerald-500/5 border border-emerald-500/10 space-y-1 text-left">
+                        <div key={idx} className="p-4 rounded-2xl bg-emerald-50 border border-emerald-100 space-y-1 text-left">
                           <div className="flex justify-between items-center">
-                            <span className="text-sm font-bold text-emerald-400">{s.name}</span>
-                            <span className="text-xs font-extrabold px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400">Strength</span>
+                            <span className="text-sm font-bold text-emerald-700">{s.name}</span>
+                            <span className="text-xs font-extrabold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-700">Strength</span>
                           </div>
-                          <p className="text-[11px] text-pw-gray leading-relaxed">{s.description}</p>
+                          <p className="text-[11px] leading-relaxed" style={{ color: 'var(--graphite)' }}>{s.description}</p>
                         </div>
                       ))}
                     </div>
@@ -247,17 +257,17 @@ const ResultsAnalysis = () => {
                 {/* Areas for Improvement */}
                 {analysis.weaknesses && analysis.weaknesses.length > 0 && (
                   <div className="space-y-3">
-                    <h3 className="text-xs font-bold text-pw-gray tracking-wider uppercase flex items-center gap-1.5">
-                      <AlertTriangle className="w-4 h-4 text-amber-400" /> Areas for Improvement
+                    <h3 className="text-xs font-bold tracking-wider uppercase flex items-center gap-1.5" style={{ color: 'var(--graphite)' }}>
+                      <AlertTriangle className="w-4 h-4 text-amber-500" /> Areas for Improvement
                     </h3>
                     <div className="space-y-2">
                       {analysis.weaknesses.map((w, idx) => (
-                        <div key={idx} className="p-4 rounded-2xl bg-amber-500/5 border border-amber-500/10 space-y-1 text-left">
+                        <div key={idx} className="p-4 rounded-2xl bg-amber-50 border border-amber-100 space-y-1 text-left">
                           <div className="flex justify-between items-center">
-                            <span className="text-sm font-bold text-amber-400">{w.name}</span>
-                            <span className="text-xs font-extrabold px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-400">Alert</span>
+                            <span className="text-sm font-bold text-amber-600">{w.name}</span>
+                            <span className="text-xs font-extrabold px-2 py-0.5 rounded-full bg-amber-100 text-amber-600">Alert</span>
                           </div>
-                          <p className="text-[11px] text-pw-gray leading-relaxed">{w.description}</p>
+                          <p className="text-[11px] leading-relaxed" style={{ color: 'var(--graphite)' }}>{w.description}</p>
                         </div>
                       ))}
                     </div>
@@ -266,20 +276,20 @@ const ResultsAnalysis = () => {
 
                 {/* dynamic career alignment */}
                 {analysis.recommendations && analysis.recommendations.length > 0 && (
-                  <div className="space-y-3 pt-4 border-t border-pw-white/5">
-                    <h3 className="text-xs font-bold text-pw-gray tracking-wider uppercase flex items-center gap-1.5">
-                      <Compass className="w-4 h-4 text-pw-blue" /> Dynamic Career Alignment
+                  <div className="space-y-3 pt-4 border-t" style={{ borderColor: 'var(--border)' }}>
+                    <h3 className="text-xs font-bold tracking-wider uppercase flex items-center gap-1.5" style={{ color: 'var(--graphite)' }}>
+                      <Compass className="w-4 h-4" style={{ color: 'var(--blue)' }} /> Dynamic Career Alignment
                     </h3>
                     <div className="space-y-2">
                       {analysis.recommendations.map((rec, idx) => (
-                        <div key={idx} className="p-4 rounded-2xl bg-pw-surface2 border border-pw-white/10 flex justify-between items-center">
+                        <div key={idx} className="p-4 rounded-2xl border flex justify-between items-center" style={{ backgroundColor: 'var(--mist)', borderColor: 'var(--border)' }}>
                           <div className="text-left">
-                            <h4 className="text-sm font-bold text-pw-white">{rec.title}</h4>
-                            <p className="text-[10px] text-pw-gray">{rec.field}</p>
+                            <h4 className="text-sm font-bold" style={{ color: 'var(--ink)' }}>{rec.title}</h4>
+                            <p className="text-[10px]" style={{ color: 'var(--graphite)' }}>{rec.field}</p>
                           </div>
                           <div className="text-right">
-                            <span className="text-sm font-black text-pw-blue">{rec.matchingScore}%</span>
-                            <p className="text-[9px] text-pw-gray">Fit Score</p>
+                            <span className="text-sm font-black" style={{ color: 'var(--blue)' }}>{rec.matchingScore}%</span>
+                            <p className="text-[9px]" style={{ color: 'var(--graphite)' }}>Fit Score</p>
                           </div>
                         </div>
                       ))}
@@ -289,8 +299,8 @@ const ResultsAnalysis = () => {
 
               </div>
             ) : (
-              <div className="py-12 text-center text-pw-gray space-y-3">
-                <GraduationCap className="w-12 h-12 text-pw-white/10 mx-auto" />
+              <div className="py-12 text-center space-y-3" style={{ color: 'var(--graphite)' }}>
+                <GraduationCap className="w-12 h-12 mx-auto" style={{ color: 'var(--ash)' }} />
                 <p className="text-sm">No analysis loaded. Submit your course grades to run your cognitive profile analysis!</p>
               </div>
             )}

@@ -4,7 +4,6 @@ export default {
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
-  darkMode: 'class',
   theme: {
     extend: {
       colors: {
@@ -18,8 +17,16 @@ export default {
           white:    'var(--white)',
           gray:     'var(--gray)',
           muted:    'var(--muted)',
+          canvas:   'var(--canvas)',
+          ink:      'var(--ink)',
+          graphite: 'var(--graphite)',
+          ash:      'var(--ash)',
+          fog:      'var(--fog)',
+          mist:     'var(--mist)',
+          silver:   'var(--silver)',
+          border:   'var(--border)',
         },
-        // Keep solar aliases so any remaining references don't break
+        // Keep solar aliases so existing references don't break
         solar: {
           bg:     'var(--black)',
           bg2:    'var(--surface)',
@@ -32,18 +39,31 @@ export default {
         }
       },
       fontFamily: {
-        outfit: ['Outfit', 'sans-serif'],
-        inter:  ['Inter', 'sans-serif'],
+        nunito:   ['Nunito', 'sans-serif'],
+        opensans: ['Open Sans', 'sans-serif'],
+        mono:     ['IBM Plex Mono', 'monospace'],
+        // Keep old aliases for backward compatibility
+        outfit:   ['Nunito', 'sans-serif'],
+        inter:    ['Open Sans', 'sans-serif'],
       },
       backgroundImage: {
         'futurewave':     'var(--futurewave)',
         'midnight-surge': 'var(--midnight-surge)',
-        'blue-radial':    'radial-gradient(ellipse at 30% 20%, rgba(0,86,255,0.06) 0%, transparent 65%)',
       },
       boxShadow: {
-        'blue-glow': '0 0 30px rgba(0,86,255,0.12)',
-        'blue-lg':   '0 0 60px rgba(0,86,255,0.08)',
-        'card':      '0 4px 24px rgba(0,86,255,0.04)',
+        'clean-sm': '0 1px 3px rgba(0,0,0,0.08)',
+        'clean-md': '0 4px 12px rgba(0,0,0,0.06)',
+        'clean-lg': '0 8px 24px rgba(0,0,0,0.08)',
+        'card':     '0 2px 8px rgba(0,0,0,0.04)',
+        // Keep old aliases
+        'blue-glow': '0 4px 12px rgba(25,68,241,0.15)',
+        'blue-lg':   '0 8px 24px rgba(25,68,241,0.1)',
+      },
+      borderRadius: {
+        'pw-sm': '8px',
+        'pw-md': '12px',
+        'pw-lg': '16px',
+        'pw-xl': '20px',
       }
     },
   },
