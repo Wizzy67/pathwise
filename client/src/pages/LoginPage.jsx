@@ -405,18 +405,31 @@ const LoginPage = () => {
             background: rgba(13, 15, 28, 0.85);
             min-height: 100vh;
             min-height: 100dvh;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
           }
           .lp-header {
-            position: relative;
-            padding: 1.25rem 1.5rem 0.5rem;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: max(1.25rem, env(safe-area-inset-top)) 1.5rem 0.5rem;
+            z-index: 10;
           }
           .lp-nav-center {
             display: none; /* Hide on mobile */
           }
           .lp-content {
-            padding: 2rem 1.5rem 2.5rem;
-            max-width: 100%;
-            justify-content: flex-start;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: max(4.5rem, env(safe-area-inset-top)) 1.5rem max(2rem, env(safe-area-inset-bottom));
+            max-width: 440px;
+            margin: 0 auto;
+            width: 100%;
+            box-sizing: border-box;
           }
           .lp-heading {
             font-size: 1.85rem;
@@ -427,9 +440,9 @@ const LoginPage = () => {
         }
 
         @media (max-width: 420px) {
-          .lp-header { padding: 1rem 1.25rem 0.25rem; }
-          .lp-content { padding: 1.5rem 1.25rem 2rem; }
-          .lp-heading { font-size: 1.65rem; }
+          .lp-header { padding: max(1rem, env(safe-area-inset-top)) 1.25rem 0.5rem; }
+          .lp-content { padding: max(4rem, env(safe-area-inset-top)) 1.25rem max(1.5rem, env(safe-area-inset-bottom)); }
+          .lp-heading { font-size: 1.7rem; }
         }
       `}</style>
 
