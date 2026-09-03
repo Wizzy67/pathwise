@@ -360,30 +360,29 @@ const LoginPage = () => {
         .lp-btn-fill {
           width: 100%;
           padding: 0.95rem;
-          background: #ffffff;
-          border: 1px solid #ffffff;
+          background: transparent;
+          border: 1px solid rgba(255, 255, 255, 0.15);
           border-radius: 12px;
-          color: #0A0C16;
+          color: rgba(255, 255, 255, 0.9);
           font-size: 0.95rem;
-          font-weight: 800;
+          font-weight: 700;
           font-family: inherit;
           cursor: pointer;
-          transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-          box-shadow: 0 4px 20px rgba(255, 255, 255, 0.15), 0 2px 6px rgba(0, 0, 0, 0.4);
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
         }
         .lp-btn-fill:hover {
-          background: #f0f3ff;
-          border-color: #f0f3ff;
-          color: #0A0C16;
-          box-shadow: 0 6px 25px rgba(255, 255, 255, 0.25);
-          transform: translateY(-1px);
+          background: #4361EE;
+          border-color: #4361EE;
+          color: #ffffff;
+          box-shadow: 0 8px 35px rgba(67,97,238,0.5);
+          transform: translateY(-2px) scale(1.02);
         }
         .lp-btn-fill:active {
           transform: scale(0.98);
-          background: #e2e8f0;
         }
         .lp-btn-fill:disabled {
-          opacity: 0.6;
+          opacity: 0.5;
           cursor: not-allowed;
           transform: none;
           box-shadow: none;
@@ -456,7 +455,7 @@ const LoginPage = () => {
         {/* Full-width Header */}
         <header className="lp-header">
           <div className="lp-logo">
-            <PathWiseLogo href="/" size={28} />
+            <PathWiseLogo href="/" size={28} textColor="#ffffff" />
           </div>
           <nav className="lp-nav-center">
             <Link to="/">Home</Link>
@@ -546,8 +545,8 @@ const LoginPage = () => {
                   {isSubmitting ? 'Logging in...' : 'Log In'}
                 </button>
                 
-                <div style={{ fontSize: '0.88rem', color: 'rgba(255,255,255,0.85)' }}>
-                  Don't have an account? <Link to="/register" style={{ color: '#ffffff', textDecoration: 'underline', textUnderlineOffset: '3px', fontWeight: 700 }}>Sign Up</Link>
+                <div style={{ fontSize: '0.85rem', color: 'rgba(255,255,255,0.7)' }}>
+                  Don't have an account? <Link to="/register" style={{ color: '#4361EE', textDecoration: 'none', fontWeight: 600 }}>Sign Up</Link>
                 </div>
               </motion.div>
             </form>

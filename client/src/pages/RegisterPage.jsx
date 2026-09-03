@@ -197,12 +197,14 @@ const RegisterPage = () => {
         .rp-field {
           display: flex;
           flex-direction: column;
-          gap: 0.4rem;
+          gap: 0.45rem;
         }
 
         .rp-field-label {
-          font-size: 0.72rem;
-          color: rgba(255,255,255,0.45);
+          font-size: 0.78rem;
+          color: #ffffff;
+          font-weight: 600;
+          letter-spacing: 0.02em;
           padding-left: 0.2rem;
         }
 
@@ -212,10 +214,10 @@ const RegisterPage = () => {
 
         .rp-input {
           width: 100%;
-          background: rgba(255, 255, 255, 0.04);
-          backdrop-filter: blur(12px);
-          -webkit-backdrop-filter: blur(12px);
-          border: 1px solid rgba(255, 255, 255, 0.1);
+          background: rgba(255, 255, 255, 0.08);
+          backdrop-filter: blur(16px);
+          -webkit-backdrop-filter: blur(16px);
+          border: 1px solid rgba(255, 255, 255, 0.22);
           border-radius: 12px;
           padding: 0.9rem 3.5rem 0.9rem 1.2rem;
           color: #ffffff;
@@ -227,12 +229,12 @@ const RegisterPage = () => {
           box-sizing: border-box;
         }
         .rp-input::placeholder {
-          color: rgba(255,255,255,0.25);
+          color: rgba(255, 255, 255, 0.55);
         }
         .rp-input:focus {
-          border-color: rgba(67,97,238,0.5);
-          background: rgba(67, 97, 238, 0.08);
-          box-shadow: 0 0 0 3px rgba(67,97,238,0.12);
+          border-color: #ffffff;
+          background: rgba(255, 255, 255, 0.14);
+          box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.15);
         }
 
         .rp-icon {
@@ -242,18 +244,18 @@ const RegisterPage = () => {
           transform: translateY(-50%);
           width: 32px;
           height: 32px;
-          background: rgba(255,255,255,0.03);
+          background: rgba(255, 255, 255, 0.06);
           border-radius: 8px;
           display: flex;
           align-items: center;
           justify-content: center;
-          color: rgba(255,255,255,0.25);
+          color: rgba(255, 255, 255, 0.75);
           pointer-events: none;
           transition: all 0.2s ease;
         }
         .rp-input:focus + .rp-icon {
-          background: rgba(67,97,238,0.12);
-          color: #4361EE;
+          background: rgba(255, 255, 255, 0.2);
+          color: #ffffff;
         }
         .rp-icon.click {
           pointer-events: all;
@@ -321,8 +323,8 @@ const RegisterPage = () => {
           justify-content: center;
           align-items: center;
           gap: 0.4rem;
-          color: rgba(255,255,255,0.12);
-          font-size: 0.7rem;
+          color: rgba(255, 255, 255, 0.5);
+          font-size: 0.72rem;
           margin-top: 2.5rem;
         }
 
@@ -334,17 +336,31 @@ const RegisterPage = () => {
             background: rgba(13, 15, 28, 0.85);
             min-height: 100vh;
             min-height: 100dvh;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
           }
           .rp-header {
-            position: relative;
-            padding: 1.25rem 1.5rem 0.5rem;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: max(1.25rem, env(safe-area-inset-top)) 1.5rem 0.5rem;
+            z-index: 10;
           }
           .rp-nav-center {
             display: none;
           }
           .rp-content {
-            padding: 1.5rem 1.5rem 2.5rem;
-            max-width: 100%;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: max(4.5rem, env(safe-area-inset-top)) 1.5rem max(2rem, env(safe-area-inset-bottom));
+            max-width: 500px;
+            margin: 0 auto;
+            width: 100%;
+            box-sizing: border-box;
           }
           .rp-heading {
             font-size: 1.85rem;
@@ -359,8 +375,8 @@ const RegisterPage = () => {
         }
 
         @media (max-width: 420px) {
-          .rp-header { padding: 1rem 1.25rem 0.25rem; }
-          .rp-content { padding: 1.25rem 1.25rem 2rem; }
+          .rp-header { padding: max(1rem, env(safe-area-inset-top)) 1.25rem 0.5rem; }
+          .rp-content { padding: max(4rem, env(safe-area-inset-top)) 1.25rem max(1.5rem, env(safe-area-inset-bottom)); }
           .rp-heading { font-size: 1.65rem; }
         }
       `}</style>
@@ -370,7 +386,7 @@ const RegisterPage = () => {
         
         <header className="rp-header">
           <div className="rp-logo">
-            <PathWiseLogo href="/" size={28} />
+            <PathWiseLogo href="/" size={28} textColor="#ffffff" />
           </div>
           <nav className="rp-nav-center">
             <Link to="/">Home</Link>
@@ -523,7 +539,7 @@ const RegisterPage = () => {
                   {isSubmitting ? 'Processing...' : 'Create Account'}
                 </button>
                 
-                <div style={{ fontSize: '0.85rem', color: 'rgba(255,255,255,0.45)' }}>
+                <div style={{ fontSize: '0.85rem', color: 'rgba(255,255,255,0.7)' }}>
                   Already have an account? <Link to="/login" style={{ color: '#4361EE', textDecoration: 'none', fontWeight: 600 }}>Log In</Link>
                 </div>
               </motion.div>

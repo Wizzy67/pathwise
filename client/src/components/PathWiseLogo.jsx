@@ -11,7 +11,7 @@
  */
 import { Link } from 'react-router-dom';
 
-const PathWiseLogo = ({ size = 32, text = true, href, className = '' }) => {
+const PathWiseLogo = ({ size = 32, text = true, href, className = '', textColor }) => {
   const content = (
     <span className={`flex items-center gap-2 ${className}`}>
       <img
@@ -32,7 +32,7 @@ const PathWiseLogo = ({ size = 32, text = true, href, className = '' }) => {
           className="font-outfit font-extrabold tracking-tight"
           style={{
             fontSize: `${Math.round(size * 0.65)}px`,
-            color: 'var(--white)',
+            color: textColor || 'var(--white)',
             lineHeight: 1,
           }}
         >

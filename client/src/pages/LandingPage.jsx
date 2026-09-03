@@ -362,7 +362,7 @@ const LandingPage = () => {
         {/* Header */}
         <header className="land-header">
           <div className="land-logo">
-            <PathWiseLogo href="/" size={28} />
+            <PathWiseLogo href="/" size={28} textColor="#ffffff" />
           </div>
           <div className="land-header-right">
             <Link to="/login">Sign In</Link>
@@ -379,7 +379,7 @@ const LandingPage = () => {
           <div className="land-content">
             
             <div className="land-mobile-logo">
-              <PathWiseLogo href="/" size={30} />
+              <PathWiseLogo href="/" size={30} textColor="#ffffff" />
             </div>
             
             <motion.div
