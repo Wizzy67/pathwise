@@ -280,12 +280,14 @@ const LoginPage = () => {
         .lp-field {
           display: flex;
           flex-direction: column;
-          gap: 0.4rem;
+          gap: 0.45rem;
         }
 
         .lp-field-label {
-          font-size: 0.72rem;
-          color: rgba(255,255,255,0.45);
+          font-size: 0.78rem;
+          color: #ffffff;
+          font-weight: 600;
+          letter-spacing: 0.02em;
           padding-left: 0.2rem;
         }
 
@@ -295,10 +297,10 @@ const LoginPage = () => {
 
         .lp-input {
           width: 100%;
-          background: rgba(255, 255, 255, 0.04); /* Glass background */
-          backdrop-filter: blur(12px);
-          -webkit-backdrop-filter: blur(12px);
-          border: 1px solid rgba(255, 255, 255, 0.1);
+          background: rgba(255, 255, 255, 0.08); /* Frosted white glass fill */
+          backdrop-filter: blur(16px);
+          -webkit-backdrop-filter: blur(16px);
+          border: 1px solid rgba(255, 255, 255, 0.22);
           border-radius: 12px;
           padding: 0.9rem 3.5rem 0.9rem 1.2rem;
           color: #ffffff;
@@ -310,12 +312,12 @@ const LoginPage = () => {
           box-sizing: border-box;
         }
         .lp-input::placeholder {
-          color: rgba(255,255,255,0.25);
+          color: rgba(255, 255, 255, 0.55);
         }
         .lp-input:focus {
-          border-color: rgba(67,97,238,0.5);
-          background: rgba(67, 97, 238, 0.08); /* slight blue tint on glass */
-          box-shadow: 0 0 0 3px rgba(67,97,238,0.12);
+          border-color: #ffffff;
+          background: rgba(255, 255, 255, 0.14);
+          box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.15);
         }
 
         .lp-icon {
@@ -325,18 +327,18 @@ const LoginPage = () => {
           transform: translateY(-50%);
           width: 32px;
           height: 32px;
-          background: rgba(255,255,255,0.03);
+          background: rgba(255, 255, 255, 0.06);
           border-radius: 8px;
           display: flex;
           align-items: center;
           justify-content: center;
-          color: rgba(255,255,255,0.25);
+          color: rgba(255, 255, 255, 0.75);
           pointer-events: none;
           transition: all 0.2s ease;
         }
         .lp-input:focus + .lp-icon {
-          background: rgba(67,97,238,0.12);
-          color: #4361EE;
+          background: rgba(255, 255, 255, 0.2);
+          color: #ffffff;
         }
         .lp-icon.click {
           pointer-events: auto;
@@ -344,7 +346,7 @@ const LoginPage = () => {
         }
         .lp-icon.click:hover {
           color: #ffffff;
-          background: rgba(255,255,255,0.08);
+          background: rgba(255, 255, 255, 0.12);
         }
 
         /* ── Submit button ── */
@@ -358,29 +360,30 @@ const LoginPage = () => {
         .lp-btn-fill {
           width: 100%;
           padding: 0.95rem;
-          background: transparent;
-          border: 1px solid rgba(255, 255, 255, 0.15);
+          background: #ffffff;
+          border: 1px solid #ffffff;
           border-radius: 12px;
-          color: rgba(255, 255, 255, 0.9);
+          color: #0A0C16;
           font-size: 0.95rem;
-          font-weight: 700;
+          font-weight: 800;
           font-family: inherit;
           cursor: pointer;
-          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+          transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+          box-shadow: 0 4px 20px rgba(255, 255, 255, 0.15), 0 2px 6px rgba(0, 0, 0, 0.4);
         }
         .lp-btn-fill:hover {
-          background: #4361EE;
-          border-color: #4361EE;
-          color: #ffffff;
-          box-shadow: 0 8px 35px rgba(67,97,238,0.5);
-          transform: translateY(-2px) scale(1.02);
+          background: #f0f3ff;
+          border-color: #f0f3ff;
+          color: #0A0C16;
+          box-shadow: 0 6px 25px rgba(255, 255, 255, 0.25);
+          transform: translateY(-1px);
         }
         .lp-btn-fill:active {
           transform: scale(0.98);
+          background: #e2e8f0;
         }
         .lp-btn-fill:disabled {
-          opacity: 0.5;
+          opacity: 0.6;
           cursor: not-allowed;
           transform: none;
           box-shadow: none;
@@ -392,8 +395,8 @@ const LoginPage = () => {
           justify-content: center;
           align-items: center;
           gap: 0.4rem;
-          color: rgba(255,255,255,0.12);
-          font-size: 0.7rem;
+          color: rgba(255, 255, 255, 0.5);
+          font-size: 0.72rem;
           margin-top: 2.5rem;
         }
 
@@ -543,8 +546,8 @@ const LoginPage = () => {
                   {isSubmitting ? 'Logging in...' : 'Log In'}
                 </button>
                 
-                <div style={{ fontSize: '0.85rem', color: 'rgba(255,255,255,0.45)' }}>
-                  Don't have an account? <Link to="/register" style={{ color: '#4361EE', textDecoration: 'none', fontWeight: 600 }}>Sign Up</Link>
+                <div style={{ fontSize: '0.88rem', color: 'rgba(255,255,255,0.85)' }}>
+                  Don't have an account? <Link to="/register" style={{ color: '#ffffff', textDecoration: 'underline', textUnderlineOffset: '3px', fontWeight: 700 }}>Sign Up</Link>
                 </div>
               </motion.div>
             </form>
