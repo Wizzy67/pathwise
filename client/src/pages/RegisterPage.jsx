@@ -68,10 +68,12 @@ const RegisterPage = () => {
         .rp-wrapper {
           position: relative;
           min-height: 100vh;
+          min-height: 100dvh;
           width: 100%;
-          overflow: hidden;
+          overflow-x: hidden;
           font-family: 'Inter', 'Open Sans', sans-serif;
           color: #ffffff;
+          background-color: #0A0C16;
         }
 
         /* Background image layer */
@@ -109,6 +111,7 @@ const RegisterPage = () => {
           position: relative;
           z-index: 1;
           min-height: 100vh;
+          min-height: 100dvh;
           width: 50%;
           max-width: 650px;
           margin-left: auto; /* Anchors content to the right side */
@@ -216,7 +219,7 @@ const RegisterPage = () => {
           border-radius: 12px;
           padding: 0.9rem 3.5rem 0.9rem 1.2rem;
           color: #ffffff;
-          font-size: 0.92rem;
+          font-size: 16px; /* 16px prevents iOS Safari auto-zoom on focus */
           font-weight: 500;
           font-family: inherit;
           outline: none;
@@ -275,7 +278,7 @@ const RegisterPage = () => {
           padding: 0.95rem 1rem;
           background: rgba(255, 255, 255, 0.05);
           border: 1px solid rgba(255, 255, 255, 0.15);
-          border-radius: 100px;
+          border-radius: 12px;
           color: rgba(255, 255, 255, 0.85);
           font-size: 0.92rem;
           font-weight: 700;
@@ -302,6 +305,9 @@ const RegisterPage = () => {
           box-shadow: 0 8px 35px rgba(67,97,238,0.5);
           transform: translateY(-2px) scale(1.02);
         }
+        .rp-btn-fill:active {
+          transform: scale(0.98);
+        }
         .rp-btn-fill:disabled {
           opacity: 0.5;
           cursor: not-allowed;
@@ -325,20 +331,23 @@ const RegisterPage = () => {
           .rp-glass {
             width: 100%;
             max-width: 100%;
-            background: rgba(13, 15, 28, 0.7);
+            background: rgba(13, 15, 28, 0.85);
+            min-height: 100vh;
+            min-height: 100dvh;
           }
           .rp-header {
-            padding: 1.5rem;
+            position: relative;
+            padding: 1.25rem 1.5rem 0.5rem;
           }
           .rp-nav-center {
             display: none;
           }
           .rp-content {
-            padding: 8rem 1.5rem 2rem;
+            padding: 1.5rem 1.5rem 2.5rem;
             max-width: 100%;
           }
           .rp-heading {
-            font-size: 2.2rem;
+            font-size: 1.85rem;
           }
         }
 
@@ -350,9 +359,9 @@ const RegisterPage = () => {
         }
 
         @media (max-width: 420px) {
-          .rp-header { padding: 1.2rem; }
-          .rp-content { padding: 7rem 1.2rem 1.5rem; }
-          .rp-heading { font-size: 1.5rem; }
+          .rp-header { padding: 1rem 1.25rem 0.25rem; }
+          .rp-content { padding: 1.25rem 1.25rem 2rem; }
+          .rp-heading { font-size: 1.65rem; }
         }
       `}</style>
 

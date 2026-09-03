@@ -7,35 +7,6 @@ import api from '../services/api';
 import { Mail, Eye, EyeOff, Lock, ArrowRight } from 'lucide-react';
 import PathWiseLogo from '../components/PathWiseLogo';
 
-/* ─── Falling Glass Embers ─── */
-function Embers() {
-  const embers = Array.from({ length: 35 }, (_, i) => ({
-    id: i,
-    size: Math.random() * 4 + 2,
-    left: Math.random() * 100,
-    duration: Math.random() * 8 + 6,
-    delay: Math.random() * -15,
-    drift: Math.random() * 40 - 20,
-  }));
-  return (
-    <div className="embers-container" aria-hidden="true">
-      {embers.map(e => (
-        <div
-          key={e.id}
-          className="ember"
-          style={{
-            width: e.size, height: e.size,
-            left: `${e.left}%`,
-            animationDuration: `${e.duration}s`,
-            animationDelay: `${e.delay}s`,
-            '--drift': `${e.drift}px`
-          }}
-        />
-      ))}
-    </div>
-  );
-}
-
 /* ─── AUTH LOADING SCREEN ─────────────────────────────────── */
 const AuthenticatingScreen = ({ onSuccess }) => {
   const [currentStep, setCurrentStep] = useState(0);
@@ -181,10 +152,12 @@ const LoginPage = () => {
         .lp-wrapper {
           position: relative;
           min-height: 100vh;
+          min-height: 100dvh;
           width: 100%;
-          overflow: hidden;
+          overflow-x: hidden;
           font-family: 'Inter', 'Open Sans', sans-serif;
           color: #ffffff;
+          background-color: #0A0C16;
         }
 
         .lp-bg {
@@ -215,33 +188,12 @@ const LoginPage = () => {
           );
         }
 
-          inset: 0;
-          overflow: hidden;
-          z-index: 1;
-          pointer-events: none;
-        }
-        .ember {
-          position: absolute;
-          top: -10px;
-          background: rgba(255, 255, 255, 0.9);
-          border-radius: 50%;
-          box-shadow: 0 0 10px rgba(67, 97, 238, 0.8), 0 0 20px rgba(67, 97, 238, 0.4), inset 0 0 4px #ffffff;
-          opacity: 0;
-          animation: fall linear infinite;
-        }
-        @keyframes fall {
-          0% { transform: translateY(0) translateX(0) scale(1); opacity: 0; }
-          10% { opacity: 0.8; }
-          50% { transform: translateY(50vh) translateX(var(--drift)) scale(0.8); opacity: 1; }
-          90% { opacity: 0.6; }
-          100% { transform: translateY(105vh) translateX(calc(var(--drift) * 1.5)) scale(0.3); opacity: 0; }
-        }
-
         /* ── Right Container (formerly glass panel) ── */
         .lp-glass {
           position: relative;
           z-index: 1;
           min-height: 100vh;
+          min-height: 100dvh;
           width: 50%;
           max-width: 650px;
           margin-left: auto; /* Anchors content to the right side */
@@ -350,7 +302,7 @@ const LoginPage = () => {
           border-radius: 12px;
           padding: 0.9rem 3.5rem 0.9rem 1.2rem;
           color: #ffffff;
-          font-size: 0.92rem;
+          font-size: 16px; /* 16px prevents iOS Safari auto-zoom on focus */
           font-weight: 500;
           font-family: inherit;
           outline: none;
@@ -387,72 +339,45 @@ const LoginPage = () => {
           color: #4361EE;
         }
         .lp-icon.click {
-          pointer-events: all;
+          pointer-events: auto;
           cursor: pointer;
         }
         .lp-icon.click:hover {
+          color: #ffffff;
           background: rgba(255,255,255,0.08);
-          color: rgba(255,255,255,0.6);
         }
 
-        /* ── Buttons ── */
+        /* ── Submit button ── */
         .lp-actions {
           display: flex;
-          gap: 1rem;
-          margin-top: 1.5rem;
-        }
-
-        .lp-btn-ghost {
-          flex: 1;
-          padding: 0.85rem 1rem;
-          background: transparent;
-          border: 1px solid rgba(255,255,255,0.15);
-          border-radius: 100px; /* Perfectly pill-shaped */
-          color: rgba(255,255,255,0.7);
-          font-size: 0.88rem;
-          font-weight: 600;
-          cursor: pointer;
-          transition: all 0.2s ease;
-          font-family: inherit;
-        }
-        .lp-btn-ghost:hover {
-          border-color: rgba(255,255,255,0.3);
-          color: #fff;
-          background: rgba(255,255,255,0.02);
+          align-items: center;
+          justify-content: space-between;
+          margin-top: 1rem;
         }
 
         .lp-btn-fill {
-          flex: 1;
           width: 100%;
-          padding: 0.95rem 1rem;
-          background: rgba(255, 255, 255, 0.05);
+          padding: 0.95rem;
+          background: transparent;
           border: 1px solid rgba(255, 255, 255, 0.15);
-          border-radius: 100px; /* Perfectly pill-shaped */
-          color: rgba(255, 255, 255, 0.85);
-          font-size: 0.92rem;
+          border-radius: 12px;
+          color: rgba(255, 255, 255, 0.9);
+          font-size: 0.95rem;
           font-weight: 700;
+          font-family: inherit;
           cursor: pointer;
           transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-          font-family: inherit;
-          position: relative;
-          overflow: hidden;
+          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
         }
-        .lp-btn-fill::before {
-          content: '';
-          position: absolute;
-          top: -50%; left: -50%;
-          width: 200%; height: 200%;
-          background: linear-gradient(45deg, transparent 40%, rgba(255,255,255,0.15) 50%, transparent 60%);
-          transition: transform 0.6s;
-          transform: translateX(-100%);
-        }
-        .lp-btn-fill:hover::before { transform: translateX(100%); }
         .lp-btn-fill:hover {
           background: #4361EE;
           border-color: #4361EE;
           color: #ffffff;
           box-shadow: 0 8px 35px rgba(67,97,238,0.5);
           transform: translateY(-2px) scale(1.02);
+        }
+        .lp-btn-fill:active {
+          transform: scale(0.98);
         }
         .lp-btn-fill:disabled {
           opacity: 0.5;
@@ -477,20 +402,24 @@ const LoginPage = () => {
           .lp-glass {
             width: 100%;
             max-width: 100%;
-            background: rgba(13, 15, 28, 0.7); /* darker on mobile */
+            background: rgba(13, 15, 28, 0.85);
+            min-height: 100vh;
+            min-height: 100dvh;
           }
           .lp-header {
-            padding: 1.5rem;
+            position: relative;
+            padding: 1.25rem 1.5rem 0.5rem;
           }
           .lp-nav-center {
             display: none; /* Hide on mobile */
           }
           .lp-content {
-            padding: 8rem 1.5rem 2rem;
+            padding: 2rem 1.5rem 2.5rem;
             max-width: 100%;
+            justify-content: flex-start;
           }
           .lp-heading {
-            font-size: 2.2rem;
+            font-size: 1.85rem;
           }
           .lp-actions {
             flex-direction: column;
@@ -498,9 +427,9 @@ const LoginPage = () => {
         }
 
         @media (max-width: 420px) {
-          .lp-header { padding: 1.2rem; }
-          .lp-content { padding: 7rem 1.2rem 1.5rem; }
-          .lp-heading { font-size: 1.5rem; }
+          .lp-header { padding: 1rem 1.25rem 0.25rem; }
+          .lp-content { padding: 1.5rem 1.25rem 2rem; }
+          .lp-heading { font-size: 1.65rem; }
         }
       `}</style>
 

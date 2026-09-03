@@ -43,7 +43,7 @@ function App() {
   const isBare = location.pathname === '/' || BARE_ROUTES.some(r => location.pathname === r || location.pathname.startsWith(r + '/'));
 
   return (
-    <div className="flex flex-col min-h-screen bg-pw-black">
+    <div className={`flex flex-col min-h-screen ${isBare ? 'bg-[#0A0C16]' : 'bg-pw-black'}`}>
       <ConnectivityBanner />
       {!isBare && <Navbar />}
 

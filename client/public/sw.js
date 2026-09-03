@@ -1,9 +1,7 @@
-const CACHE_NAME = 'pathwise-cache-v2';
+const CACHE_NAME = 'pathwise-cache-v3';
 const STATIC_ASSETS = [
-  '/',
-  '/index.html',
   '/manifest.json',
-  '/vite.svg'
+  '/favicon.svg'
 ];
 
 self.addEventListener('install', (event) => {
@@ -28,7 +26,7 @@ self.addEventListener('activate', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
-  // Stale-while-revalidate strategy for data API, Cache-first for static
+  // Stale-while-revalidate strategy for data API
   if (event.request.url.includes('/api/')) {
     event.respondWith(
       fetch(event.request)
@@ -42,6 +40,13 @@ self.addEventListener('fetch', (event) => {
         .catch(() => caches.match(event.request))
     );
   } else {
+    // Navigation / HTML requests: always network-first to prevent blank screens after new deploys
+    if (event.request.mode === 'navigate' || event.request.destination === 'document') {
+      event.respondWith(
+        fetch(event.request).catch(() => caches.match(event.request))
+      );
+      return;
+    }
     event.respondWith(
       caches.match(event.request).then((response) => {
         return response || fetch(event.request);

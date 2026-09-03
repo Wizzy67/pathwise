@@ -40,10 +40,12 @@ const LandingPage = () => {
         .land-wrapper {
           position: relative;
           min-height: 100vh;
+          min-height: 100dvh;
           width: 100%;
-          overflow: hidden;
+          overflow-x: hidden;
           font-family: 'Inter', 'Open Sans', sans-serif;
           color: #ffffff;
+          background-color: #0A0C16;
         }
 
         /* Background image layer */
@@ -115,6 +117,7 @@ const LandingPage = () => {
           position: relative;
           z-index: 1;
           min-height: 100vh;
+          min-height: 100dvh;
           width: 55%;
           max-width: 650px;
           margin-left: auto;
@@ -274,6 +277,10 @@ const LandingPage = () => {
           transform: translateY(-2px) scale(1.02);
         }
 
+        .land-btn-fill:active {
+          transform: scale(0.98);
+        }
+
         .land-btn-ghost {
           width: 100%;
           padding: 1rem;
@@ -296,25 +303,49 @@ const LandingPage = () => {
           color: #fff;
           border-color: rgba(255,255,255,0.3);
         }
+        .land-btn-ghost:active {
+          transform: scale(0.98);
+          background: rgba(255, 255, 255, 0.12);
+        }
+
+        .land-mobile-logo {
+          display: none;
+        }
 
         /* ── MOBILE ── */
         @media (max-width: 768px) {
           .land-glass {
             width: 100%;
             max-width: 100%;
-            background: rgba(13, 15, 28, 0.75);
+            background: rgba(13, 15, 28, 0.85);
+            min-height: 100vh;
+            min-height: 100dvh;
           }
           .land-header {
             display: none;
           }
           .land-logo-text { display: none; }
           
+          .land-mobile-logo {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+          }
+
           .land-content {
-            padding: 7rem 1.5rem 3rem;
+            padding: max(2.5rem, env(safe-area-inset-top)) 1.5rem max(2.5rem, env(safe-area-inset-bottom));
             max-width: 100%;
           }
           .land-heading {
-            font-size: 2.2rem;
+            font-size: clamp(1.85rem, 6.5vw, 2.3rem);
+          }
+          .land-sub {
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+          }
+          .land-features {
+            gap: 1.15rem;
+            margin-bottom: 2.25rem;
           }
           
           .land-bg::after {
@@ -346,6 +377,10 @@ const LandingPage = () => {
           transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
         >
           <div className="land-content">
+            
+            <div className="land-mobile-logo">
+              <PathWiseLogo href="/" size={30} />
+            </div>
             
             <motion.div
               className="land-badge"
