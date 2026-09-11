@@ -31,7 +31,7 @@ const ActivityLog = () => {
   }, []);
 
   return (
-    <div className="max-w-6xl mx-auto w-full pb-8" style={{ fontFamily: 'var(--font-body, "Open Sans")' }}>
+    <div className="max-w-6xl mx-auto w-full pb-28 md:pb-8" style={{ fontFamily: 'var(--font-body, "Open Sans")' }}>
       <div className="flex items-center gap-3 mb-8">
         <div className="w-12 h-12 rounded-xl bg-[var(--fog)] flex items-center justify-center border border-[var(--border)]">
           <History className="w-6 h-6 text-[var(--ink)]" />

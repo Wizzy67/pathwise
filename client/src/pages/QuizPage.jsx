@@ -7,7 +7,7 @@ import {
   ChevronLeft, ChevronRight, Loader2, GraduationCap,
   Settings, Search, Palette, Users, TrendingUp, ClipboardList,
   Coins, Heart, Shield, Award, Compass, Wrench, BookOpen,
-  Lightbulb, Flag, CheckCircle2, X
+  Lightbulb, Flag, CheckCircle2, X, Sparkles, Check
 } from 'lucide-react';
 import PathWiseLogo from '../components/PathWiseLogo';
 
@@ -92,40 +92,46 @@ const OUTCOME_ITEMS = [
 
 // ── Constructivist: Prior Experiences ─────────────────────────────────
 const PRIOR_EXP = [
-  { key: 'coding',      label: 'Coding / App Development' },
-  { key: 'research',    label: 'Research / Lab Work' },
-  { key: 'writing',     label: 'Writing / Journalism / Blogging' },
-  { key: 'healthcare',  label: 'Healthcare / Clinic Volunteering' },
-  { key: 'design',      label: 'Graphic Design / Digital Art' },
-  { key: 'debate',      label: 'Public Speaking / Debate' },
-  { key: 'business',    label: 'Business / Entrepreneurship' },
-  { key: 'community',   label: 'Community Service / NGO Work' },
-  { key: 'teaching',    label: 'Teaching / Tutoring Peers' },
-  { key: 'arts',        label: 'Music / Performance / Film' },
-  { key: 'hands_on',   label: 'Technical / Hands-on Projects' },
-  { key: 'math',        label: 'Mathematics / Statistics Competitions' },
+  { key: 'coding',      label: 'Coding & Web Dev' },
+  { key: 'research',    label: 'Lab & Field Research' },
+  { key: 'writing',     label: 'Writing & Journalism' },
+  { key: 'healthcare',  label: 'Clinic / Hospital Volunteering' },
+  { key: 'design',      label: 'Graphic & UI/UX Design' },
+  { key: 'debate',      label: 'Public Speaking & Debate' },
+  { key: 'business',    label: 'Sales & Entrepreneurship' },
+  { key: 'community',   label: 'Community & NGO Service' },
+  { key: 'teaching',    label: 'Tutoring Peers' },
+  { key: 'arts',        label: 'Music & Creative Media' },
+  { key: 'hands_on',   label: 'Technical / Hands-on Repair' },
+  { key: 'math',        label: 'Mathematics Competitions' },
 ];
 
 // ── Constructivist: Learning Styles ───────────────────────────────────
 const LEARNING_STYLES = [
-  { key: 'hands_on',     label: 'Hands-on practice',      icon: Wrench,        desc: 'Learning by doing physical tasks' },
-  { key: 'research',     label: 'Research & Reading',      icon: BookOpen,      desc: 'Independent study and deep analysis' },
-  { key: 'creative',     label: 'Creative exploration',    icon: Lightbulb,     desc: 'Experimenting and innovating freely' },
-  { key: 'collaborative',label: 'Group collaboration',     icon: Users,         desc: 'Learning through discussion and teamwork' },
-  { key: 'leadership',   label: 'Leading projects',        icon: Flag,          desc: 'Learning by organizing and directing others' },
-  { key: 'structured',   label: 'Structured study',        icon: ClipboardList, desc: 'Following clear guidelines and schedules' },
+  { key: 'hands_on',     label: 'Hands-on Practice',      icon: Wrench,        desc: 'Learning by doing physical and practical tasks' },
+  { key: 'research',     label: 'Research & Reading',      icon: BookOpen,      desc: 'Independent study, books, and deep intellectual analysis' },
+  { key: 'creative',     label: 'Creative Exploration',    icon: Lightbulb,     desc: 'Experimenting freely without rigid constraints' },
+  { key: 'collaborative',label: 'Group Collaboration',     icon: Users,         desc: 'Learning through team discussions and group work' },
+  { key: 'leadership',   label: 'Leading Projects',        icon: Flag,          desc: 'Learning by organizing, pitching, and guiding others' },
+  { key: 'structured',   label: 'Structured Study',        icon: ClipboardList, desc: 'Following clear syllabus, guidelines, and schedules' },
 ];
 
 const STEPS = [
-  { id: 1, label: 'About You' },
+  { id: 1, label: 'Academic' },
   { id: 2, label: 'Personality' },
   { id: 3, label: 'Confidence' },
-  { id: 4, label: 'Preferences' },
+  { id: 4, label: 'Values' },
   { id: 5, label: 'Review' },
 ];
 
-// Rating labels for Likert scale
-const RATING_LABELS = ['', 'Strongly Disagree', 'Disagree', 'Neutral', 'Agree', 'Strongly Agree'];
+// Likert scale definition with touch-friendly emojis
+const LIKERT_OPTIONS = [
+  { value: 1, label: 'Strongly Disagree', emoji: '👎', shortLabel: 'Disagree' },
+  { value: 2, label: 'Disagree',          emoji: '🙁', shortLabel: 'Slight Disagree' },
+  { value: 3, label: 'Neutral',           emoji: '😐', shortLabel: 'Neutral' },
+  { value: 4, label: 'Agree',              emoji: '🙂', shortLabel: 'Agree' },
+  { value: 5, label: 'Strongly Agree',    emoji: '🌟', shortLabel: 'Strong Agree' },
+];
 
 const QuizPage = () => {
   const [step, setStep] = useState(1);
@@ -176,7 +182,7 @@ const QuizPage = () => {
   }, [answers.riasec]);
 
   const canProceed = () => {
-    if (step === 1) return answers.cgpa !== '';
+    if (step === 1) return answers.cgpa !== '' && parseFloat(answers.cgpa) >= 0 && parseFloat(answers.cgpa) <= 5.0;
     if (step === 2) {
       const dim = RIASEC_DIMENSIONS[riasecDimIdx];
       return dim.statements.every((_, i) => answers.riasec[dim.key]?.[i] !== undefined);
@@ -192,17 +198,21 @@ const QuizPage = () => {
   const handleNextInStep2 = () => {
     if (riasecDimIdx < 5) {
       setRiasecDimIdx(i => i + 1);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     } else {
       setStep(3);
       setRiasecDimIdx(0);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   };
 
   const handlePrevInStep2 = () => {
     if (riasecDimIdx > 0) {
       setRiasecDimIdx(i => i - 1);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     } else {
       setStep(1);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   };
 
@@ -210,7 +220,7 @@ const QuizPage = () => {
     setIsSubmitting(true);
     try {
       await api.post('/quiz/results', { answers });
-      addNotification('Assessment complete! Generating your personalised career matches…', 'success');
+      addNotification('Assessment complete! Generating your personalized career matches…', 'success');
       navigate('/results');
     } catch (error) {
       console.error('Submit assessment error:', error);
@@ -228,426 +238,550 @@ const QuizPage = () => {
 
   const currentDim = RIASEC_DIMENSIONS[riasecDimIdx];
 
+  // Overall progress percentage
+  const progressPercent = useMemo(() => {
+    if (step === 1) return 15;
+    if (step === 2) return 20 + Math.round(((riasecDimIdx + 1) / 6) * 35);
+    if (step === 3) return 70;
+    if (step === 4) return 88;
+    return 100;
+  }, [step, riasecDimIdx]);
+
   return (
-    <div 
-      className="min-h-screen flex flex-col items-center py-10 px-4 relative overflow-hidden"
-      style={{ backgroundColor: 'var(--canvas)', fontFamily: "'Open Sans', sans-serif", color: 'var(--ink)' }}
-    >
+    <div className="min-h-[100dvh] flex flex-col bg-[var(--canvas)] select-none">
       <style>{`
-        h1, h2, h3, h4, h5, h6 { font-family: 'Nunito', sans-serif; }
-        .btn-hover:hover { filter: brightness(0.95); }
-        .btn-hover:active { transform: scale(0.98); }
+        :root {
+          --canvas: #f5f3f3;
+          --surface: #ffffff;
+          --border: #dddcdc;
+          --blue: #1944f1;
+          --azure: #4d6ff5;
+          --lavender: #eef1fe;
+          --ink: #111111;
+          --graphite: #707070;
+          --ash: #adadad;
+          --fog: #ededed;
+          --mist: #f2f2f2;
+        }
+        .heading-font { font-family: 'Nunito', sans-serif; }
+        .body-font { font-family: 'Open Sans', sans-serif; }
       `}</style>
 
-      {/* Header bar with Back / Exit */}
-      <div className="w-full max-w-2xl flex items-center justify-between mb-8 px-2 z-20">
-        <PathWiseLogo size={32} />
-        
-        <button
-          onClick={handleExit}
-          className="btn-hover flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-xs font-bold transition-all shadow-sm"
-          style={{ backgroundColor: 'var(--surface)', borderColor: 'var(--border)', color: 'var(--graphite)' }}
-        >
-          <X className="w-3.5 h-3.5" /> Exit Assessment
-        </button>
-      </div>
-
-      {/* Step Indicator */}
-      <div className="flex items-center gap-0 mb-10 w-full max-w-2xl px-2">
-        {STEPS.map((s, i) => {
-          const isActive    = s.id === step;
-          const isCompleted = s.id < step;
-          return (
-            <div key={s.id} className="flex items-center flex-1 last:flex-none">
-              <div className="flex flex-col items-center relative">
-                <div className={`w-9 h-9 rounded-xl flex items-center justify-center font-bold text-xs z-10 transition-all`}
-                  style={{
-                    backgroundColor: isCompleted || isActive ? 'var(--blue)' : 'var(--surface)',
-                    color: isCompleted || isActive ? '#fff' : 'var(--graphite)',
-                    border: isCompleted || isActive ? 'none' : '1px solid var(--border)'
-                  }}>
-                  {isCompleted ? <CheckCircle2 className="w-4 h-4" /> : s.id}
-                </div>
-                <span className="absolute -bottom-6 text-[9px] whitespace-nowrap tracking-wider uppercase font-bold"
-                  style={{ color: isActive ? 'var(--blue)' : 'var(--ash)' }}>{s.label}</span>
-              </div>
-              {i < STEPS.length - 1 && (
-                <div className="flex-1 h-[2px] mx-2 transition-all duration-500" 
-                     style={{ backgroundColor: isCompleted ? 'var(--blue)' : 'var(--border)' }} />
-              )}
-            </div>
-          );
-        })}
-      </div>
-
-      {/* Personality sub-progress bar (only in step 2) */}
-      {step === 2 && (
-        <div className="w-full max-w-2xl mb-4 px-2">
-          <div className="flex gap-1">
-            {RIASEC_DIMENSIONS.map((d, i) => (
-              <div key={d.key} className="flex-1 h-1.5 rounded-full transition-all duration-300"
-                style={{ backgroundColor: i <= riasecDimIdx ? d.color : 'var(--border)' }} />
-            ))}
-          </div>
-          <p className="text-[10px] mt-2 text-center" style={{ color: 'var(--graphite)' }}>
-            Trait {riasecDimIdx + 1} of 6 — <span className="font-bold" style={{ color: currentDim.color }}>{currentDim.label}</span>
-          </p>
-        </div>
-      )}
-
-      {/* Card Body */}
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={`${step}-${riasecDimIdx}`}
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -16 }}
-          transition={{ duration: 0.22, ease: 'easeOut' }}
-          className="w-full max-w-2xl rounded-2xl p-6 sm:p-8 mt-4"
-          style={{ backgroundColor: 'var(--surface)', border: '1px solid var(--border)' }}
-        >
-
-          {/* ── STEP 1: Academic Profile ───────────────────────────────── */}
-          {step === 1 && (
-            <div>
-              <h2 className="text-xl font-bold text-center mb-1 flex items-center justify-center gap-2" style={{ color: 'var(--ink)' }}>
-                <GraduationCap className="w-5 h-5" style={{ color: 'var(--blue)' }} /> Academic Profile
-              </h2>
-              <p className="text-xs text-center mb-8" style={{ color: 'var(--graphite)' }}>
-                Your CGPA calibrates career match scores against DELSU course pre-requisites.
-              </p>
-              <div className="max-w-xs mx-auto space-y-4">
-                <div>
-                  <label className="text-xs font-semibold uppercase tracking-wider block mb-2" style={{ color: 'var(--graphite)' }}>Current CGPA (0.00 – 5.00)</label>
-                  <input
-                    type="number" step="0.01" min="0" max="5"
-                    value={answers.cgpa}
-                    onChange={e => setAnswers(p => ({ ...p, cgpa: e.target.value }))}
-                    placeholder="e.g. 4.20"
-                    className="w-full rounded-xl px-4 py-3 text-sm focus:outline-none transition-all border"
-                    style={{ backgroundColor: 'var(--fog)', borderColor: 'var(--border)', color: 'var(--ink)' }}
-                  />
-                </div>
-                <div className="mt-6 p-4 rounded-xl" style={{ backgroundColor: 'var(--lavender)' }}>
-                  <p className="text-xs leading-relaxed" style={{ color: 'var(--graphite)' }}>
-                    PathWise uses a <span className="font-bold" style={{ color: 'var(--blue)' }}>multi-dimensional intelligence engine</span> that analyses your personality, confidence levels, core values, and background — giving you the most accurate career match possible.
-                  </p>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* ── STEP 2: RIASEC Dimensions (3 statements per sub-screen) ── */}
-          {step === 2 && (
-            <div>
-              {/* Dimension header */}
-              <div className="flex items-center gap-3 mb-5">
-                <div className="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0"
-                  style={{ background: currentDim.color + '20' }}>
-                  {<currentDim.icon className="w-5 h-5" style={{ color: currentDim.color }} />}
-                </div>
-                <div>
-                  <h2 className="text-lg font-bold leading-tight" style={{ color: 'var(--ink)' }}>{currentDim.label}</h2>
-                  <p className="text-xs" style={{ color: 'var(--graphite)' }}>{currentDim.desc}</p>
-                </div>
-                <div className="ml-auto">
-                  <span className="text-xs font-bold px-3 py-1 rounded-full" style={{ background: currentDim.color + '22', color: currentDim.color }}>
-                    Trait {riasecDimIdx + 1}/6
-                  </span>
-                </div>
-              </div>
-
-              <p className="text-xs text-center mb-6 border-b pb-4" style={{ color: 'var(--graphite)', borderColor: 'var(--border)' }}>
-                Rate each statement from <span className="font-bold" style={{ color: '#e74c3c' }}>1 (Strongly Disagree)</span> to <span className="font-bold" style={{ color: 'var(--blue)' }}>5 (Strongly Agree)</span>
-              </p>
-
-              <div className="space-y-6">
-                {currentDim.statements.map((stmt, idx) => {
-                  const rating = answers.riasec[currentDim.key]?.[idx];
-                  return (
-                    <div key={idx}>
-                      <p className="text-sm font-medium leading-relaxed mb-3" style={{ color: 'var(--ink)' }}>{stmt}</p>
-                      <div className="flex gap-2">
-                        {[1,2,3,4,5].map(n => (
-                          <button
-                            key={n}
-                            type="button"
-                            onClick={() => setRiasecRating(currentDim.key, idx, n)}
-                            title={RATING_LABELS[n]}
-                            className="flex-1 py-3 rounded-xl text-sm font-extrabold transition-all border"
-                            style={{
-                              backgroundColor: rating === n ? currentDim.color : 'var(--fog)',
-                              borderColor: rating === n ? currentDim.color : 'var(--border)',
-                              color: rating === n ? '#fff' : 'var(--graphite)'
-                            }}
-                          >
-                            {n}
-                          </button>
-                        ))}
-                      </div>
-                      {rating && (
-                        <p className="text-[10px] mt-1.5 text-right" style={{ color: 'var(--ash)' }}>{RATING_LABELS[rating]}</p>
-                      )}
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          )}
-
-          {/* ── STEP 3: SCCT Self-Efficacy ────────────────────────────── */}
-          {step === 3 && (
-            <div>
-              <h2 className="text-xl font-bold text-center mb-1" style={{ color: 'var(--ink)' }}>Career Confidence</h2>
-              <p className="text-xs text-center mb-2" style={{ color: 'var(--graphite)' }}>
-                How confident do you feel in your ability to succeed in each of these fields?
-              </p>
-              <p className="text-[10px] text-center mb-6" style={{ color: 'var(--ash)' }}>1 = Not at all confident · 5 = Very confident</p>
-              <div className="space-y-5">
-                {SELF_EFFICACY_ITEMS.map(item => {
-                  const rating = answers.selfEfficacy[item.field];
-                  return (
-                    <div key={item.field}>
-                      <div className="flex items-start justify-between mb-2">
-                        <div>
-                          <p className="text-sm font-bold" style={{ color: 'var(--ink)' }}>{item.label}</p>
-                          <p className="text-xs" style={{ color: 'var(--graphite)' }}>{item.desc}</p>
-                        </div>
-                        {rating && (
-                          <span className="text-xs font-bold px-2 py-1 rounded-full bg-green-100 text-green-700 ml-2 flex-shrink-0">{rating}/5</span>
-                        )}
-                      </div>
-                      <div className="flex gap-1.5">
-                        {[1,2,3,4,5].map(n => (
-                          <button
-                            key={n}
-                            type="button"
-                            onClick={() => setSelfEfficacy(item.field, n)}
-                            className="flex-1 py-2.5 rounded-xl text-xs font-extrabold transition-all border"
-                            style={{
-                              backgroundColor: rating === n ? '#27AE60' : 'var(--fog)',
-                              borderColor: rating === n ? '#27AE60' : 'var(--border)',
-                              color: rating === n ? '#fff' : 'var(--graphite)'
-                            }}
-                          >
-                            {n}
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          )}
-
-          {/* ── STEP 4: Career Values + Constructivist ────────────────── */}
-          {step === 4 && (
-            <div className="space-y-8">
-              {/* Outcome Expectations */}
-              <div>
-                <h2 className="text-lg font-bold mb-1" style={{ color: 'var(--ink)' }}>What Matters to You</h2>
-                <p className="text-xs mb-5" style={{ color: 'var(--graphite)' }}>
-                  What do you most value in a career? Rate each from 1 (not important) to 5 (essential).
-                </p>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  {OUTCOME_ITEMS.map(item => {
-                    const val = answers.outcomeExpectations[item.key];
-                    const Icon = item.icon;
-                    return (
-                      <div key={item.key} className="p-4 rounded-xl border" style={{ borderColor: 'var(--border)', backgroundColor: 'var(--canvas)' }}>
-                        <div className="flex items-center gap-2 mb-3">
-                          <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ backgroundColor: 'var(--lavender)' }}>
-                            <Icon className="w-4 h-4" style={{ color: 'var(--blue)' }} />
-                          </div>
-                          <div className="flex-1 min-w-0">
-                            <p className="text-xs font-bold truncate" style={{ color: 'var(--ink)' }}>{item.label}</p>
-                            <p className="text-[10px] truncate" style={{ color: 'var(--graphite)' }}>{item.desc}</p>
-                          </div>
-                          {val && <span className="text-xs font-bold flex-shrink-0" style={{ color: 'var(--blue)' }}>{val}/5</span>}
-                        </div>
-                        <div className="flex gap-1">
-                          {[1,2,3,4,5].map(n => (
-                            <button
-                              key={n}
-                              type="button"
-                              onClick={() => setOutcome(item.key, n)}
-                              className="flex-1 py-2 rounded-lg text-xs font-bold transition-all border"
-                              style={{
-                                backgroundColor: val === n ? 'var(--blue)' : 'var(--fog)',
-                                borderColor: val === n ? 'var(--blue)' : 'transparent',
-                                color: val === n ? '#fff' : 'var(--graphite)'
-                              }}
-                            >
-                              {n}
-                            </button>
-                          ))}
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-
-              {/* Prior Experiences */}
-              <div>
-                <h3 className="text-base font-bold mb-1" style={{ color: 'var(--ink)' }}>Your Background</h3>
-                <p className="text-xs mb-4" style={{ color: 'var(--graphite)' }}>
-                  Which of these have you explored or tried before? Select all that apply.
-                </p>
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-                  {PRIOR_EXP.map(exp => {
-                    const sel = answers.priorExperiences.includes(exp.key);
-                    return (
-                      <button
-                        key={exp.key}
-                        type="button"
-                        onClick={() => toggleExp(exp.key)}
-                        className="p-3 rounded-xl border text-xs font-bold text-left transition-all"
-                        style={{
-                          borderColor: sel ? '#9B59B6' : 'var(--border)',
-                          backgroundColor: sel ? '#9B59B622' : 'var(--fog)',
-                          color: sel ? '#9B59B6' : 'var(--graphite)'
-                        }}
-                      >
-                        {exp.label}
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-
-              {/* Learning Style */}
-              <div>
-                <h3 className="text-base font-bold mb-1" style={{ color: 'var(--ink)' }}>How Do You Learn Best?</h3>
-                <p className="text-xs mb-4" style={{ color: 'var(--graphite)' }}>
-                  Choose the style that best describes how you absorb and apply new knowledge.
-                </p>
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-                  {LEARNING_STYLES.map(ls => {
-                    const Icon = ls.icon;
-                    const sel = answers.learningStyle === ls.key;
-                    return (
-                      <button
-                        key={ls.key}
-                        type="button"
-                        onClick={() => setAnswers(p => ({ ...p, learningStyle: ls.key }))}
-                        className="p-3.5 rounded-xl border transition-all flex flex-col gap-2"
-                        style={{
-                          borderColor: sel ? '#9B59B6' : 'var(--border)',
-                          backgroundColor: sel ? '#9B59B622' : 'var(--fog)'
-                        }}
-                      >
-                        <Icon className="w-4 h-4" style={{ color: sel ? '#9B59B6' : 'var(--graphite)' }} />
-                        <div>
-                          <p className="text-xs font-bold text-left" style={{ color: sel ? '#9B59B6' : 'var(--ink)' }}>{ls.label}</p>
-                          <p className="text-[10px] text-left leading-tight mt-0.5" style={{ color: 'var(--graphite)' }}>{ls.desc}</p>
-                        </div>
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* ── STEP 5: Review & Submit ───────────────────────────────── */}
-          {step === 5 && (
-            <div>
-              <h2 className="text-xl font-bold text-center mb-1" style={{ color: 'var(--ink)' }}>Almost There!</h2>
-              <p className="text-xs text-center mb-6" style={{ color: 'var(--graphite)' }}>Review your profile before we generate your personalised career matches.</p>
-
-              {/* Career Type Preview */}
-              <div className="text-center mb-6 p-5 rounded-2xl border" style={{ backgroundColor: 'var(--lavender)', borderColor: 'var(--azure)' }}>
-                <p className="text-xs mb-2 uppercase tracking-wider font-bold" style={{ color: 'var(--graphite)' }}>Your Career Personality Type</p>
-                <div className="flex justify-center gap-2 mb-2">
-                  {previewHolland.split('').map((letter, i) => {
-                    const dim = RIASEC_DIMENSIONS.find(d => d.key === letter);
-                    return (
-                      <div key={i} className="w-14 h-14 rounded-xl flex items-center justify-center text-2xl font-extrabold text-white"
-                        style={{ background: dim?.color || 'var(--blue)' }}>
-                        {letter}
-                      </div>
-                    );
-                  })}
-                </div>
-                <p className="text-xs" style={{ color: 'var(--graphite)' }}>
-                  {previewHolland.split('').map(k => RIASEC_DIMENSIONS.find(d => d.key === k)?.label).join(' · ')}
-                </p>
-              </div>
-
-              {/* Summary stats */}
-              <div className="grid grid-cols-2 gap-3 mb-6">
-                <div className="p-3 rounded-xl border" style={{ backgroundColor: 'var(--fog)', borderColor: 'var(--border)' }}>
-                  <p className="text-xs" style={{ color: 'var(--graphite)' }}>CGPA</p>
-                  <p className="font-bold" style={{ color: 'var(--ink)' }}>{answers.cgpa || '—'}</p>
-                </div>
-                <div className="p-3 rounded-xl border" style={{ backgroundColor: 'var(--fog)', borderColor: 'var(--border)' }}>
-                  <p className="text-xs" style={{ color: 'var(--graphite)' }}>Learning Style</p>
-                  <p className="font-bold capitalize" style={{ color: 'var(--ink)' }}>{answers.learningStyle?.replace('_', ' ') || '—'}</p>
-                </div>
-                <div className="p-3 rounded-xl border" style={{ backgroundColor: 'var(--fog)', borderColor: 'var(--border)' }}>
-                  <p className="text-xs" style={{ color: 'var(--graphite)' }}>Prior Experiences</p>
-                  <p className="font-bold" style={{ color: 'var(--ink)' }}>{answers.priorExperiences.length} selected</p>
-                </div>
-                <div className="p-3 rounded-xl border" style={{ backgroundColor: 'var(--fog)', borderColor: 'var(--border)' }}>
-                  <p className="text-xs" style={{ color: 'var(--graphite)' }}>Top Career Value</p>
-                  <p className="font-bold capitalize" style={{ color: 'var(--ink)' }}>
-                    {Object.entries(answers.outcomeExpectations).sort((a, b) => b[1] - a[1])[0]?.[0] || '—'}
-                  </p>
-                </div>
-              </div>
-
-              <p className="text-xs text-center" style={{ color: 'var(--graphite)' }}>
-                Submitting will run PathWise's intelligence engine to generate your personalised career matches and personality profile.
-              </p>
-            </div>
-          )}
-
-        </motion.div>
-      </AnimatePresence>
-
-      {/* Navigation Controls */}
-      <div className="flex justify-between w-full max-w-2xl mt-6 px-2">
-        <button
-          onClick={() => {
-            if (step === 2) handlePrevInStep2();
-            else setStep(s => Math.max(1, s - 1));
-          }}
-          disabled={step === 1 && riasecDimIdx === 0}
-          className="btn-hover flex items-center gap-2 px-5 py-2.5 rounded-xl border text-xs font-bold transition-all disabled:opacity-30 disabled:pointer-events-none"
-          style={{ backgroundColor: 'var(--surface)', borderColor: 'var(--border)', color: 'var(--graphite)' }}
-        >
-          <ChevronLeft className="w-4 h-4" /> Previous
-        </button>
-
-        {step < 5 ? (
+      {/* ── TOP APP ASSESSMENT HEADER (Mobile-Native) ── */}
+      <div className="sticky top-0 z-30 bg-[var(--surface)]/95 backdrop-blur-md border-b border-[var(--border)] px-4 py-3">
+        <div className="max-w-xl mx-auto flex items-center justify-between gap-3">
           <button
             onClick={() => {
-              if (step === 2) handleNextInStep2();
-              else setStep(s => s + 1);
+              if (step === 2) handlePrevInStep2();
+              else if (step > 1) { setStep(s => s - 1); window.scrollTo({ top: 0, behavior: 'smooth' }); }
+              else handleExit();
             }}
-            disabled={!canProceed()}
-            className="btn-hover flex items-center gap-2 px-6 py-2.5 rounded-xl text-white text-xs font-bold disabled:opacity-40 transition-all disabled:pointer-events-none"
-            style={{ backgroundColor: 'var(--blue)' }}
+            className="w-9 h-9 rounded-xl bg-[var(--mist)] text-[var(--graphite)] hover:text-[var(--ink)] flex items-center justify-center active:scale-95 transition-all"
           >
-            {step === 2 && riasecDimIdx < 5 ? `Next: ${RIASEC_DIMENSIONS[riasecDimIdx + 1]?.label}` : 'Next Step'}
-            <ChevronRight className="w-4 h-4" />
+            <ChevronLeft className="w-5 h-5" />
           </button>
-        ) : (
+
+          <div className="flex-1 text-center">
+            <span className="text-[10px] font-extrabold uppercase tracking-widest text-[var(--graphite)]">
+              {STEPS[step - 1].label} · Step {step} of 5
+            </span>
+            {/* Animated Progress Bar */}
+            <div className="w-full bg-[var(--mist)] h-1.5 rounded-full mt-1.5 overflow-hidden">
+              <div
+                className="bg-[var(--blue)] h-full rounded-full transition-all duration-300"
+                style={{ width: `${progressPercent}%` }}
+              />
+            </div>
+          </div>
+
           <button
-            onClick={handleSubmit}
-            disabled={isSubmitting}
-            className="btn-hover flex items-center gap-2 px-8 py-2.5 rounded-xl text-white text-xs font-bold disabled:opacity-60 transition-all disabled:pointer-events-none"
-            style={{ backgroundColor: 'var(--blue)' }}
+            onClick={handleExit}
+            className="w-9 h-9 rounded-xl bg-[var(--mist)] text-[var(--graphite)] hover:text-[var(--ink)] flex items-center justify-center active:scale-95 transition-all"
           >
-            {isSubmitting ? (
-              <><Loader2 className="w-4 h-4 animate-spin" /> Analyzing Profile…</>
-            ) : (
-              'Generate My Career Matches'
-            )}
+            <X className="w-4 h-4" />
           </button>
-        )}
+        </div>
+      </div>
+
+      {/* ── MAIN CONTENT CONTAINER ── */}
+      <div className="flex-1 max-w-xl w-full mx-auto p-4 pb-28">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={`${step}-${riasecDimIdx}`}
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -12 }}
+            transition={{ duration: 0.2 }}
+            className="space-y-4"
+          >
+
+            {/* ══════════════════════════════════════════════════════════════ */}
+            {/* ── STEP 1: ACADEMIC BASELINE (CGPA) ── */}
+            {/* ══════════════════════════════════════════════════════════════ */}
+            {step === 1 && (
+              <div className="space-y-4 pt-2">
+                <div className="bg-[var(--surface)] border border-[var(--border)] rounded-3xl p-5 sm:p-6 shadow-sm text-center">
+                  <div className="w-12 h-12 rounded-2xl bg-[var(--lavender)] text-[var(--blue)] flex items-center justify-center mx-auto mb-3">
+                    <GraduationCap className="w-6 h-6" />
+                  </div>
+                  <h2 className="text-lg font-black text-[var(--ink)] heading-font">
+                    Academic Standing
+                  </h2>
+                  <p className="text-xs text-[var(--graphite)] mt-1 max-w-xs mx-auto">
+                    Your CGPA calibrates course prerequisites and career match feasibility at DELSU.
+                  </p>
+
+                  {/* Input Card */}
+                  <div className="mt-6 max-w-xs mx-auto">
+                    <label className="text-[11px] font-extrabold uppercase tracking-wider text-[var(--graphite)] block mb-2">
+                      Current Cumulative GPA (0.00 – 5.00)
+                    </label>
+                    <input
+                      type="number"
+                      step="0.01"
+                      min="0"
+                      max="5.0"
+                      value={answers.cgpa}
+                      onChange={e => setAnswers(p => ({ ...p, cgpa: e.target.value }))}
+                      placeholder="e.g. 4.25"
+                      className="w-full text-center text-2xl font-black heading-font bg-[var(--mist)] border-2 border-[var(--border)] rounded-2xl py-3 px-4 text-[var(--ink)] focus:outline-none focus:border-[var(--blue)] transition-all"
+                    />
+
+                    {/* Quick Preset Pills */}
+                    <div className="flex gap-2 justify-center mt-3">
+                      {['3.20', '3.80', '4.20', '4.50'].map(val => (
+                        <button
+                          key={val}
+                          type="button"
+                          onClick={() => setAnswers(p => ({ ...p, cgpa: val }))}
+                          className="px-2.5 py-1 rounded-lg text-xs font-bold bg-[var(--fog)] text-[var(--graphite)] hover:text-[var(--blue)] hover:bg-[var(--lavender)] transition-all"
+                        >
+                          {val}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="bg-[var(--surface)] border border-[var(--border)] rounded-3xl p-4 shadow-sm flex items-start gap-3">
+                  <div className="w-8 h-8 rounded-xl bg-[var(--lavender)] text-[var(--blue)] flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <Sparkles className="w-4 h-4" />
+                  </div>
+                  <div className="text-xs text-[var(--graphite)] leading-relaxed">
+                    <p className="font-bold text-[var(--ink)]">Three-Theory Engine</p>
+                    <p className="text-[11px] mt-0.5">
+                      PathWise analyzes personality (Holland RIASEC), career self-efficacy (SCCT), and constructivist learning styles to provide explainable DELSU career recommendations.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* ══════════════════════════════════════════════════════════════ */}
+            {/* ── STEP 2: RIASEC PERSONALITY (3 statements per dimension) ── */}
+            {/* ══════════════════════════════════════════════════════════════ */}
+            {step === 2 && (
+              <div className="space-y-4">
+                {/* Trait Header Card */}
+                <div className="bg-[var(--surface)] border border-[var(--border)] rounded-3xl p-4 sm:p-5 shadow-sm">
+                  <div className="flex items-center justify-between mb-2">
+                    <div className="flex items-center gap-2.5">
+                      <div
+                        className="w-10 h-10 rounded-2xl flex items-center justify-center flex-shrink-0 shadow-sm"
+                        style={{ backgroundColor: currentDim.color + '18', color: currentDim.color }}
+                      >
+                        <currentDim.icon className="w-5 h-5" />
+                      </div>
+                      <div>
+                        <h2 className="text-base font-black text-[var(--ink)] heading-font leading-tight">
+                          {currentDim.label}
+                        </h2>
+                        <p className="text-[11px] text-[var(--graphite)]">
+                          {currentDim.desc}
+                        </p>
+                      </div>
+                    </div>
+                    <span
+                      className="text-[10px] font-black px-2.5 py-1 rounded-full heading-font"
+                      style={{ backgroundColor: currentDim.color + '18', color: currentDim.color }}
+                    >
+                      Trait {riasecDimIdx + 1}/6
+                    </span>
+                  </div>
+
+                  {/* 6 Trait Sub-bars */}
+                  <div className="flex gap-1 pt-2">
+                    {RIASEC_DIMENSIONS.map((d, i) => (
+                      <div
+                        key={d.key}
+                        className="flex-1 h-1.5 rounded-full transition-all duration-300"
+                        style={{ backgroundColor: i <= riasecDimIdx ? d.color : 'var(--border)' }}
+                      />
+                    ))}
+                  </div>
+                </div>
+
+                {/* Statements Cards */}
+                <div className="space-y-3">
+                  {currentDim.statements.map((stmt, idx) => {
+                    const rating = answers.riasec[currentDim.key]?.[idx];
+                    return (
+                      <div
+                        key={idx}
+                        className="bg-[var(--surface)] border border-[var(--border)] rounded-2xl p-4 shadow-sm space-y-3"
+                      >
+                        <p className="text-xs sm:text-sm font-bold text-[var(--ink)] leading-relaxed">
+                          {idx + 1}. {stmt}
+                        </p>
+
+                        {/* Mobile Touch Rating Pills (1 - 5) */}
+                        <div className="grid grid-cols-5 gap-1.5">
+                          {LIKERT_OPTIONS.map(opt => {
+                            const isSelected = rating === opt.value;
+                            return (
+                              <button
+                                key={opt.value}
+                                type="button"
+                                onClick={() => setRiasecRating(currentDim.key, idx, opt.value)}
+                                className={`py-2.5 rounded-xl flex flex-col items-center justify-center transition-all border ${
+                                  isSelected
+                                    ? 'text-white border-transparent shadow-sm'
+                                    : 'bg-[var(--mist)] border-[var(--border)] text-[var(--graphite)] hover:border-[var(--blue)]'
+                                }`}
+                                style={{
+                                  backgroundColor: isSelected ? currentDim.color : undefined
+                                }}
+                              >
+                                <span className="text-base">{opt.emoji}</span>
+                                <span className="text-[10px] font-black mt-0.5 heading-font">
+                                  {opt.value}
+                                </span>
+                              </button>
+                            );
+                          })}
+                        </div>
+
+                        {rating && (
+                          <p className="text-[10px] text-right font-bold text-[var(--graphite)]">
+                            Selected: <span style={{ color: currentDim.color }}>{LIKERT_OPTIONS[rating - 1].label}</span>
+                          </p>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+
+            {/* ══════════════════════════════════════════════════════════════ */}
+            {/* ── STEP 3: CAREER CONFIDENCE (SCCT SELF-EFFICACY) ── */}
+            {/* ══════════════════════════════════════════════════════════════ */}
+            {step === 3 && (
+              <div className="space-y-4">
+                <div className="bg-[var(--surface)] border border-[var(--border)] rounded-3xl p-4 sm:p-5 shadow-sm text-center">
+                  <h2 className="text-base font-black text-[var(--ink)] heading-font">
+                    Career Self-Efficacy
+                  </h2>
+                  <p className="text-xs text-[var(--graphite)] mt-0.5">
+                    How confident do you feel in your ability to master and succeed in these fields?
+                  </p>
+                </div>
+
+                <div className="space-y-3">
+                  {SELF_EFFICACY_ITEMS.map(item => {
+                    const rating = answers.selfEfficacy[item.field];
+                    return (
+                      <div
+                        key={item.field}
+                        className="bg-[var(--surface)] border border-[var(--border)] rounded-2xl p-4 shadow-sm space-y-2.5"
+                      >
+                        <div className="flex items-center justify-between">
+                          <div>
+                            <h3 className="text-xs sm:text-sm font-bold text-[var(--ink)] heading-font">
+                              {item.label}
+                            </h3>
+                            <p className="text-[10px] text-[var(--graphite)]">{item.desc}</p>
+                          </div>
+                          {rating && (
+                            <span className="text-[10px] font-black px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 heading-font flex-shrink-0">
+                              {rating} / 5
+                            </span>
+                          )}
+                        </div>
+
+                        {/* 1 to 5 Pill Buttons */}
+                        <div className="grid grid-cols-5 gap-1.5">
+                          {[1, 2, 3, 4, 5].map(n => {
+                            const isSelected = rating === n;
+                            return (
+                              <button
+                                key={n}
+                                type="button"
+                                onClick={() => setSelfEfficacy(item.field, n)}
+                                className={`py-2 rounded-xl text-xs font-black transition-all border ${
+                                  isSelected
+                                    ? 'bg-[var(--blue)] text-white border-[var(--blue)] shadow-sm'
+                                    : 'bg-[var(--mist)] border-[var(--border)] text-[var(--graphite)] hover:border-[var(--blue)]'
+                                }`}
+                              >
+                                {n}
+                              </button>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+
+            {/* ══════════════════════════════════════════════════════════════ */}
+            {/* ── STEP 4: CAREER VALUES & CONSTRUCTIVIST LEARNING ── */}
+            {/* ══════════════════════════════════════════════════════════════ */}
+            {step === 4 && (
+              <div className="space-y-4">
+                {/* 1. Outcome Expectations */}
+                <div className="bg-[var(--surface)] border border-[var(--border)] rounded-3xl p-4 sm:p-5 shadow-sm space-y-3">
+                  <div>
+                    <h2 className="text-sm sm:text-base font-black text-[var(--ink)] heading-font">
+                      What Matters to You? (Career Values)
+                    </h2>
+                    <p className="text-[11px] text-[var(--graphite)]">
+                      Rate the importance of each factor in your ideal post-graduation career (1 = Low, 5 = Critical)
+                    </p>
+                  </div>
+
+                  <div className="space-y-2.5 pt-1">
+                    {OUTCOME_ITEMS.map(item => {
+                      const rating = answers.outcomeExpectations[item.key];
+                      const IconComp = item.icon;
+                      return (
+                        <div key={item.key} className="p-3 rounded-2xl bg-[var(--mist)] border border-[var(--border)] flex items-center justify-between gap-2">
+                          <div className="flex items-center gap-2.5 min-w-0">
+                            <div className="w-8 h-8 rounded-xl bg-[var(--surface)] text-[var(--blue)] flex items-center justify-center flex-shrink-0">
+                              <IconComp className="w-4 h-4" />
+                            </div>
+                            <div className="min-w-0">
+                              <h4 className="text-xs font-bold text-[var(--ink)] truncate heading-font">{item.label}</h4>
+                              <p className="text-[10px] text-[var(--graphite)] truncate">{item.desc}</p>
+                            </div>
+                          </div>
+
+                          {/* 1-5 selector */}
+                          <div className="flex gap-1 flex-shrink-0">
+                            {[1, 2, 3, 4, 5].map(n => {
+                              const isSelected = rating === n;
+                              return (
+                                <button
+                                  key={n}
+                                  type="button"
+                                  onClick={() => setOutcome(item.key, n)}
+                                  className={`w-7 h-7 rounded-lg text-xs font-black transition-all ${
+                                    isSelected
+                                      ? 'bg-[var(--blue)] text-white shadow-sm'
+                                      : 'bg-[var(--surface)] text-[var(--graphite)] hover:text-[var(--ink)]'
+                                  }`}
+                                >
+                                  {n}
+                                </button>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* 2. Learning Style */}
+                <div className="bg-[var(--surface)] border border-[var(--border)] rounded-3xl p-4 sm:p-5 shadow-sm space-y-3">
+                  <div>
+                    <h2 className="text-sm sm:text-base font-black text-[var(--ink)] heading-font">
+                      Preferred Learning Style
+                    </h2>
+                    <p className="text-[11px] text-[var(--graphite)]">
+                      How do you learn technical concepts and syllabus materials best?
+                    </p>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
+                    {LEARNING_STYLES.map(s => {
+                      const isSelected = answers.learningStyle === s.key;
+                      const IconComp = s.icon;
+                      return (
+                        <button
+                          key={s.key}
+                          type="button"
+                          onClick={() => setAnswers(p => ({ ...p, learningStyle: s.key }))}
+                          className={`p-3 rounded-2xl text-left transition-all border flex items-center gap-3 ${
+                            isSelected
+                              ? 'bg-[var(--lavender)] border-[var(--blue)] shadow-sm'
+                              : 'bg-[var(--mist)] border-[var(--border)] hover:border-[var(--blue)]'
+                          }`}
+                        >
+                          <div className={`w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0 ${
+                            isSelected ? 'bg-[var(--blue)] text-white' : 'bg-[var(--surface)] text-[var(--graphite)]'
+                          }`}>
+                            <IconComp className="w-4 h-4" />
+                          </div>
+                          <div className="min-w-0">
+                            <p className={`text-xs font-bold heading-font ${isSelected ? 'text-[var(--blue)]' : 'text-[var(--ink)]'}`}>
+                              {s.label}
+                            </p>
+                            <p className="text-[10px] text-[var(--graphite)] truncate">{s.desc}</p>
+                          </div>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* 3. Prior Experiences */}
+                <div className="bg-[var(--surface)] border border-[var(--border)] rounded-3xl p-4 sm:p-5 shadow-sm space-y-3">
+                  <div>
+                    <h2 className="text-sm sm:text-base font-black text-[var(--ink)] heading-font">
+                      Prior Practical Experiences
+                    </h2>
+                    <p className="text-[11px] text-[var(--graphite)]">
+                      Tap all that you have participated in (prior projects, volunteering, or hobbies):
+                    </p>
+                  </div>
+
+                  <div className="flex gap-2 flex-wrap pt-1">
+                    {PRIOR_EXP.map(exp => {
+                      const isSelected = answers.priorExperiences.includes(exp.key);
+                      return (
+                        <button
+                          key={exp.key}
+                          type="button"
+                          onClick={() => toggleExp(exp.key)}
+                          className={`px-3 py-1.5 rounded-full text-xs font-bold transition-all flex items-center gap-1.5 border ${
+                            isSelected
+                              ? 'bg-[var(--blue)] text-white border-[var(--blue)] shadow-sm'
+                              : 'bg-[var(--mist)] text-[var(--graphite)] border-[var(--border)] hover:border-[var(--blue)]'
+                          }`}
+                        >
+                          {isSelected && <Check className="w-3 h-3" />}
+                          <span>{exp.label}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* ══════════════════════════════════════════════════════════════ */}
+            {/* ── STEP 5: REVIEW & FINAL SUBMISSION ── */}
+            {/* ══════════════════════════════════════════════════════════════ */}
+            {step === 5 && (
+              <div className="space-y-4">
+                <div className="bg-[var(--surface)] border border-[var(--border)] rounded-3xl p-5 sm:p-6 shadow-sm text-center">
+                  <div className="w-12 h-12 rounded-2xl bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto mb-3">
+                    <CheckCircle2 className="w-6 h-6" />
+                  </div>
+                  <h2 className="text-lg font-black text-[var(--ink)] heading-font">
+                    Assessment Completed!
+                  </h2>
+                  <p className="text-xs text-[var(--graphite)] mt-0.5">
+                    Your answers are ready for the DELSU Career Matching Engine.
+                  </p>
+
+                  {/* Predicted Holland Code Card */}
+                  <div className="mt-5 p-4 rounded-2xl bg-[var(--lavender)] border border-[var(--border)] inline-block w-full max-w-sm">
+                    <span className="text-[10px] font-extrabold uppercase tracking-widest text-[var(--blue)] block mb-1">
+                      Derived Holland Code Preview
+                    </span>
+                    <div className="text-3xl font-black text-[var(--blue)] heading-font tracking-wider">
+                      {previewHolland || 'IRA'}
+                    </div>
+                    <p className="text-[11px] text-[var(--graphite)] mt-1">
+                      Based on your 18 personality statement ratings
+                    </p>
+                  </div>
+                </div>
+
+                {/* Summary Details Card */}
+                <div className="bg-[var(--surface)] border border-[var(--border)] rounded-3xl p-4 sm:p-5 shadow-sm space-y-2.5 text-xs">
+                  <div className="flex justify-between py-1.5 border-b border-[var(--border)]">
+                    <span className="text-[var(--graphite)]">Academic CGPA</span>
+                    <span className="font-bold text-[var(--ink)]">{answers.cgpa} / 5.00</span>
+                  </div>
+                  <div className="flex justify-between py-1.5 border-b border-[var(--border)]">
+                    <span className="text-[var(--graphite)]">Personality Dimensions</span>
+                    <span className="font-bold text-[var(--blue)]">18 Statements Rated</span>
+                  </div>
+                  <div className="flex justify-between py-1.5 border-b border-[var(--border)]">
+                    <span className="text-[var(--graphite)]">Self-Efficacy Fields</span>
+                    <span className="font-bold text-[var(--ink)]">7 Disciplines Rated</span>
+                  </div>
+                  <div className="flex justify-between py-1.5 border-b border-[var(--border)]">
+                    <span className="text-[var(--graphite)]">Learning Style</span>
+                    <span className="font-bold text-[var(--ink)] capitalize">{answers.learningStyle.replace('_', ' ')}</span>
+                  </div>
+                  <div className="flex justify-between py-1.5">
+                    <span className="text-[var(--graphite)]">Prior Experience Tags</span>
+                    <span className="font-bold text-[var(--ink)]">{answers.priorExperiences.length} selected</span>
+                  </div>
+                </div>
+              </div>
+            )}
+          </motion.div>
+        </AnimatePresence>
+      </div>
+
+      {/* ── STICKY BOTTOM ACTION BAR ── */}
+      <div className="fixed bottom-0 left-0 right-0 z-30 bg-[var(--surface)]/95 backdrop-blur-md border-t border-[var(--border)] p-4">
+        <div className="max-w-xl mx-auto flex items-center justify-between gap-3">
+          {/* Back button */}
+          <button
+            type="button"
+            onClick={() => {
+              if (step === 2) handlePrevInStep2();
+              else if (step > 1) { setStep(s => s - 1); window.scrollTo({ top: 0, behavior: 'smooth' }); }
+              else handleExit();
+            }}
+            className="px-4 py-3 rounded-2xl bg-[var(--mist)] text-[var(--graphite)] font-bold text-xs hover:text-[var(--ink)] active:scale-95 transition-all"
+          >
+            {step === 1 ? 'Exit' : 'Back'}
+          </button>
+
+          {/* Primary Action Button */}
+          {step < 5 ? (
+            <button
+              type="button"
+              disabled={!canProceed()}
+              onClick={() => {
+                if (step === 2) handleNextInStep2();
+                else { setStep(s => s + 1); window.scrollTo({ top: 0, behavior: 'smooth' }); }
+              }}
+              className="flex-1 py-3 px-5 rounded-2xl bg-[var(--blue)] text-white font-bold text-xs shadow-sm hover:bg-[var(--azure)] active:scale-95 transition-all disabled:opacity-40 disabled:pointer-events-none flex items-center justify-center gap-2"
+            >
+              <span>{step === 2 && riasecDimIdx < 5 ? `Next Trait (${riasecDimIdx + 2}/6)` : 'Continue'}</span>
+              <ChevronRight className="w-4 h-4" />
+            </button>
+          ) : (
+            <button
+              type="button"
+              disabled={isSubmitting}
+              onClick={handleSubmit}
+              className="flex-1 py-3.5 px-5 rounded-2xl bg-gradient-to-r from-[var(--blue)] to-[var(--azure)] text-white font-extrabold text-sm shadow-md active:scale-95 transition-all disabled:opacity-50 flex items-center justify-center gap-2 heading-font"
+            >
+              {isSubmitting ? (
+                <>
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                  <span>Calculating Matches...</span>
+                </>
+              ) : (
+                <>
+                  <span>Generate Career Matches</span>
+                  <Sparkles className="w-4 h-4" />
+                </>
+              )}
+            </button>
+          )}
+        </div>
       </div>
     </div>
   );

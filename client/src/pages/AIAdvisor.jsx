@@ -4,31 +4,53 @@ import { useAuth } from '../contexts/AuthContext';
 import { useNotification } from '../contexts/NotificationContext';
 import api from '../services/api';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Send, Paperclip, Mic, Plus, MoreHorizontal, Menu, X, Brain, Download, Check, Copy, Volume2, VolumeX, ThumbsUp, ThumbsDown, Trash2, Briefcase } from 'lucide-react';
-import PathWiseLogo from '../components/PathWiseLogo';
+import {
+  ArrowUp, Mic, Plus, Menu, X, Download, Copy, Check,
+  Volume2, VolumeX, ThumbsUp, ThumbsDown, Trash2, Compass,
+  Sparkles, ChevronDown, SquarePen, Paperclip, ChevronRight,
+  Search, BookOpen, GraduationCap, Briefcase, Bot, User as UserIcon
+} from 'lucide-react';
 
 const SUGGESTED_PROMPTS = [
-  'Compare careers',
-  'Show course roadmap',
-  'What skills do I need?',
-  'Highest paying careers in Nigeria',
-  'Recommended electives for Software Engineer',
-  'How to improve CGPA in DELSU?'
+  {
+    icon: Compass,
+    title: 'Match my Holland Code',
+    prompt: 'Explain what careers best match my Holland Code and personality dimensions at DELSU.'
+  },
+  {
+    icon: BookOpen,
+    title: 'Course Roadmap Guidance',
+    prompt: 'What specific DELSU departmental courses are most critical for a career in software engineering?'
+  },
+  {
+    icon: Briefcase,
+    title: 'Delta State SIWES Placements',
+    prompt: 'What industrial training and SIWES internship placements are available in Delta State for my discipline?'
+  },
+  {
+    icon: GraduationCap,
+    title: 'CGPA & Academic Strategy',
+    prompt: 'How can I optimize my study plan and CGPA for competitive graduate tech opportunities?'
+  }
 ];
 
 const INITIAL_MESSAGES = [
   {
     role: 'assistant',
-    content: "Hello! I'm your PathWise AI Advisor. I can help you explore career options, understand course requirements, and plan your academic journey at DELSU. What would you like to know?",
+    content: "Hello! I am your PathWise AI Career Advisor, trained on DELSU academic curricula and vocational psychometrics. How can I guide your career or course choices today?",
     cards: null,
   },
 ];
 
 const TypingIndicator = () => (
-  <div className="flex items-center gap-1 px-4 py-3 bg-[var(--mist)] rounded-2xl rounded-tl-sm w-20">
-    {[0,1,2].map(i => (
-      <motion.div key={i} className="w-2 h-2 rounded-full bg-[var(--graphite)]"
-        animate={{ y: [0,-5,0] }} transition={{ duration: 0.6, delay: i*0.15, repeat: Infinity }} />
+  <div className="flex items-center gap-1.5 py-2 px-1">
+    {[0, 1, 2].map(i => (
+      <motion.div
+        key={i}
+        className="w-2 h-2 rounded-full bg-[var(--blue)] opacity-60"
+        animate={{ y: [0, -5, 0], opacity: [0.4, 1, 0.4] }}
+        transition={{ duration: 0.6, delay: i * 0.15, repeat: Infinity, ease: 'easeInOut' }}
+      />
     ))}
   </div>
 );
@@ -41,11 +63,17 @@ const AIAdvisor = () => {
   const [isTyping, setIsTyping] = useState(false);
   const [activeSession, setActiveSession] = useState(null);
   const [sessions, setSessions] = useState([]);
-  const [isSidebarOpen, setIsSidebarOpen] = useState(window.innerWidth > 768);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [speakingMsgIdx, setSpeakingMsgIdx] = useState(null);
   const [isListening, setIsListening] = useState(false);
   const [feedbacks, setFeedbacks] = useState({});
-  const scrollContainerRef = useRef(null);
+  const [copiedIdx, setCopiedIdx] = useState(null);
+  const [searchHistoryQuery, setSearchHistoryQuery] = useState('');
+  
+  const messagesEndRef = useRef(null);
+  const textareaRef = useRef(null);
+  const location = useLocation();
+  const initialQueryHandled = useRef(false);
 
   useEffect(() => {
     return () => {
@@ -55,6 +83,72 @@ const AIAdvisor = () => {
     };
   }, []);
 
+  useEffect(() => {
+    fetchSessions();
+  }, []);
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const promptParam = params.get('prompt');
+    const targetQuery = location.state?.initialQuery || promptParam;
+    if (targetQuery && !initialQueryHandled.current) {
+      initialQueryHandled.current = true;
+      sendMessage(targetQuery);
+    }
+  }, [location.state, location.search]);
+
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [messages, isTyping]);
+
+  const fetchSessions = async () => {
+    try {
+      const res = await api.get('/gemini/sessions');
+      setSessions(res.data || []);
+    } catch (error) {
+      console.warn('Could not fetch chat sessions:', error);
+    }
+  };
+
+  const loadSession = async (sessionId) => {
+    setActiveSession(sessionId);
+    setIsSidebarOpen(false);
+    try {
+      const res = await api.get(`/gemini/sessions/${sessionId}`);
+      if (res.data?.messages && res.data.messages.length > 0) {
+        setMessages(res.data.messages);
+      } else {
+        setMessages(INITIAL_MESSAGES);
+      }
+    } catch (error) {
+      addNotification('Failed to load chat session', 'error');
+    }
+  };
+
+  const startNewSession = () => {
+    setActiveSession(null);
+    setMessages(INITIAL_MESSAGES);
+    setInput('');
+    setIsSidebarOpen(false);
+    if (textareaRef.current) {
+      textareaRef.current.style.height = 'auto';
+    }
+  };
+
+  const deleteSession = async (sessionId, e) => {
+    e.stopPropagation();
+    try {
+      await api.delete(`/gemini/sessions/${sessionId}`);
+      setSessions(prev => prev.filter(s => s.id !== sessionId));
+      if (activeSession === sessionId) {
+        startNewSession();
+      }
+      addNotification('Chat session deleted.', 'success');
+    } catch (error) {
+      addNotification('Failed to delete session.', 'error');
+    }
+  };
+
   const speakText = (text, idx) => {
     if ('speechSynthesis' in window) {
       if (speakingMsgIdx === idx) {
@@ -63,7 +157,7 @@ const AIAdvisor = () => {
         return;
       }
       window.speechSynthesis.cancel();
-      const cleanText = text.replace(/\*\*|•|-/g, ''); 
+      const cleanText = text.replace(/\*\*|•|-/g, '');
       const utterance = new SpeechSynthesisUtterance(cleanText);
       utterance.onend = () => setSpeakingMsgIdx(null);
       utterance.onerror = () => setSpeakingMsgIdx(null);
@@ -86,9 +180,13 @@ const AIAdvisor = () => {
     rec.lang = 'en-US';
     rec.onstart = () => setIsListening(true);
     rec.onresult = (event) => {
-      const text = event.results[0][0].transcript;
-      setInput(prev => prev + ' ' + text);
+      const transcript = event.results[0][0].transcript;
+      setInput(prev => (prev ? prev + ' ' : '') + transcript);
       setIsListening(false);
+      if (textareaRef.current) {
+        textareaRef.current.style.height = 'auto';
+        textareaRef.current.style.height = Math.min(textareaRef.current.scrollHeight, 120) + 'px';
+      }
     };
     rec.onerror = () => setIsListening(false);
     rec.onend = () => setIsListening(false);
@@ -103,537 +201,503 @@ const AIAdvisor = () => {
     addNotification('Thank you for your feedback!', 'success');
   };
 
-  const copyToClipboard = (text) => {
+  const copyToClipboard = (text, idx) => {
     navigator.clipboard.writeText(text);
-    addNotification('Advice copied to clipboard!', 'success');
-  };
-
-  const deleteSession = async (sessionId, e) => {
-    e.stopPropagation();
-    try {
-      await api.delete(`/gemini/sessions/${sessionId}`);
-      setSessions(prev => prev.filter(s => s.id !== sessionId));
-      if (activeSession === sessionId) {
-        setMessages(INITIAL_MESSAGES);
-        setActiveSession(null);
-      }
-      addNotification('Chat session deleted.', 'success');
-    } catch (error) {
-      addNotification('Failed to delete chat session.', 'error');
-    }
+    setCopiedIdx(idx);
+    setTimeout(() => setCopiedIdx(null), 2000);
+    addNotification('Message copied to clipboard!', 'success');
   };
 
   const exportChat = () => {
     try {
       const textContent = messages.map(m => {
-        const roleName = m.role === 'user' ? 'Student' : 'AI Advisor';
-        return `[${roleName}]\n${m.content}\n`;
+        const roleName = m.role === 'user' ? (user?.fullName || 'Student') : 'PathWise AI Advisor';
+        return `[${roleName}]
+${m.content}
+`;
       }).join('\n');
       
       const blob = new Blob([textContent], { type: 'text/plain;charset=utf-8' });
       const url = URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = url;
-      link.download = `pathwise_advisory_chat.txt`;
+      link.download = `pathwise_chat_${new Date().toISOString().slice(0, 10)}.txt`;
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
       URL.revokeObjectURL(url);
-      addNotification('Chat exported successfully!', 'success');
+      addNotification('Chat transcript exported!', 'success');
     } catch (err) {
-      addNotification('Failed to export chat history.', 'error');
+      addNotification('Failed to export chat.', 'error');
     }
   };
 
-  useEffect(() => {
-    fetchSessions();
-  }, []);
+  const sendMessage = async (textToSend) => {
+    const query = (textToSend || input).trim();
+    if (!query || isTyping) return;
 
-  const fetchSessions = async () => {
-    try {
-      const res = await api.get('/gemini/sessions');
-      setSessions(res.data);
-    } catch (error) {
-    }
-  };
-
-  const loadSession = async (sessionId) => {
-    setActiveSession(sessionId);
-    try {
-      const res = await api.get(`/gemini/sessions/${sessionId}`);
-      if (res.data.messages && res.data.messages.length > 0) {
-        setMessages(res.data.messages);
-      } else {
-        setMessages(INITIAL_MESSAGES);
-      }
-    } catch (error) {
-      addNotification('error', 'Failed to load chat history');
-    }
-  };
-
-  useEffect(() => {
-    if (scrollContainerRef.current && messages.length > 1) {
-      scrollContainerRef.current.scrollTo({
-        top: scrollContainerRef.current.scrollHeight,
-        behavior: 'smooth'
-      });
-    }
-  }, [messages, isTyping]);
-
-  const sendMessage = async (text) => {
-    const msg = text || input.trim();
-    if (!msg) return;
     setInput('');
+    if (textareaRef.current) {
+      textareaRef.current.style.height = 'auto';
+    }
 
-    const userMsg = { role: 'user', content: msg };
+    const userMsg = { role: 'user', content: query };
     setMessages(prev => [...prev, userMsg]);
     setIsTyping(true);
 
     try {
       const res = await api.post('/gemini/chat', {
-        message: msg,
+        message: query,
         sessionId: activeSession,
         history: messages.map(m => ({ role: m.role, content: m.content })),
         userContext: {
           department: user?.department,
           level: user?.level,
           cgpa: user?.cgpa,
+          matricNo: user?.matricNo,
+          faculty: user?.faculty,
+          hollandCode: user?.hollandCode,
+          topMatch: user?.quizResults?.[0]?.careerId
         }
       });
 
       const aiReply = {
         role: 'assistant',
-        content: res.data.reply || res.data.message,
+        content: res.data.reply || res.data.message || 'I have analyzed your query based on DELSU guidelines.',
         cards: res.data.careerCards || null,
       };
       setMessages(prev => [...prev, aiReply]);
-      
+
       if (res.data.sessionId && !activeSession) {
         setActiveSession(res.data.sessionId);
         fetchSessions();
       }
-    } catch {
-      const fallbacks = [
+    } catch (error) {
+      // Offline fallback
+      const fallbackReplies = [
         {
-          content: "Based on your profile, I'd recommend exploring these career paths:\n\n• **Software Engineering**: Strong match for analytical thinkers with a background in mathematics and computing.\n\n• **Data Science**: Highly recommended for students who enjoy statistics, research and problem solving.\n\n• **Actuarial Science**: Ideal for those who excel in mathematics and enjoy risk analysis.",
-          cards: [
-            { title: 'Software Engineering', desc: 'Software engineering focusing on mathematics and data systems.', link: 'software-engineer' },
-            { title: 'Actuarial Science',    desc: 'Recommends actuarial career path with strong analytical skills.',  link: 'data-scientist'    },
-          ]
+          trigger: /course|electiv|regist/i,
+          content: "Based on DELSU academic regulations, ensure you verify compulsory credit loads for your semester before selecting electives. If you are pursuing Software Engineering, prioritize CSC 211, CSC 311, and MTH 110.",
+          cards: null
         },
+        {
+          trigger: /siwes|intern|job/i,
+          content: "For SIWES and industrial attachment within Delta State, major placements include DELSUTH Oghara, Chevron Warri, NNPC WRPC, and regional technology hubs in Warri and Asaba.",
+          cards: null
+        },
+        {
+          trigger: /cgpa|grade|probation/i,
+          content: "A 5.0 CGPA system rewards consistent performance across core departmental credit loads. Focus on high-unit courses early in your semester to bolster your cumulative average.",
+          cards: null
+        }
       ];
-      const fb = fallbacks[0];
-      setMessages(prev => [...prev, { role: 'assistant', content: fb.content, cards: fb.cards }]);
+
+      const matched = fallbackReplies.find(f => f.trigger.test(query));
+      const fallbackContent = matched
+        ? matched.content
+        : "I have consulted the local PathWise advisory cache. For personalized guidance on this specific query, please confirm your departmental course curriculum at the Faculty office or retry when network is restored.";
+
+      setMessages(prev => [...prev, {
+        role: 'assistant',
+        content: fallbackContent,
+        cards: matched?.cards || null
+      }]);
     } finally {
       setIsTyping(false);
     }
   };
-  
-  const location = useLocation();
-  const initialQueryHandled = useRef(false);
-
-  useEffect(() => {
-    if (location.state?.initialQuery && !initialQueryHandled.current) {
-      initialQueryHandled.current = true;
-      sendMessage(location.state.initialQuery);
-    }
-  }, [location.state]);
 
   const handleKeyDown = (e) => {
-    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage();
+    }
   };
 
-  const parseInline = (text) => {
-    const parts = text.split(/(\*\*[^*]+\*\*)/g);
-    return parts.map((part, i) =>
-      part.startsWith('**') && part.endsWith('**')
-        ? <strong key={i} className="text-[var(--blue)] font-bold">{part.slice(2, -2)}</strong>
-        : part
-    );
-  };
+  const filteredSessions = sessions.filter(s =>
+    (s.title || 'Untitled Chat').toLowerCase().includes(searchHistoryQuery.toLowerCase())
+  );
 
-  const formatContent = (text) => {
-    if (!text) return '';
-    const lines = text.split('\n');
-    return lines.map((line, idx) => {
-      if (line.startsWith('### ')) {
-        return <h4 key={idx} className="text-[var(--ink)] font-extrabold text-sm mt-3 mb-1.5" style={{ fontFamily: 'Nunito' }}>{parseInline(line.slice(4))}</h4>;
-      }
-      if (line.startsWith('## ') || line.startsWith('# ')) {
-        const cleanLine = line.startsWith('## ') ? line.slice(3) : line.slice(2);
-        return <h3 key={idx} className="text-[var(--ink)] font-black text-base mt-4 mb-2 border-b border-[var(--border)] pb-1" style={{ fontFamily: 'Nunito' }}>{parseInline(cleanLine)}</h3>;
-      }
-      
-      if (line.trim().startsWith('•') || line.trim().startsWith('-') || line.trim().startsWith('*')) {
-        const cleanText = line.replace(/^[•\-\*]\s*/, '');
-        return (
-          <div key={idx} className="flex items-start gap-2 ml-2 my-1">
-            <span className="text-[var(--blue)] mt-1.5 text-xs flex-shrink-0">•</span>
-            <span className="text-[var(--graphite)] text-sm leading-relaxed">{parseInline(cleanText)}</span>
-          </div>
-        );
-      }
-
-      const numMatch = line.trim().match(/^(\d+)\.\s(.*)/);
-      if (numMatch) {
-        return (
-          <div key={idx} className="flex items-start gap-2 ml-2 my-1">
-            <span className="text-[var(--blue)] font-bold text-xs mt-0.5 flex-shrink-0">{numMatch[1]}.</span>
-            <span className="text-[var(--graphite)] text-sm leading-relaxed">{parseInline(numMatch[2])}</span>
-          </div>
-        );
-      }
-
-      return line.trim() ? (
-        <p key={idx} className="text-[var(--graphite)] text-sm leading-relaxed mb-2 last:mb-0">{parseInline(line)}</p>
-      ) : (
-        <div key={idx} className="h-2" />
-      );
-    });
-  };
+  const isFreshChat = messages.length <= 1;
 
   return (
-    <div className="flex h-[calc(100vh-4rem)] overflow-hidden bg-[var(--canvas)] relative" style={{ fontFamily: 'Open Sans' }}>
+    <div className="flex h-[calc(100vh-4.25rem)] bg-[var(--canvas)] relative overflow-hidden" style={{ fontFamily: "'Open Sans', sans-serif" }}>
+      <style>{`
+        h1, h2, h3, h4, h5, h6 { font-family: 'Nunito', sans-serif; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+      `}</style>
 
-      {isSidebarOpen && (
-        <div 
-          onClick={() => setIsSidebarOpen(false)} 
-          className="fixed inset-0 bg-black/10 z-30 md:hidden animate-fade-in" 
-        />
-      )}
-
+      {/* ── ChatGPT Style Slide-over Sidebar Drawer ────────────────── */}
       <AnimatePresence>
-        {isListening && (
-          <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-white/95 z-50 flex flex-col items-center justify-center gap-6"
-          >
-            <div className="relative flex items-center justify-center">
-              {[1, 2, 3].map(i => (
-                <motion.div
-                  key={i}
-                  className="absolute rounded-full bg-[var(--lavender)] border border-[var(--blue)]"
-                  style={{ width: 100 + i * 50, height: 100 + i * 50 }}
-                  animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.7, 0.3] }}
-                  transition={{ duration: 2, delay: i * 0.3, repeat: Infinity, ease: "easeInOut" }}
-                />
-              ))}
-              <div className="w-24 h-24 rounded-full bg-[var(--blue)] flex items-center justify-center z-10">
-                <Mic className="w-10 h-10 text-white animate-pulse" />
-              </div>
-            </div>
-            <div className="text-center z-10">
-              <h3 className="text-[var(--ink)] font-extrabold text-2xl mb-2" style={{ fontFamily: 'Nunito' }}>Listening...</h3>
-              <p className="text-[var(--graphite)] text-sm">Speak now. Tap anywhere to cancel.</p>
-            </div>
-            <button 
-              onClick={() => setIsListening(false)}
-              className="px-6 py-2 rounded-xl bg-[var(--mist)] border border-[var(--border)] text-[var(--ink)] text-sm hover:bg-[var(--fog)] transition-all z-10 mt-4"
+        {isSidebarOpen && (
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setIsSidebarOpen(false)}
+              className="fixed inset-0 bg-black/40 backdrop-blur-xs z-40 md:hidden"
+            />
+            <motion.aside
+              initial={{ x: '-100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: '-100%' }}
+              transition={{ type: 'spring', damping: 26, stiffness: 260 }}
+              className="fixed inset-y-0 left-0 z-50 w-72 sm:w-80 bg-[var(--surface)] border-r border-[var(--border)] shadow-2xl flex flex-col md:relative md:translate-x-0"
             >
-              Cancel
-            </button>
-          </motion.div>
+              {/* Drawer Top Header */}
+              <div className="p-3.5 border-b border-[var(--border)] flex items-center justify-between">
+                <button
+                  onClick={startNewSession}
+                  className="flex-1 flex items-center justify-between px-3.5 py-2 rounded-xl bg-[var(--lavender)] text-[var(--blue)] text-xs font-bold transition-all hover:bg-[var(--blue)] hover:text-white shadow-2xs mr-2"
+                >
+                  <span className="flex items-center gap-2">
+                    <SquarePen className="w-4 h-4" /> New Chat
+                  </span>
+                  <span className="text-[10px] opacity-75">Ctrl+K</span>
+                </button>
+                <button
+                  onClick={() => setIsSidebarOpen(false)}
+                  className="w-8 h-8 rounded-lg flex items-center justify-center text-[var(--graphite)] hover:bg-[var(--mist)] transition-colors"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+
+              {/* History Search */}
+              <div className="p-3 border-b border-[var(--border)]">
+                <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-[var(--mist)] border border-[var(--border)] text-xs">
+                  <Search className="w-3.5 h-3.5 text-[var(--graphite)]" />
+                  <input
+                    type="text"
+                    placeholder="Search past conversations..."
+                    value={searchHistoryQuery}
+                    onChange={e => setSearchHistoryQuery(e.target.value)}
+                    className="w-full bg-transparent text-[var(--ink)] placeholder-[var(--ash)] outline-none text-xs"
+                  />
+                </div>
+              </div>
+
+              {/* Session History List */}
+              <div className="flex-1 overflow-y-auto p-2 space-y-1">
+                <div className="px-3 py-1 text-[10px] font-extrabold uppercase tracking-wider text-[var(--graphite)]">
+                  Recent Conversations
+                </div>
+
+                {filteredSessions.length === 0 ? (
+                  <div className="p-6 text-center text-xs text-[var(--graphite)]">
+                    No conversation history found.
+                  </div>
+                ) : (
+                  filteredSessions.map((session) => {
+                    const isActive = activeSession === session.id;
+                    return (
+                      <div
+                        key={session.id}
+                        onClick={() => loadSession(session.id)}
+                        className={`group flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-medium cursor-pointer transition-all ${
+                          isActive
+                            ? 'bg-[var(--lavender)] text-[var(--blue)] font-bold'
+                            : 'text-[var(--ink)] hover:bg-[var(--mist)]'
+                        }`}
+                      >
+                        <span className="truncate flex-1 pr-2">
+                          {session.title || 'Career Advisory Session'}
+                        </span>
+                        <button
+                          onClick={(e) => deleteSession(session.id, e)}
+                          className="opacity-0 group-hover:opacity-100 p-1 hover:text-red-500 transition-opacity"
+                          title="Delete session"
+                        >
+                          <Trash2 className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
+                    );
+                  })
+                )}
+              </div>
+
+              {/* User Account Drawer Footer */}
+              <div className="p-3 border-t border-[var(--border)] bg-[var(--mist)] flex items-center gap-3">
+                <div className="w-9 h-9 rounded-full bg-[var(--blue)] text-white flex items-center justify-center font-bold text-xs shadow-xs">
+                  {user?.fullName ? user.fullName[0] : 'U'}
+                </div>
+                <div className="min-w-0 flex-1">
+                  <p className="text-xs font-bold text-[var(--ink)] truncate leading-tight">
+                    {user?.fullName || 'DELSU Student'}
+                  </p>
+                  <p className="text-[10px] text-[var(--graphite)] truncate">
+                    {user?.matricNo || 'Matric Pending'}
+                  </p>
+                </div>
+              </div>
+            </motion.aside>
+          </>
         )}
       </AnimatePresence>
 
-      {/* Left Sidebar */}
-      <div className={`fixed inset-y-0 left-0 z-40 bg-[var(--surface)] border-r border-[var(--border)] flex flex-col transition-all duration-300 md:relative ${isSidebarOpen ? 'translate-x-0 w-72' : '-translate-x-full md:translate-x-0 w-0 overflow-hidden border-r-0'}`}>
-        <div className="p-5 border-b border-[var(--border)] flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <PathWiseLogo size={36} />
-            <div>
-              <p className="text-[var(--ash)] text-xs">AI Advisory</p>
+      {/* ── Main Chat Canvas ─────────────────────────────────────────── */}
+      <div className="flex-1 flex flex-col min-w-0 h-full relative">
+
+        {/* ── ChatGPT Style Top Bar ──────────────────────────────────── */}
+        <header className="h-14 border-b border-[var(--border)] bg-[var(--surface)] px-3.5 sm:px-6 flex items-center justify-between z-10 shadow-2xs">
+          <div className="flex items-center gap-2.5">
+            <button
+              onClick={() => setIsSidebarOpen(true)}
+              className="p-2 rounded-xl text-[var(--graphite)] hover:text-[var(--ink)] hover:bg-[var(--mist)] transition-colors"
+              title="Chat History"
+            >
+              <Menu className="w-5 h-5" />
+            </button>
+
+            {/* ChatGPT Model Selector Pill */}
+            <div className="flex items-center gap-1.5 px-3 py-1 rounded-full border border-[var(--border)] bg-[var(--mist)] text-xs font-bold text-[var(--ink)] shadow-2xs">
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+              <span>PathWise Llama 3.3 70B</span>
+              <ChevronDown className="w-3.5 h-3.5 text-[var(--graphite)] opacity-70" />
             </div>
           </div>
-          <button 
-            onClick={() => setIsSidebarOpen(false)} 
-            className="text-[var(--graphite)] hover:text-[var(--ink)] p-2 rounded-lg hover:bg-[var(--mist)]"
-          >
-            <X className="w-5 h-5" />
-          </button>
-        </div>
-        <div className="p-4">
-          <button
-            onClick={() => { setMessages(INITIAL_MESSAGES); setActiveSession(null); setIsSidebarOpen(false); }}
-            className="w-full py-2.5 rounded-xl bg-[var(--blue)] text-white font-bold text-sm hover:bg-[var(--azure)] transition-all flex items-center justify-center gap-2"
-          >
-            <Plus className="w-4 h-4" /> New Consultation
-          </button>
-        </div>
 
-        <div className="flex-1 overflow-y-auto p-3 space-y-1" style={{ scrollbarWidth: 'none' }}>
-          <div className="text-[10px] uppercase tracking-wider text-[var(--ash)] font-bold px-3 mb-2">Recent Sessions</div>
-          {sessions.length === 0 ? (
-            <div className="text-[var(--ash)] text-xs px-3 py-4 text-center">No past consultations</div>
-          ) : (
-            sessions.map(session => {
-              const isSelected = activeSession === session.id;
-              return (
-                <div
-                  key={session.id}
-                  onClick={() => { loadSession(session.id); setIsSidebarOpen(false); }}
-                  className={`group w-full flex items-center justify-between px-3 py-2.5 rounded-xl cursor-pointer transition-all ${isSelected ? 'bg-[var(--lavender)] border-l-2 border-[var(--blue)]' : 'hover:bg-[var(--mist)] border-l-2 border-transparent'}`}
-                >
-                  <div className="min-w-0 flex-1 pr-2">
-                    <p className={`text-sm font-semibold truncate ${isSelected ? 'text-[var(--blue)]' : 'text-[var(--ink)] group-hover:text-[var(--ink)]'}`}>{session.title || 'PathWise Consultation'}</p>
-                    <p className="text-[var(--ash)] text-[10px] mt-0.5">
-                      {session.updatedAt ? new Date(session.updatedAt).toLocaleDateString() : 'Active session'}
-                    </p>
-                  </div>
-                  <button
-                    onClick={(e) => deleteSession(session.id, e)}
-                    className="opacity-0 group-hover:opacity-100 p-1 rounded-md text-[var(--ash)] hover:text-red-500 hover:bg-red-500/10 transition-all flex-shrink-0"
-                    title="Delete Chat"
-                  >
-                    <Trash2 className="w-3.5 h-3.5" />
-                  </button>
+          <div className="flex items-center gap-1.5">
+            <button
+              onClick={startNewSession}
+              className="p-2 rounded-xl text-[var(--graphite)] hover:text-[var(--ink)] hover:bg-[var(--mist)] transition-colors"
+              title="New Chat"
+            >
+              <SquarePen className="w-5 h-5" />
+            </button>
+            <button
+              onClick={exportChat}
+              className="p-2 rounded-xl text-[var(--graphite)] hover:text-[var(--ink)] hover:bg-[var(--mist)] transition-colors hidden sm:flex"
+              title="Export Chat Transcript"
+            >
+              <Download className="w-4 h-4" />
+            </button>
+          </div>
+        </header>
+
+        {/* ── Chat Messages Scroll Stream ────────────────────────────── */}
+        <div className="flex-1 overflow-y-auto px-3.5 sm:px-6 py-4 space-y-6">
+          <div className="max-w-3xl mx-auto w-full space-y-6">
+
+            {/* Empty Greeting State (ChatGPT Style) */}
+            {isFreshChat && (
+              <motion.div
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="py-6 sm:py-10 text-center"
+              >
+                <div className="w-14 h-14 rounded-2xl mx-auto mb-3.5 flex items-center justify-center bg-[var(--lavender)] border border-[var(--border)] shadow-xs">
+                  <Compass className="w-7 h-7 text-[var(--blue)]" />
                 </div>
-              );
-            })
-          )}
-        </div>
-      </div>
+                <h2 className="text-xl sm:text-2xl font-black text-[var(--ink)] mb-1">
+                  What would you like to explore?
+                </h2>
+                <p className="text-xs text-[var(--graphite)] max-w-md mx-auto mb-6">
+                  Ask anything about DELSU course requirements, your RIASEC assessment results, career prospects, or SIWES internships.
+                </p>
 
-      {/* Main Chat Area */}
-      <div className="flex-1 flex flex-col min-w-0 bg-[var(--canvas)]">
-        <div className="flex items-center justify-between px-4 sm:px-6 py-3 sm:py-4 border-b border-[var(--border)] bg-[var(--surface)] z-10">
-          <div className="flex items-center gap-3">
-            {!isSidebarOpen && (
-              <button 
-                onClick={() => setIsSidebarOpen(true)} 
-                className="text-[var(--graphite)] hover:text-[var(--ink)] p-2 rounded-lg hover:bg-[var(--mist)]"
-              >
-                <Menu className="w-6 h-6" />
-              </button>
-            )}
-            <div>
-              <h2 className="text-[var(--ink)] font-extrabold text-lg leading-tight flex items-center gap-1.5" style={{ fontFamily: 'Nunito' }}>
-                Path<span className="text-[var(--blue)]">Wise</span> AI Advisor
-              </h2>
-              <div className="flex items-center gap-1.5 mt-0.5">
-                <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
-                <span className="text-[var(--ash)] text-[10px] hidden sm:inline">Ready to advise based on RIASEC &amp; SCCT theories</span>
-                <span className="text-[var(--ash)] text-[10px] sm:hidden">Ready to advise</span>
-              </div>
-            </div>
-          </div>
-          <button 
-            onClick={exportChat} 
-            className="flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 text-xs font-bold bg-[var(--lavender)] text-[var(--blue)] border border-[var(--border)] hover:bg-[var(--mist)] transition-all rounded-xl"
-            title="Export Advice"
-          >
-            <Download className="w-4 h-4" />
-            <span className="hidden sm:inline">Export Chat</span>
-          </button>
-        </div>
-
-        <div ref={scrollContainerRef} className="flex-1 overflow-y-auto px-4 sm:px-6 py-4 sm:py-6 space-y-4 sm:space-y-6">
-          
-          {messages.length <= 1 && (
-            <div className="max-w-3xl mx-auto py-4 sm:py-8 text-center flex flex-col items-center justify-center">
-              <motion.div 
-                animate={{ scale: [1, 1.05, 1] }} 
-                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                className="w-16 h-16 rounded-2xl bg-[var(--lavender)] border border-[var(--border)] flex items-center justify-center mb-6"
-              >
-                <Brain className="w-8 h-8 text-[var(--blue)]" />
-              </motion.div>
-              <h1 className="text-[var(--ink)] text-3xl font-black mb-2 tracking-tight" style={{ fontFamily: 'Nunito' }}>
-                Hi, I'm your <span className="text-[var(--blue)]">PathWise Advisor</span>
-              </h1>
-              <p className="text-[var(--graphite)] text-sm max-w-md leading-relaxed mb-8 mx-auto">
-                I combine Holland's RIASEC codes, Social Cognitive Career Theory, and DELSU's curriculum to offer personalized advice. Select a prompt or type below to start.
-              </p>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full text-left">
-                {[
-                  { title: "Suggest Careers", desc: "Identify matching career fields suited for my personality profile.", prompt: "Suggest careers suited for my Holland RIASEC code and department." },
-                  { title: "DELSU Roadmaps", desc: "Show me a semester-by-semester path for my course of study.", prompt: "Show me a semester-by-semester course roadmap for my department." },
-                  { title: "Skill Gap Advice", desc: "Recommend certifications, tools and electives to learn.", prompt: "What skills and certifications should I develop based on my major?" },
-                  { title: "Improve Academic CGPA", desc: "Practical advice on managing coursework and improving grades.", prompt: "How can I improve my CGPA and study more effectively at DELSU?" }
-                ].map((act, idx) => (
-                  <div
-                    key={idx}
-                    onClick={() => sendMessage(act.prompt)}
-                    className="p-4 rounded-2xl bg-[var(--surface)] border border-[var(--border)] hover:border-[var(--blue)] hover:bg-[var(--lavender)] transition-all cursor-pointer group"
-                  >
-                    <span className="text-[var(--ink)] font-bold text-sm block group-hover:text-[var(--blue)] transition-colors">{act.title}</span>
-                    <span className="text-[var(--graphite)] text-xs leading-relaxed hidden sm:block mt-1">{act.desc}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {messages.length > 1 && (
-            <AnimatePresence>
-              {messages.map((msg, i) => {
-                const isUser = msg.role === 'user';
-                const userInitial = user?.name ? user.name.charAt(0).toUpperCase() : (user?.email ? user.email.charAt(0).toUpperCase() : 'U');
-                return (
-                  <motion.div
-                    key={i}
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.3 }}
-                    className={`flex ${isUser ? 'justify-end' : 'justify-start'} gap-3`}
-                  >
-                    {!isUser && (
-                      <div className="w-8 h-8 rounded-lg bg-[var(--lavender)] border border-[var(--border)] flex items-center justify-center flex-shrink-0 mt-1">
-                        <Brain className="w-4 h-4 text-[var(--blue)]" />
-                      </div>
-                    )}
-
-                    <div className={`max-w-[85%] md:max-w-2xl w-fit group relative ${isUser ? 'order-first' : ''}`}>
-                      {isUser ? (
-                        <div className="px-5 py-3 rounded-[24px] rounded-tr-[4px] bg-[var(--blue)] text-white text-sm leading-relaxed shadow-sm break-words w-fit min-w-[60px]">
-                          {msg.content}
+                {/* 2x2 Suggested Prompts Grid */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 max-w-xl mx-auto text-left">
+                  {SUGGESTED_PROMPTS.map((item, idx) => {
+                    const ItemIcon = item.icon;
+                    return (
+                      <button
+                        key={idx}
+                        onClick={() => sendMessage(item.prompt)}
+                        className="p-3.5 rounded-2xl border border-[var(--border)] bg-[var(--surface)] hover:border-[var(--blue)] hover:shadow-sm transition-all group flex items-start gap-3 text-left"
+                      >
+                        <div className="w-8 h-8 rounded-xl bg-[var(--mist)] group-hover:bg-[var(--lavender)] flex items-center justify-center text-[var(--graphite)] group-hover:text-[var(--blue)] transition-colors flex-shrink-0">
+                          <ItemIcon className="w-4 h-4" />
                         </div>
-                      ) : (
-                        <div className="space-y-3">
-                          <div className="px-5 py-4 rounded-[24px] rounded-tl-[4px] bg-[var(--surface)] border border-[var(--border)] text-[var(--graphite)] text-sm leading-relaxed relative">
-                            {formatContent(msg.content)}
+                        <div className="min-w-0">
+                          <p className="text-xs font-bold text-[var(--ink)] mb-0.5 truncate">
+                            {item.title}
+                          </p>
+                          <p className="text-[11px] text-[var(--graphite)] line-clamp-2 leading-relaxed">
+                            {item.prompt}
+                          </p>
+                        </div>
+                      </button>
+                    );
+                  })}
+                </div>
+              </motion.div>
+            )}
 
-                            <div className="flex items-center justify-end gap-2 mt-4 pt-2.5 border-t border-[var(--border)] opacity-40 group-hover:opacity-100 transition-opacity">
-                              <button
-                                onClick={() => speakText(msg.content, i)}
-                                className={`hidden sm:inline-flex p-1.5 rounded-lg hover:bg-[var(--mist)] transition-all ${speakingMsgIdx === i ? 'text-[var(--blue)]' : 'text-[var(--graphite)]'}`}
-                                title={speakingMsgIdx === i ? "Stop speaking" : "Speak advice"}
-                              >
-                                {speakingMsgIdx === i ? <VolumeX className="w-3.5 h-3.5 animate-pulse" /> : <Volume2 className="w-3.5 h-3.5" />}
-                              </button>
-                              <button
-                                onClick={() => copyToClipboard(msg.content)}
-                                className="p-1.5 rounded-lg text-[var(--graphite)] hover:text-[var(--ink)] hover:bg-[var(--mist)] transition-all"
-                                title="Copy to clipboard"
-                              >
-                                <Copy className="w-3.5 h-3.5" />
-                              </button>
-                              <div className="h-3 w-px bg-[var(--border)] mx-0.5" />
-                              <button
-                                onClick={() => handleFeedback(i, 'up')}
-                                className={`p-1.5 rounded-lg hover:bg-[var(--mist)] transition-all ${feedbacks[i] === 'up' ? 'text-green-600' : 'text-[var(--graphite)] hover:text-green-600'}`}
-                                title="Helpful"
-                              >
-                                <ThumbsUp className="w-3.5 h-3.5" />
-                              </button>
-                              <button
-                                onClick={() => handleFeedback(i, 'down')}
-                                className={`p-1.5 rounded-lg hover:bg-[var(--mist)] transition-all ${feedbacks[i] === 'down' ? 'text-red-500' : 'text-[var(--graphite)] hover:text-red-500'}`}
-                                title="Not helpful"
-                              >
-                                <ThumbsDown className="w-3.5 h-3.5" />
-                              </button>
-                            </div>
-                          </div>
+            {/* Conversation Flow */}
+            {messages.map((msg, i) => {
+              const isUser = msg.role === 'user';
 
-                          {msg.cards && (
-                            <div className="space-y-2 mt-3 max-w-md">
-                              {msg.cards.map((card, j) => (
-                                <Link key={j} to={`/career/${card.link}`} className="block">
-                                  <div className="bg-[var(--surface)] border border-[var(--border)] rounded-full p-2 pl-3 pr-4 flex items-center justify-between hover:border-[var(--blue)] transition-all group/card">
-                                    <div className="flex items-center gap-3 min-w-0">
-                                      <div className="w-8 h-8 rounded-full bg-[var(--lavender)] flex items-center justify-center flex-shrink-0 text-[var(--blue)] group-hover/card:bg-[var(--blue)] group-hover/card:text-white transition-colors">
-                                        <Briefcase className="w-4 h-4" />
-                                      </div>
-                                      <div className="min-w-0">
-                                        <p className="text-[var(--ink)] font-bold text-xs truncate">{card.title}</p>
-                                        <p className="text-[var(--graphite)] text-[10px] truncate">{card.desc}</p>
-                                      </div>
-                                    </div>
-                                    <div className="w-6 h-6 rounded-full bg-[var(--fog)] flex items-center justify-center flex-shrink-0 text-[var(--ash)] group-hover/card:text-[var(--blue)] group-hover/card:bg-[var(--lavender)] transition-all">
-                                      <Send className="w-3 h-3 rotate-45" />
-                                    </div>
-                                  </div>
-                                </Link>
-                              ))}
-                            </div>
-                          )}
+              return (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className={`flex flex-col ${isUser ? 'items-end' : 'items-start'}`}
+                >
+                  {/* User Bubble */}
+                  {isUser ? (
+                    <div className="max-w-[85%] sm:max-w-[75%] rounded-2xl rounded-tr-xs bg-[var(--blue)] text-white px-4 py-2.5 text-sm leading-relaxed shadow-xs">
+                      {msg.content}
+                    </div>
+                  ) : (
+                    /* Assistant Message: Clean ChatGPT open style */
+                    <div className="w-full space-y-2">
+                      <div className="flex items-center gap-2 mb-1">
+                        <div className="w-6 h-6 rounded-full bg-[var(--lavender)] flex items-center justify-center text-[var(--blue)] shadow-2xs">
+                          <Compass className="w-3.5 h-3.5" />
+                        </div>
+                        <span className="text-xs font-bold text-[var(--ink)]">PathWise Advisor</span>
+                        <span className="text-[9px] px-1.5 py-0.2 rounded bg-[var(--mist)] text-[var(--graphite)] font-bold">
+                          70B
+                        </span>
+                      </div>
+
+                      <div className="text-sm text-[var(--ink)] leading-relaxed pl-8 space-y-2 whitespace-pre-wrap">
+                        {msg.content}
+                      </div>
+
+                      {/* Interactive Career Cards (if generated by AI) */}
+                      {msg.cards && (
+                        <div className="pl-8 space-y-2 mt-3 max-w-md">
+                          {msg.cards.map((card, j) => (
+                            <Link
+                              key={j}
+                              to={`/career/${card.link || card.id}`}
+                              className="flex items-center justify-between p-3 rounded-xl border border-[var(--border)] bg-[var(--surface)] hover:border-[var(--blue)] hover:shadow-xs transition-all"
+                            >
+                              <div>
+                                <h4 className="text-xs font-bold text-[var(--ink)]">{card.title}</h4>
+                                <p className="text-[10px] text-[var(--graphite)] line-clamp-1">{card.desc}</p>
+                              </div>
+                              <ChevronRight className="w-4 h-4 text-[var(--ash)]" />
+                            </Link>
+                          ))}
                         </div>
                       )}
-                    </div>
-                    {isUser && (
-                      <div className="w-8 h-8 rounded-full bg-[var(--lavender)] border border-[var(--border)] flex items-center justify-center flex-shrink-0 mt-1 text-[var(--blue)] font-bold text-xs">
-                        {userInitial}
-                      </div>
-                    )}
-                  </motion.div>
-                );
-              })}
-            </AnimatePresence>
-          )}
 
-          {isTyping && (
-            <div className="flex gap-3">
-              <div className="w-8 h-8 rounded-lg bg-[var(--lavender)] border border-[var(--border)] flex items-center justify-center flex-shrink-0">
-                <Brain className="w-4 h-4 text-[var(--blue)] animate-pulse" />
+                      {/* ChatGPT Action Bar */}
+                      <div className="flex items-center gap-2 pl-8 pt-1 text-[var(--graphite)] text-xs">
+                        <button
+                          onClick={() => copyToClipboard(msg.content, i)}
+                          className="p-1 rounded-md hover:text-[var(--ink)] hover:bg-[var(--mist)] transition-colors"
+                          title="Copy advice"
+                        >
+                          {copiedIdx === i ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
+                        </button>
+                        <button
+                          onClick={() => speakText(msg.content, i)}
+                          className={`p-1 rounded-md hover:text-[var(--ink)] hover:bg-[var(--mist)] transition-colors ${
+                            speakingMsgIdx === i ? 'text-[var(--blue)]' : ''
+                          }`}
+                          title="Read aloud"
+                        >
+                          {speakingMsgIdx === i ? <VolumeX className="w-3.5 h-3.5" /> : <Volume2 className="w-3.5 h-3.5" />}
+                        </button>
+                        <button
+                          onClick={() => handleFeedback(i, 'like')}
+                          className={`p-1 rounded-md hover:text-[var(--ink)] hover:bg-[var(--mist)] transition-colors ${
+                            feedbacks[i] === 'like' ? 'text-emerald-600 font-bold' : ''
+                          }`}
+                          title="Helpful"
+                        >
+                          <ThumbsUp className="w-3.5 h-3.5" />
+                        </button>
+                        <button
+                          onClick={() => handleFeedback(i, 'dislike')}
+                          className={`p-1 rounded-md hover:text-[var(--ink)] hover:bg-[var(--mist)] transition-colors ${
+                            feedbacks[i] === 'dislike' ? 'text-red-600 font-bold' : ''
+                          }`}
+                          title="Not helpful"
+                        >
+                          <ThumbsDown className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </motion.div>
+              );
+            })}
+
+            {/* Typing Indicator */}
+            {isTyping && (
+              <div className="pl-8">
+                <TypingIndicator />
               </div>
-              <TypingIndicator />
-            </div>
-          )}
+            )}
+
+            <div ref={messagesEndRef} />
+          </div>
         </div>
 
-        {messages.length > 1 && (
-          <div className="hidden sm:flex px-4 sm:px-6 pb-2.5 sm:pb-3 items-center gap-2 overflow-x-auto" style={{ scrollbarWidth: 'none' }}>
-            {SUGGESTED_PROMPTS.map(prompt => (
+        {/* ── Signature ChatGPT Mobile Capsule Input Bar ─────────────── */}
+        <div className="px-3 sm:px-6 pb-[78px] md:pb-4 bg-gradient-to-t from-[var(--canvas)] via-[var(--canvas)] to-transparent pt-2">
+          <div className="max-w-3xl mx-auto w-full">
+            <div className="flex items-center gap-2 bg-[var(--surface)] border border-[var(--border)] rounded-full pl-2 pr-2 py-1.5 shadow-sm focus-within:border-[var(--blue)] focus-within:ring-2 focus-within:ring-[var(--blue)]/15 transition-all">
+              {/* Plus / Attachment Button */}
               <button
-                key={prompt}
-                onClick={() => sendMessage(prompt)}
-                className="px-4 py-2 rounded-full border border-[var(--border)] bg-[var(--surface)] text-[var(--graphite)] text-xs font-bold hover:border-[var(--blue)] hover:text-[var(--blue)] hover:bg-[var(--lavender)] transition-all whitespace-nowrap"
+                type="button"
+                onClick={() => {
+                  const inputEl = document.createElement('input');
+                  inputEl.type = 'file';
+                  inputEl.onchange = () => addNotification('Document attachment received (simulated).', 'success');
+                  inputEl.click();
+                }}
+                className="w-8 h-8 rounded-full bg-[var(--mist)] hover:bg-[var(--fog)] text-[var(--graphite)] hover:text-[var(--ink)] flex items-center justify-center transition-colors flex-shrink-0"
+                title="Attach transcript or syllabus"
               >
-                {prompt}
+                <Plus className="w-4 h-4" />
               </button>
-            ))}
-          </div>
-        )}
 
-        <div className="px-4 sm:px-6 pb-8 sm:pb-10">
-          <div className="flex items-center gap-2 sm:gap-3 bg-[var(--surface)] border border-[var(--border)] rounded-full pl-3 sm:pl-5 pr-2 py-1.5 sm:py-2 focus-within:border-[var(--blue)] transition-all shadow-sm">
-            <button 
-              onClick={() => {
-                const inputElement = document.createElement('input');
-                inputElement.type = 'file';
-                inputElement.onchange = () => addNotification('Attachment uploaded successfully (simulation).', 'success');
-                inputElement.click();
-              }}
-              className="text-[var(--graphite)] hover:text-[var(--ink)] transition-colors flex-shrink-0"
-              title="Attach document/transcript"
-            >
-              <Paperclip className="w-5 h-5" />
-            </button>
-            
-            <textarea
-              value={input}
-              onChange={e => {
-                setInput(e.target.value);
-                e.target.style.height = 'auto';
-                e.target.style.height = Math.min(e.target.scrollHeight, 128) + 'px';
-              }}
-              onKeyDown={handleKeyDown}
-              placeholder="Ask anything..."
-              rows={1}
-              className="flex-1 bg-transparent text-[var(--ink)] placeholder-[var(--ash)] resize-none focus:outline-none text-sm py-2"
-              style={{ scrollbarWidth: 'none', minHeight: '36px', maxHeight: '128px' }}
-            />
+              {/* Auto-expanding Textarea */}
+              <textarea
+                ref={textareaRef}
+                value={input}
+                onChange={e => {
+                  setInput(e.target.value);
+                  e.target.style.height = 'auto';
+                  e.target.style.height = Math.min(e.target.scrollHeight, 120) + 'px';
+                }}
+                onKeyDown={handleKeyDown}
+                placeholder="Message PathWise..."
+                rows={1}
+                className="flex-1 bg-transparent text-[var(--ink)] placeholder-[var(--ash)] resize-none focus:outline-none text-xs sm:text-sm py-1.5 px-1"
+                style={{ scrollbarWidth: 'none', minHeight: '32px', maxHeight: '120px' }}
+              />
 
-            <button 
-              onClick={startSpeechRecognition}
-              className={`text-[var(--graphite)] hover:text-[var(--ink)] transition-colors flex-shrink-0 ${isListening ? 'text-[var(--blue)]' : ''}`}
-              title="Voice typing"
-            >
-              <Mic className="w-5 h-5" />
-            </button>
-            
-            <button
-              onClick={() => sendMessage()}
-              disabled={!input.trim() || isTyping}
-              className="w-10 h-10 rounded-full bg-[var(--blue)] text-white flex items-center justify-center hover:bg-[var(--azure)] disabled:opacity-40 transition-all flex-shrink-0"
-              title="Send message"
-            >
-              <Send className="w-4 h-4 text-white" />
-            </button>
+              {/* Action Button: Dynamic Mic <-> ArrowUp */}
+              {input.trim().length > 0 ? (
+                <button
+                  type="button"
+                  onClick={() => sendMessage()}
+                  disabled={isTyping}
+                  className="w-8 h-8 rounded-full bg-[var(--blue)] text-white flex items-center justify-center shadow-xs transition-transform active:scale-95 flex-shrink-0"
+                  title="Send message"
+                >
+                  <ArrowUp className="w-4 h-4" />
+                </button>
+              ) : (
+                <button
+                  type="button"
+                  onClick={startSpeechRecognition}
+                  className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors flex-shrink-0 ${
+                    isListening
+                      ? 'bg-red-50 text-red-600 animate-pulse'
+                      : 'text-[var(--graphite)] hover:text-[var(--ink)] hover:bg-[var(--mist)]'
+                  }`}
+                  title="Voice input"
+                >
+                  <Mic className="w-4 h-4" />
+                </button>
+              )}
+            </div>
+
+            {/* Disclaimer */}
+            <p className="text-[10px] text-center text-[var(--ash)] mt-1.5">
+              PathWise AI can make mistakes. Verify critical course codes with DELSU Faculty guidelines.
+            </p>
           </div>
         </div>
       </div>

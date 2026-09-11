@@ -65,21 +65,36 @@ router.post('/register', async (req, res) => {
 // Student Login
 router.post('/login', async (req, res) => {
   try {
-    const { matricNo, password } = req.body;
+    const identifier = (req.body.matricNo || req.body.email || '').trim();
+    const password = req.body.password || '';
 
-    const user = await db.getUserByMatric(matricNo);
+    if (!identifier || !password) {
+      return res.status(400).json({ error: 'Please enter your Matric Number or Email and Password' });
+    }
+
+    console.log(`[AUTH] Login attempt for identifier: "${identifier}"`);
+
+    // Try finding user by Matric Number, then by Email
+    let user = await db.getUserByMatric(identifier);
     if (!user) {
-      return res.status(400).json({ error: 'Invalid credentials' });
+      user = await db.getUserByEmail(identifier);
+    }
+
+    if (!user) {
+      console.warn(`[AUTH] User not found for: "${identifier}"`);
+      return res.status(400).json({ error: 'No account found with this Matric Number or Email' });
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return res.status(400).json({ error: 'Invalid credentials' });
+      console.warn(`[AUTH] Password mismatch for user: "${user.matricNo}" ("${user.email}")`);
+      return res.status(400).json({ error: 'Incorrect password' });
     }
 
+    console.log(`[AUTH] Successful login for: "${user.matricNo}" (${user.fullName})`);
     await db.logActivity(user.id, 'logged_in');
 
-    const token = generateToken({ id: user.id, role: 'student', matricNo });
+    const token = generateToken({ id: user.id, role: user.role || 'student', matricNo: user.matricNo });
     
     res.json({
       token,

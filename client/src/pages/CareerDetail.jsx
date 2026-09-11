@@ -125,7 +125,7 @@ const CareerDetail = () => {
   const whyItMatters = aiData?.whyItMatters;
 
   return (
-    <div className="min-h-screen bg-[var(--canvas)] pb-12" style={{ fontFamily: 'Open Sans' }}>
+    <div className="min-h-screen bg-[var(--canvas)] pb-28 md:pb-12" style={{ fontFamily: 'Open Sans' }}>
 
       {/* Header Banner */}
       <div className="relative px-4 py-10 mb-8 overflow-hidden bg-[var(--lavender)] border-b border-[var(--border)]">

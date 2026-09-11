@@ -50,6 +50,13 @@ const CURATED_JOBS = [
   { id: 'j_28', title: 'Research Assistant', company: 'University of Lagos', location: 'Lagos, Nigeria', type: 'Contract', salary: '₦1.5M – ₦3M/yr', field: 'Social Sciences', posted: '1 week ago', url: 'https://unilag.edu.ng', logo: '📚', tags: ['Research', 'Academia', 'Social Science'] },
   { id: 'j_29', title: 'HR Coordinator', company: 'MTN Nigeria', location: 'Lagos, Nigeria', type: 'Full-time', salary: '₦3M – ₦6M/yr', field: 'Social Sciences', posted: '5 days ago', url: 'https://mtn.ng/careers', logo: '👥', tags: ['HR', 'Recruitment', 'People Ops'] },
   { id: 'j_30', title: 'Graduate Trainee Program', company: 'Access Bank', location: 'Lagos, Nigeria', type: 'Full-time', salary: '₦2.5M – ₦4M/yr', field: 'Business', posted: '2 days ago', url: 'https://accessbankplc.com/careers', logo: '🏦', tags: ['Banking', 'Graduate', 'Finance'] },
+
+  // DELSU / Delta State Local & SIWES Placements
+  { id: 'j_31', title: 'SIWES Industrial Trainee (IT & Software)', company: 'Chevron Nigeria (Escravos Ops)', location: 'Warri / Escravos, Delta', type: 'SIWES / Internship', salary: '₦80K – ₦150K/mo', field: 'STEM', posted: '3 days ago', url: 'https://chevron.com', logo: '🔷', tags: ['SIWES', 'IT', 'Delta State', 'Networks'] },
+  { id: 'j_32', title: 'Pharmacy Intern (SIWES / Pre-Grad)', company: 'Delta State University Teaching Hospital (DELSUTH)', location: 'Oghara, Delta', type: 'SIWES / Internship', salary: '₦70K – ₦120K/mo', field: 'Medicine', posted: '1 day ago', url: 'https://delsuth.com.ng', logo: '🏥', tags: ['DELSUTH', 'Pharmacy', 'Clinical', 'Delta'] },
+  { id: 'j_33', title: 'Graduate Trainee / NYSC Associate', company: 'Zenith Bank PLC', location: 'Warri, Delta State', type: 'Graduate Trainee', salary: '₦3.5M – ₦5M/yr', field: 'Business', posted: '2 days ago', url: 'https://zenithbank.com', logo: '🔴', tags: ['Banking', 'NYSC', 'Finance', 'Delta'] },
+  { id: 'j_34', title: 'Agricultural Field Intern', company: 'Songhai Delta Integrated Scheme', location: 'Amukpe, Sapele, Delta', type: 'SIWES / Internship', salary: '₦60K – ₦100K/mo', field: 'Science', posted: '4 days ago', url: 'https://deltastate.gov.ng', logo: '🌱', tags: ['Agro', 'SIWES', 'Delta State'] },
+  { id: 'j_35', title: 'Petroleum Engineering Intern', company: 'NNPC / Warri Refining (WRPC)', location: 'Warri, Delta State', type: 'SIWES / Internship', salary: '₦90K – ₦160K/mo', field: 'Engineering', posted: '2 days ago', url: 'https://nnpcgroup.com', logo: '⚡', tags: ['Petroleum', 'Engineering', 'SIWES', 'Delta'] },
 ];
 
 // Helper: map career title keywords to job search terms
@@ -137,7 +144,7 @@ router.get('/all', verifyToken, async (req, res) => {
       });
     }
 
-    const maxResults = Math.min(parseInt(limit), 30);
+    const maxResults = Math.min(parseInt(limit), 60);
     jobs = jobs.slice(0, maxResults);
 
     res.json({

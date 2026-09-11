@@ -1,0 +1,32 @@
+[
+  {
+    "id": "accba9ed-6341-466d-a4a8-2e0f5f7aedf2",
+    "fullName": "Wisdom Ifeanyi",
+    "email": "wisdom@student.delsu.edu.ng",
+    "matricNo": "FOS/20/21/248900",
+    "faculty": "Science",
+    "department": "Computer Science",
+    "level": "300",
+    "cgpa": 4.2,
+    "password": "$2a$10$bDFiN1U5UYiqSkBJ/.RhiOwBMZlcG2Izhd4G8qL0Gwmw/hcEsg6mC",
+    "role": "student",
+    "savedCareers": [],
+    "xp": 0,
+    "createdAt": "2026-09-05T15:52:39.385Z"
+  },
+  {
+    "id": "313b3427-e56d-4da6-90a8-01e885d3d43c",
+    "fullName": "Ifeanyi Wisdom",
+    "email": "ifeanyiwisdom67@gmail.com",
+    "matricNo": "FOS/22/23/289652",
+    "faculty": "",
+    "department": "",
+    "level": "100",
+    "cgpa": null,
+    "password": "$2a$10$eIX6rgVo1VupamXaR/Kto.GWedm7u1dViy9.sYjnaKwFzKvbYaP4m",
+    "role": "student",
+    "savedCareers": [],
+    "xp": 0,
+    "createdAt": "2026-09-05T15:53:46.711Z"
+  }
+]

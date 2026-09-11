@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { useAuth } from '../contexts/AuthContext';
 import { useNotification } from '../contexts/NotificationContext';
 import api from '../services/api';
-import { Mail, Eye, EyeOff, Lock, ArrowRight } from 'lucide-react';
+import { Mail, Eye, EyeOff, Lock, ArrowRight, User } from 'lucide-react';
 import PathWiseLogo from '../components/PathWiseLogo';
 
 /* ─── AUTH LOADING SCREEN ─────────────────────────────────── */
@@ -132,7 +132,8 @@ const LoginPage = () => {
     e.preventDefault();
     setIsSubmitting(true);
     try {
-      const res = await api.post('/auth/login', { matricNo: email, password });
+      const trimmed = email.trim();
+      const res = await api.post('/auth/login', { matricNo: trimmed, email: trimmed, password });
       await login(res.data.token, res.data.user);
       setShowAuthScreen(true);
     } catch (error) {
@@ -274,77 +275,110 @@ const LoginPage = () => {
         .lp-form {
           display: flex;
           flex-direction: column;
-          gap: 1.2rem;
+          gap: 1.35rem;
         }
 
         .lp-field {
           display: flex;
           flex-direction: column;
-          gap: 0.45rem;
+          gap: 0.55rem;
+        }
+
+        .lp-field-header {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 0 0.15rem;
         }
 
         .lp-field-label {
-          font-size: 0.78rem;
-          color: #ffffff;
+          font-size: 0.82rem;
+          color: rgba(255, 255, 255, 0.92);
           font-weight: 600;
-          letter-spacing: 0.02em;
-          padding-left: 0.2rem;
+          letter-spacing: 0.01em;
+        }
+
+        .lp-field-hint {
+          font-size: 0.73rem;
+          color: rgba(255, 255, 255, 0.45);
+          font-weight: 400;
         }
 
         .lp-input-wrap {
           position: relative;
+          display: flex;
+          align-items: center;
+          width: 100%;
         }
 
         .lp-input {
           width: 100%;
-          background: rgba(255, 255, 255, 0.08); /* Frosted white glass fill */
+          background: rgba(255, 255, 255, 0.06);
           backdrop-filter: blur(16px);
           -webkit-backdrop-filter: blur(16px);
-          border: 1px solid rgba(255, 255, 255, 0.22);
+          border: 1px solid rgba(255, 255, 255, 0.18);
           border-radius: 12px;
-          padding: 0.9rem 3.5rem 0.9rem 1.2rem;
+          padding: 0.95rem 1.2rem;
           color: #ffffff;
-          font-size: 16px; /* 16px prevents iOS Safari auto-zoom on focus */
+          font-size: 15px;
           font-weight: 500;
           font-family: inherit;
           outline: none;
           transition: all 0.2s ease;
           box-sizing: border-box;
         }
+        .lp-input.lp-input-has-left {
+          padding-left: 2.85rem;
+        }
+        .lp-input.lp-input-has-right {
+          padding-right: 2.85rem;
+        }
         .lp-input::placeholder {
-          color: rgba(255, 255, 255, 0.55);
+          color: rgba(255, 255, 255, 0.38);
+          font-size: 0.88rem;
+          font-weight: 400;
         }
         .lp-input:focus {
-          border-color: #ffffff;
-          background: rgba(255, 255, 255, 0.14);
-          box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.15);
+          border-color: #4361EE;
+          background: rgba(255, 255, 255, 0.1);
+          box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
         }
 
-        .lp-icon {
+        .lp-icon-left {
           position: absolute;
-          right: 0.6rem;
+          left: 0.95rem;
           top: 50%;
           transform: translateY(-50%);
-          width: 32px;
-          height: 32px;
-          background: rgba(255, 255, 255, 0.06);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: rgba(255, 255, 255, 0.45);
+          pointer-events: none;
+          transition: color 0.2s ease;
+        }
+        .lp-input-wrap:focus-within .lp-icon-left {
+          color: #4361EE;
+        }
+
+        .lp-icon-right {
+          position: absolute;
+          right: 0.75rem;
+          top: 50%;
+          transform: translateY(-50%);
+          width: 30px;
+          height: 30px;
           border-radius: 8px;
           display: flex;
           align-items: center;
           justify-content: center;
-          color: rgba(255, 255, 255, 0.75);
-          pointer-events: none;
+          color: rgba(255, 255, 255, 0.5);
           transition: all 0.2s ease;
         }
-        .lp-input:focus + .lp-icon {
-          background: rgba(255, 255, 255, 0.2);
-          color: #ffffff;
-        }
-        .lp-icon.click {
+        .lp-icon-right.click {
           pointer-events: auto;
           cursor: pointer;
         }
-        .lp-icon.click:hover {
+        .lp-icon-right.click:hover {
           color: #ffffff;
           background: rgba(255, 255, 255, 0.12);
         }
@@ -485,27 +519,30 @@ const LoginPage = () => {
             </motion.h1>
 
             <form className="lp-form" onSubmit={handleLogin}>
-              {/* Email */}
+              {/* Student ID / Email */}
               <motion.div
                 className="lp-field"
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.45, duration: 0.4 }}
               >
-                <label className="lp-field-label">Email</label>
+                <div className="lp-field-header">
+                  <label className="lp-field-label">Student ID or Email</label>
+                  <span className="lp-field-hint">Matric / Email</span>
+                </div>
                 <div className="lp-input-wrap">
+                  <div className="lp-icon-left">
+                    <User size={16} />
+                  </div>
                   <input
                     type="text"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    placeholder="student@pathwise.com"
-                    className="lp-input"
+                    placeholder="FOS/22/23/... or email"
+                    className="lp-input lp-input-has-left"
                     autoComplete="username"
                     required
                   />
-                  <div className="lp-icon">
-                    <Mail size={14} />
-                  </div>
                 </div>
               </motion.div>
 
@@ -516,19 +553,24 @@ const LoginPage = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.5, duration: 0.4 }}
               >
-                <label className="lp-field-label">Password</label>
+                <div className="lp-field-header">
+                  <label className="lp-field-label">Password</label>
+                </div>
                 <div className="lp-input-wrap">
+                  <div className="lp-icon-left">
+                    <Lock size={16} />
+                  </div>
                   <input
                     type={showPassword ? 'text' : 'password'}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    placeholder="••••••••"
-                    className="lp-input"
+                    placeholder="Enter your password"
+                    className="lp-input lp-input-has-left lp-input-has-right"
                     autoComplete="current-password"
                     required
                   />
-                  <div className="lp-icon click" onClick={() => setShowPassword(!showPassword)}>
-                    {showPassword ? <EyeOff size={14} /> : <Eye size={14} />}
+                  <div className="lp-icon-right click" onClick={() => setShowPassword(!showPassword)}>
+                    {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
                   </div>
                 </div>
               </motion.div>
