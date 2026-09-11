@@ -13,21 +13,42 @@ const groqApiKey = process.env.GROQ_API_KEY;
 const hasApiKey = !!groqApiKey;
 const groq = hasApiKey ? new Groq({ apiKey: groqApiKey }) : null;
 
-const GROQ_MODEL = 'llama-3.3-70b-versatile'; // Fast, smart, free-tier friendly
+// Available active models on Groq (tested and verified)
+const GROQ_MODELS = [
+  'qwen/qwen3.8-27b',
+  'openai/gpt-oss-120b',
+  'groq/compound'
+];
+
+const callGroq = async (messages, maxTokens = 1024, temperature = 0.7) => {
+  if (!hasApiKey || !groq) throw new Error('No Groq API key configured');
+  let lastErr = null;
+  for (const model of GROQ_MODELS) {
+    try {
+      const response = await groq.chat.completions.create({
+        model,
+        messages,
+        max_tokens: maxTokens,
+        temperature,
+      });
+      const content = response.choices[0]?.message?.content;
+      if (content) return { content, model };
+    } catch (err) {
+      lastErr = err;
+      console.warn(`[GROQ] Model ${model} failed (${err.message}), trying next...`);
+    }
+  }
+  throw lastErr;
+};
 
 // Generate a chat title using Groq (or fallback)
 const generateChatTitle = async (firstMessage) => {
   if (!hasApiKey) return firstMessage.substring(0, 30) + '...';
   try {
-    const response = await groq.chat.completions.create({
-      model: GROQ_MODEL,
-      messages: [
-        { role: 'user', content: `Summarize this message into a short title of 2-4 words for a chat session. Respond with ONLY the title, no quotes, no explanation. Message: "${firstMessage}"` }
-      ],
-      max_tokens: 20,
-      temperature: 0.3,
-    });
-    return response.choices[0]?.message?.content?.trim() || firstMessage.substring(0, 30);
+    const res = await callGroq([
+      { role: 'user', content: `Summarize this message into a short title of 2-4 words for a chat session. Respond with ONLY the title, no quotes, no explanation. Message: "${firstMessage}"` }
+    ], 20, 0.3);
+    return res.content.trim() || firstMessage.substring(0, 30);
   } catch {
     return firstMessage.substring(0, 30) + '...';
   }
@@ -123,14 +144,8 @@ BEHAVIORAL INSTRUCTIONS:
         // Add current user message
         messages.push({ role: 'user', content: prompt });
 
-        const response = await groq.chat.completions.create({
-          model: GROQ_MODEL,
-          messages,
-          max_tokens: 1024,
-          temperature: 0.8,
-        });
-
-        aiResponseText = response.choices[0]?.message?.content || 'I could not generate a response. Please try again.';
+        const resGroq = await callGroq(messages, 1024, 0.7);
+        aiResponseText = resGroq.content || 'I could not generate a response. Please try again.';
       } catch (groqError) {
         console.warn('Groq API failed, using smart fallback:', groqError.message);
         aiResponseText = getSmartFallback(prompt, user);
@@ -189,14 +204,10 @@ router.post('/study-plan', verifyToken, async (req, res) => {
     const user = await db.getUserById(req.user.id);
 
     if (hasApiKey) {
-      const response = await groq.chat.completions.create({
-        model: GROQ_MODEL,
-        messages: [
-          { role: 'user', content: `Generate a short weekly study plan for a Level ${user.level}00 DELSU student aiming for career ID ${targetCareerId}. Keep it concise and practical.` }
-        ],
-        max_tokens: 512,
-      });
-      res.json({ plan: response.choices[0]?.message?.content });
+      const resGroq = await callGroq([
+        { role: 'user', content: `Generate a short weekly study plan for a Level ${user.level}00 DELSU student aiming for career ID ${targetCareerId}. Keep it concise and practical.` }
+      ], 512, 0.7);
+      res.json({ plan: resGroq.content });
     } else {
       res.json({ plan: "Mock Study Plan:\nMonday: Review past questions\nTuesday: Group study\nWednesday: Practical coding/labs" });
     }
@@ -250,14 +261,11 @@ Return ONLY valid JSON (no markdown, no explanation) in this exact structure:
   "topEmployers": ["Employer1", "Employer2", "Employer3", "Employer4"]
 }`;
 
-      const response = await groq.chat.completions.create({
-        model: GROQ_MODEL,
-        messages: [{ role: 'user', content: promptText }],
-        max_tokens: 2048,
-        temperature: 0.4,
-      });
+      const resGroq = await callGroq([
+        { role: 'user', content: promptText }
+      ], 2048, 0.4);
 
-      let text = response.choices[0]?.message?.content?.trim() || '';
+      let text = resGroq.content?.trim() || '';
       text = text.replace(/^```json\s*/i, '').replace(/^```\s*/i, '').replace(/```\s*$/, '').trim();
       const data = JSON.parse(text);
       await db.logActivity(req.user.id, 'roadmap_viewed', { careerId });
