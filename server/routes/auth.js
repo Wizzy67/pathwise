@@ -197,8 +197,7 @@ router.post('/forgot-password', async (req, res) => {
     res.json({
       success: true,
       message: `A 6-digit verification code has been sent to ${emailHint}.`,
-      emailHint,
-      devCode: resetCode
+      emailHint
     });
   } catch (error) {
     console.error('[AUTH] Forgot password error:', error);

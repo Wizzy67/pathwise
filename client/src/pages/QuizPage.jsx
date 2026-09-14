@@ -5,7 +5,7 @@ import { useModal } from '../contexts/ModalContext';
 import api from '../services/api';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  ChevronLeft, ChevronRight, Loader2, GraduationCap,
+  ChevronRight, Loader2, GraduationCap,
   Settings, Search, Palette, Users, TrendingUp, ClipboardList,
   Coins, Heart, Shield, Award, Compass, Wrench, BookOpen,
   Lightbulb, Flag, CheckCircle2, X, Sparkles, Check
@@ -280,16 +280,8 @@ const QuizPage = () => {
       {/* ── TOP APP ASSESSMENT HEADER (Mobile-Native) ── */}
       <div className="sticky top-0 z-30 bg-[var(--surface)]/95 backdrop-blur-md border-b border-[var(--border)] px-4 py-3">
         <div className="max-w-xl mx-auto flex items-center justify-between gap-3">
-          <button
-            onClick={() => {
-              if (step === 2) handlePrevInStep2();
-              else if (step > 1) { setStep(s => s - 1); window.scrollTo({ top: 0, behavior: 'smooth' }); }
-              else handleExit();
-            }}
-            className="w-9 h-9 rounded-xl bg-[var(--mist)] text-[var(--graphite)] hover:text-[var(--ink)] flex items-center justify-center active:scale-95 transition-all"
-          >
-            <ChevronLeft className="w-5 h-5" />
-          </button>
+          {/* Left spacer to keep center progress bar balanced against right exit button */}
+          <div className="w-9 h-9" aria-hidden="true" />
 
           <div className="flex-1 text-center">
             <span className="text-[10px] font-extrabold uppercase tracking-widest text-[var(--graphite)]">
@@ -744,18 +736,19 @@ const QuizPage = () => {
       {/* ── STICKY BOTTOM ACTION BAR ── */}
       <div className="fixed bottom-0 left-0 right-0 z-30 bg-[var(--surface)]/95 backdrop-blur-md border-t border-[var(--border)] p-4">
         <div className="max-w-xl mx-auto flex items-center justify-between gap-3">
-          {/* Back button */}
-          <button
-            type="button"
-            onClick={() => {
-              if (step === 2) handlePrevInStep2();
-              else if (step > 1) { setStep(s => s - 1); window.scrollTo({ top: 0, behavior: 'smooth' }); }
-              else handleExit();
-            }}
-            className="px-4 py-3 rounded-2xl bg-[var(--mist)] text-[var(--graphite)] font-bold text-xs hover:text-[var(--ink)] active:scale-95 transition-all"
-          >
-            {step === 1 ? 'Exit' : 'Back'}
-          </button>
+          {/* Back button (only shown when past step 1) */}
+          {step > 1 && (
+            <button
+              type="button"
+              onClick={() => {
+                if (step === 2) handlePrevInStep2();
+                else { setStep(s => s - 1); window.scrollTo({ top: 0, behavior: 'smooth' }); }
+              }}
+              className="px-4 py-3 rounded-2xl bg-[var(--mist)] text-[var(--graphite)] font-bold text-xs hover:text-[var(--ink)] active:scale-95 transition-all cursor-pointer"
+            >
+              Back
+            </button>
+          )}
 
           {/* Primary Action Button */}
           {step < 5 ? (

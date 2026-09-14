@@ -3,7 +3,7 @@ import { createPortal } from 'react-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import {
   KeyRound, ShieldCheck, Mail, Lock, Eye, EyeOff,
-  ArrowRight, RotateCw, CheckCircle2, X, Sparkles, Check, ArrowLeft
+  ArrowRight, RotateCw, CheckCircle2, X, Check, ArrowLeft
 } from 'lucide-react';
 import api from '../services/api';
 
@@ -11,7 +11,6 @@ const ForgotPasswordModal = ({ isOpen, onClose, onSuccess }) => {
   const [step, setStep] = useState(1); // 1 = Enter Email, 2 = Verify Code & Set Password, 3 = Success
   const [email, setEmail] = useState('');
   const [emailHint, setEmailHint] = useState('');
-  const [devCode, setDevCode] = useState('');
 
   const [code, setCode] = useState('');
   const [newPassword, setNewPassword] = useState('');
@@ -29,7 +28,6 @@ const ForgotPasswordModal = ({ isOpen, onClose, onSuccess }) => {
       setStep(1);
       setEmail('');
       setEmailHint('');
-      setDevCode('');
       setCode('');
       setNewPassword('');
       setConfirmPassword('');
@@ -99,9 +97,6 @@ const ForgotPasswordModal = ({ isOpen, onClose, onSuccess }) => {
     try {
       const res = await api.post('/auth/forgot-password', { email: cleanEmail });
       setEmailHint(res.data.emailHint || cleanEmail);
-      if (res.data.devCode) {
-        setDevCode(res.data.devCode);
-      }
       setStep(2);
       setResendTimer(60);
     } catch (err) {
@@ -119,8 +114,7 @@ const ForgotPasswordModal = ({ isOpen, onClose, onSuccess }) => {
     setErrorMessage('');
     setIsSubmitting(true);
     try {
-      const res = await api.post('/auth/forgot-password', { email: email.trim() });
-      if (res.data.devCode) setDevCode(res.data.devCode);
+      await api.post('/auth/forgot-password', { email: email.trim() });
       setResendTimer(60);
     } catch (err) {
       setErrorMessage(err.response?.data?.error || 'Unable to resend verification code right now.');
@@ -347,23 +341,6 @@ const ForgotPasswordModal = ({ isOpen, onClose, onSuccess }) => {
                       (Change)
                     </button>
                   </div>
-
-                  {/* Dev Code Auto-Fill Helper */}
-                  {devCode && (
-                    <div className="mt-2 py-1.5 px-3 rounded-lg bg-blue-50 border border-blue-200/80 flex items-center justify-between text-xs text-blue-900 text-left">
-                      <span className="flex items-center gap-1.5">
-                        <Sparkles className="w-3.5 h-3.5 text-blue-600" />
-                        <span>Dev Code: <strong className="font-mono font-bold">{devCode}</strong></span>
-                      </span>
-                      <button
-                        type="button"
-                        onClick={() => setCode(devCode)}
-                        className="text-[11px] font-bold text-[#20428B] bg-white px-2 py-0.5 rounded border border-blue-300 hover:bg-blue-100 transition-colors cursor-pointer"
-                      >
-                        Auto-fill
-                      </button>
-                    </div>
-                  )}
                 </div>
 
                 {/* Form */}
