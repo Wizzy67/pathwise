@@ -437,31 +437,33 @@ const LandingPage = () => {
           50% { opacity: 0; }
         }
 
-        /* 3D Perspective Floating Dashboard */
+        /* 3D Perspective Floating Dashboard (Crisp High-Fidelity Rendering) */
         .credix-perspective-scene {
-          perspective: 1400px;
-          perspective-origin: 50% 0%;
+          perspective: 2200px;
+          perspective-origin: 50% 15%;
         }
 
         .credix-floating-frame {
           transform-style: preserve-3d;
-          transform: rotateX(10deg) translateY(0px) scale(0.98);
+          transform: rotateX(3.5deg) translateY(0px);
           animation: credixLevitate 6s ease-in-out infinite alternate;
-          transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.6s ease;
+          transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+          backface-visibility: hidden;
+          -webkit-backface-visibility: hidden;
         }
 
         .credix-floating-frame:hover {
-          transform: rotateX(2deg) translateY(-8px) scale(1.005);
+          transform: rotateX(0deg) translateY(-8px) scale(1.008);
           box-shadow: 0 45px 100px -15px rgba(27, 55, 123, 0.28), 0 20px 45px -10px rgba(0, 0, 0, 0.14);
         }
 
         @keyframes credixLevitate {
           0% {
-            transform: rotateX(11deg) translateY(0px) scale(0.98);
+            transform: rotateX(3.5deg) translateY(0px);
             box-shadow: 0 30px 75px -15px rgba(27, 55, 123, 0.22), 0 15px 35px -10px rgba(0, 0, 0, 0.1);
           }
           100% {
-            transform: rotateX(6deg) translateY(-16px) scale(0.995);
+            transform: rotateX(1.5deg) translateY(-14px);
             box-shadow: 0 45px 95px -15px rgba(27, 55, 123, 0.28), 0 20px 45px -10px rgba(0, 0, 0, 0.14);
           }
         }
@@ -757,13 +759,9 @@ const LandingPage = () => {
                   {/* Enhanced 2x Crisp PathWise Dashboard Image */}
                   <div className="relative bg-[#F8FAFC] overflow-hidden">
                     <img
-                      src="/dashboard-preview.png?v=2"
+                      src="/dashboard-preview.png?v=3"
                       alt="PathWise Student Dashboard Interface"
                       className="w-full h-auto object-cover object-top block select-none pointer-events-none"
-                      style={{
-                        imageRendering: '-webkit-optimize-contrast',
-                        filter: 'contrast(1.02) brightness(1.01)'
-                      }}
                     />
                   </div>
                 </div>
