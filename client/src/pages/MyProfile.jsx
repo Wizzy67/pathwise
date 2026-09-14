@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import {
   User, Mail, BookOpen, GraduationCap, Calculator, Loader2, Save,
   Phone, Globe, ExternalLink, HelpCircle, ShieldCheck, Award,
   Sparkles, Compass, CheckCircle2, ChevronRight, Copy, Check,
-  Briefcase, Bookmark, RotateCcw, AlertCircle
+  Briefcase, Bookmark, RotateCcw, AlertCircle, LogOut
 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { useNotification } from '../contexts/NotificationContext';
@@ -25,8 +25,15 @@ const getCgpaClass = (cgpa) => {
 };
 
 const MyProfile = () => {
-  const { user, setUser } = useAuth();
+  const { user, setUser, logout } = useAuth();
   const { addNotification } = useNotification();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    addNotification('You have been logged out.', 'info');
+    navigate('/');
+  };
   
   const [formData, setFormData] = useState({
     fullName: user?.fullName || '',
@@ -138,9 +145,20 @@ const MyProfile = () => {
             Verified Delta State University Academic Identity
           </p>
         </div>
-        <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 text-xs font-bold">
-          <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
-          <span>Matric Verified</span>
+        <div className="flex items-center gap-2">
+          <div className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 text-xs font-bold">
+            <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
+            <span>Matric Verified</span>
+          </div>
+          <button
+            type="button"
+            onClick={handleLogout}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-red-50 hover:bg-red-100 text-red-600 border border-red-200 text-xs font-bold transition-all active:scale-95 cursor-pointer"
+            title="Log out of PathWise"
+          >
+            <LogOut className="w-3.5 h-3.5" />
+            <span>Log Out</span>
+          </button>
         </div>
       </div>
 
@@ -563,6 +581,33 @@ const MyProfile = () => {
           </div>
         </div>
       )}
+
+      {/* ── Account & Session Management (Mobile & Desktop) ──────── */}
+      <div className="rounded-3xl border border-red-100 bg-[var(--surface)] p-5 sm:p-6 shadow-sm space-y-3">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-2xl bg-red-50 text-red-600 border border-red-100 flex items-center justify-center flex-shrink-0">
+              <LogOut className="w-5 h-5" />
+            </div>
+            <div>
+              <h3 className="text-sm sm:text-base font-black text-[var(--ink)]">
+                Account & Session
+              </h3>
+              <p className="text-xs text-[var(--graphite)]">
+                Signed in as <span className="font-bold text-[var(--ink)]">{user?.matricNo || user?.email || 'Active Student'}</span>
+              </p>
+            </div>
+          </div>
+          <button
+            type="button"
+            onClick={handleLogout}
+            className="flex items-center justify-center gap-2 px-5 py-3 rounded-2xl bg-red-50 hover:bg-red-600 hover:text-white text-red-600 border border-red-200 font-bold text-xs sm:text-sm transition-all active:scale-95 shadow-xs cursor-pointer w-full sm:w-auto"
+          >
+            <LogOut className="w-4 h-4" />
+            <span>Log Out of PathWise</span>
+          </button>
+        </div>
+      </div>
     </div>
   );
 };
