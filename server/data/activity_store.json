@@ -1,5 +1,79 @@
 [
   {
+    "id": "26b695db-d69e-4bb6-89c3-c1816ab93600",
+    "userId": "313b3427-e56d-4da6-90a8-01e885d3d43c",
+    "action": "career_unsaved",
+    "metadata": {
+      "careerId": "c_se"
+    },
+    "hiddenByUser": false,
+    "timestamp": "2026-09-14T14:28:00.166Z"
+  },
+  {
+    "id": "d59cf9b8-16f7-48f9-885a-68a62ba15185",
+    "userId": "313b3427-e56d-4da6-90a8-01e885d3d43c",
+    "action": "career_saved",
+    "metadata": {
+      "careerId": "c_se"
+    },
+    "hiddenByUser": false,
+    "timestamp": "2026-09-14T14:27:43.488Z"
+  },
+  {
+    "id": "b0a38205-3762-4293-8c4a-9d7973dfe130",
+    "userId": "313b3427-e56d-4da6-90a8-01e885d3d43c",
+    "action": "roadmap_viewed",
+    "metadata": {
+      "careerId": "c_se"
+    },
+    "hiddenByUser": false,
+    "timestamp": "2026-09-14T14:27:41.123Z"
+  },
+  {
+    "id": "a2f3dd24-6166-4b65-8000-62b9259bd03a",
+    "userId": "313b3427-e56d-4da6-90a8-01e885d3d43c",
+    "action": "roadmap_viewed",
+    "metadata": {
+      "careerId": "c_se"
+    },
+    "hiddenByUser": false,
+    "timestamp": "2026-09-14T14:27:41.116Z"
+  },
+  {
+    "id": "a10365dd-0655-41a7-8f49-061e0ce21bdc",
+    "userId": "313b3427-e56d-4da6-90a8-01e885d3d43c",
+    "action": "ai_query",
+    "metadata": {
+      "promptSnippet": "hello."
+    },
+    "hiddenByUser": false,
+    "timestamp": "2026-09-14T14:27:05.147Z"
+  },
+  {
+    "id": "1c4c1b6e-4b90-4622-91fc-2befd5ac86be",
+    "userId": "313b3427-e56d-4da6-90a8-01e885d3d43c",
+    "action": "logged_in",
+    "metadata": {},
+    "hiddenByUser": false,
+    "timestamp": "2026-09-14T14:18:35.920Z"
+  },
+  {
+    "id": "998ca4a0-2718-40c1-95ac-c6c73a7c0b13",
+    "userId": "313b3427-e56d-4da6-90a8-01e885d3d43c",
+    "action": "logged_in",
+    "metadata": {},
+    "hiddenByUser": false,
+    "timestamp": "2026-09-14T12:58:55.448Z"
+  },
+  {
+    "id": "782d08c7-a57c-4440-ab6c-b4b7c3c6bd10",
+    "userId": "313b3427-e56d-4da6-90a8-01e885d3d43c",
+    "action": "logged_in",
+    "metadata": {},
+    "hiddenByUser": false,
+    "timestamp": "2026-09-14T12:02:56.514Z"
+  },
+  {
     "id": "6d24c6ef-fc9c-477f-8818-610e4e34634f",
     "userId": "accba9ed-6341-466d-a4a8-2e0f5f7aedf2",
     "action": "ai_query",

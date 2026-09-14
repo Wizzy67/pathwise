@@ -215,14 +215,11 @@ const Navbar = () => {
                     </AnimatePresence>
                   </div>
 
-                  <Link to="/profile">
-                    <div className="w-9 h-9 rounded-full bg-[var(--blue)] flex items-center justify-center text-white font-bold text-sm">
+                  <Link to="/profile" title="View Profile">
+                    <div className="w-9 h-9 rounded-full bg-[var(--blue)] flex items-center justify-center text-white font-bold text-sm hover:ring-2 hover:ring-[var(--blue)]/30 transition-all">
                       {user.fullName ? user.fullName.charAt(0).toUpperCase() : 'S'}
                     </div>
                   </Link>
-                  <button onClick={handleLogout} className="text-[var(--graphite)] hover:bg-red-50 hover:text-red-500 rounded-md transition-colors p-2">
-                    <LogOut className="w-5 h-5" />
-                  </button>
                 </div>
               ) : (
                 <div className="flex items-center gap-3">

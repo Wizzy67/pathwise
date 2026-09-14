@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Routes, Route, useLocation } from 'react-router-dom';
+import { Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
@@ -30,7 +30,7 @@ import AdminDashboard from './pages/AdminDashboard';
 import ResultsAnalysis from './pages/ResultsAnalysis';
 
 // Pages that should NOT show the Navbar/Footer
-const BARE_ROUTES = ['/login', '/register', '/quiz', '/welcome', '/secure-admin-access', '/choice'];
+const BARE_ROUTES = ['/login', '/register', '/forgot-password', '/quiz', '/welcome', '/secure-admin-access', '/choice'];
 
 function App() {
   const location = useLocation();
@@ -68,6 +68,7 @@ function App() {
               <Route path="/choice" element={<ChoicePage />} />
               <Route path="/register" element={<RegisterPage />} />
               <Route path="/login" element={<LoginPage />} />
+              <Route path="/forgot-password" element={<Navigate to="/login?forgot=true" replace />} />
               <Route path="/welcome" element={<WelcomePage />} />
 
               {/* Admin */}

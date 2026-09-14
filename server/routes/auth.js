@@ -2,7 +2,7 @@ import express from 'express';
 import bcrypt from 'bcryptjs';
 import db from '../utils/db.js';
 import { generateToken } from '../middleware/auth.js';
-import { sendWelcomeEmail } from '../utils/email.js';
+import { sendWelcomeEmail, sendPasswordResetEmail } from '../utils/email.js';
 
 const router = express.Router();
 
@@ -136,6 +136,159 @@ router.post('/admin-login', async (req, res) => {
     }
   } catch (error) {
     res.status(500).json({ error: 'Server error during admin login' });
+  }
+});
+
+// Request Password Reset (Forgot Password)
+router.post('/forgot-password', async (req, res) => {
+  try {
+    const email = (req.body.email || req.body.identifier || req.body.matricNo || '').trim();
+
+    if (!email) {
+      return res.status(400).json({ error: 'Please enter your registered student email address.' });
+    }
+
+    // Lookup user by email first, fallback to matric
+    let user = await db.getUserByEmail(email);
+    if (!user) {
+      user = await db.getUserByMatric(email);
+    }
+
+    if (!user) {
+      return res.status(404).json({ error: 'No student account was found with this email address.' });
+    }
+
+    // Generate secure 6-digit OTP code
+    const resetCode = Math.floor(100000 + Math.random() * 900000).toString();
+    const resetExpires = new Date(Date.now() + 15 * 60 * 1000).toISOString(); // 15 minutes
+
+    // Save to user record
+    await db.updateUser(user.id, {
+      resetPasswordCode: resetCode,
+      resetPasswordExpires: resetExpires
+    });
+
+    const targetEmail = user.email || `${user.matricNo.toLowerCase().replace(/[^a-z0-9]/g, '')}@student.delsu.edu.ng`;
+
+    // Masked email hint (e.g. i***@gmail.com)
+    const emailParts = targetEmail.split('@');
+    const maskedName = emailParts[0].length > 2 
+      ? emailParts[0].charAt(0) + '***' + emailParts[0].slice(-1)
+      : emailParts[0].charAt(0) + '***';
+    const emailHint = `${maskedName}@${emailParts[1] || 'delsu.edu.ng'}`;
+
+    console.log(`\n======================================================`);
+    console.log(`🔑 [PASSWORD RESET OTP DISPATCHED]`);
+    console.log(`   Student: ${user.fullName} (${user.matricNo})`);
+    console.log(`   Email:   ${targetEmail}`);
+    console.log(`   Code:    ${resetCode}`);
+    console.log(`   Expires: 15 minutes from now`);
+    console.log(`======================================================\n`);
+
+    // Dispatch email asynchronously
+    sendPasswordResetEmail(targetEmail, user.fullName, resetCode)
+      .then(result => {
+        if (result && result.previewUrl) {
+          console.log(`🔗 [Ethereal Reset Preview]: ${result.previewUrl}`);
+        }
+      })
+      .catch(err => console.error('[EMAIL ERROR] Reset email dispatch failed:', err));
+
+    res.json({
+      success: true,
+      message: `A 6-digit verification code has been sent to ${emailHint}.`,
+      emailHint,
+      devCode: resetCode
+    });
+  } catch (error) {
+    console.error('[AUTH] Forgot password error:', error);
+    res.status(500).json({ error: 'Failed to process password reset request.' });
+  }
+});
+
+// Verify 6-digit Reset Code
+router.post('/verify-reset-code', async (req, res) => {
+  try {
+    const identifier = (req.body.identifier || '').trim();
+    const code = (req.body.code || '').trim();
+
+    if (!identifier || !code) {
+      return res.status(400).json({ error: 'Matric number/email and 6-digit code are required.' });
+    }
+
+    let user = await db.getUserByMatric(identifier);
+    if (!user) user = await db.getUserByEmail(identifier);
+
+    if (!user) {
+      return res.status(404).json({ error: 'Student account not found.' });
+    }
+
+    if (!user.resetPasswordCode || user.resetPasswordCode !== code) {
+      return res.status(400).json({ error: 'Invalid verification code. Please check and try again.' });
+    }
+
+    if (new Date(user.resetPasswordExpires) < new Date()) {
+      return res.status(400).json({ error: 'This verification code has expired. Please request a new code.' });
+    }
+
+    res.json({ success: true, message: 'Code verified successfully.' });
+  } catch (error) {
+    console.error('[AUTH] Verify code error:', error);
+    res.status(500).json({ error: 'Failed to verify code.' });
+  }
+});
+
+// Complete Password Reset
+router.post('/reset-password', async (req, res) => {
+  try {
+    const identifier = (req.body.identifier || '').trim();
+    const code = (req.body.code || '').trim();
+    const newPassword = req.body.newPassword || '';
+
+    if (!identifier || !code || !newPassword) {
+      return res.status(400).json({ error: 'Identifier, verification code, and new password are required.' });
+    }
+
+    if (newPassword.length < 6) {
+      return res.status(400).json({ error: 'Password must be at least 6 characters long.' });
+    }
+
+    let user = await db.getUserByMatric(identifier);
+    if (!user) user = await db.getUserByEmail(identifier);
+
+    if (!user) {
+      return res.status(404).json({ error: 'Student account not found.' });
+    }
+
+    if (!user.resetPasswordCode || user.resetPasswordCode !== code) {
+      return res.status(400).json({ error: 'Invalid verification code.' });
+    }
+
+    if (new Date(user.resetPasswordExpires) < new Date()) {
+      return res.status(400).json({ error: 'This verification code has expired. Please request a new one.' });
+    }
+
+    // Hash new password
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(newPassword, salt);
+
+    // Update user record & wipe reset codes
+    await db.updateUser(user.id, {
+      password: hashedPassword,
+      resetPasswordCode: null,
+      resetPasswordExpires: null
+    });
+
+    await db.logActivity(user.id, 'password_reset', { timestamp: new Date().toISOString() });
+    console.log(`✅ [PASSWORD RESET SUCCESS] Password updated for student: ${user.matricNo}`);
+
+    res.json({
+      success: true,
+      message: 'Your password has been reset successfully! You can now log in.'
+    });
+  } catch (error) {
+    console.error('[AUTH] Reset password error:', error);
+    res.status(500).json({ error: 'Failed to reset password. Please try again.' });
   }
 });
 

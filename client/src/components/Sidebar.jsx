@@ -55,22 +55,6 @@ const Sidebar = () => {
     { name: 'My Profile',        path: '/profile',          icon: User },
   ];
 
-  const displayName = user?.fullName || 'Student';
-  const firstName = displayName.split(' ')[0];
-  const initial = displayName.charAt(0).toUpperCase();
-  const cgpa = user?.cgpa ?? null;
-  const xp = user?.xp || 0;
-  const level = Math.floor(xp / 100) + 1;
-
-  const getCgpaColor = (v) => {
-    if (!v) return 'text-[var(--graphite)]';
-    const n = parseFloat(v);
-    if (n >= 4.5) return 'text-emerald-600';
-    if (n >= 3.5) return 'text-[var(--blue)]';
-    if (n >= 2.4) return 'text-amber-600';
-    return 'text-red-500';
-  };
-
   const NavLink = ({ link }) => {
     const Icon = link.icon;
     const isActive = location.pathname === link.path;
@@ -121,39 +105,6 @@ const Sidebar = () => {
       `}</style>
 
       <aside className="w-64 hidden lg:flex flex-col border-r border-[var(--border)] bg-[var(--surface)] h-[calc(100vh-4rem)] sticky top-16 overflow-y-auto body-font flex-shrink-0">
-
-        {/* ── STUDENT IDENTITY ── */}
-        <div className="px-5 py-4 border-b border-[var(--border)]">
-          <div className="flex items-center gap-2.5">
-            <div className="w-9 h-9 rounded-xl flex items-center justify-center font-bold text-white text-sm flex-shrink-0 bg-[var(--blue)]">
-              {initial}
-            </div>
-            <div className="overflow-hidden flex-1">
-              <h3 className="text-sm font-bold text-[var(--ink)] heading-font truncate">{firstName}</h3>
-              <p className="text-[10px] truncate text-[var(--graphite)]">{user?.matricNo || 'DELSU Student'}</p>
-            </div>
-          </div>
-        </div>
-
-        {/* ── STATS STRIP ── */}
-        <div className="px-4 py-3 border-b border-[var(--border)] grid grid-cols-3 gap-2">
-          <div className="flex flex-col items-center p-2 rounded-xl bg-[var(--mist)]">
-            <span className={`text-sm font-black heading-font ${getCgpaColor(cgpa)}`}>
-              {cgpa ? parseFloat(cgpa).toFixed(2) : '--'}
-            </span>
-            <span className="text-[9px] text-[var(--graphite)] font-semibold mt-0.5">CGPA</span>
-          </div>
-          <div className="flex flex-col items-center p-2 rounded-xl bg-[var(--mist)]">
-            <span className="text-sm font-black heading-font text-[var(--blue)]">Lvl {level}</span>
-            <span className="text-[9px] text-[var(--graphite)] font-semibold mt-0.5">XP</span>
-          </div>
-          <div className="flex flex-col items-center p-2 rounded-xl bg-[var(--mist)]">
-            <span className="text-sm font-black heading-font text-[var(--ink)]">
-              {user?.level ? String(user.level).replace('L','') + 'L' : '--'}
-            </span>
-            <span className="text-[9px] text-[var(--graphite)] font-semibold mt-0.5">Level</span>
-          </div>
-        </div>
 
         {/* ── NAV GROUPS ── */}
         <nav className="flex-1 px-3 py-2 space-y-0.5 overflow-y-auto">

@@ -14,13 +14,13 @@ createRoot(document.getElementById('root')).render(
     <BrowserRouter>
       <ThemeProvider>
         <LanguageProvider>
-          <NotificationProvider>
-            <ModalProvider>
+          <ModalProvider>
+            <NotificationProvider>
               <AuthProvider>
                 <App />
               </AuthProvider>
-            </ModalProvider>
-          </NotificationProvider>
+            </NotificationProvider>
+          </ModalProvider>
         </LanguageProvider>
       </ThemeProvider>
     </BrowserRouter>

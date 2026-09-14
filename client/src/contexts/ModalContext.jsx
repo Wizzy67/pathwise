@@ -9,7 +9,8 @@ import {
   Info,
   RotateCcw,
   AlertCircle,
-  HelpCircle
+  HelpCircle,
+  X
 } from 'lucide-react';
 
 const ModalContext = createContext(null);
@@ -24,6 +25,7 @@ export const ModalProvider = ({ children }) => {
     variant: 'danger', // 'danger' | 'brand' | 'warning' | 'success' | 'info'
     icon: null,
     isAlert: false,
+    autoClose: null,
     onConfirm: null,
     onCancel: null,
   });
@@ -74,8 +76,18 @@ export const ModalProvider = ({ children }) => {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [modal.isOpen, handleCancel]);
 
+  // Handle autoClose timer
+  useEffect(() => {
+    if (modal.isOpen && modal.autoClose && modal.autoClose > 0) {
+      const timer = setTimeout(() => {
+        handleCancel();
+      }, modal.autoClose);
+      return () => clearTimeout(timer);
+    }
+  }, [modal.isOpen, modal.autoClose, handleCancel]);
+
   /**
-   * openConfirm(options)
+   * confirm(options)
    * Returns a Promise<boolean> that resolves to true if confirmed, false if cancelled.
    */
   const confirm = useCallback((options = {}) => {
@@ -90,6 +102,7 @@ export const ModalProvider = ({ children }) => {
         variant: options.variant || 'danger',
         icon: options.icon || null,
         isAlert: false,
+        autoClose: options.autoClose || null,
         onConfirm: options.onConfirm || null,
         onCancel: options.onCancel || null,
       });
@@ -97,8 +110,8 @@ export const ModalProvider = ({ children }) => {
   }, []);
 
   /**
-   * openAlert(options)
-   * Informational modal with a single acknowledgement button. Returns Promise<void>.
+   * alert(options)
+   * Informational or feedback modal with a single button. Returns Promise<void>.
    */
   const alert = useCallback((options = {}) => {
     return new Promise((resolve) => {
@@ -112,6 +125,7 @@ export const ModalProvider = ({ children }) => {
         variant: options.variant || 'brand',
         icon: options.icon || null,
         isAlert: true,
+        autoClose: options.autoClose || null,
         onConfirm: options.onConfirm || null,
         onCancel: options.onCancel || null,
       });
@@ -122,63 +136,63 @@ export const ModalProvider = ({ children }) => {
   const renderIcon = () => {
     if (modal.icon && typeof modal.icon !== 'string') {
       const CustomIcon = modal.icon;
-      return <CustomIcon className="w-6 h-6" />;
+      return <CustomIcon className="w-6 h-6" strokeWidth={2.3} />;
     }
 
     const iconKey = typeof modal.icon === 'string' ? modal.icon.toLowerCase() : null;
 
-    if (iconKey === 'trash' || iconKey === 'delete') return <Trash2 className="w-6 h-6" />;
-    if (iconKey === 'logout') return <LogOut className="w-6 h-6" />;
-    if (iconKey === 'rotate' || iconKey === 'reset' || iconKey === 'retake') return <RotateCcw className="w-6 h-6" />;
-    if (iconKey === 'check' || iconKey === 'success') return <CheckCircle2 className="w-6 h-6" />;
-    if (iconKey === 'info') return <Info className="w-6 h-6" />;
-    if (iconKey === 'help') return <HelpCircle className="w-6 h-6" />;
+    if (iconKey === 'trash' || iconKey === 'delete') return <Trash2 className="w-6 h-6" strokeWidth={2.3} />;
+    if (iconKey === 'logout') return <LogOut className="w-6 h-6" strokeWidth={2.3} />;
+    if (iconKey === 'rotate' || iconKey === 'reset' || iconKey === 'retake') return <RotateCcw className="w-6 h-6" strokeWidth={2.3} />;
+    if (iconKey === 'check' || iconKey === 'success') return <CheckCircle2 className="w-6 h-6" strokeWidth={2.3} />;
+    if (iconKey === 'info') return <Info className="w-6 h-6" strokeWidth={2.3} />;
+    if (iconKey === 'help') return <HelpCircle className="w-6 h-6" strokeWidth={2.3} />;
 
     // Fallback based on variant
     switch (modal.variant) {
       case 'danger':
-        return <AlertTriangle className="w-6 h-6" />;
+        return <AlertTriangle className="w-6 h-6" strokeWidth={2.3} />;
       case 'warning':
-        return <AlertCircle className="w-6 h-6" />;
+        return <AlertCircle className="w-6 h-6" strokeWidth={2.3} />;
       case 'success':
-        return <CheckCircle2 className="w-6 h-6" />;
+        return <CheckCircle2 className="w-6 h-6" strokeWidth={2.3} />;
       case 'brand':
       case 'info':
       default:
-        return <Info className="w-6 h-6" />;
+        return <Info className="w-6 h-6" strokeWidth={2.3} />;
     }
   };
 
-  // Color theme per variant
+  // Variant color mapping inspired by user reference cards
   const getVariantStyles = () => {
     switch (modal.variant) {
       case 'danger':
         return {
           iconBadge: 'bg-red-50 text-red-600 border border-red-100 shadow-sm shadow-red-500/10',
-          confirmBtn: 'bg-red-600 hover:bg-red-700 active:bg-red-800 text-white shadow-sm shadow-red-500/25 focus:ring-red-500',
+          confirmBtn: 'bg-red-600 hover:bg-red-700 active:bg-red-800 text-white shadow-md shadow-red-500/25 focus:ring-red-500',
         };
       case 'warning':
         return {
           iconBadge: 'bg-amber-50 text-amber-600 border border-amber-100 shadow-sm shadow-amber-500/10',
-          confirmBtn: 'bg-amber-600 hover:bg-amber-700 active:bg-amber-800 text-white shadow-sm shadow-amber-500/25 focus:ring-amber-500',
+          confirmBtn: 'bg-amber-600 hover:bg-amber-700 active:bg-amber-800 text-white shadow-md shadow-amber-500/25 focus:ring-amber-500',
         };
       case 'success':
         return {
           iconBadge: 'bg-emerald-50 text-emerald-600 border border-emerald-100 shadow-sm shadow-emerald-500/10',
-          confirmBtn: 'bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white shadow-sm shadow-emerald-500/25 focus:ring-emerald-500',
+          confirmBtn: 'bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white shadow-md shadow-emerald-500/25 focus:ring-emerald-500',
         };
       case 'brand':
       default:
         return {
-          iconBadge: 'bg-[#EEF2F9] text-[#20428B] border border-[#CBD5E1]/60 shadow-sm shadow-[#20428B]/10',
-          confirmBtn: 'bg-[#20428B] hover:bg-[#1A346C] active:bg-[#152a57] text-white shadow-sm shadow-[#20428B]/25 focus:ring-[#20428B]',
+          iconBadge: 'bg-[#EEF2F9] text-[#20428B] border border-[#CBD5E1]/60 shadow-sm shadow-blue-900/10',
+          confirmBtn: 'bg-[#20428B] hover:bg-[#1A346C] active:bg-[#152a57] text-white shadow-md shadow-[#20428B]/25 focus:ring-[#20428B]',
         };
     }
   };
 
   const styles = getVariantStyles();
 
-  // Portal into document.body to avoid parent CSS transforms or z-index stacking issues
+  // Floating portal attached directly to document.body
   const modalPortal = (
     <AnimatePresence>
       {modal.isOpen && (
@@ -188,7 +202,7 @@ export const ModalProvider = ({ children }) => {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.18 }}
-          className="fixed inset-0 z-[999999] flex items-center justify-center p-4 sm:p-6"
+          className="fixed inset-0 z-[999999] flex items-center justify-center p-4 sm:p-6 select-none"
           role="dialog"
           aria-modal="true"
           aria-labelledby="modal-title"
@@ -196,19 +210,29 @@ export const ModalProvider = ({ children }) => {
           {/* Backdrop overlay */}
           <div
             onClick={handleCancel}
-            className="fixed inset-0 bg-slate-950/45 backdrop-blur-[3px]"
+            className="fixed inset-0 bg-slate-950/50 backdrop-blur-[4px] transition-opacity"
           />
 
           {/* Modal Card */}
           <motion.div
             key="modal-portal-card"
-            initial={{ opacity: 0, scale: 0.92, y: 12 }}
+            initial={{ opacity: 0, scale: 0.92, y: 14 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.94, y: 8 }}
-            transition={{ type: 'spring', damping: 26, stiffness: 360 }}
-            className="relative w-full max-w-[360px] bg-white rounded-3xl p-6 sm:p-7 text-center shadow-[0_20px_50px_-12px_rgba(0,0,0,0.18)] border border-slate-100/90 z-10 overflow-hidden"
+            transition={{ type: 'spring', damping: 26, stiffness: 380 }}
+            className="relative w-full max-w-[370px] bg-white rounded-3xl p-6 sm:p-7 text-center shadow-[0_25px_60px_-15px_rgba(0,0,0,0.25)] border border-slate-100 z-10 overflow-hidden"
             onClick={(e) => e.stopPropagation()}
           >
+            {/* Close 'X' button in top right */}
+            <button
+              type="button"
+              onClick={handleCancel}
+              className="absolute top-4 right-4 p-1.5 rounded-full text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors cursor-pointer"
+              aria-label="Close dialog"
+            >
+              <X className="w-4 h-4" />
+            </button>
+
             {/* Centered Top Icon Badge */}
             <div className={`w-14 h-14 rounded-2xl mx-auto flex items-center justify-center mb-4 transition-transform ${styles.iconBadge}`}>
               {renderIcon()}
@@ -217,14 +241,14 @@ export const ModalProvider = ({ children }) => {
             {/* Title */}
             <h3
               id="modal-title"
-              className="text-[19px] font-bold text-slate-900 tracking-tight font-heading leading-snug"
+              className="text-xl font-extrabold text-slate-900 tracking-tight font-heading leading-snug"
             >
               {modal.title}
             </h3>
 
             {/* Description */}
             {modal.message && (
-              <p className="text-[13.5px] text-slate-500 mt-2 mb-6 leading-relaxed font-normal px-1">
+              <p className="text-[13.5px] text-slate-500 mt-2.5 mb-6 leading-relaxed font-normal px-2">
                 {modal.message}
               </p>
             )}
@@ -235,7 +259,7 @@ export const ModalProvider = ({ children }) => {
                 <button
                   type="button"
                   onClick={handleCancel}
-                  className="flex-1 py-2.5 px-4 rounded-xl text-sm font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 active:bg-slate-300 transition-all focus:outline-none focus:ring-2 focus:ring-slate-300 active:scale-[0.98] cursor-pointer"
+                  className="flex-1 py-3 px-4 rounded-xl text-sm font-bold text-slate-700 bg-slate-100 hover:bg-slate-200 active:bg-slate-300 transition-all focus:outline-none focus:ring-2 focus:ring-slate-300 active:scale-[0.98] cursor-pointer"
                 >
                   {modal.cancelText}
                 </button>
@@ -245,7 +269,7 @@ export const ModalProvider = ({ children }) => {
                 type="button"
                 autoFocus
                 onClick={handleConfirm}
-                className={`flex-1 py-2.5 px-4 rounded-xl text-sm font-semibold transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 active:scale-[0.98] cursor-pointer ${styles.confirmBtn}`}
+                className={`flex-1 py-3 px-4 rounded-xl text-sm font-bold transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 active:scale-[0.98] cursor-pointer ${styles.confirmBtn}`}
               >
                 {modal.confirmText}
               </button>
