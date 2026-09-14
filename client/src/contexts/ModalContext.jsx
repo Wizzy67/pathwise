@@ -1,4 +1,5 @@
-import { createContext, useContext, useState, useCallback, useEffect } from 'react';
+import { createContext, useContext, useState, useCallback, useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import {
   AlertTriangle,
@@ -23,10 +24,11 @@ export const ModalProvider = ({ children }) => {
     variant: 'danger', // 'danger' | 'brand' | 'warning' | 'success' | 'info'
     icon: null,
     isAlert: false,
-    resolve: null,
     onConfirm: null,
     onCancel: null,
   });
+
+  const resolverRef = useRef(null);
 
   const closeModal = useCallback(() => {
     setModal(prev => ({ ...prev, isOpen: false }));
@@ -34,13 +36,19 @@ export const ModalProvider = ({ children }) => {
 
   const handleConfirm = useCallback(() => {
     if (modal.onConfirm) modal.onConfirm();
-    if (modal.resolve) modal.resolve(true);
+    if (resolverRef.current) {
+      resolverRef.current(true);
+      resolverRef.current = null;
+    }
     closeModal();
   }, [modal, closeModal]);
 
   const handleCancel = useCallback(() => {
     if (modal.onCancel) modal.onCancel();
-    if (modal.resolve) modal.resolve(false);
+    if (resolverRef.current) {
+      resolverRef.current(false);
+      resolverRef.current = null;
+    }
     closeModal();
   }, [modal, closeModal]);
 
@@ -72,6 +80,7 @@ export const ModalProvider = ({ children }) => {
    */
   const confirm = useCallback((options = {}) => {
     return new Promise((resolve) => {
+      resolverRef.current = resolve;
       setModal({
         isOpen: true,
         title: options.title || 'Are you sure?',
@@ -81,7 +90,6 @@ export const ModalProvider = ({ children }) => {
         variant: options.variant || 'danger',
         icon: options.icon || null,
         isAlert: false,
-        resolve,
         onConfirm: options.onConfirm || null,
         onCancel: options.onCancel || null,
       });
@@ -94,6 +102,7 @@ export const ModalProvider = ({ children }) => {
    */
   const alert = useCallback((options = {}) => {
     return new Promise((resolve) => {
+      resolverRef.current = resolve;
       setModal({
         isOpen: true,
         title: options.title || 'Notice',
@@ -103,7 +112,6 @@ export const ModalProvider = ({ children }) => {
         variant: options.variant || 'brand',
         icon: options.icon || null,
         isAlert: true,
-        resolve,
         onConfirm: options.onConfirm || null,
         onCancel: options.onCancel || null,
       });
@@ -170,82 +178,88 @@ export const ModalProvider = ({ children }) => {
 
   const styles = getVariantStyles();
 
+  // Portal into document.body to avoid parent CSS transforms or z-index stacking issues
+  const modalPortal = (
+    <AnimatePresence>
+      {modal.isOpen && (
+        <motion.div
+          key="modal-portal-backdrop"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.18 }}
+          className="fixed inset-0 z-[999999] flex items-center justify-center p-4 sm:p-6"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="modal-title"
+        >
+          {/* Backdrop overlay */}
+          <div
+            onClick={handleCancel}
+            className="fixed inset-0 bg-slate-950/45 backdrop-blur-[3px]"
+          />
+
+          {/* Modal Card */}
+          <motion.div
+            key="modal-portal-card"
+            initial={{ opacity: 0, scale: 0.92, y: 12 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.94, y: 8 }}
+            transition={{ type: 'spring', damping: 26, stiffness: 360 }}
+            className="relative w-full max-w-[360px] bg-white rounded-3xl p-6 sm:p-7 text-center shadow-[0_20px_50px_-12px_rgba(0,0,0,0.18)] border border-slate-100/90 z-10 overflow-hidden"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Centered Top Icon Badge */}
+            <div className={`w-14 h-14 rounded-2xl mx-auto flex items-center justify-center mb-4 transition-transform ${styles.iconBadge}`}>
+              {renderIcon()}
+            </div>
+
+            {/* Title */}
+            <h3
+              id="modal-title"
+              className="text-[19px] font-bold text-slate-900 tracking-tight font-heading leading-snug"
+            >
+              {modal.title}
+            </h3>
+
+            {/* Description */}
+            {modal.message && (
+              <p className="text-[13.5px] text-slate-500 mt-2 mb-6 leading-relaxed font-normal px-1">
+                {modal.message}
+              </p>
+            )}
+
+            {/* Action Buttons */}
+            <div className="flex items-center gap-3 mt-1">
+              {!modal.isAlert && (
+                <button
+                  type="button"
+                  onClick={handleCancel}
+                  className="flex-1 py-2.5 px-4 rounded-xl text-sm font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 active:bg-slate-300 transition-all focus:outline-none focus:ring-2 focus:ring-slate-300 active:scale-[0.98] cursor-pointer"
+                >
+                  {modal.cancelText}
+                </button>
+              )}
+
+              <button
+                type="button"
+                autoFocus
+                onClick={handleConfirm}
+                className={`flex-1 py-2.5 px-4 rounded-xl text-sm font-semibold transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 active:scale-[0.98] cursor-pointer ${styles.confirmBtn}`}
+              >
+                {modal.confirmText}
+              </button>
+            </div>
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+
   return (
     <ModalContext.Provider value={{ confirm, alert, closeModal }}>
       {children}
-
-      <AnimatePresence>
-        {modal.isOpen && (
-          <div
-            className="fixed inset-0 z-[99999] flex items-center justify-center p-4 sm:p-6"
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="modal-title"
-          >
-            {/* Backdrop overlay */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.18, ease: 'easeOut' }}
-              onClick={handleCancel}
-              className="fixed inset-0 bg-slate-950/45 backdrop-blur-[3px]"
-            />
-
-            {/* Modal Card */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.92, y: 12 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.94, y: 8 }}
-              transition={{ type: 'spring', damping: 26, stiffness: 360 }}
-              className="relative w-full max-w-[360px] bg-white rounded-3xl p-6 sm:p-7 text-center shadow-[0_20px_50px_-12px_rgba(0,0,0,0.18)] border border-slate-100/90 z-10 overflow-hidden"
-              onClick={(e) => e.stopPropagation()}
-            >
-              {/* Centered Top Icon Badge */}
-              <div className={`w-14 h-14 rounded-2xl mx-auto flex items-center justify-center mb-4 transition-transform ${styles.iconBadge}`}>
-                {renderIcon()}
-              </div>
-
-              {/* Title */}
-              <h3
-                id="modal-title"
-                className="text-[19px] font-bold text-slate-900 tracking-tight font-heading leading-snug"
-              >
-                {modal.title}
-              </h3>
-
-              {/* Description */}
-              {modal.message && (
-                <p className="text-[13.5px] text-slate-500 mt-2 mb-6 leading-relaxed font-normal px-1">
-                  {modal.message}
-                </p>
-              )}
-
-              {/* Action Buttons */}
-              <div className="flex items-center gap-3 mt-1">
-                {!modal.isAlert && (
-                  <button
-                    type="button"
-                    onClick={handleCancel}
-                    className="flex-1 py-2.5 px-4 rounded-xl text-sm font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 active:bg-slate-300 transition-all focus:outline-none focus:ring-2 focus:ring-slate-300 active:scale-[0.98]"
-                  >
-                    {modal.cancelText}
-                  </button>
-                )}
-
-                <button
-                  type="button"
-                  autoFocus
-                  onClick={handleConfirm}
-                  className={`flex-1 py-2.5 px-4 rounded-xl text-sm font-semibold transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 active:scale-[0.98] ${styles.confirmBtn}`}
-                >
-                  {modal.confirmText}
-                </button>
-              </div>
-            </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
+      {typeof document !== 'undefined' ? createPortal(modalPortal, document.body) : modalPortal}
     </ModalContext.Provider>
   );
 };

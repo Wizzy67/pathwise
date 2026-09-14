@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { useNotification } from '../contexts/NotificationContext';
+import { useModal } from '../contexts/ModalContext';
 import api from '../services/api';
 import {
   Mail, Eye, EyeOff, Lock, ArrowRight, ArrowLeft,
@@ -145,7 +146,28 @@ const LoginPage = () => {
 
   const { login } = useAuth();
   const { addNotification } = useNotification();
+  const { alert } = useModal();
   const navigate = useNavigate();
+
+  const handleForgotPassword = () => {
+    alert({
+      title: 'Need Credential Assistance?',
+      message: 'If you cannot remember your password, visit your Departmental Course Adviser or the Faculty ICT Office to reset your student credentials.',
+      confirmText: 'Understood',
+      variant: 'brand',
+      icon: 'info',
+    });
+  };
+
+  const handleTerms = () => {
+    alert({
+      title: 'Terms of Service',
+      message: 'PathWise is an academic career advisory system designed for DELSU students. All recommendations and RIASEC matches are guidance recommendations to assist your studies.',
+      confirmText: 'I Understand',
+      variant: 'brand',
+      icon: 'info',
+    });
+  };
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -353,14 +375,23 @@ const LoginPage = () => {
                       {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                     </button>
                   </div>
+                  <div className="flex justify-end mt-1">
+                    <button
+                      type="button"
+                      onClick={handleForgotPassword}
+                      className="text-xs font-semibold text-[#20428B] hover:text-[#2A52A8] hover:underline cursor-pointer"
+                    >
+                      Forgot password?
+                    </button>
+                  </div>
                 </div>
 
                 {/* Submit */}
-                <div className="log-field-anim mt-2" style={{ animationDelay: '0.15s' }}>
+                <div className="log-field-anim mt-1" style={{ animationDelay: '0.15s' }}>
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="w-full py-3 px-4 rounded-xl bg-[#20428B] hover:bg-[#2A52A8] disabled:opacity-60 disabled:cursor-not-allowed text-white font-bold text-sm flex items-center justify-center gap-2 shadow-sm transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0"
+                    className="w-full py-3 px-4 rounded-xl bg-[#20428B] hover:bg-[#2A52A8] disabled:opacity-60 disabled:cursor-not-allowed text-white font-bold text-sm flex items-center justify-center gap-2 shadow-sm transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0 cursor-pointer"
                   >
                     {isSubmitting ? (
                       <span>Signing in...</span>
@@ -375,7 +406,13 @@ const LoginPage = () => {
 
                 <p className="text-center text-[11px] text-[#94A3B8] leading-relaxed">
                   By signing in you agree to our{' '}
-                  <span className="text-[#20428B] cursor-pointer hover:underline">Terms of Service</span>.
+                  <button
+                    type="button"
+                    onClick={handleTerms}
+                    className="text-[#20428B] cursor-pointer hover:underline font-semibold"
+                  >
+                    Terms of Service
+                  </button>.
                 </p>
               </form>
 
