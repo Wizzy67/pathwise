@@ -69,11 +69,10 @@ function useTypewriter(words) {
 }
 
 const CATCHY_TYPEWRITER_PHRASES = [
-  'Not a Guessing Game.',
-  'Crystal Clear.',
-  'Ready to Launch.',
-  'Decided by Data.',
-  'Engineered to Win.'
+  'Dream Tech Career.',
+  'High-Impact Future.',
+  'Competitive Advantage.',
+  'Personalized Roadmap.'
 ];
 
 const LandingPage = () => {
@@ -672,8 +671,8 @@ const LandingPage = () => {
               transition={{ duration: 0.6, delay: 0.1 }}
               className="font-['Nunito',sans-serif] font-black text-5xl lg:text-6xl text-white tracking-tight leading-[1.12] drop-shadow-sm max-w-4xl"
             >
-              Your Ambition. Your Degree.<br />
-              Your Future is{' '}
+              Don't Just Graduate.<br />
+              Launch Your{' '}
               <span
                 ref={typeRef}
                 className="typewriter-text text-[#38BDF8]"
