@@ -45,7 +45,7 @@ const Sidebar = () => {
   const cgpa = user?.cgpa ?? null;
   const xp = user?.xp || 0;
   const level = Math.floor(xp / 100) + 1;
-  const dept = user?.department || 'Department';
+  const dept = user?.department || 'DELSU Undergraduate';
 
   const getCgpaColor = (v) => {
     if (!v) return 'text-[var(--graphite)]';
@@ -107,23 +107,15 @@ const Sidebar = () => {
 
       <aside className="w-64 hidden lg:flex flex-col border-r border-[var(--border)] bg-[var(--surface)] h-[calc(100vh-4rem)] sticky top-16 overflow-y-auto body-font flex-shrink-0">
 
-        {/* ── LOGO WORDMARK ── */}
-        <div className="px-5 pt-5 pb-4 border-b border-[var(--border)]">
-          <div className="flex items-center gap-2.5 mb-4">
-            <div className="w-8 h-8 rounded-xl bg-[var(--blue)] flex items-center justify-center flex-shrink-0 shadow-sm">
-              <Compass className="w-4 h-4 text-white" />
-            </div>
-            <span className="text-base font-black text-[var(--ink)] heading-font tracking-tight">PathWise</span>
-          </div>
-
-          {/* Student Identity Chip */}
+        {/* ── STUDENT IDENTITY ── */}
+        <div className="px-5 py-4 border-b border-[var(--border)]">
           <div className="flex items-center gap-2.5">
             <div className="w-9 h-9 rounded-xl flex items-center justify-center font-bold text-white text-sm flex-shrink-0 bg-[var(--blue)]">
               {initial}
             </div>
             <div className="overflow-hidden flex-1">
               <h3 className="text-sm font-bold text-[var(--ink)] heading-font truncate">{firstName}</h3>
-              <p className="text-[10px] truncate text-[var(--graphite)]">{user?.matricNo || 'No Matric'}</p>
+              <p className="text-[10px] truncate text-[var(--graphite)]">{user?.matricNo || 'DELSU Student'}</p>
             </div>
           </div>
         </div>

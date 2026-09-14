@@ -1,4 +1,4 @@
-﻿import { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { useNotification } from '../contexts/NotificationContext';
@@ -84,7 +84,7 @@ const Dashboard = () => {
 
   const displayName = user?.fullName?.split(' ')[0] || 'Student';
   const matricNo = user?.matricNo || 'Matric Number';
-  const dept = user?.department || 'Department';
+  const dept = user?.department || '';
   const rawLevel = user?.level || '100';
   const levelText = String(rawLevel).includes('L') ? rawLevel : `${rawLevel}L`;
   const cgpa = user?.cgpa ?? 0;
@@ -120,7 +120,7 @@ const Dashboard = () => {
       title: detail?.title || match.id,
       field: detail?.field || 'General',
       score: match.score,
-      salary: detail?.salary_entry || 'â‚¦3.5M â€“ â‚¦7M/yr'
+      salary: detail?.salary_entry || '₦3.5M – ₦7M/yr'
     };
   });
 
@@ -146,7 +146,7 @@ const Dashboard = () => {
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
       `}</style>
 
-      {/* â”€â”€ TOP APP HEADER â”€â”€ */}
+      {/* ── TOP APP HEADER ── */}
       <div className="flex items-center justify-between pt-0.5">
         <div className="flex items-center gap-2.5">
           <div className="w-10 h-10 rounded-2xl bg-[var(--blue)] text-white flex items-center justify-center font-black text-base heading-font shadow-sm flex-shrink-0 lg:hidden">
@@ -154,10 +154,10 @@ const Dashboard = () => {
           </div>
           <div>
             <h1 className="text-base sm:text-lg lg:text-2xl font-black text-[var(--ink)] heading-font leading-tight">
-              Hello, {displayName}! ðŸ‘‹
+              Hello, {displayName}! 👋
             </h1>
             <p className="text-[11px] lg:text-xs text-[var(--graphite)] font-medium">
-              {dept} Â· {levelText}
+              {dept ? `${dept} · ` : ''}{levelText} · DELSU
             </p>
           </div>
         </div>
@@ -311,7 +311,7 @@ const Dashboard = () => {
                 {levelText}
               </div>
               <p className="text-[10px] sm:text-[11px] lg:text-xs font-semibold text-[var(--graphite)] truncate">
-                {dept}
+                Academic Standing
               </p>
             </div>
           </motion.div>
