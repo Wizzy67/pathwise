@@ -68,15 +68,18 @@ function useTypewriter(words) {
   return elRef;
 }
 
+const CATCHY_TYPEWRITER_PHRASES = [
+  'Not a Guessing Game.',
+  'Crystal Clear.',
+  'Ready to Launch.',
+  'Decided by Data.',
+  'Engineered to Win.'
+];
+
 const LandingPage = () => {
   const [matricInput, setMatricInput] = useState('');
 
-  const typeRef = useTypewriter([
-    'Unstoppable.',
-    'Engineered at DELSU.',
-    'Built for Global Tech.',
-    'Starting Right Here.'
-  ]);
+  const typeRef = useTypewriter(CATCHY_TYPEWRITER_PHRASES);
 
   const features = [
     {
@@ -426,7 +429,7 @@ const LandingPage = () => {
         .typewriter-text::after {
           content: '|';
           animation: twBlink 1s infinite;
-          color: #93C5FD;
+          color: #38BDF8;
           font-weight: 300;
           margin-left: 3px;
         }
@@ -673,7 +676,7 @@ const LandingPage = () => {
               Your Future is{' '}
               <span
                 ref={typeRef}
-                className="typewriter-text text-[#93C5FD]"
+                className="typewriter-text text-[#38BDF8]"
               />
             </motion.h1>
 
