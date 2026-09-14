@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNotification } from '../contexts/NotificationContext';
+import { useModal } from '../contexts/ModalContext';
 import api from '../services/api';
 import {
   RadarChart, Radar, PolarGrid, PolarAngleAxis, ResponsiveContainer,
@@ -63,10 +64,25 @@ const CompactHollandBadge = ({ code }) => {
 const ResultsPage = () => {
   const navigate = useNavigate();
   const { addNotification } = useNotification();
+  const { confirm } = useModal();
   const [results, setResults] = useState(null);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('matches'); // 'matches' | 'personality' | 'skills'
   const [chartView, setChartView] = useState('radar'); // 'radar' | 'bars'
+
+  const handleRetake = async () => {
+    const ok = await confirm({
+      title: 'Retake Diagnostic?',
+      message: 'Starting a new assessment will calculate fresh career recommendations based on your updated answers.',
+      confirmText: 'Retake',
+      cancelText: 'Cancel',
+      variant: 'brand',
+      icon: 'rotate',
+    });
+    if (ok) {
+      navigate('/quiz');
+    }
+  };
 
   useEffect(() => {
     const fetchResults = async () => {
@@ -245,15 +261,16 @@ const ResultsPage = () => {
         </div>
 
         <div className="flex items-center gap-2">
-          <Link
-            to="/quiz"
-            className="flex items-center gap-1 px-2.5 py-1.5 rounded-xl text-[11px] font-bold border transition-all"
+          <button
+            type="button"
+            onClick={handleRetake}
+            className="flex items-center gap-1 px-2.5 py-1.5 rounded-xl text-[11px] font-bold border transition-all cursor-pointer hover:border-[var(--blue)] hover:text-[var(--blue)]"
             style={{ backgroundColor: 'var(--surface)', borderColor: 'var(--border)', color: 'var(--graphite)' }}
             title="Retake diagnostic"
           >
             <RotateCcw className="w-3.5 h-3.5" />
             <span className="hidden sm:inline">Retake</span>
-          </Link>
+          </button>
           <button
             onClick={() => {
               if (navigator.share) {

@@ -8,6 +8,7 @@ import {
 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { useNotification } from '../contexts/NotificationContext';
+import { useModal } from '../contexts/ModalContext';
 import api from '../services/api';
 import { setCache } from '../services/db';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -16,7 +17,7 @@ const LEVELS = ['100', '200', '300', '400', '500'];
 
 const getCgpaClass = (cgpa) => {
   const val = parseFloat(cgpa);
-  if (isNaN(val) || val <= 0) return null;
+  if (!val || isNaN(val)) return { label: 'Not Set', color: 'text-gray-500 bg-gray-100' };
   if (val >= 4.50) return { label: 'First Class Honours', color: 'text-emerald-700 bg-emerald-50 border-emerald-200' };
   if (val >= 3.50) return { label: 'Second Class Upper (2:1)', color: 'text-blue-700 bg-blue-50 border-blue-200' };
   if (val >= 2.40) return { label: 'Second Class Lower (2:2)', color: 'text-amber-700 bg-amber-50 border-amber-200' };
@@ -27,12 +28,37 @@ const getCgpaClass = (cgpa) => {
 const MyProfile = () => {
   const { user, setUser, logout } = useAuth();
   const { addNotification } = useNotification();
+  const { confirm } = useModal();
   const navigate = useNavigate();
 
-  const handleLogout = () => {
-    logout();
-    addNotification('You have been logged out.', 'info');
-    navigate('/');
+  const handleLogout = async () => {
+    const ok = await confirm({
+      title: 'Log Out of PathWise?',
+      message: 'Are you sure you want to end your current session? Your saved data is secure.',
+      confirmText: 'Log Out',
+      cancelText: 'Stay',
+      variant: 'danger',
+      icon: 'logout',
+    });
+    if (ok) {
+      logout();
+      addNotification('You have been logged out.', 'info');
+      navigate('/');
+    }
+  };
+
+  const handleRetake = async () => {
+    const ok = await confirm({
+      title: 'Retake Assessment?',
+      message: 'Starting a new assessment will update your RIASEC profile and career match rankings based on your updated answers.',
+      confirmText: 'Start Assessment',
+      cancelText: 'Cancel',
+      variant: 'brand',
+      icon: 'rotate',
+    });
+    if (ok) {
+      navigate('/quiz');
+    }
   };
   
   const [formData, setFormData] = useState({
@@ -421,12 +447,13 @@ const MyProfile = () => {
                   Based on your 18-item RIASEC psychometric survey
                 </p>
               </div>
-              <Link
-                to="/quiz"
-                className="flex items-center gap-1 text-xs font-bold text-[var(--blue)] hover:underline"
+              <button
+                type="button"
+                onClick={handleRetake}
+                className="flex items-center gap-1 text-xs font-bold text-[var(--blue)] hover:underline cursor-pointer"
               >
                 <RotateCcw className="w-3.5 h-3.5" /> Retake
-              </Link>
+              </button>
             </div>
 
             <div className="p-4 rounded-2xl bg-[var(--mist)] border border-[var(--border)] flex items-center justify-between">

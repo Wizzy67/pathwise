@@ -1,11 +1,13 @@
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { useTheme } from '../contexts/ThemeContext';
+import { useModal } from '../contexts/ModalContext';
 import {
   LayoutDashboard,
   Compass,
   Target,
   Brain,
+  BookOpen,
   Bookmark,
   History,
   User,
@@ -19,7 +21,22 @@ import {
 const Sidebar = () => {
   const { user, logout } = useAuth();
   const { isDarkMode, toggleTheme } = useTheme();
+  const { confirm } = useModal();
   const location = useLocation();
+
+  const handleLogout = async () => {
+    const ok = await confirm({
+      title: 'Log Out of PathWise?',
+      message: 'Are you sure you want to end your current session? Your progress is safely stored.',
+      confirmText: 'Log Out',
+      cancelText: 'Stay',
+      variant: 'danger',
+      icon: 'logout',
+    });
+    if (ok) {
+      logout();
+    }
+  };
 
   const mainLinks = [
     { name: 'Dashboard',        path: '/dashboard',         icon: LayoutDashboard },
@@ -160,7 +177,7 @@ const Sidebar = () => {
             {isDarkMode ? 'Light Mode' : 'Dark Mode'}
           </button>
           <button
-            onClick={logout}
+            onClick={handleLogout}
             className="flex items-center gap-3 px-3 py-2.5 w-full text-left rounded-xl transition-all font-semibold text-sm text-red-500 hover:text-red-600 hover:bg-red-50"
           >
             <LogOut className="w-4 h-4" />

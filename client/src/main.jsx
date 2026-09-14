@@ -7,6 +7,7 @@ import { ThemeProvider } from './contexts/ThemeContext';
 import { LanguageProvider } from './contexts/LanguageContext';
 import { AuthProvider } from './contexts/AuthContext';
 import { NotificationProvider } from './contexts/NotificationContext';
+import { ModalProvider } from './contexts/ModalContext';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -14,9 +15,11 @@ createRoot(document.getElementById('root')).render(
       <ThemeProvider>
         <LanguageProvider>
           <NotificationProvider>
-            <AuthProvider>
-              <App />
-            </AuthProvider>
+            <ModalProvider>
+              <AuthProvider>
+                <App />
+              </AuthProvider>
+            </ModalProvider>
           </NotificationProvider>
         </LanguageProvider>
       </ThemeProvider>

@@ -1,6 +1,7 @@
 import { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useNotification } from '../contexts/NotificationContext';
+import { useModal } from '../contexts/ModalContext';
 import api from '../services/api';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
@@ -148,6 +149,7 @@ const QuizPage = () => {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { addNotification } = useNotification();
+  const { confirm } = useModal();
   const navigate = useNavigate();
 
   const setRiasecRating = (dimKey, stmtIdx, rating) => {
@@ -230,8 +232,16 @@ const QuizPage = () => {
     }
   };
 
-  const handleExit = () => {
-    if (window.confirm("Are you sure you want to exit the assessment? Your progress will not be saved.")) {
+  const handleExit = async () => {
+    const ok = await confirm({
+      title: 'Exit Assessment?',
+      message: 'Your current answers will not be saved. Are you sure you want to return to your dashboard?',
+      confirmText: 'Exit Assessment',
+      cancelText: 'Keep Going',
+      variant: 'danger',
+      icon: 'alert',
+    });
+    if (ok) {
       navigate('/dashboard');
     }
   };

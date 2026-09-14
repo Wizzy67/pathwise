@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { useTheme } from '../contexts/ThemeContext';
+import { useModal } from '../contexts/ModalContext';
 import { Moon, Sun, Menu, X, LogOut, LayoutDashboard, Bell } from 'lucide-react';
 import PathWiseLogo from './PathWiseLogo';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -9,6 +10,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 const Navbar = () => {
   const { user, logout } = useAuth();
   const { isDarkMode, toggleTheme } = useTheme();
+  const { confirm } = useModal();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
@@ -47,10 +49,20 @@ const Navbar = () => {
 
   const unreadCount = notifications.filter(n => !n.read).length;
 
-  const handleLogout = () => {
-    logout();
-    setIsMobileMenuOpen(false);
-    navigate('/');
+  const handleLogout = async () => {
+    const ok = await confirm({
+      title: 'Log Out of PathWise?',
+      message: 'Are you sure you want to end your current session? Your progress is safely stored.',
+      confirmText: 'Log Out',
+      cancelText: 'Stay',
+      variant: 'danger',
+      icon: 'logout',
+    });
+    if (ok) {
+      logout();
+      setIsMobileMenuOpen(false);
+      navigate('/');
+    }
   };
 
   const publicLinks = [

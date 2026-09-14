@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { useNotification } from '../contexts/NotificationContext';
+import { useModal } from '../contexts/ModalContext';
 import api from '../services/api';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
@@ -58,6 +59,7 @@ const TypingIndicator = () => (
 const AIAdvisor = () => {
   const { user } = useAuth();
   const { addNotification } = useNotification();
+  const { confirm } = useModal();
   const [messages, setMessages] = useState(INITIAL_MESSAGES);
   const [input, setInput] = useState('');
   const [isTyping, setIsTyping] = useState(false);
@@ -137,6 +139,16 @@ const AIAdvisor = () => {
 
   const deleteSession = async (sessionId, e) => {
     e.stopPropagation();
+    const ok = await confirm({
+      title: 'Delete Conversation?',
+      message: 'This will permanently remove this conversation history with the AI Advisor.',
+      confirmText: 'Delete',
+      cancelText: 'Cancel',
+      variant: 'danger',
+      icon: 'trash',
+    });
+    if (!ok) return;
+
     try {
       await api.delete(`/gemini/sessions/${sessionId}`);
       setSessions(prev => prev.filter(s => s.id !== sessionId));

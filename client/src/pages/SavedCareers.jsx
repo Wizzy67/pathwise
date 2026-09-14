@@ -4,12 +4,14 @@ import { Bookmark, ArrowRight, Trash2, Loader2 } from 'lucide-react';
 import api from '../services/api';
 import { useAuth } from '../contexts/AuthContext';
 import { useNotification } from '../contexts/NotificationContext';
+import { useModal } from '../contexts/ModalContext';
 
 const SavedCareers = () => {
   const [savedCareers, setSavedCareers] = useState([]);
   const [loading, setLoading] = useState(true);
   const { user, setUser } = useAuth();
   const { addNotification } = useNotification();
+  const { confirm } = useModal();
   const addNotificationRef = useRef(addNotification);
   addNotificationRef.current = addNotification;
 
@@ -30,12 +32,22 @@ const SavedCareers = () => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user?.savedCareers?.join(',')]);
 
-  const handleRemove = async (id) => {
+  const handleRemove = async (career) => {
+    const ok = await confirm({
+      title: 'Remove Saved Career?',
+      message: `Are you sure you want to remove "${career.title}" from your saved careers? You can explore and save it again anytime.`,
+      confirmText: 'Remove',
+      cancelText: 'Keep It',
+      variant: 'danger',
+      icon: 'trash',
+    });
+    if (!ok) return;
+
     try {
-      const res = await api.delete(`/users/save-career/${id}`);
+      const res = await api.delete(`/users/save-career/${career.id}`);
       const updatedSaved = res.data.savedCareers || [];
       setUser(prev => ({ ...prev, savedCareers: updatedSaved }));
-      setSavedCareers(prev => prev.filter(c => c.id !== id));
+      setSavedCareers(prev => prev.filter(c => c.id !== career.id));
       addNotification('Career removed from saved list.', 'success');
     } catch (error) {
       addNotification('Failed to remove career.', 'error');
@@ -72,8 +84,8 @@ const SavedCareers = () => {
               <div className="flex justify-between items-start mb-3">
                 <h3 className="text-lg font-bold text-[var(--ink)] leading-snug pr-2" style={{ fontFamily: 'var(--font-heading, "Nunito")' }}>{career.title}</h3>
                 <button 
-                  onClick={() => handleRemove(career.id)}
-                  className="p-1.5 text-[var(--graphite)] hover:text-red-600 hover:bg-red-50 rounded-xl transition-colors flex-shrink-0"
+                  onClick={() => handleRemove(career)}
+                  className="p-1.5 text-[var(--graphite)] hover:text-red-600 hover:bg-red-50 rounded-xl transition-colors flex-shrink-0 cursor-pointer"
                   title="Remove from saved"
                 >
                   <Trash2 className="w-4 h-4" />
