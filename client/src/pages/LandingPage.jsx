@@ -409,10 +409,10 @@ const LandingPage = () => {
         .brand-blue-wrapper {
           position: relative;
           background:
-            radial-gradient(ellipse 90% 50% at 50% -10%, rgba(255, 255, 255, 0.18) 0%, transparent 70%),
-            radial-gradient(circle at 15% 25%, rgba(255, 255, 255, 0.12) 0%, transparent 45%),
-            radial-gradient(circle at 85% 35%, rgba(77, 111, 245, 0.35) 0%, transparent 50%),
-            linear-gradient(180deg, #1338CA 0%, #1944F1 38%, #2050FA 65%, #F8FAFC 98%, #F8FAFC 100%);
+            radial-gradient(ellipse 90% 50% at 50% -10%, rgba(255, 255, 255, 0.12) 0%, transparent 70%),
+            radial-gradient(circle at 15% 25%, rgba(255, 255, 255, 0.08) 0%, transparent 45%),
+            radial-gradient(circle at 85% 35%, rgba(65, 100, 185, 0.22) 0%, transparent 50%),
+            linear-gradient(180deg, #1A346C 0%, #20428B 38%, #2A52A8 65%, #F8FAFC 98%, #F8FAFC 100%);
         }
 
         .credix-glass-pill {
@@ -450,17 +450,17 @@ const LandingPage = () => {
 
         .credix-floating-frame:hover {
           transform: rotateX(2deg) translateY(-8px) scale(1.005);
-          box-shadow: 0 45px 100px -15px rgba(25, 68, 241, 0.35), 0 20px 45px -10px rgba(0, 0, 0, 0.14);
+          box-shadow: 0 45px 100px -15px rgba(27, 55, 123, 0.28), 0 20px 45px -10px rgba(0, 0, 0, 0.14);
         }
 
         @keyframes credixLevitate {
           0% {
             transform: rotateX(11deg) translateY(0px) scale(0.98);
-            box-shadow: 0 30px 75px -15px rgba(25, 68, 241, 0.28), 0 15px 35px -10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 30px 75px -15px rgba(27, 55, 123, 0.22), 0 15px 35px -10px rgba(0, 0, 0, 0.1);
           }
           100% {
             transform: rotateX(6deg) translateY(-16px) scale(0.995);
-            box-shadow: 0 45px 95px -15px rgba(25, 68, 241, 0.36), 0 20px 45px -10px rgba(0, 0, 0, 0.14);
+            box-shadow: 0 45px 95px -15px rgba(27, 55, 123, 0.28), 0 20px 45px -10px rgba(0, 0, 0, 0.14);
           }
         }
 
@@ -613,7 +613,7 @@ const LandingPage = () => {
         <section className="brand-blue-wrapper pt-6 pb-24 px-8 relative overflow-hidden">
 
           {/* Floating Glass Top Navigation */}
-          <header className="max-w-6xl mx-auto flex items-center justify-between py-3.5 px-8 rounded-full credix-glass-pill shadow-lg shadow-[#1944F1]/15 mb-14">
+          <header className="max-w-6xl mx-auto flex items-center justify-between py-3.5 px-8 rounded-full credix-glass-pill shadow-lg shadow-[#1A346C]/20 mb-14">
             
             {/* Logo + Final Year Project Tag */}
             <div className="flex items-center gap-3">
@@ -641,7 +641,7 @@ const LandingPage = () => {
               </Link>
               <Link
                 to="/choice"
-                className="bg-white hover:bg-[#1944F1] text-[#1944F1] hover:text-white border border-transparent hover:border-white/30 px-6 py-2.5 rounded-full font-bold text-sm shadow-md transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
+                className="bg-white hover:bg-[#20428B] text-[#20428B] hover:text-white border border-transparent hover:border-white/30 px-6 py-2.5 rounded-full font-bold text-sm shadow-md transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
               >
                 Get Started
               </Link>
@@ -704,7 +704,7 @@ const LandingPage = () => {
                 />
                 <Link
                   to={matricInput ? `/register?id=${encodeURIComponent(matricInput)}` : '/choice'}
-                  className="bg-white text-[#1944F1] hover:bg-[#1944F1] hover:text-white border border-transparent hover:border-white/40 px-6 py-3 rounded-full font-bold text-sm whitespace-nowrap shadow-md transition-all duration-200 flex items-center gap-2 shrink-0 hover:scale-[1.02] active:scale-[0.98] group"
+                  className="bg-white text-[#20428B] hover:bg-[#20428B] hover:text-white border border-transparent hover:border-white/40 px-6 py-3 rounded-full font-bold text-sm whitespace-nowrap shadow-md transition-all duration-200 flex items-center gap-2 shrink-0 hover:scale-[1.02] active:scale-[0.98] group"
                 >
                   <span>Start Assessment</span>
                   <ArrowRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" />
@@ -921,7 +921,7 @@ const LandingPage = () => {
 
         {/* ── BOTTOM CTA BANNER (Atmospheric Blue) ─────────────────────────── */}
         <section className="py-20 px-8">
-          <div className="max-w-5xl mx-auto rounded-3xl p-12 text-center text-white relative overflow-hidden shadow-2xl bg-gradient-to-r from-[#1944F1] via-[#2563EB] to-[#3B82F6]">
+          <div className="max-w-5xl mx-auto rounded-3xl p-12 text-center text-white relative overflow-hidden shadow-2xl bg-gradient-to-r from-[#1A346C] via-[#20428B] to-[#2A52A8]">
             
             <div className="relative z-10 max-w-2xl mx-auto">
               <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/20 text-xs font-bold uppercase tracking-wider mb-5">
@@ -939,7 +939,7 @@ const LandingPage = () => {
               <div className="mt-8 flex items-center justify-center gap-4">
                 <Link
                   to="/choice"
-                  className="bg-white hover:bg-[#1944F1] text-[#1944F1] hover:text-white border border-transparent hover:border-white/40 px-8 py-4 rounded-full font-black text-base shadow-xl transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
+                  className="bg-white hover:bg-[#20428B] text-[#20428B] hover:text-white border border-transparent hover:border-white/40 px-8 py-4 rounded-full font-black text-base shadow-xl transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
                 >
                   Start Your Assessment
                 </Link>
