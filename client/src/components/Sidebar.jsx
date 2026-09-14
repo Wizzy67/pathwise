@@ -13,8 +13,7 @@ import {
   Sun,
   Moon,
   Calculator,
-  Zap,
-  GraduationCap
+  Zap
 } from 'lucide-react';
 
 const Sidebar = () => {
@@ -45,7 +44,6 @@ const Sidebar = () => {
   const cgpa = user?.cgpa ?? null;
   const xp = user?.xp || 0;
   const level = Math.floor(xp / 100) + 1;
-  const dept = user?.department || 'DELSU Undergraduate';
 
   const getCgpaColor = (v) => {
     if (!v) return 'text-[var(--graphite)]';
@@ -154,10 +152,6 @@ const Sidebar = () => {
 
         {/* ── FOOTER: Theme + Logout ── */}
         <div className="p-3 border-t border-[var(--border)] space-y-1">
-          <div className="px-3 py-2 rounded-xl bg-[var(--mist)] flex items-center gap-2">
-            <GraduationCap className="w-3.5 h-3.5 text-[var(--graphite)]" />
-            <span className="text-[10px] text-[var(--graphite)] truncate font-medium">{dept}</span>
-          </div>
           <button
             onClick={toggleTheme}
             className="flex items-center gap-3 px-3 py-2.5 w-full text-left rounded-xl transition-all font-semibold text-sm text-[var(--graphite)] hover:text-[var(--ink)] hover:bg-[var(--fog)]"
