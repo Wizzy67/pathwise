@@ -4,114 +4,150 @@ import { motion } from 'framer-motion';
 import { useAuth } from '../contexts/AuthContext';
 import { useNotification } from '../contexts/NotificationContext';
 import api from '../services/api';
-import { Mail, Eye, EyeOff, Lock, ArrowRight, User } from 'lucide-react';
+import { Mail, Eye, EyeOff, Lock, ArrowRight, User, Compass, CheckCircle2, ShieldCheck, Sparkles } from 'lucide-react';
 import PathWiseLogo from '../components/PathWiseLogo';
 
-/* ─── AUTH LOADING SCREEN ─────────────────────────────────── */
+/* ─── MODERN AUTH LOADING SCREEN ─────────────────────────────────── */
 const AuthenticatingScreen = ({ onSuccess }) => {
   const [currentStep, setCurrentStep] = useState(0);
-  const [progress, setProgress] = useState(5);
+  const [progress, setProgress] = useState(15);
   const [isSuccess, setIsSuccess] = useState(false);
-  const [showRedirect, setShowRedirect] = useState(false);
 
   useEffect(() => {
-    const steps = [
-      { delay: 800, prog: 25 },
-      { delay: 1600, prog: 50 },
-      { delay: 2400, prog: 75 },
-      { delay: 3200, prog: 100 },
+    // Smooth, snappy 1.4-second authentication sequence
+    const timers = [
+      setTimeout(() => { setCurrentStep(1); setProgress(45); }, 300),
+      setTimeout(() => { setCurrentStep(2); setProgress(80); }, 700),
+      setTimeout(() => { setCurrentStep(3); setProgress(100); setIsSuccess(true); }, 1100),
+      setTimeout(() => { if (onSuccess) onSuccess(); }, 1600),
     ];
-    const timers = steps.map((s, i) =>
-      setTimeout(() => {
-        setCurrentStep(i + 1);
-        setProgress(s.prog);
-        if (i === steps.length - 1) {
-          setTimeout(() => {
-            setIsSuccess(true);
-            setTimeout(() => setShowRedirect(true), 500);
-          }, 600);
-        }
-      }, s.delay)
-    );
     return () => timers.forEach(clearTimeout);
-  }, []);
+  }, [onSuccess]);
 
-  useEffect(() => {
-    if (showRedirect && onSuccess) {
-      const t = setTimeout(() => onSuccess(), 1000);
-      return () => clearTimeout(t);
-    }
-  }, [showRedirect, onSuccess]);
+  const steps = [
+    { label: 'Verifying credentials', sub: 'Matriculation validation' },
+    { label: 'Securing session', sub: 'JWT token generation' },
+    { label: 'Loading workspace', sub: 'DELSU student profile' },
+  ];
 
   return (
-    <div className="auth-loading-screen">
+    <div className="min-h-screen min-h-[100dvh] w-full flex items-center justify-center p-4 bg-[var(--canvas)] relative overflow-hidden select-none">
       <style>{`
-        .auth-loading-screen {
-          background: #0D0D14; color: #fff;
-          font-family: 'Inter','Open Sans',sans-serif;
-          min-height: 100vh; display: flex; align-items: center;
-          justify-content: center; overflow: hidden; width: 100%;
-        }
-        .auth-card { position:relative; z-index:1; width:100%; max-width:420px; text-align:center; padding:3rem 2rem; }
-        .rings { position:fixed; inset:0; display:flex; align-items:center; justify-content:center; pointer-events:none; z-index:0; }
-        .ring { position:absolute; border-radius:50%; border:1px solid; animation:ripple 3s ease-out infinite; }
-        .ring:nth-child(1) { width:200px; height:200px; border-color:rgba(67,97,238,0.3); }
-        .ring:nth-child(2) { width:320px; height:320px; border-color:rgba(67,97,238,0.18); animation-delay:0.6s; }
-        .ring:nth-child(3) { width:460px; height:460px; border-color:rgba(67,97,238,0.1); animation-delay:1.2s; }
-        @keyframes ripple { 0%{opacity:0.8;transform:scale(0.6)} 100%{opacity:0;transform:scale(1)} }
-        .spinner-wrap { position:relative; width:90px; height:90px; margin:0 auto 2rem; }
-        .spinner-ring { position:absolute; inset:-8px; border-radius:50%; border:3px solid transparent; border-top-color:#4361EE; animation:spin 1.2s linear infinite; }
-        @keyframes spin { to{transform:rotate(360deg)} }
-        .spinner-inner { width:90px; height:90px; border-radius:26px; background:linear-gradient(135deg,#4361EE,#3651D4); display:flex; align-items:center; justify-content:center; font-size:2.4rem; box-shadow:0 0 50px rgba(67,97,238,0.4); }
-        .auth-title { font-family:'Nunito',sans-serif; font-size:1.6rem; font-weight:900; margin-bottom:0.6rem; }
-        .auth-sub { color:rgba(255,255,255,0.5); font-size:0.9rem; margin-bottom:2rem; }
-        .progress-wrap { background:rgba(255,255,255,0.06); border-radius:50px; height:6px; overflow:hidden; margin-bottom:2rem; }
-        .progress-fill { height:100%; border-radius:50px; background:linear-gradient(90deg,#4361EE,#3651D4); transition:width 0.4s ease; }
-        .auth-steps { display:flex; flex-direction:column; gap:0.7rem; text-align:left; background:rgba(67,97,238,0.03); border:1px solid rgba(67,97,238,0.08); border-radius:16px; padding:1.4rem; }
-        .auth-step { display:flex; align-items:center; gap:0.9rem; font-size:0.88rem; color:rgba(255,255,255,0.4); transition:all 0.4s; }
-        .auth-step.done { color:#fff; }
-        .auth-step.active { color:#4361EE; }
-        .step-icon { width:24px; height:24px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:0.75rem; flex-shrink:0; background:rgba(67,97,238,0.03); border:1px solid rgba(67,97,238,0.08); transition:all 0.4s; }
-        .auth-step.done .step-icon { background:rgba(67,97,238,0.1); border-color:#4361EE; color:#4361EE; }
-        .auth-step.active .step-icon { background:rgba(67,97,238,0.15); border-color:#4361EE; animation:pulse-s 1s ease-in-out infinite; }
-        @keyframes pulse-s { 0%,100%{box-shadow:0 0 0 0 rgba(67,97,238,0.4)} 50%{box-shadow:0 0 0 6px rgba(67,97,238,0)} }
-        .success-msg { display:none; flex-direction:column; align-items:center; gap:0.5rem; }
-        .success-msg.show { display:flex; animation:fadeUp 0.6s ease both; }
-        @keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
-        .celebrate { font-size:1.5rem; animation:bounce 0.8s ease infinite; }
-        @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
-        .redirect-btn { display:none; margin-top:1.5rem; width:100%; padding:0.9rem; border:none; border-radius:14px; background:#4361EE; color:#fff; font-size:1rem; font-weight:700; cursor:pointer; box-shadow:0 0 30px rgba(67,97,238,0.25); }
-        .redirect-btn.show { display:block; animation:fadeUp 0.6s ease 0.3s both; }
-        .redirect-btn:hover { background:#3651D4; }
+        .heading-font { font-family: 'Nunito', sans-serif; }
+        .body-font { font-family: 'Open Sans', sans-serif; }
       `}</style>
-      <div className="rings"><div className="ring"></div><div className="ring"></div><div className="ring"></div></div>
-      <div className="auth-card">
-        <div className="spinner-wrap">
-          {!isSuccess && <div className="spinner-ring"></div>}
-          <div className="spinner-inner">{isSuccess ? '✓' : '🚀'}</div>
+
+      {/* Ambient background glow orbs */}
+      <div className="absolute -top-32 -left-32 w-80 h-80 rounded-full bg-[var(--blue)]/10 blur-3xl pointer-events-none" />
+      <div className="absolute -bottom-32 -right-32 w-80 h-80 rounded-full bg-[var(--azure)]/10 blur-3xl pointer-events-none" />
+
+      {/* Floating Center Card */}
+      <motion.div
+        initial={{ opacity: 0, scale: 0.94, y: 12 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+        className="w-full max-w-[420px] bg-[var(--surface)] border border-[var(--border)] rounded-3xl p-6 sm:p-8 shadow-2xl text-center relative z-10 space-y-6"
+      >
+        {/* Top Institutional Badge */}
+        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[var(--mist)] border border-[var(--border)] text-[10px] font-extrabold uppercase tracking-wider text-[var(--graphite)]">
+          <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
+          <span>DELSU Secure Gateway</span>
         </div>
-        <h2 className="auth-title">{isSuccess ? 'Login Successful! 🎉' : 'Authenticating...'}</h2>
-        <p className="auth-sub">{isSuccess ? 'Welcome back to PathWise!' : 'Verifying your credentials'}</p>
-        <div className="progress-wrap"><div className="progress-fill" style={{ width: `${progress}%` }}></div></div>
-        {!isSuccess && (
-          <div className="auth-steps">
-            {['Verifying credentials...','Validating session...','Generating token...','Loading profile...'].map((text, i) => (
-              <div key={i} className={`auth-step ${currentStep === i + 1 ? 'active' : ''} ${currentStep > i + 1 ? 'done' : ''}`}>
-                <div className="step-icon">{currentStep > i + 1 ? '✓' : currentStep === i + 1 ? '⟳' : '○'}</div>
-                <span>{text}</span>
+
+        {/* Center Animated Icon Emblem */}
+        <div className="relative w-20 h-20 mx-auto flex items-center justify-center">
+          {/* Orbital Spinner Ring */}
+          {!isSuccess ? (
+            <div className="absolute inset-0 rounded-full border-3 border-[var(--lavender)] border-t-[var(--blue)] animate-spin" />
+          ) : (
+            <motion.div
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+              className="absolute inset-0 rounded-full bg-emerald-50 border-2 border-emerald-500/30"
+            />
+          )}
+
+          {/* Inner Icon Box */}
+          <div className={`w-14 h-14 rounded-2xl flex items-center justify-center transition-all duration-500 shadow-md ${
+            isSuccess
+              ? 'bg-emerald-500 text-white shadow-emerald-500/30'
+              : 'bg-[var(--blue)] text-white shadow-[var(--blue)]/30'
+          }`}>
+            {isSuccess ? (
+              <CheckCircle2 className="w-7 h-7 text-white" />
+            ) : (
+              <Compass className="w-7 h-7 text-white animate-pulse" />
+            )}
+          </div>
+        </div>
+
+        {/* Headings */}
+        <div className="space-y-1">
+          <h2 className="text-xl sm:text-2xl font-black heading-font text-[var(--ink)] tracking-tight">
+            {isSuccess ? 'Welcome Back!' : 'Authenticating...'}
+          </h2>
+          <p className="text-xs sm:text-sm text-[var(--graphite)] body-font">
+            {isSuccess ? 'Session verified. Opening your dashboard...' : 'Verifying your institutional credentials'}
+          </p>
+        </div>
+
+        {/* Sleek Gradient Progress Bar */}
+        <div className="space-y-2">
+          <div className="w-full h-2 rounded-full bg-[var(--mist)] overflow-hidden p-0.5">
+            <div
+              className="h-full rounded-full bg-gradient-to-r from-[var(--blue)] to-[var(--azure)] transition-all duration-300"
+              style={{ width: `${progress}%` }}
+            />
+          </div>
+          <div className="flex justify-between items-center text-[10px] text-[var(--ash)] font-bold">
+            <span>Authentication</span>
+            <span>{progress}%</span>
+          </div>
+        </div>
+
+        {/* Step Checkpoints List */}
+        <div className="space-y-2 text-left bg-[var(--mist)] border border-[var(--border)] rounded-2xl p-3.5">
+          {steps.map((s, idx) => {
+            const isDone = currentStep > idx;
+            const isCurrent = currentStep === idx;
+            return (
+              <div
+                key={idx}
+                className={`flex items-center justify-between p-2 rounded-xl transition-all ${
+                  isCurrent
+                    ? 'bg-[var(--surface)] text-[var(--blue)] shadow-2xs font-bold'
+                    : isDone
+                    ? 'text-[var(--ink)] font-semibold'
+                    : 'text-[var(--ash)] opacity-60'
+                }`}
+              >
+                <div className="flex items-center gap-2.5 min-w-0">
+                  <div className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold flex-shrink-0 transition-colors ${
+                    isDone
+                      ? 'bg-emerald-500 text-white'
+                      : isCurrent
+                      ? 'bg-[var(--lavender)] text-[var(--blue)]'
+                      : 'bg-[var(--border)] text-[var(--ash)]'
+                  }`}>
+                    {isDone ? '✓' : idx + 1}
+                  </div>
+                  <span className="text-xs truncate">{s.label}</span>
+                </div>
+                <span className="text-[10px] text-[var(--graphite)] font-medium">
+                  {isDone ? 'Done' : isCurrent ? 'Verifying...' : 'Pending'}
+                </span>
               </div>
-            ))}
-          </div>
-        )}
-        {isSuccess && (
-          <div className="success-msg show">
-            <div className="celebrate">🎉</div>
-            <p style={{ color:'#4361EE', fontWeight:700 }}>Login Successful!</p>
-            <p style={{ color:'rgba(255,255,255,0.5)', fontSize:'0.85rem' }}>Redirecting to dashboard...</p>
-          </div>
-        )}
-        {showRedirect && <button onClick={onSuccess} className="redirect-btn show">Continue to Dashboard →</button>}
-      </div>
+            );
+          })}
+        </div>
+
+        {/* Encryption Assurance */}
+        <div className="pt-2 text-[10px] text-[var(--ash)] font-medium flex items-center justify-center gap-1">
+          <Lock className="w-3 h-3 text-[var(--ash)]" />
+          <span>256-Bit Encrypted Academic Portal</span>
+        </div>
+      </motion.div>
     </div>
   );
 };
