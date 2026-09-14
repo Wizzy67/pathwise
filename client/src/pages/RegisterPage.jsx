@@ -301,8 +301,8 @@ const RegisterPage = () => {
         }
         .rp-btn-fill:hover::before { transform: translateX(100%); }
         .rp-btn-fill:hover {
-          background: #4361EE;
-          border-color: #4361EE;
+          background: #20428B;
+          border-color: #20428B;
           color: #ffffff;
           box-shadow: 0 8px 35px rgba(67,97,238,0.5);
           transform: translateY(-2px) scale(1.02);
@@ -540,7 +540,7 @@ const RegisterPage = () => {
                 </button>
                 
                 <div style={{ fontSize: '0.85rem', color: 'rgba(255,255,255,0.7)' }}>
-                  Already have an account? <Link to="/login" style={{ color: '#4361EE', textDecoration: 'none', fontWeight: 600 }}>Log In</Link>
+                  Already have an account? <Link to="/login" style={{ color: '#20428B', textDecoration: 'none', fontWeight: 600 }}>Log In</Link>
                 </div>
               </motion.div>
             </form>

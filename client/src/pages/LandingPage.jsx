@@ -497,9 +497,9 @@ const LandingPage = () => {
           transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .credix-card-clean:hover {
-          border-color: #1944F1;
+          border-color: #20428B;
           transform: translateY(-3px);
-          box-shadow: 0 16px 32px -8px rgba(25, 68, 241, 0.12);
+          box-shadow: 0 16px 32px -8px rgba(32, 66, 139, 0.12);
         }
       `}</style>
 
@@ -609,7 +609,7 @@ const LandingPage = () => {
       {/* ========================================================================= */}
       {/* 2. REFINED BLUE BRAND DESKTOP DISPLAY (Screens ≥ 1024px)                  */}
       {/* ========================================================================= */}
-      <div className="hidden lg:block min-h-screen bg-[#F8FAFC] text-[#111827] font-['Open_Sans',sans-serif] selection:bg-[#1944F1] selection:text-white relative overflow-x-hidden">
+      <div className="hidden lg:block min-h-screen bg-[#F8FAFC] text-[#111827] font-['Open_Sans',sans-serif] selection:bg-[#20428B] selection:text-white relative overflow-x-hidden">
 
         {/* ── BRAND BLUE HERO WRAPPER ──────────────────────────────────────── */}
         <section className="brand-blue-wrapper pt-6 pb-24 px-8 relative overflow-hidden">
@@ -726,19 +726,19 @@ const LandingPage = () => {
               <div className="credix-floating-frame relative">
 
                 {/* Floating Chip 1 (Top-Left) */}
-                <div className="credix-float-badge-1 absolute -top-4 -left-4 z-20 flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-white shadow-xl border border-blue-100 text-xs font-bold text-[#1944F1]">
+                <div className="credix-float-badge-1 absolute -top-4 -left-4 z-20 flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-white shadow-xl border border-blue-100/60 text-xs font-bold text-[#20428B]">
                   <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping" />
                   <span>94% Career Compatibility · RIASEC Engine</span>
                 </div>
 
                 {/* Floating Chip 2 (Top-Right) */}
-                <div className="credix-float-badge-2 absolute -top-4 -right-4 z-20 flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-white shadow-xl border border-blue-100 text-xs font-bold text-[#111827]">
-                  <GraduationCap className="w-4 h-4 text-[#1944F1]" />
+                <div className="credix-float-badge-2 absolute -top-4 -right-4 z-20 flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-white shadow-xl border border-blue-100/60 text-xs font-bold text-[#111827]">
+                  <GraduationCap className="w-4 h-4 text-[#20428B]" />
                   <span>DELSU Syllabus Aligned · 100L - 400L</span>
                 </div>
 
                 {/* Application Window Frame */}
-                <div className="rounded-[28px] overflow-hidden bg-white border border-white/80 shadow-[0_35px_90px_-15px_rgba(25,68,241,0.28),0_15px_40px_-10px_rgba(0,0,0,0.12)]">
+                <div className="rounded-[28px] overflow-hidden bg-white border border-white/80 shadow-[0_35px_90px_-15px_rgba(32,66,139,0.28),0_15px_40px_-10px_rgba(0,0,0,0.12)]">
                   
                   {/* Chrome Browser Header Bar */}
                   <div className="h-10 bg-[#F8FAFC] border-b border-[#E2E8F0] px-5 flex items-center justify-between">
@@ -769,8 +769,8 @@ const LandingPage = () => {
                 </div>
 
                 {/* Floating Chip 3 (Bottom-Right) */}
-                <div className="credix-float-badge-3 absolute -bottom-5 right-6 z-20 flex items-center gap-3 px-5 py-3 rounded-2xl bg-white shadow-2xl border border-blue-100">
-                  <div className="w-8 h-8 rounded-xl bg-[#EEF2FF] flex items-center justify-center text-[#1944F1]">
+                <div className="credix-float-badge-3 absolute -bottom-5 right-6 z-20 flex items-center gap-3 px-5 py-3 rounded-2xl bg-white shadow-2xl border border-blue-100/60">
+                  <div className="w-8 h-8 rounded-xl bg-[#EEF2F9] flex items-center justify-center text-[#20428B]">
                     <Sparkles className="w-4 h-4" />
                   </div>
                   <div className="text-left">
@@ -795,7 +795,7 @@ const LandingPage = () => {
               { num: '100%', label: 'Free for Nigerian Undergraduates' },
             ].map(s => (
               <div key={s.label}>
-                <div className="font-['Nunito',sans-serif] text-3xl lg:text-4xl font-black text-[#1944F1] font-mono">
+                <div className="font-['Nunito',sans-serif] text-3xl lg:text-4xl font-black text-[#20428B] font-mono">
                   {s.num}
                 </div>
                 <div className="text-[#64748B] text-xs mt-1 font-medium">{s.label}</div>
@@ -807,7 +807,7 @@ const LandingPage = () => {
         {/* ── FOUR CORE FEATURES ───────────────────────────────────────────── */}
         <section className="py-24 max-w-6xl mx-auto px-8" id="features">
           <div className="text-center max-w-2xl mx-auto mb-16">
-            <span className="text-xs font-bold uppercase tracking-widest text-[#1944F1] bg-[#EEF2FF] px-3.5 py-1 rounded-full border border-blue-100">
+            <span className="text-xs font-bold uppercase tracking-widest text-[#20428B] bg-[#EEF2F9] px-3.5 py-1 rounded-full border border-blue-100/60">
               System Capabilities
             </span>
             <h2 className="font-['Nunito',sans-serif] font-black text-4xl text-[#111827] mt-4 tracking-tight">
@@ -824,7 +824,7 @@ const LandingPage = () => {
               return (
                 <div key={f.title} className="credix-card-clean p-8 flex flex-col justify-between">
                   <div>
-                    <div className="w-12 h-12 rounded-2xl bg-[#EEF2FF] border border-blue-100 flex items-center justify-center text-[#1944F1] mb-6">
+                    <div className="w-12 h-12 rounded-2xl bg-[#EEF2F9] border border-blue-100/60 flex items-center justify-center text-[#20428B] mb-6">
                       <Icon className="w-6 h-6" />
                     </div>
                     <h3 className="font-['Nunito',sans-serif] font-bold text-xl text-[#111827] mb-2.5">
@@ -834,7 +834,7 @@ const LandingPage = () => {
                       {f.desc}
                     </p>
                   </div>
-                  <div className="mt-6 pt-4 border-t border-[#F1F5F9] flex items-center gap-2 text-xs font-bold text-[#1944F1]">
+                  <div className="mt-6 pt-4 border-t border-[#F1F5F9] flex items-center gap-2 text-xs font-bold text-[#20428B]">
                     <span>Integrated with DELSU Syllabus</span>
                     <Check className="w-3.5 h-3.5" />
                   </div>
@@ -848,7 +848,7 @@ const LandingPage = () => {
         <section className="py-24 bg-[#FFFFFF] border-y border-[#E2E8F0]" id="how-it-works">
           <div className="max-w-6xl mx-auto px-8">
             <div className="text-center max-w-2xl mx-auto mb-16">
-              <span className="text-xs font-bold uppercase tracking-widest text-[#1944F1] bg-[#EEF2FF] px-3.5 py-1 rounded-full border border-blue-100">
+              <span className="text-xs font-bold uppercase tracking-widest text-[#20428B] bg-[#EEF2F9] px-3.5 py-1 rounded-full border border-blue-100/60">
                 Simple Methodology
               </span>
               <h2 className="font-['Nunito',sans-serif] font-black text-4xl text-[#111827] mt-4 tracking-tight">
@@ -863,9 +863,9 @@ const LandingPage = () => {
               {howSteps.map((step) => {
                 const StepIcon = step.icon;
                 return (
-                  <div key={step.number} className="p-6 rounded-2xl bg-[#F8FAFC] border border-[#E2E8F0] flex flex-col h-full hover:border-[#1944F1]/40 transition-colors">
+                  <div key={step.number} className="p-6 rounded-2xl bg-[#F8FAFC] border border-[#E2E8F0] flex flex-col h-full hover:border-[#20428B]/40 transition-colors">
                     <div className="flex items-center justify-between mb-4">
-                      <div className="w-11 h-11 rounded-xl bg-[#EEF2FF] border border-blue-100 flex items-center justify-center text-[#1944F1]">
+                      <div className="w-11 h-11 rounded-xl bg-[#EEF2F9] border border-blue-100/60 flex items-center justify-center text-[#20428B]">
                         <StepIcon className="w-5 h-5" />
                       </div>
                       <span className="font-mono text-xl font-black text-[#94A3B8]">{step.number}</span>
@@ -882,7 +882,7 @@ const LandingPage = () => {
         {/* ── TARGET AUDIENCE CARDS ────────────────────────────────────────── */}
         <section className="py-24 max-w-6xl mx-auto px-8" id="for-who">
           <div className="text-center max-w-2xl mx-auto mb-16">
-            <span className="text-xs font-bold uppercase tracking-widest text-[#1944F1] bg-[#EEF2FF] px-3.5 py-1 rounded-full border border-blue-100">
+            <span className="text-xs font-bold uppercase tracking-widest text-[#20428B] bg-[#EEF2F9] px-3.5 py-1 rounded-full border border-blue-100/60">
               Student Segments
             </span>
             <h2 className="font-['Nunito',sans-serif] font-black text-4xl text-[#111827] mt-4 tracking-tight">
@@ -896,7 +896,7 @@ const LandingPage = () => {
               return (
                 <div key={a.title} className="credix-card-clean p-8 flex flex-col justify-between">
                   <div>
-                    <div className="w-12 h-12 rounded-2xl bg-[#EEF2FF] border border-blue-100 flex items-center justify-center text-[#1944F1] mb-6">
+                    <div className="w-12 h-12 rounded-2xl bg-[#EEF2F9] border border-blue-100/60 flex items-center justify-center text-[#20428B] mb-6">
                       <AudIcon className="w-6 h-6" />
                     </div>
                     <h3 className="font-['Nunito',sans-serif] font-bold text-xl text-[#111827] mb-2">
@@ -963,7 +963,7 @@ const LandingPage = () => {
               <div className="space-y-1.5">
                 <div className="flex items-center gap-3">
                   <PathWiseLogo href="/" size={24} textColor="#111827" />
-                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-[#F1F5F9] text-[#1944F1] border border-[#E2E8F0] font-bold">
+                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-[#F1F5F9] text-[#20428B] border border-[#E2E8F0] font-bold">
                     B.Sc. Final Year Degree Project
                   </span>
                 </div>
@@ -973,11 +973,11 @@ const LandingPage = () => {
               </div>
 
               <div className="flex items-center gap-6 text-xs font-semibold text-[#475569]">
-                <a href="#features" className="hover:text-[#1944F1] transition-colors">Features</a>
-                <a href="#how-it-works" className="hover:text-[#1944F1] transition-colors">How It Works</a>
-                <a href="#for-who" className="hover:text-[#1944F1] transition-colors">Who It's For</a>
-                <Link to="/login" className="hover:text-[#1944F1] transition-colors">Sign In</Link>
-                <Link to="/choice" className="hover:text-[#1944F1] transition-colors">Assessment</Link>
+                <a href="#features" className="hover:text-[#20428B] transition-colors">Features</a>
+                <a href="#how-it-works" className="hover:text-[#20428B] transition-colors">How It Works</a>
+                <a href="#for-who" className="hover:text-[#20428B] transition-colors">Who It's For</a>
+                <Link to="/login" className="hover:text-[#20428B] transition-colors">Sign In</Link>
+                <Link to="/choice" className="hover:text-[#20428B] transition-colors">Assessment</Link>
               </div>
             </div>
 

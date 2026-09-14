@@ -21,7 +21,7 @@ const PathWiseLogo = ({ size = 32, text = true, href, className = '', textColor 
         height={size}
         style={{
           borderRadius: `${Math.round(size * 0.22)}px`,
-          boxShadow: '0 0 14px rgba(0,86,255,0.35)',
+          boxShadow: '0 0 14px rgba(32,66,139,0.25)',
           flexShrink: 0,
           display: 'block',
         }}

@@ -56,8 +56,8 @@ export default {
         'clean-lg': '0 8px 24px rgba(0,0,0,0.08)',
         'card':     '0 2px 8px rgba(0,0,0,0.04)',
         // Keep old aliases
-        'blue-glow': '0 4px 12px rgba(25,68,241,0.15)',
-        'blue-lg':   '0 8px 24px rgba(25,68,241,0.1)',
+        'blue-glow': '0 4px 12px rgba(32,66,139,0.15)',
+        'blue-lg':   '0 8px 24px rgba(32,66,139,0.1)',
       },
       borderRadius: {
         'pw-sm': '8px',

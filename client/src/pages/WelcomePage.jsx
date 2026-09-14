@@ -25,7 +25,7 @@ const ONBOARDING_STEPS = [
     subtitle: 'Calibrated for Delta State University (DELSU) students',
     description: 'PathWise connects your academic profile, vocational personality, and career goals to help you choose the right path and course electives with confidence.',
     icon: Compass,
-    accentColor: '#1944f1',
+    accentColor: '#20428B',
     features: [
       'Tailored to DELSU departmental curricula',
       'Instant career-to-course mapping',
@@ -77,7 +77,7 @@ const ONBOARDING_STEPS = [
     subtitle: 'Everything right at your fingertips',
     description: 'Use the new Mobile Bottom Bar to jump between your Dashboard, Explore, Assessment, and AI Advisor seamlessly without digging through menus.',
     icon: Sparkles,
-    accentColor: '#1944f1',
+    accentColor: '#20428B',
     features: [
       'Persistent bottom navigation on mobile',
       'Fast, lightweight PWA performance',
@@ -128,9 +128,9 @@ const WelcomePage = () => {
           --canvas: #f5f3f3;
           --surface: #ffffff;
           --border: #dddcdc;
-          --blue: #1944f1;
-          --azure: #4d6ff5;
-          --lavender: #eef1fe;
+          --blue: #20428b;
+          --azure: #2a52a8;
+          --lavender: #eef2f9;
           --ink: #111111;
           --graphite: #707070;
           --ash: #adadad;

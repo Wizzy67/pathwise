@@ -301,7 +301,7 @@ const LoginPage = () => {
           margin-bottom: 2.2rem;
         }
         .lp-switch a {
-          color: #4361EE;
+          color: #20428B;
           text-decoration: none;
           font-weight: 600;
         }
@@ -375,9 +375,9 @@ const LoginPage = () => {
           font-weight: 400;
         }
         .lp-input:focus {
-          border-color: #4361EE;
+          border-color: #20428B;
           background: rgba(255, 255, 255, 0.1);
-          box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+          box-shadow: 0 0 0 3px rgba(32, 66, 139, 0.2);
         }
 
         .lp-icon-left {
@@ -393,7 +393,7 @@ const LoginPage = () => {
           transition: color 0.2s ease;
         }
         .lp-input-wrap:focus-within .lp-icon-left {
-          color: #4361EE;
+          color: #20428B;
         }
 
         .lp-icon-right {
@@ -442,8 +442,8 @@ const LoginPage = () => {
           box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
         }
         .lp-btn-fill:hover {
-          background: #4361EE;
-          border-color: #4361EE;
+          background: #20428B;
+          border-color: #20428B;
           color: #ffffff;
           box-shadow: 0 8px 35px rgba(67,97,238,0.5);
           transform: translateY(-2px) scale(1.02);
@@ -624,7 +624,7 @@ const LoginPage = () => {
                 </button>
                 
                 <div style={{ fontSize: '0.85rem', color: 'rgba(255,255,255,0.7)' }}>
-                  Don't have an account? <Link to="/register" style={{ color: '#4361EE', textDecoration: 'none', fontWeight: 600 }}>Sign Up</Link>
+                  Don't have an account? <Link to="/register" style={{ color: '#20428B', textDecoration: 'none', fontWeight: 600 }}>Sign Up</Link>
                 </div>
               </motion.div>
             </form>

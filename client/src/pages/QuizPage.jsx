@@ -23,7 +23,7 @@ const RIASEC_DIMENSIONS = [
     ]
   },
   {
-    key: 'I', label: 'Investigative', color: '#1944f1', icon: Search,
+    key: 'I', label: 'Investigative', color: '#20428B', icon: Search,
     desc: 'Analytical · Curious · Research-driven',
     statements: [
       'I enjoy researching and solving complex intellectual problems.',
@@ -254,9 +254,9 @@ const QuizPage = () => {
           --canvas: #f5f3f3;
           --surface: #ffffff;
           --border: #dddcdc;
-          --blue: #1944f1;
-          --azure: #4d6ff5;
-          --lavender: #eef1fe;
+          --blue: #20428b;
+          --azure: #2a52a8;
+          --lavender: #eef2f9;
           --ink: #111111;
           --graphite: #707070;
           --ash: #adadad;

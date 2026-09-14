@@ -105,7 +105,7 @@ const Dashboard = () => {
   const riasecScores = user?.riasecScores || { R: 65, I: 85, A: 50, S: 70, E: 60, C: 45 };
   const riasecChartData = [
     { name: 'R', label: 'Realistic', score: riasecScores.R || 0, color: '#FF6B35', gradId: 'barGrad-R' },
-    { name: 'I', label: 'Investigative', score: riasecScores.I || 0, color: '#1944f1', gradId: 'barGrad-I' },
+    { name: 'I', label: 'Investigative', score: riasecScores.I || 0, color: '#20428B', gradId: 'barGrad-I' },
     { name: 'A', label: 'Artistic', score: riasecScores.A || 0, color: '#9B59B6', gradId: 'barGrad-A' },
     { name: 'S', label: 'Social', score: riasecScores.S || 0, color: '#27AE60', gradId: 'barGrad-S' },
     { name: 'E', label: 'Enterprising', score: riasecScores.E || 0, color: '#F39C12', gradId: 'barGrad-E' },
@@ -131,9 +131,9 @@ const Dashboard = () => {
           --canvas: #f5f3f3;
           --surface: #ffffff;
           --border: #dddcdc;
-          --blue: #1944f1;
-          --azure: #4d6ff5;
-          --lavender: #eef1fe;
+          --blue: #20428b;
+          --azure: #2a52a8;
+          --lavender: #eef2f9;
           --ink: #111111;
           --graphite: #707070;
           --ash: #adadad;
@@ -404,7 +404,7 @@ const Dashboard = () => {
                       </linearGradient>
                       <linearGradient id="barGrad-I" x1="0" y1="0" x2="0" y2="1">
                         <stop offset="0%" stopColor="#5D7DF8" stopOpacity={1} />
-                        <stop offset="100%" stopColor="#1944F1" stopOpacity={0.95} />
+                        <stop offset="100%" stopColor="#20428B" stopOpacity={0.95} />
                       </linearGradient>
                       <linearGradient id="barGrad-A" x1="0" y1="0" x2="0" y2="1">
                         <stop offset="0%" stopColor="#C084FC" stopOpacity={1} />
@@ -438,7 +438,7 @@ const Dashboard = () => {
                       tickLine={false}
                     />
                     <Tooltip
-                      cursor={{ fill: 'rgba(25, 68, 241, 0.04)', radius: 10 }}
+                      cursor={{ fill: 'rgba(32, 66, 139, 0.04)', radius: 10 }}
                       content={({ active, payload }) => {
                         if (active && payload && payload.length) {
                           const data = payload[0].payload;

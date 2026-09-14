@@ -17,7 +17,7 @@ import {
 // ── RIASEC dimension config ───────────────────────────────────────────
 const RIASEC_META = {
   R: { label: 'Realistic',     color: '#FF6B35', icon: Settings,      desc: 'Practical, hands-on, mechanical' },
-  I: { label: 'Investigative', color: '#1944f1', icon: Search,        desc: 'Analytical, research-driven, curious' },
+  I: { label: 'Investigative', color: '#20428B', icon: Search,        desc: 'Analytical, research-driven, curious' },
   A: { label: 'Artistic',      color: '#9B59B6', icon: Palette,       desc: 'Creative, expressive, imaginative' },
   S: { label: 'Social',        color: '#27AE60', icon: Users,         desc: 'Helping, teaching, nurturing' },
   E: { label: 'Enterprising',  color: '#F39C12', icon: TrendingUp,    desc: 'Leadership, persuasive, ambitious' },
@@ -44,7 +44,7 @@ const CompactHollandBadge = ({ code }) => {
   return (
     <div className="flex items-center gap-1.5 justify-center">
       {letters.map((letter, i) => {
-        const meta = RIASEC_META[letter] || { color: '#1944f1', label: letter };
+        const meta = RIASEC_META[letter] || { color: '#20428B', label: letter };
         return (
           <div
             key={i}
@@ -176,8 +176,8 @@ const ResultsPage = () => {
                 key={t}
                 className="text-[10px] px-2.5 py-0.5 rounded-full font-bold"
                 style={{
-                  background: ['#1944f118', '#27AE6018', '#9B59B618'][i],
-                  color: ['#1944f1', '#27AE60', '#9B59B6'][i]
+                  background: ['#20428B18', '#27AE6018', '#9B59B618'][i],
+                  color: ['#20428B', '#27AE60', '#9B59B6'][i]
                 }}
               >
                 {t}
@@ -442,8 +442,8 @@ const ResultsPage = () => {
                                 key={k}
                                 className="text-[9px] font-extrabold px-1.5 py-0.2 rounded"
                                 style={{
-                                  backgroundColor: (RIASEC_META[k]?.color || '#1944f1') + '18',
-                                  color: RIASEC_META[k]?.color || '#1944f1'
+                                  backgroundColor: (RIASEC_META[k]?.color || '#20428B') + '18',
+                                  color: RIASEC_META[k]?.color || '#20428B'
                                 }}
                               >
                                 {k}
@@ -531,8 +531,8 @@ const ResultsPage = () => {
                     <PolarAngleAxis dataKey="subject" tick={{ fill: '#555', fontSize: 10, fontWeight: 700 }} />
                     <Radar
                       dataKey="value"
-                      stroke="#1944f1"
-                      fill="#1944f1"
+                      stroke="#20428B"
+                      fill="#20428B"
                       fillOpacity={0.25}
                       strokeWidth={2}
                     />
@@ -667,7 +667,7 @@ const ResultsPage = () => {
                     <Tooltip contentStyle={{ backgroundColor: '#fff', borderColor: '#ddd', borderRadius: '8px', fontSize: '11px' }} />
                     <Bar dataKey="value" radius={[4, 4, 0, 0]}>
                       {outcomeData.map((_, i) => (
-                        <Cell key={i} fill={['#1944f1', '#27AE60', '#9B59B6', '#F39C12', '#FF6B35', '#17A589'][i % 6]} />
+                        <Cell key={i} fill={['#20428B', '#27AE60', '#9B59B6', '#F39C12', '#FF6B35', '#17A589'][i % 6]} />
                       ))}
                     </Bar>
                   </BarChart>

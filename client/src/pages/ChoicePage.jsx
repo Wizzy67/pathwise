@@ -109,8 +109,8 @@ const ChoicePage = () => {
           border: 1px solid var(--border);
         }
         .choice-card:hover { transform: translateY(-8px); }
-        .choice-card.register:hover { border-color: var(--blue); box-shadow: 0 8px 20px rgba(25,68,241,0.08); }
-        .choice-card.login:hover    { border-color: var(--blue);  box-shadow: 0 8px 20px rgba(25,68,241,0.08); }
+        .choice-card.register:hover { border-color: var(--blue); box-shadow: 0 8px 20px rgba(32,66,139,0.08); }
+        .choice-card.login:hover    { border-color: var(--blue);  box-shadow: 0 8px 20px rgba(32,66,139,0.08); }
         .choice-card:hover::before  { opacity: 1; }
         .card-icon-wrap {
           width: 80px; height: 80px; border-radius: 22px;

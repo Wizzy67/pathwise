@@ -90,9 +90,9 @@ const Navbar = () => {
           --canvas: #f5f3f3;
           --surface: #ffffff;
           --border: #dddcdc;
-          --blue: #1944f1;
-          --azure: #4d6ff5;
-          --lavender: #eef1fe;
+          --blue: #20428b;
+          --azure: #2a52a8;
+          --lavender: #eef2f9;
           --ink: #111111;
           --graphite: #707070;
           --ash: #adadad;
