@@ -757,7 +757,7 @@ const LandingPage = () => {
                   {/* Enhanced 2x Crisp PathWise Dashboard Image */}
                   <div className="relative bg-[#F8FAFC] overflow-hidden">
                     <img
-                      src="/dashboard-preview.png"
+                      src="/dashboard-preview.png?v=2"
                       alt="PathWise Student Dashboard Interface"
                       className="w-full h-auto object-cover object-top block select-none pointer-events-none"
                       style={{
