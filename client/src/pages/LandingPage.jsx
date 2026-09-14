@@ -69,10 +69,10 @@ function useTypewriter(words) {
 }
 
 const CATCHY_TYPEWRITER_PHRASES = [
-  'Dream Tech Career.',
-  'High-Impact Future.',
-  'Competitive Advantage.',
-  'Personalized Roadmap.'
+  'Before You Graduate.',
+  'From Day One.',
+  'With Total Confidence.',
+  'Step by Step.'
 ];
 
 const LandingPage = () => {
@@ -671,8 +671,7 @@ const LandingPage = () => {
               transition={{ duration: 0.6, delay: 0.1 }}
               className="font-['Nunito',sans-serif] font-black text-5xl lg:text-6xl text-white tracking-tight leading-[1.12] drop-shadow-sm max-w-4xl"
             >
-              Don't Just Graduate.<br />
-              Launch Your{' '}
+              Know Your Destination<br />
               <span
                 ref={typeRef}
                 className="typewriter-text text-[#38BDF8]"
