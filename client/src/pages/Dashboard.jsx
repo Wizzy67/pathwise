@@ -318,75 +318,34 @@ const Dashboard = () => {
         </Link>
       </div>
 
-      {/* ── MODERN ASSESSMENT CALLOUT BANNER ── */}
+      {/* ── ASSESSMENT CALLOUT (Clean Card Style) ── */}
       {!assessmentDone && (
         <motion.div
-          initial={{ opacity: 0, y: 10 }}
+          initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.35, ease: 'easeOut' }}
-          className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#1230B8] via-[var(--blue)] to-[#3E63F5] text-white p-4 sm:p-5 lg:p-6 shadow-md border border-white/10"
+          className="bg-[var(--surface)] border border-[var(--border)] rounded-2xl sm:rounded-3xl p-4 sm:p-5 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4"
         >
-          {/* Ambient Glows & Decorative Geometry */}
-          <div className="absolute -top-12 -right-12 w-44 h-44 rounded-full bg-white/10 blur-2xl pointer-events-none" />
-          <div className="absolute -bottom-12 -left-12 w-40 h-40 rounded-full bg-[#4D6FF5]/30 blur-2xl pointer-events-none" />
-          <div className="absolute right-6 -bottom-6 w-28 h-28 rounded-full border border-white/10 pointer-events-none hidden sm:block" />
-          <div className="absolute right-12 -bottom-12 w-44 h-44 rounded-full border border-white/5 pointer-events-none hidden sm:block" />
-
-          <div className="relative z-10 flex flex-col sm:flex-row sm:items-center justify-between gap-4 sm:gap-6">
-            {/* Left Content Area */}
-            <div className="flex items-start gap-3.5 sm:gap-4 min-w-0">
-              {/* Icon Orb */}
-              <div className="w-11 h-11 sm:w-13 sm:h-13 rounded-2xl bg-white/15 backdrop-blur-md border border-white/20 flex items-center justify-center flex-shrink-0 shadow-inner">
-                <Target className="w-6 h-6 text-white animate-pulse" />
-              </div>
-
-              <div className="min-w-0 space-y-1">
-                <div className="flex flex-wrap items-center gap-2">
-                  <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-white/15 border border-white/20 text-[10px] font-black uppercase tracking-wider text-white">
-                    <Sparkles className="w-3 h-3 text-amber-300" /> Action Recommended
-                  </span>
-                  <span className="text-[11px] text-white/80 font-semibold hidden sm:inline">
-                    • 18 Questions
-                  </span>
-                </div>
-
-                <h3 className="text-sm sm:text-base lg:text-lg font-black heading-font text-white leading-tight">
-                  Unlock Your DELSU Career Matches
-                </h3>
-
-                <p className="text-[11px] sm:text-xs text-white/85 max-w-xl leading-relaxed">
-                  Take the quick 5-minute Holland RIASEC assessment to calculate personalized career fit scores and tailored course recommendations.
-                </p>
-
-                {/* Micro Perks Tags */}
-                <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 pt-1 text-[10px] sm:text-[11px] text-white/95 font-semibold">
-                  <span className="inline-flex items-center gap-1 bg-white/12 border border-white/10 px-2 py-0.5 rounded-lg">
-                    <Clock className="w-3 h-3 text-white/80" /> 5 Mins
-                  </span>
-                  <span className="inline-flex items-center gap-1 bg-white/12 border border-white/10 px-2 py-0.5 rounded-lg">
-                    <Brain className="w-3 h-3 text-white/80" /> Holland RIASEC
-                  </span>
-                  <span className="inline-flex items-center gap-1 bg-white/12 border border-white/10 px-2 py-0.5 rounded-lg">
-                    <Compass className="w-3 h-3 text-white/80" /> 50+ Pathways
-                  </span>
-                </div>
-              </div>
+          <div className="flex items-center gap-3.5 min-w-0">
+            <div className="w-11 h-11 rounded-2xl bg-[var(--lavender)] text-[var(--blue)] flex items-center justify-center flex-shrink-0 shadow-2xs">
+              <Target className="w-5 h-5" />
             </div>
-
-            {/* Right Action Button */}
-            <div className="flex sm:flex-col items-center sm:items-end justify-between sm:justify-center gap-2 flex-shrink-0 pt-2 sm:pt-0 border-t sm:border-t-0 border-white/15">
-              <Link
-                to="/quiz"
-                className="group w-full sm:w-auto inline-flex items-center justify-center gap-2 px-4 sm:px-5 py-2.5 sm:py-3 rounded-2xl bg-white text-[var(--blue)] font-black text-xs sm:text-sm shadow-md hover:bg-[var(--lavender)] active:scale-95 transition-all"
-              >
-                <span>Start Assessment</span>
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </Link>
-              <span className="text-[10px] text-white/75 font-medium hidden sm:block">
-                Instant DELSU Matching
-              </span>
+            <div className="min-w-0">
+              <h3 className="text-sm sm:text-base font-extrabold heading-font text-[var(--ink)] leading-tight">
+                Career Assessment Pending
+              </h3>
+              <p className="text-xs text-[var(--graphite)] leading-relaxed mt-0.5">
+                Answer 18 quick questions to unlock your personalized DELSU career matches and course roadmaps.
+              </p>
             </div>
           </div>
+
+          <Link
+            to="/quiz"
+            className="inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl bg-[var(--blue)] text-white font-bold text-xs hover:bg-[var(--azure)] active:scale-95 transition-all shadow-sm flex-shrink-0"
+          >
+            <span>Take Assessment</span>
+            <ArrowRight className="w-3.5 h-3.5" />
+          </Link>
         </motion.div>
       )}
 
