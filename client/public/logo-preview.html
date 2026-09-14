@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PathWise Logo — Outside The Box Concepts</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&family=Open+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Open Sans', sans-serif;
+      background-color: #F8FAFC;
+      color: #0F172A;
+      padding: 3.5rem 1.5rem;
+      min-height: 100vh;
+    }
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    header {
+      text-align: center;
+      margin-bottom: 3.5rem;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: #EEF2F9;
+      border: 1px solid #DCE4F2;
+      color: #20428B;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 0.4rem 1rem;
+      border-radius: 999px;
+      margin-bottom: 1rem;
+    }
+    h1 {
+      font-family: 'Nunito', sans-serif;
+      font-size: 2.75rem;
+      font-weight: 900;
+      color: #0F172A;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.6rem;
+    }
+    p.lead {
+      font-size: 1.05rem;
+      color: #64748B;
+      max-width: 680px;
+      margin: 0 auto;
+    }
+    
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(480px, 1fr));
+      gap: 2.5rem;
+      margin-bottom: 3.5rem;
+    }
+    @media (max-width: 600px) {
+      .grid { grid-template-columns: 1fr; }
+    }
+    
+    .card {
+      background: #FFFFFF;
+      border: 1px solid #E2E8F0;
+      border-radius: 28px;
+      overflow: hidden;
+      box-shadow: 0 4px 24px -4px rgba(0,0,0,0.04);
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease, border-color 0.25s ease;
+    }
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 40px -12px rgba(32, 66, 139, 0.16);
+      border-color: #20428B;
+    }
+    
+    .card-head {
+      padding: 1.5rem 2rem;
+      border-bottom: 1px solid #F1F5F9;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .card-title {
+      font-family: 'Nunito', sans-serif;
+      font-size: 1.35rem;
+      font-weight: 900;
+      color: #0F172A;
+    }
+    .concept-tag {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.72rem;
+      font-weight: 700;
+      background: #EEF2F9;
+      color: #20428B;
+      padding: 0.35rem 0.75rem;
+      border-radius: 8px;
+    }
+    
+    .showcase {
+      padding: 3rem 2rem 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2rem;
+      background: #FAFCFE;
+    }
+    
+    /* Dual stage showing standalone glyph on white and dark */
+    .dual-stage {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      width: 100%;
+    }
+    .stage-box {
+      border-radius: 20px;
+      height: 160px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    .stage-box.light {
+      background: #FFFFFF;
+      border: 1px solid #E2E8F0;
+      box-shadow: inset 0 2px 8px rgba(0,0,0,0.02);
+    }
+    .stage-box.dark {
+      background: #101E3C;
+      border: 1px solid #1E3566;
+    }
+    .stage-label {
+      position: absolute;
+      bottom: 0.75rem;
+      font-size: 0.65rem;
+      font-family: 'IBM Plex Mono', monospace;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .stage-box.light .stage-label { color: #94A3B8; }
+    .stage-box.dark .stage-label { color: #64748B; }
+    
+    /* Wordmark integration simulation */
+    .wordmark-row {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    .sim-bar {
+      width: 100%;
+      padding: 1rem 1.5rem;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .sim-bar.white-bar {
+      background: #FFFFFF;
+      border: 1px solid #E2E8F0;
+    }
+    .sim-bar.dark-bar {
+      background: #1A346C;
+    }
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .brand-name {
+      font-family: 'Nunito', sans-serif;
+      font-size: 1.35rem;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+    }
+    .sim-bar.white-bar .brand-name { color: #0F172A; }
+    .sim-bar.dark-bar .brand-name { color: #FFFFFF; }
+    .sim-pill {
+      font-size: 0.7rem;
+      font-family: 'IBM Plex Mono', monospace;
+    }
+    .sim-bar.white-bar .sim-pill { color: #94A3B8; }
+    .sim-bar.dark-bar .sim-pill { color: #93C5FD; }
+    
+    .card-body {
+      padding: 1.75rem 2rem;
+    }
+    .concept-desc {
+      font-size: 0.9rem;
+      color: #475569;
+      line-height: 1.65;
+      margin-bottom: 1.25rem;
+    }
+    .meta-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .meta-chip {
+      font-size: 0.72rem;
+      font-weight: 700;
+      background: #F1F5F9;
+      color: #334155;
+      padding: 0.3rem 0.75rem;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <div class="badge">✨ Radical Redesign · Thinking Outside the Box</div>
+      <h1>PathWise Identity Concepts</h1>
+      <p class="lead">
+        No more generic rounded squircles. These are <strong>standalone sculptural glyphs</strong> designed with deep optical geometry, mathematical curves, and architectural dimension.
+      </p>
+    </header>
+
+    <div class="grid">
+
+      <!-- ================================================================= -->
+      <!-- CONCEPT 1: THE 3D ISOMETRIC PORTAL (The Gateway)                  -->
+      <!-- ================================================================= -->
+      <div class="card">
+        <div class="card-head">
+          <div class="card-title">1. The Dimensional Portal</div>
+          <div class="concept-tag">SCULPTURAL_GLYPH</div>
+        </div>
+        <div class="showcase">
+          <div class="dual-stage">
+            <!-- Light Canvas -->
+            <div class="stage-box light">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="84" height="84">
+                <defs>
+                  <linearGradient id="portal_front" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#20428B" />
+                    <stop offset="100%" stop-color="#1A346C" />
+                  </linearGradient>
+                  <linearGradient id="portal_beam" x1="0%" y1="100%" x2="100%" y2="0%">
+                    <stop offset="0%" stop-color="#38BDF8" />
+                    <stop offset="100%" stop-color="#2A52A8" />
+                  </linearGradient>
+                </defs>
+                <!-- Left Monolith Pillar -->
+                <polygon points="26,80 38,87 38,28 26,21" fill="#132347" />
+                <polygon points="38,87 50,80 50,35 38,28" fill="#1A346C" />
+                <!-- Cantilever Top Roof (forming top of 'P') -->
+                <polygon points="26,21 38,28 72,14 60,7" fill="#2A52A8" />
+                <!-- Floating Angled Trajectory Slab (Shooting out of portal toward the future) -->
+                <polygon points="46,55 78,36 86,41 54,60" fill="url(#portal_beam)" />
+                <polygon points="46,55 54,60 54,72 46,67" fill="#0284C7" />
+                <!-- Dynamic Perspective Glow Point -->
+                <circle cx="78" cy="36" r="3.5" fill="#38BDF8" />
+              </svg>
+              <span class="stage-label">On Light Canvas</span>
+            </div>
+
+            <!-- Dark Canvas -->
+            <div class="stage-box dark">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="84" height="84">
+                <!-- Left Monolith Pillar -->
+                <polygon points="26,80 38,87 38,28 26,21" fill="#1A346C" />
+                <polygon points="38,87 50,80 50,35 38,28" fill="#20428B" />
+                <!-- Cantilever Top Roof -->
+                <polygon points="26,21 38,28 72,14 60,7" fill="#3B69C9" />
+                <!-- Floating Angled Trajectory Slab -->
+                <polygon points="46,55 78,36 86,41 54,60" fill="url(#portal_beam)" />
+                <polygon points="46,55 54,60 54,72 46,67" fill="#38BDF8" />
+                <circle cx="78" cy="36" r="3.5" fill="#FFFFFF" />
+              </svg>
+              <span class="stage-label">On Dark Canvas</span>
+            </div>
+          </div>
+
+          <!-- Wordmark Integration -->
+          <div class="wordmark-row">
+            <div class="sim-bar white-bar">
+              <div class="brand-group">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="32" height="32">
+                  <polygon points="26,80 38,87 38,28 26,21" fill="#132347" />
+                  <polygon points="38,87 50,80 50,35 38,28" fill="#1A346C" />
+                  <polygon points="26,21 38,28 72,14 60,7" fill="#2A52A8" />
+                  <polygon points="46,55 78,36 86,41 54,60" fill="#20428B" />
+                  <polygon points="46,55 54,60 54,72 46,67" fill="#38BDF8" />
+                </svg>
+                <span class="brand-name">PathWise</span>
+              </div>
+              <span class="sim-pill">Navbar (Light)</span>
+            </div>
+
+            <div class="sim-bar dark-bar">
+              <div class="brand-group">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="32" height="32">
+                  <polygon points="26,80 38,87 38,28 26,21" fill="#1A346C" />
+                  <polygon points="38,87 50,80 50,35 38,28" fill="#20428B" />
+                  <polygon points="26,21 38,28 72,14 60,7" fill="#3B69C9" />
+                  <polygon points="46,55 78,36 86,41 54,60" fill="#38BDF8" />
+                  <polygon points="46,55 54,60 54,72 46,67" fill="#BAE6FD" />
+                </svg>
+                <span class="brand-name">PathWise</span>
+              </div>
+              <span class="sim-pill">Navbar (Dark)</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-body">
+          <p class="concept-desc">
+            An impossible <strong>isometric gateway</strong> that doubles as an architectural letter <strong>'P'</strong>. An illuminated trajectory beam projects outwards from the doorway, symbolizing walking out of university lectures straight into global industry.
+          </p>
+          <div class="meta-list">
+            <span class="meta-chip">Architectural Gateway</span>
+            <span class="meta-chip">Isometric 3D</span>
+            <span class="meta-chip">Trajectory Beam</span>
+            <span class="meta-chip">Subtle 'P'</span>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- ================================================================= -->
+      <!-- CONCEPT 2: THE CONVERGING MÖBIUS RIBBON (The Infinite Path)       -->
+      <!-- ================================================================= -->
+      <div class="card">
+        <div class="card-head">
+          <div class="card-title">2. The Kinetic Möbius Loop</div>
+          <div class="concept-tag">CONTINUOUS_PATH</div>
+        </div>
+        <div class="showcase">
+          <div class="dual-stage">
+            <!-- Light Canvas -->
+            <div class="stage-box light">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="84" height="84">
+                <defs>
+                  <linearGradient id="mobius_g1" x1="0%" y1="100%" x2="100%" y2="0%">
+                    <stop offset="0%" stop-color="#1A346C" />
+                    <stop offset="50%" stop-color="#20428B" />
+                    <stop offset="100%" stop-color="#38BDF8" />
+                  </linearGradient>
+                  <linearGradient id="mobius_g2" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#2A52A8" />
+                    <stop offset="100%" stop-color="#132347" />
+                  </linearGradient>
+                </defs>
+                <!-- Back Loop -->
+                <path d="M 30,50 C 30,25 65,22 72,40 C 78,56 60,78 35,74 C 18,70 18,45 32,32" 
+                      fill="none" stroke="url(#mobius_g2)" stroke-width="12" stroke-linecap="round" />
+                <!-- Front Overlapping Crossing Loop with Sharp Arrow Launch -->
+                <path d="M 28,32 C 45,16 84,28 80,60 C 76,82 45,82 32,68 L 78,24" 
+                      fill="none" stroke="url(#mobius_g1)" stroke-width="11" stroke-linecap="round" />
+                <!-- Arrowhead terminating path at northeast -->
+                <polygon points="78,24 64,24 74,34" fill="#38BDF8" />
+              </svg>
+              <span class="stage-label">On Light Canvas</span>
+            </div>
+
+            <!-- Dark Canvas -->
+            <div class="stage-box dark">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="84" height="84">
+                <!-- Back Loop -->
+                <path d="M 30,50 C 30,25 65,22 72,40 C 78,56 60,78 35,74 C 18,70 18,45 32,32" 
+                      fill="none" stroke="#2A52A8" stroke-width="12" stroke-linecap="round" opacity="0.6" />
+                <!-- Front Overlapping Crossing Loop -->
+                <path d="M 28,32 C 45,16 84,28 80,60 C 76,82 45,82 32,68 L 78,24" 
+                      fill="none" stroke="url(#mobius_g1)" stroke-width="11" stroke-linecap="round" />
+                <polygon points="78,24 64,24 74,34" fill="#FFFFFF" />
+              </svg>
+              <span class="stage-label">On Dark Canvas</span>
+            </div>
+          </div>
+
+          <!-- Wordmark Integration -->
+          <div class="wordmark-row">
+            <div class="sim-bar white-bar">
+              <div class="brand-group">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="32" height="32">
+                  <path d="M 30,50 C 30,25 65,22 72,40 C 78,56 60,78 35,74 C 18,70 18,45 32,32" 
+                        fill="none" stroke="#1A346C" stroke-width="12" stroke-linecap="round" />
+                  <path d="M 28,32 C 45,16 84,28 80,60 C 76,82 45,82 32,68 L 78,24" 
+                        fill="none" stroke="#20428B" stroke-width="11" stroke-linecap="round" />
+                  <polygon points="78,24 64,24 74,34" fill="#38BDF8" />
+                </svg>
+                <span class="brand-name">PathWise</span>
+              </div>
+              <span class="sim-pill">Navbar (Light)</span>
+            </div>
+
+            <div class="sim-bar dark-bar">
+              <div class="brand-group">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="32" height="32">
+                  <path d="M 30,50 C 30,25 65,22 72,40 C 78,56 60,78 35,74 C 18,70 18,45 32,32" 
+                        fill="none" stroke="#2A52A8" stroke-width="12" opacity="0.6" stroke-linecap="round" />
+                  <path d="M 28,32 C 45,16 84,28 80,60 C 76,82 45,82 32,68 L 78,24" 
+                        fill="none" stroke="#38BDF8" stroke-width="11" stroke-linecap="round" />
+                  <polygon points="78,24 64,24 74,34" fill="#FFFFFF" />
+                </svg>
+                <span class="brand-name">PathWise</span>
+              </div>
+              <span class="sim-pill">Navbar (Dark)</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-body">
+          <p class="concept-desc">
+            A fluid mathematical <strong>Möbius ribbon</strong> that loops through academic courses and springs outward into a high-energy directional arrow. Inspired by deep tech and AI neural topologies.
+          </p>
+          <div class="meta-list">
+            <span class="meta-chip">Kinetic Ribbon</span>
+            <span class="meta-chip">Infinite Trajectory</span>
+            <span class="meta-chip">Fluid Vector</span>
+            <span class="meta-chip">AI Aesthetic</span>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- ================================================================= -->
+      <!-- CONCEPT 3: THE STEPPED ROADMAP MONOLITH (Milestone Obelisk)        -->
+      <!-- ================================================================= -->
+      <div class="card">
+        <div class="card-head">
+          <div class="card-title">3. The Ascending Monolith</div>
+          <div class="concept-tag">ARCHITECTURAL</div>
+        </div>
+        <div class="showcase">
+          <div class="dual-stage">
+            <!-- Light Canvas -->
+            <div class="stage-box light">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="84" height="84">
+                <defs>
+                  <linearGradient id="step_3" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stop-color="#38BDF8" />
+                    <stop offset="100%" stop-color="#20428B" />
+                  </linearGradient>
+                </defs>
+                <!-- Pillar 1 (100L Foundation) -->
+                <rect x="18" y="58" width="12" height="26" rx="6" fill="#1A346C" />
+                <!-- Pillar 2 (200L Development) -->
+                <rect x="36" y="42" width="12" height="42" rx="6" fill="#20428B" />
+                <!-- Pillar 3 (300L Specialization) -->
+                <rect x="54" y="26" width="12" height="58" rx="6" fill="#2A52A8" />
+                <!-- Pillar 4 (400L / Launch Apex) -->
+                <rect x="72" y="10" width="12" height="74" rx="6" fill="url(#step_3)" />
+                <!-- Precision Connecting Trajectory Laser -->
+                <path d="M 24,56 L 42,40 L 60,24 L 78,8" fill="none" stroke="#38BDF8" stroke-width="3" stroke-linecap="round" />
+                <circle cx="78" cy="8" r="4" fill="#38BDF8" />
+              </svg>
+              <span class="stage-label">On Light Canvas</span>
+            </div>
+
+            <!-- Dark Canvas -->
+            <div class="stage-box dark">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="84" height="84">
+                <!-- Pillar 1 -->
+                <rect x="18" y="58" width="12" height="26" rx="6" fill="#1E3566" />
+                <!-- Pillar 2 -->
+                <rect x="36" y="42" width="12" height="42" rx="6" fill="#20428B" />
+                <!-- Pillar 3 -->
+                <rect x="54" y="26" width="12" height="58" rx="6" fill="#2A52A8" />
+                <!-- Pillar 4 -->
+                <rect x="72" y="10" width="12" height="74" rx="6" fill="#38BDF8" />
+                <path d="M 24,56 L 42,40 L 60,24 L 78,8" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" />
+                <circle cx="78" cy="8" r="4" fill="#FFFFFF" />
+              </svg>
+              <span class="stage-label">On Dark Canvas</span>
+            </div>
+          </div>
+
+          <!-- Wordmark Integration -->
+          <div class="wordmark-row">
+            <div class="sim-bar white-bar">
+              <div class="brand-group">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="32" height="32">
+                  <rect x="18" y="58" width="12" height="26" rx="5" fill="#1A346C" />
+                  <rect x="36" y="42" width="12" height="42" rx="5" fill="#20428B" />
+                  <rect x="54" y="26" width="12" height="58" rx="5" fill="#2A52A8" />
+                  <rect x="72" y="10" width="12" height="74" rx="5" fill="#38BDF8" />
+                </svg>
+                <span class="brand-name">PathWise</span>
+              </div>
+              <span class="sim-pill">Navbar (Light)</span>
+            </div>
+
+            <div class="sim-bar dark-bar">
+              <div class="brand-group">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="32" height="32">
+                  <rect x="18" y="58" width="12" height="26" rx="5" fill="#2A52A8" />
+                  <rect x="36" y="42" width="12" height="42" rx="5" fill="#3B69C9" />
+                  <rect x="54" y="26" width="12" height="58" rx="5" fill="#60A5FA" />
+                  <rect x="72" y="10" width="12" height="74" rx="5" fill="#38BDF8" />
+                </svg>
+                <span class="brand-name">PathWise</span>
+              </div>
+              <span class="sim-pill">Navbar (Dark)</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-body">
+          <p class="concept-desc">
+            Four vertical architectural pillars representing the 4 university levels (<strong>100L $ightarrow$ 200L $ightarrow$ 300L $ightarrow$ 400L</strong>), connected by an ascending laser trajectory into graduation. Stark, authoritative, and data-driven.
+          </p>
+          <div class="meta-list">
+            <span class="meta-chip">4 Academic Levels</span>
+            <span class="meta-chip">Milestone Monolith</span>
+            <span class="meta-chip">Linear Elevation</span>
+            <span class="meta-chip">High Authority</span>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- ================================================================= -->
+      <!-- CONCEPT 4: THE FOCAL APERTURE / WISDOM EYE (Clarity Spark)        -->
+      <!-- ================================================================= -->
+      <div class="card">
+        <div class="card-head">
+          <div class="card-title">4. The Optical Aperture (Focus)</div>
+          <div class="concept-tag">PRECISION_LENS</div>
+        </div>
+        <div class="showcase">
+          <div class="dual-stage">
+            <!-- Light Canvas -->
+            <div class="stage-box light">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="84" height="84">
+                <defs>
+                  <linearGradient id="lens_blade" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#20428B" />
+                    <stop offset="100%" stop-color="#1A346C" />
+                  </linearGradient>
+                </defs>
+                <!-- Precision Camera/Focus Blades converging in a vortex -->
+                <path d="M 50,14 C 70,14 86,30 86,50 L 50,50 Z" fill="#132347" />
+                <path d="M 86,50 C 86,70 70,86 50,86 L 50,50 Z" fill="#1A346C" />
+                <path d="M 50,86 C 30,86 14,70 14,50 L 50,50 Z" fill="#20428B" />
+                <path d="M 14,50 C 14,30 30,14 50,14 L 50,50 Z" fill="#2A52A8" />
+                <!-- Angled Directional Aperture Diamond Core -->
+                <polygon points="50,28 66,50 50,72 34,50" fill="#FFFFFF" />
+                <polygon points="50,38 58,50 50,62 42,50" fill="#38BDF8" />
+                <!-- 45-degree guiding crosshair line -->
+                <line x1="20" y1="80" x2="80" y2="20" stroke="#38BDF8" stroke-width="2.5" stroke-linecap="round" />
+                <circle cx="80" cy="20" r="3" fill="#38BDF8" />
+              </svg>
+              <span class="stage-label">On Light Canvas</span>
+            </div>
+
+            <!-- Dark Canvas -->
+            <div class="stage-box dark">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="84" height="84">
+                <path d="M 50,14 C 70,14 86,30 86,50 L 50,50 Z" fill="#1E3566" />
+                <path d="M 86,50 C 86,70 70,86 50,86 L 50,50 Z" fill="#20428B" />
+                <path d="M 50,86 C 30,86 14,70 14,50 L 50,50 Z" fill="#2A52A8" />
+                <path d="M 14,50 C 14,30 30,14 50,14 L 50,50 Z" fill="#3B69C9" />
+                <polygon points="50,28 66,50 50,72 34,50" fill="#FFFFFF" />
+                <polygon points="50,38 58,50 50,62 42,50" fill="#38BDF8" />
+                <line x1="20" y1="80" x2="80" y2="20" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" />
+                <circle cx="80" cy="20" r="3" fill="#FFFFFF" />
+              </svg>
+              <span class="stage-label">On Dark Canvas</span>
+            </div>
+          </div>
+
+          <!-- Wordmark Integration -->
+          <div class="wordmark-row">
+            <div class="sim-bar white-bar">
+              <div class="brand-group">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="32" height="32">
+                  <path d="M 50,14 C 70,14 86,30 86,50 L 50,50 Z" fill="#132347" />
+                  <path d="M 86,50 C 86,70 70,86 50,86 L 50,50 Z" fill="#1A346C" />
+                  <path d="M 50,86 C 30,86 14,70 14,50 L 50,50 Z" fill="#20428B" />
+                  <path d="M 14,50 C 14,30 30,14 50,14 L 50,50 Z" fill="#2A52A8" />
+                  <polygon points="50,34 62,50 50,66 38,50" fill="#38BDF8" />
+                </svg>
+                <span class="brand-name">PathWise</span>
+              </div>
+              <span class="sim-pill">Navbar (Light)</span>
+            </div>
+
+            <div class="sim-bar dark-bar">
+              <div class="brand-group">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="32" height="32">
+                  <path d="M 50,14 C 70,14 86,30 86,50 L 50,50 Z" fill="#1E3566" />
+                  <path d="M 86,50 C 86,70 70,86 50,86 L 50,50 Z" fill="#20428B" />
+                  <path d="M 50,86 C 30,86 14,70 14,50 L 50,50 Z" fill="#2A52A8" />
+                  <path d="M 14,50 C 14,30 30,14 50,14 L 50,50 Z" fill="#3B69C9" />
+                  <polygon points="50,34 62,50 50,66 38,50" fill="#38BDF8" />
+                </svg>
+                <span class="brand-name">PathWise</span>
+              </div>
+              <span class="sim-pill">Navbar (Dark)</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-body">
+          <p class="concept-desc">
+            An optical <strong>Aperture Lens</strong> cutting through the fog of career confusion to focus sharply on your true career destination. Combines the metaphor of "Wise" (vision and focus) with an ascending crosshair trajectory.
+          </p>
+          <div class="meta-list">
+            <span class="meta-chip">Optical Focus</span>
+            <span class="meta-chip">Vision &amp; Wisdom</span>
+            <span class="meta-chip">Precision Core</span>
+            <span class="meta-chip">Geometric Razor</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</body>
+</html>

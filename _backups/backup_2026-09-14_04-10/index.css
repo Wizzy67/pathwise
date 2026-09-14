@@ -1,0 +1,239 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=Open+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── PathWise — Clean Warm Theme (Compass-Inspired) ──────── */
+
+@layer base {
+  :root {
+    /* Core Palette — Warm Light */
+    --black:    #f5f3f3;   /* Warm off-white canvas */
+    --surface:  #ffffff;   /* Pure white cards */
+    --surface2: #ebe9e9;   /* Alternate card / input bg */
+    --blue:     #20428b;   /* Brand vivid blue */
+    --azure:    #2a52a8;   /* Lighter brand blue */
+    --lavender: #eef2f9;   /* Very light blue tint */
+    --white:    #111111;   /* Near-black primary text */
+    --gray:     #707070;   /* Graphite — secondary text */
+    --muted:    #adadad;   /* Ash — muted/placeholder */
+
+    /* Semantic aliases */
+    --bg:       #f5f3f3;
+    --bg2:      #ffffff;
+    --canvas:   #f5f3f3;
+    --ink:      #111111;
+    --graphite: #707070;
+    --ash:      #adadad;
+    --fog:      #ededed;
+    --mist:     #f2f2f2;
+    --silver:   #c2c2c2;
+    --border:   #dddcdc;
+    --border-subtle: #ebe9e9;
+
+    /* Legacy aliases */
+    --orange:   #20428b;
+    --amber:    #2a52a8;
+    --teal:     #eef2f9;
+    --violet:   #2a52a8;
+
+    /* Gradients */
+    --futurewave:     linear-gradient(135deg, #20428b, #2a52a8);
+    --midnight-surge: linear-gradient(135deg, #f5f3f3, #eef2f9);
+    --card-bg:        #ffffff;
+  }
+
+  html {
+    background-color: #0A0C16;
+    overscroll-behavior-y: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    background-color: var(--canvas);
+    color: var(--ink);
+    font-family: 'Open Sans', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+    overscroll-behavior-y: none;
+  }
+
+  button, a, input, select, textarea {
+    touch-action: manipulation;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Nunito', sans-serif;
+    color: var(--ink);
+    font-weight: 800;
+    letter-spacing: -0.015em;
+  }
+
+  p, span, li, label, input, select, textarea {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 500;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+}
+
+/* ─── Gradient Text ─────────────────────────────────────────── */
+.text-gradient {
+  background: var(--futurewave);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ─── Mesh Background (subtle warm gradient) ────────────────── */
+.mesh-bg {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 50%, rgba(32,66,139,0.04) 0%, transparent 70%),
+    radial-gradient(ellipse 60% 50% at 80% 20%, rgba(32,66,139,0.03) 0%, transparent 60%),
+    var(--canvas);
+}
+
+/* ─── Clean Card ────────────────────────────────────────────── */
+.glass-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+}
+
+/* ─── Primary Button (flat, clean) ──────────────────────────── */
+.btn-primary {
+  background: var(--blue);
+  color: #fff;
+  font-weight: 700;
+  border: none;
+  border-radius: 12px;
+  padding: 0.75rem 1.75rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: 'Open Sans', sans-serif;
+}
+.btn-primary:hover {
+  background: #162e62;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(32,66,139,0.25);
+}
+
+/* ─── Ghost Button ──────────────────────────────────────────── */
+.btn-ghost {
+  background: transparent;
+  color: var(--ink);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 0.75rem 1.75rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 600;
+}
+.btn-ghost:hover {
+  background: var(--fog);
+  border-color: var(--graphite);
+  color: var(--ink);
+}
+
+/* ─── Animations ────────────────────────────────────────────── */
+@keyframes fadeDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fadeUp   { from { opacity: 0; transform: translateY(30px);  } to { opacity: 1; transform: translateY(0); } }
+@keyframes fadeIn   { from { opacity: 0; } to { opacity: 1; } }
+@keyframes slideIn  { from { opacity: 0; transform: translateX(-30px); } to { opacity: 1; transform: translateX(0); } }
+@keyframes modalIn  { from { opacity: 0; transform: scale(0.94) translateY(12px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+@keyframes scaleIn  { from { opacity: 0; transform: scale(0.94); } to { opacity: 1; transform: scale(1); } }
+@keyframes slideUp  { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes wave     { 0%,100%{ transform: rotate(0deg); } 25%{ transform: rotate(-20deg); } 75%{ transform: rotate(20deg); } }
+@keyframes blink    { 0%,100%{ opacity:1; } 50%{ opacity:0; } }
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(32,66,139,0.15); }
+  50%       { box-shadow: 0 0 0 8px rgba(32,66,139,0); }
+}
+@keyframes float {
+  0%   { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+  10%  { opacity: 0.15; }
+  90%  { opacity: 0.15; }
+  100% { transform: translateY(-100px) rotate(720deg); opacity: 0; }
+}
+
+/* ─── Skeleton Loader ───────────────────────────────────────── */
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+.skeleton {
+  background: linear-gradient(90deg, var(--border) 25%, var(--surface2) 50%, var(--border) 75%);
+  border-radius: 12px;
+  background-size: 200% 100%;
+  animation: shimmer 1.5s linear infinite;
+}
+
+/* ─── Typewriter ────────────────────────────────────────────── */
+.typewriter-text.typewriter-active::after {
+  content: '|';
+  animation: blink 0.7s infinite;
+  color: var(--blue);
+}
+
+/* ─── Particles (very subtle) ───────────────────────────────── */
+.particles { position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
+.particle {
+  position: absolute; border-radius: 50%;
+  animation: float linear infinite;
+  opacity: 0.15;
+  background: var(--blue);
+}
+
+/* ─── Custom Scrollbar ──────────────────────────────────────── */
+::-webkit-scrollbar       { width: 6px; }
+::-webkit-scrollbar-track { background: var(--canvas); }
+::-webkit-scrollbar-thumb { background: var(--silver); border-radius: 50px; }
+::-webkit-scrollbar-thumb:hover { background: var(--graphite); }
+
+/* ─── Nav Active State ──────────────────────────────────────── */
+.nav-item-active {
+  background: rgba(32,66,139,0.06);
+  color: var(--blue) !important;
+  position: relative;
+}
+.nav-item-active::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 15%; bottom: 15%;
+  width: 3px;
+  background: var(--blue);
+  border-radius: 0 3px 3px 0;
+}
+
+/* ─── Card ──────────────────────────────────────────────────── */
+.pw-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.pw-card:hover {
+  border-color: var(--silver);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+}
+
+/* ─── Badge ─────────────────────────────────────────────────── */
+.pw-badge {
+  background: var(--lavender);
+  border: 1px solid rgba(32,66,139,0.15);
+  color: var(--blue);
+  border-radius: 50px;
+  padding: 0.2rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+/* ─── Progress Bar ──────────────────────────────────────────── */
+.pw-progress-track { background: var(--fog); border-radius: 50px; overflow: hidden; }
+.pw-progress-fill  { height: 100%; border-radius: 50px; background: var(--blue); }
