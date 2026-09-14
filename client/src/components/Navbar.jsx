@@ -2,15 +2,13 @@ import { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { useTheme } from '../contexts/ThemeContext';
-import { useLanguage } from '../contexts/LanguageContext';
-import { Moon, Sun, Globe, Menu, X, LogOut, LayoutDashboard, Bell } from 'lucide-react';
+import { Moon, Sun, Menu, X, LogOut, LayoutDashboard, Bell } from 'lucide-react';
 import PathWiseLogo from './PathWiseLogo';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const Navbar = () => {
   const { user, logout } = useAuth();
   const { isDarkMode, toggleTheme } = useTheme();
-  const { language, toggleLanguage, t } = useLanguage();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
@@ -104,7 +102,7 @@ const Navbar = () => {
         .heading-font { font-family: 'Nunito', sans-serif; }
         .body-font { font-family: 'Open Sans', sans-serif; }
       `}</style>
-      <nav className="sticky top-0 z-50 bg-[var(--surface)] border-b border-[var(--border)] body-font">
+      <nav className="fixed top-0 left-0 right-0 z-50 bg-[var(--surface)] border-b border-[var(--border)] body-font">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16 items-center">
 
@@ -130,9 +128,6 @@ const Navbar = () => {
 
             {/* Right Actions */}
             <div className="hidden md:flex items-center gap-3">
-              <button onClick={toggleLanguage} className="text-[var(--graphite)] hover:bg-[var(--fog)] hover:text-[var(--ink)] rounded-md transition-colors p-2">
-                <Globe className="w-5 h-5" />
-              </button>
               <button onClick={toggleTheme} className="text-[var(--graphite)] hover:bg-[var(--fog)] hover:text-[var(--ink)] rounded-md transition-colors p-2">
                 {isDarkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
               </button>
@@ -281,6 +276,8 @@ const Navbar = () => {
           )}
         </AnimatePresence>
       </nav>
+      {/* Spacer to offset fixed navbar height */}
+      <div className="h-16 w-full flex-shrink-0 pointer-events-none" />
     </>
   );
 };
