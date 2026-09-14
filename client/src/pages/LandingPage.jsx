@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
@@ -37,8 +37,46 @@ function Embers() {
   );
 }
 
+/* ─── Typewriter Hook ─── */
+function useTypewriter(words) {
+  const elRef = useRef(null);
+  useEffect(() => {
+    let wIdx = 0, cIdx = 0, deleting = false, timerId;
+    const el = elRef.current;
+    if (!el) return;
+    const tick = () => {
+      const word = words[wIdx];
+      if (!deleting) {
+        el.textContent = word.slice(0, ++cIdx);
+        if (cIdx === word.length) {
+          deleting = true;
+          timerId = setTimeout(tick, 2200);
+          return;
+        }
+      } else {
+        el.textContent = word.slice(0, --cIdx);
+        if (cIdx === 0) {
+          deleting = false;
+          wIdx = (wIdx + 1) % words.length;
+        }
+      }
+      timerId = setTimeout(tick, deleting ? 45 : 75);
+    };
+    timerId = setTimeout(tick, 600);
+    return () => clearTimeout(timerId);
+  }, [words]);
+  return elRef;
+}
+
 const LandingPage = () => {
   const [matricInput, setMatricInput] = useState('');
+
+  const typeRef = useTypewriter([
+    'Unstoppable.',
+    'Engineered at DELSU.',
+    'Built for Global Tech.',
+    'Starting Right Here.'
+  ]);
 
   const features = [
     {
@@ -367,19 +405,34 @@ const LandingPage = () => {
           }
         }
 
-        /* ─── CREDIX SKY HERO + 3D ANIMATION STYLING (≥ 1024px) ─── */
-        .credix-sky-wrapper {
+        /* ─── BRAND BLUE HERO + 3D ANIMATION STYLING (≥ 1024px) ─── */
+        .brand-blue-wrapper {
           position: relative;
           background:
-            linear-gradient(to bottom, rgba(20, 80, 210, 0.72) 0%, rgba(55, 125, 245, 0.52) 40%, rgba(248, 250, 252, 0.92) 88%, #F8FAFC 100%),
-            url('https://images.unsplash.com/photo-1513002749550-c59d786b8e6c?w=1920&q=80') center top / cover no-repeat;
+            radial-gradient(ellipse 90% 50% at 50% -10%, rgba(255, 255, 255, 0.18) 0%, transparent 70%),
+            radial-gradient(circle at 15% 25%, rgba(255, 255, 255, 0.12) 0%, transparent 45%),
+            radial-gradient(circle at 85% 35%, rgba(77, 111, 245, 0.35) 0%, transparent 50%),
+            linear-gradient(180deg, #1338CA 0%, #1944F1 38%, #2050FA 65%, #F8FAFC 98%, #F8FAFC 100%);
         }
 
         .credix-glass-pill {
-          background: rgba(255, 255, 255, 0.22);
+          background: rgba(255, 255, 255, 0.16);
           backdrop-filter: blur(24px);
           -webkit-backdrop-filter: blur(24px);
-          border: 1px solid rgba(255, 255, 255, 0.4);
+          border: 1px solid rgba(255, 255, 255, 0.32);
+        }
+
+        /* Typewriter Cursor */
+        .typewriter-text::after {
+          content: '|';
+          animation: twBlink 1s infinite;
+          color: #93C5FD;
+          font-weight: 300;
+          margin-left: 3px;
+        }
+        @keyframes twBlink {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0; }
         }
 
         /* 3D Perspective Floating Dashboard */
@@ -397,17 +450,17 @@ const LandingPage = () => {
 
         .credix-floating-frame:hover {
           transform: rotateX(2deg) translateY(-8px) scale(1.005);
-          box-shadow: 0 45px 100px -15px rgba(25, 68, 241, 0.38), 0 20px 45px -10px rgba(0, 0, 0, 0.16);
+          box-shadow: 0 45px 100px -15px rgba(25, 68, 241, 0.35), 0 20px 45px -10px rgba(0, 0, 0, 0.14);
         }
 
         @keyframes credixLevitate {
           0% {
             transform: rotateX(11deg) translateY(0px) scale(0.98);
-            box-shadow: 0 30px 75px -15px rgba(25, 68, 241, 0.28), 0 15px 35px -10px rgba(0, 0, 0, 0.12);
+            box-shadow: 0 30px 75px -15px rgba(25, 68, 241, 0.28), 0 15px 35px -10px rgba(0, 0, 0, 0.1);
           }
           100% {
             transform: rotateX(6deg) translateY(-16px) scale(0.995);
-            box-shadow: 0 45px 95px -15px rgba(25, 68, 241, 0.36), 0 20px 45px -10px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 45px 95px -15px rgba(25, 68, 241, 0.36), 0 20px 45px -10px rgba(0, 0, 0, 0.14);
           }
         }
 
@@ -552,15 +605,15 @@ const LandingPage = () => {
       </div>
 
       {/* ========================================================================= */}
-      {/* 2. CREDIX-INSPIRED WHITE & BLUE DESKTOP DISPLAY (Screens ≥ 1024px)        */}
+      {/* 2. REFINED BLUE BRAND DESKTOP DISPLAY (Screens ≥ 1024px)                  */}
       {/* ========================================================================= */}
       <div className="hidden lg:block min-h-screen bg-[#F8FAFC] text-[#111827] font-['Open_Sans',sans-serif] selection:bg-[#1944F1] selection:text-white relative overflow-x-hidden">
 
-        {/* ── SKY HERO WRAPPER ─────────────────────────────────────────────── */}
-        <section className="credix-sky-wrapper pt-6 pb-24 px-8 relative overflow-hidden">
+        {/* ── BRAND BLUE HERO WRAPPER ──────────────────────────────────────── */}
+        <section className="brand-blue-wrapper pt-6 pb-24 px-8 relative overflow-hidden">
 
           {/* Floating Glass Top Navigation */}
-          <header className="max-w-6xl mx-auto flex items-center justify-between py-3.5 px-8 rounded-full credix-glass-pill shadow-lg shadow-[#1944F1]/10 mb-14">
+          <header className="max-w-6xl mx-auto flex items-center justify-between py-3.5 px-8 rounded-full credix-glass-pill shadow-lg shadow-[#1944F1]/15 mb-14">
             
             {/* Logo + Final Year Project Tag */}
             <div className="flex items-center gap-3">
@@ -588,7 +641,7 @@ const LandingPage = () => {
               </Link>
               <Link
                 to="/choice"
-                className="bg-white hover:bg-white/95 text-[#1944F1] px-6 py-2.5 rounded-full font-bold text-sm shadow-md transition-all hover:scale-[1.02] active:scale-[0.98]"
+                className="bg-white hover:bg-[#1944F1] text-[#1944F1] hover:text-white border border-transparent hover:border-white/30 px-6 py-2.5 rounded-full font-bold text-sm shadow-md transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
               >
                 Get Started
               </Link>
@@ -609,15 +662,19 @@ const LandingPage = () => {
               <span>Delta State University · Dept. of Computer Science · Degree Project</span>
             </motion.div>
 
-            {/* Credix Bold Headline */}
+            {/* Catchy Animated Typewriter Headline */}
             <motion.h1
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.1 }}
-              className="font-['Nunito',sans-serif] font-black text-6xl lg:text-7xl text-white tracking-tight leading-[1.06] drop-shadow-sm max-w-4xl"
+              className="font-['Nunito',sans-serif] font-black text-5xl lg:text-6xl text-white tracking-tight leading-[1.12] drop-shadow-sm max-w-4xl"
             >
               Your Ambition. Your Degree.<br />
-              Your Future is here.
+              Your Future is{' '}
+              <span
+                ref={typeRef}
+                className="typewriter-text text-[#93C5FD]"
+              />
             </motion.h1>
 
             {/* Subtitle */}
@@ -630,14 +687,14 @@ const LandingPage = () => {
               Built specifically for Delta State University students. Take the scientifically validated RIASEC assessment to discover your ideal tech career and personalized semester course roadmap.
             </motion.p>
 
-            {/* Credix-style Capsule Input / Action Pill */}
+            {/* Capsule Input with Blue Hover Button */}
             <motion.div
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.3 }}
               className="mt-8 flex flex-col items-center gap-3 w-full"
             >
-              <div className="inline-flex items-center p-1.5 pl-6 rounded-full credix-glass-pill shadow-2xl max-w-md w-full justify-between">
+              <div className="inline-flex items-center p-1.5 pl-6 rounded-full credix-glass-pill shadow-2xl max-w-md w-full justify-between border border-white/30">
                 <input
                   type="text"
                   placeholder="Enter your Matric No. or Email"
@@ -647,10 +704,10 @@ const LandingPage = () => {
                 />
                 <Link
                   to={matricInput ? `/register?id=${encodeURIComponent(matricInput)}` : '/choice'}
-                  className="bg-white hover:bg-white/95 text-[#1944F1] px-6 py-3 rounded-full font-bold text-sm whitespace-nowrap shadow-md transition-all flex items-center gap-2 shrink-0 hover:scale-[1.02] active:scale-[0.98]"
+                  className="bg-white text-[#1944F1] hover:bg-[#1944F1] hover:text-white border border-transparent hover:border-white/40 px-6 py-3 rounded-full font-bold text-sm whitespace-nowrap shadow-md transition-all duration-200 flex items-center gap-2 shrink-0 hover:scale-[1.02] active:scale-[0.98] group"
                 >
                   <span>Start Assessment</span>
-                  <ArrowRight className="w-4 h-4" />
+                  <ArrowRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" />
                 </Link>
               </div>
               <span className="text-xs text-white/85 font-medium drop-shadow-xs">
@@ -658,7 +715,7 @@ const LandingPage = () => {
               </span>
             </motion.div>
 
-            {/* ── THE CENTERPIECE: 3D ANIMATED FLOATING USER DASHBOARD SHOWCASE ── */}
+            {/* ── THE CENTERPIECE: 3D ANIMATED FLOATING HIGH-RES USER DASHBOARD SHOWCASE ── */}
             <motion.div
               initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
@@ -680,7 +737,7 @@ const LandingPage = () => {
                 </div>
 
                 {/* Application Window Frame */}
-                <div className="rounded-[28px] overflow-hidden bg-white border border-white/70 shadow-[0_30px_90px_-15px_rgba(25,68,241,0.28),0_15px_40px_-10px_rgba(0,0,0,0.12)]">
+                <div className="rounded-[28px] overflow-hidden bg-white border border-white/80 shadow-[0_35px_90px_-15px_rgba(25,68,241,0.28),0_15px_40px_-10px_rgba(0,0,0,0.12)]">
                   
                   {/* Chrome Browser Header Bar */}
                   <div className="h-10 bg-[#F8FAFC] border-b border-[#E2E8F0] px-5 flex items-center justify-between">
@@ -696,15 +753,17 @@ const LandingPage = () => {
                     <div className="w-10" />
                   </div>
 
-                  {/* Actual Real PathWise Dashboard (From User's Uploaded Screenshot) */}
+                  {/* Enhanced 2x Crisp PathWise Dashboard Image */}
                   <div className="relative bg-[#F8FAFC] overflow-hidden">
                     <img
                       src="/dashboard-preview.png"
                       alt="PathWise Student Dashboard Interface"
                       className="w-full h-auto object-cover object-top block select-none pointer-events-none"
+                      style={{
+                        imageRendering: '-webkit-optimize-contrast',
+                        filter: 'contrast(1.02) brightness(1.01)'
+                      }}
                     />
-                    {/* Subtle Sheen Gradient */}
-                    <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-transparent to-white/10 pointer-events-none" />
                   </div>
                 </div>
 
@@ -860,7 +919,7 @@ const LandingPage = () => {
           </div>
         </section>
 
-        {/* ── BOTTOM CTA BANNER (Atmospheric Blue Glow) ─────────────────────── */}
+        {/* ── BOTTOM CTA BANNER (Atmospheric Blue) ─────────────────────────── */}
         <section className="py-20 px-8">
           <div className="max-w-5xl mx-auto rounded-3xl p-12 text-center text-white relative overflow-hidden shadow-2xl bg-gradient-to-r from-[#1944F1] via-[#2563EB] to-[#3B82F6]">
             
@@ -880,7 +939,7 @@ const LandingPage = () => {
               <div className="mt-8 flex items-center justify-center gap-4">
                 <Link
                   to="/choice"
-                  className="bg-white hover:bg-white/95 text-[#1944F1] px-8 py-4 rounded-full font-black text-base shadow-xl transition-all hover:scale-[1.02] active:scale-[0.98]"
+                  className="bg-white hover:bg-[#1944F1] text-[#1944F1] hover:text-white border border-transparent hover:border-white/40 px-8 py-4 rounded-full font-black text-base shadow-xl transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
                 >
                   Start Your Assessment
                 </Link>
