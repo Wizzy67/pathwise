@@ -5,7 +5,7 @@ import { useNotification } from '../contexts/NotificationContext';
 import api from '../services/api';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell
+  BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell, CartesianGrid
 } from 'recharts';
 import {
   Search,
@@ -104,12 +104,12 @@ const Dashboard = () => {
   // RIASEC Dimension Chart Data
   const riasecScores = user?.riasecScores || { R: 65, I: 85, A: 50, S: 70, E: 60, C: 45 };
   const riasecChartData = [
-    { name: 'R', label: 'Realistic', score: riasecScores.R || 0, color: '#FF6B35' },
-    { name: 'I', label: 'Investigative', score: riasecScores.I || 0, color: '#1944f1' },
-    { name: 'A', label: 'Artistic', score: riasecScores.A || 0, color: '#9B59B6' },
-    { name: 'S', label: 'Social', score: riasecScores.S || 0, color: '#27AE60' },
-    { name: 'E', label: 'Enterprising', score: riasecScores.E || 0, color: '#F39C12' },
-    { name: 'C', label: 'Conventional', score: riasecScores.C || 0, color: '#17A589' },
+    { name: 'R', label: 'Realistic', score: riasecScores.R || 0, color: '#FF6B35', gradId: 'barGrad-R' },
+    { name: 'I', label: 'Investigative', score: riasecScores.I || 0, color: '#1944f1', gradId: 'barGrad-I' },
+    { name: 'A', label: 'Artistic', score: riasecScores.A || 0, color: '#9B59B6', gradId: 'barGrad-A' },
+    { name: 'S', label: 'Social', score: riasecScores.S || 0, color: '#27AE60', gradId: 'barGrad-S' },
+    { name: 'E', label: 'Enterprising', score: riasecScores.E || 0, color: '#F39C12', gradId: 'barGrad-E' },
+    { name: 'C', label: 'Conventional', score: riasecScores.C || 0, color: '#17A589', gradId: 'barGrad-C' },
   ];
 
   // Top Matches List
@@ -393,40 +393,93 @@ const Dashboard = () => {
             </div>
 
             {/* Chart View */}
-            <div className="h-36 sm:h-44 lg:h-56 w-full">
+            <div className="h-44 sm:h-52 lg:h-60 w-full">
               {chartTab === 'riasec' ? (
                 <ResponsiveContainer width="100%" height="100%">
-                  <BarChart data={riasecChartData} margin={{ top: 5, right: 5, left: -25, bottom: 0 }}>
+                  <BarChart data={riasecChartData} margin={{ top: 12, right: 8, left: -22, bottom: 4 }}>
+                    <defs>
+                      <linearGradient id="barGrad-R" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stopColor="#FF7A45" stopOpacity={1} />
+                        <stop offset="100%" stopColor="#EA3815" stopOpacity={0.9} />
+                      </linearGradient>
+                      <linearGradient id="barGrad-I" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stopColor="#5D7DF8" stopOpacity={1} />
+                        <stop offset="100%" stopColor="#1944F1" stopOpacity={0.95} />
+                      </linearGradient>
+                      <linearGradient id="barGrad-A" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stopColor="#C084FC" stopOpacity={1} />
+                        <stop offset="100%" stopColor="#7E22CE" stopOpacity={0.9} />
+                      </linearGradient>
+                      <linearGradient id="barGrad-S" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stopColor="#34D399" stopOpacity={1} />
+                        <stop offset="100%" stopColor="#059669" stopOpacity={0.9} />
+                      </linearGradient>
+                      <linearGradient id="barGrad-E" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stopColor="#FBBF24" stopOpacity={1} />
+                        <stop offset="100%" stopColor="#D97706" stopOpacity={0.9} />
+                      </linearGradient>
+                      <linearGradient id="barGrad-C" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stopColor="#38BDF8" stopOpacity={1} />
+                        <stop offset="100%" stopColor="#0284C7" stopOpacity={0.9} />
+                      </linearGradient>
+                    </defs>
+                    <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" vertical={false} opacity={0.5} />
                     <XAxis
                       dataKey="name"
-                      tick={{ fontSize: 10, fill: 'var(--graphite)', fontWeight: 600 }}
+                      tick={{ fontSize: 11, fill: 'var(--ink)', fontWeight: 800 }}
                       axisLine={{ stroke: 'var(--border)' }}
                       tickLine={false}
                     />
                     <YAxis
                       domain={[0, 100]}
+                      ticks={[0, 25, 50, 75, 100]}
                       tick={{ fontSize: 9, fill: 'var(--ash)' }}
                       axisLine={false}
                       tickLine={false}
                     />
                     <Tooltip
-                      cursor={{ fill: 'var(--mist)' }}
+                      cursor={{ fill: 'rgba(25, 68, 241, 0.04)', radius: 10 }}
                       content={({ active, payload }) => {
                         if (active && payload && payload.length) {
                           const data = payload[0].payload;
                           return (
-                            <div className="bg-[var(--surface)] border border-[var(--border)] p-2 rounded-xl shadow-lg text-xs">
-                              <p className="font-bold text-[var(--ink)]">{data.label} ({data.name})</p>
-                              <p className="text-[var(--blue)] font-extrabold">{data.score}% fit</p>
+                            <div className="bg-[var(--surface)] border border-[var(--border)] p-3 rounded-2xl shadow-xl text-xs backdrop-blur-md min-w-[145px]">
+                              <div className="flex items-center justify-between gap-2 mb-1.5 pb-1 border-b border-[var(--border)]">
+                                <span className="font-extrabold text-[var(--ink)] heading-font flex items-center gap-1.5">
+                                  <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: data.color }} />
+                                  {data.label}
+                                </span>
+                                <span className="text-[10px] font-black px-1.5 py-0.2 rounded-md bg-[var(--mist)] text-[var(--graphite)]">
+                                  {data.name}
+                                </span>
+                              </div>
+                              <div className="flex items-baseline justify-between pt-0.5">
+                                <span className="text-[11px] text-[var(--graphite)] font-medium">Affinity</span>
+                                <span className="text-base font-black text-[var(--blue)] heading-font">{data.score}%</span>
+                              </div>
+                              <div className="w-full h-1.5 rounded-full bg-[var(--mist)] mt-1.5 overflow-hidden">
+                                <div
+                                  className="h-full rounded-full transition-all duration-700"
+                                  style={{ width: `${data.score}%`, backgroundColor: data.color }}
+                                />
+                              </div>
                             </div>
                           );
                         }
                         return null;
                       }}
                     />
-                    <Bar dataKey="score" radius={[6, 6, 0, 0]}>
+                    <Bar
+                      dataKey="score"
+                      radius={[8, 8, 0, 0]}
+                      maxBarSize={36}
+                      background={{ fill: 'rgba(0, 0, 0, 0.035)', radius: [8, 8, 0, 0] }}
+                      isAnimationActive={true}
+                      animationDuration={1300}
+                      animationEasing="ease-out"
+                    >
                       {riasecChartData.map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill={entry.color} />
+                        <Cell key={`cell-${index}`} fill={`url(#${entry.gradId})`} />
                       ))}
                     </Bar>
                   </BarChart>
@@ -442,7 +495,7 @@ const Dashboard = () => {
                       <div key={i} className="flex items-center justify-between p-2.5 rounded-xl bg-[var(--mist)]">
                         <div className="min-w-0 flex-1">
                           <p className="text-xs font-bold text-[var(--ink)] truncate">{item.title}</p>
-                          <p className="text-[10px] text-[var(--graphite)]">{item.field} Â· {item.salary}</p>
+                          <p className="text-[10px] text-[var(--graphite)]">{item.field} · {item.salary}</p>
                         </div>
                         <span className="text-xs font-black text-[var(--blue)] heading-font ml-3">
                           {item.score}%
@@ -453,6 +506,35 @@ const Dashboard = () => {
                 </div>
               )}
             </div>
+
+            {/* RIASEC Dimension Pill Summary Strip */}
+            {chartTab === 'riasec' && (
+              <div className="grid grid-cols-3 sm:grid-cols-6 gap-2 pt-3.5 border-t border-[var(--border)] mt-3">
+                {riasecChartData.map((d) => {
+                  const isTopHolland = hollandCode && hollandCode.includes(d.name);
+                  return (
+                    <div
+                      key={d.name}
+                      className={`p-2 rounded-xl text-center border transition-all ${
+                        isTopHolland
+                          ? 'bg-[var(--lavender)] border-[var(--blue)]/30 shadow-2xs'
+                          : 'bg-[var(--mist)] border-transparent hover:border-[var(--border)]'
+                      }`}
+                    >
+                      <div className="flex items-center justify-center gap-1 mb-0.5">
+                        <span className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ backgroundColor: d.color }} />
+                        <span className="text-[10px] font-extrabold text-[var(--ink)] heading-font truncate">
+                          {d.name} · {d.label.slice(0, 4)}
+                        </span>
+                      </div>
+                      <span className={`text-xs font-black heading-font ${isTopHolland ? 'text-[var(--blue)]' : 'text-[var(--graphite)]'}`}>
+                        {d.score}%
+                      </span>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
           </div>
 
           {/* â”€â”€ TOP RECOMMENDATIONS â”€â”€ */}
