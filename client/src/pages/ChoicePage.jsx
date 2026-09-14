@@ -1,32 +1,19 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { 
+  UserCheck, 
+  Check, 
+  ArrowRight, 
+  ArrowLeft, 
+  ShieldCheck, 
+  GraduationCap 
+} from 'lucide-react';
 import PathWiseLogo from '../components/PathWiseLogo';
 
 const ChoicePage = () => {
   const [activeTab, setActiveTab] = useState('register');
   const [touchStartX, setTouchStartX] = useState(0);
   const [touchEndX, setTouchEndX] = useState(0);
-
-  useEffect(() => {
-    const container = document.getElementById('particles');
-    if (!container) return;
-    container.innerHTML = '';
-    const colors = ['var(--blue)', 'var(--azure)'];
-    for (let i = 0; i < 20; i++) {
-      const p = document.createElement('div');
-      p.className = 'particle';
-      const size = Math.random() * 4 + 2;
-      p.style.cssText = `
-        width:${size}px;
-        height:${size}px;
-        left:${Math.random() * 100}%;
-        animation-duration:${Math.random() * 16 + 10}s;
-        animation-delay:${Math.random() * -20}s;
-        background:${colors[Math.floor(Math.random() * colors.length)]};
-      `;
-      container.appendChild(p);
-    }
-  }, []);
 
   const handleTouchStart = (e) => {
     setTouchStartX(e.targetTouches[0].clientX);
@@ -46,222 +33,215 @@ const ChoicePage = () => {
   };
 
   return (
-    <div style={{ backgroundColor: 'var(--canvas)', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+    <div className="min-h-screen bg-[#FAFBFD] text-[#0F172A] flex flex-col relative overflow-hidden font-sans selection:bg-[#EEF2F9] selection:text-[#20428B]">
       <style>{`
-        main {
-          position: relative; z-index: 1;
-          flex: 1; display: flex; flex-direction: column;
-          align-items: center; justify-content: center;
-          padding: 3rem 1.5rem 6rem;
-          font-family: 'Open Sans', sans-serif;
+        @keyframes fadeInDown {
+          from { opacity: 0; transform: translateY(-12px); }
+          to { opacity: 1; transform: translateY(0); }
         }
-        .step-indicator {
-          display: flex; align-items: center; gap: 0.5rem;
-          color: var(--blue); font-size: 0.8rem; font-weight: 600;
-          background: var(--lavender); border: 1px solid var(--border);
-          border-radius: 50px; padding: 0.35rem 1rem;
-          margin-bottom: 2.5rem;
-          animation: fadeDown 0.6s ease both;
+        @keyframes fadeInUp {
+          from { opacity: 0; transform: translateY(16px); }
+          to { opacity: 1; transform: translateY(0); }
         }
-        .choice-heading {
-          font-family: 'Nunito', sans-serif; font-size: clamp(1.8rem,4vw,2.6rem);
-          font-weight: 900; text-align: center; margin-bottom: 0.8rem; color: var(--ink);
-          animation: fadeDown 0.7s ease 0.1s both;
+        .anim-down {
+          animation: fadeInDown 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
         }
-        .choice-sub {
-          color: var(--graphite); text-align: center; font-size: 1rem;
-          max-width: 440px; line-height: 1.6; margin-bottom: 3.5rem;
-          animation: fadeDown 0.7s ease 0.2s both;
+        .anim-up-1 {
+          animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.1s both;
         }
-        
-        .cards-row {
-          display: grid; grid-template-columns: 1fr 1fr;
-          gap: 1.6rem; max-width: 820px; width: 100%;
+        .anim-up-2 {
+          animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.2s both;
         }
-        @media (max-width: 768px) { .cards-row { display: none; } }
-
-        .choice-card {
-          background: var(--surface);
-          border: 1px solid var(--border);
-          border-radius: 24px; padding: 2.5rem 2rem;
-          display: flex; flex-direction: column; align-items: center;
-          text-align: center; gap: 1.2rem;
-          cursor: pointer; transition: all 0.4s;
-          position: relative; overflow: hidden;
-          text-decoration: none; color: var(--ink);
-          box-shadow: 0 4px 12px rgba(0,0,0,0.03);
-          width: 100%;
-          box-sizing: border-box;
+        .choice-card-shadow {
+          box-shadow: 0 4px 20px -4px rgba(32, 66, 139, 0.06), 0 2px 6px -1px rgba(0, 0, 0, 0.02);
         }
-        .choice-card::before {
-          content: ''; position: absolute; inset: 0;
-          border-radius: 24px; opacity: 0;
-          transition: opacity 0.4s;
-        }
-        .choice-card.register { animation: slideIn 0.7s ease 0.3s both; }
-        .choice-card.login    { animation: slideIn2 0.7s ease 0.4s both; }
-        .choice-card.register::before {
-          background: var(--mist);
-          border: 1px solid var(--border);
-        }
-        .choice-card.login::before {
-          background: var(--mist);
-          border: 1px solid var(--border);
-        }
-        .choice-card:hover { transform: translateY(-8px); }
-        .choice-card.register:hover { border-color: var(--blue); box-shadow: 0 8px 20px rgba(32,66,139,0.08); }
-        .choice-card.login:hover    { border-color: var(--blue);  box-shadow: 0 8px 20px rgba(32,66,139,0.08); }
-        .choice-card:hover::before  { opacity: 1; }
-        .card-icon-wrap {
-          width: 80px; height: 80px; border-radius: 22px;
-          display: flex; align-items: center; justify-content: center;
-          font-size: 2rem; position: relative;
-        }
-        .register .card-icon-wrap {
-          background: var(--lavender);
-        }
-        .login .card-icon-wrap {
-          background: var(--mist);
-        }
-        .card-badge {
-          position: absolute; top: -6px; right: -6px;
-          background: var(--blue);
-          color: #fff; font-size: 0.65rem; font-weight: 700;
-          border-radius: 50px; padding: 0.2rem 0.5rem;
-        }
-        .choice-card h3 { font-family: 'Nunito', sans-serif; font-size: 1.4rem; font-weight: 800; color: var(--ink); }
-        .choice-card p { color: var(--graphite); font-size: 0.9rem; line-height: 1.65; max-width: 280px; }
-        .perks { display: flex; flex-direction: column; gap: 0.5rem; width: 100%; text-align: left; }
-        .perk { display: flex; align-items: center; gap: 0.6rem; font-size: 0.85rem; color: var(--graphite); }
-        .perk-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; background: var(--blue); }
-        .card-btn {
-          width: 100%; padding: 0.9rem; border-radius: 14px;
-          font-size: 1rem; font-weight: 700; cursor: pointer; border: none;
-          transition: all 0.3s; text-decoration: none; display: block; text-align: center;
-        }
-        .register .card-btn { background: var(--blue); color: #fff; }
-        .register .card-btn:hover { background: var(--azure); transform: translateY(-2px); }
-        .login .card-btn { background: var(--lavender); color: var(--blue); border: 1px solid var(--border); }
-        .login .card-btn:hover { background: var(--mist); transform: translateY(-2px); }
-
-        .choice-nav {
-          position: relative; z-index: 10;
-          display: flex; align-items: center;
-          width: 100%; box-sizing: border-box;
-          padding: 1rem 2.5rem;
-          background: var(--surface);
-          border-bottom: 1px solid var(--border);
-        }
-        .back-home-btn {
-          margin-left: auto;
-          margin-right: 0;
-          display: inline-flex; align-items: center; gap: 0.4rem;
-          padding: 0.4rem 1rem 0.4rem 0.7rem;
-          border-radius: 50px;
-          border: 1px solid var(--border);
-          background: var(--mist);
-          color: var(--blue);
-          text-decoration: none;
-          font-size: 0.82rem;
-          font-weight: 700;
-          letter-spacing: 0.01em;
-          transition: all 0.25s cubic-bezier(0.4,0,0.2,1);
-        }
-        .back-home-btn:hover {
-          background: var(--lavender);
-          border-color: var(--blue);
-          transform: translateX(-2px);
-        }
-        .back-home-text-mobile {
-          display: none;
-        }
-        @media (max-width: 640px) {
-          .choice-nav {
-            padding: 1rem 1.2rem;
-          }
-          .back-home-text-desktop {
-            display: none;
-          }
-          .back-home-text-mobile {
-            display: inline;
-          }
+        .choice-card-shadow:hover {
+          box-shadow: 0 16px 36px -8px rgba(32, 66, 139, 0.12), 0 4px 12px -2px rgba(0, 0, 0, 0.04);
         }
       `}</style>
-      <div className="particles" id="particles"></div>
 
-      <nav className="choice-nav">
-        {/* Logo — Left */}
-        <PathWiseLogo href="/" size={32} />
+      {/* Subtle Ambient Background Mesh */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[850px] h-[350px] bg-gradient-to-b from-[#EEF2F9]/80 via-[#EEF2F9]/30 to-transparent blur-3xl pointer-events-none -z-10" />
+      <div className="absolute -bottom-24 right-0 w-[450px] h-[350px] bg-[#EEF2F9]/40 blur-3xl pointer-events-none -z-10" />
 
-        {/* Back Button — Right */}
-        <Link to="/" className="back-home-btn">
-          <span className="back-home-text-desktop">← Back to Home</span>
-          <span className="back-home-text-mobile">← Home</span>
-        </Link>
-      </nav>
+      {/* Top Navigation */}
+      <header className="w-full bg-white/80 backdrop-blur-md border-b border-[#E2E8F0] sticky top-0 z-30">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+          <PathWiseLogo href="/" size={32} textColor="#0F172A" />
 
-      <main>
-        <div className="step-indicator">✦ Step 2 of 6 — Account Access</div>
-        <h2 className="choice-heading">How would you like to continue?</h2>
-        <p className="choice-sub">Join thousands of DELSU students already finding their perfect career paths with PathWise.</p>
-
-        {/* Desktop Layout — Displays both cards side-by-side */}
-        <div className="cards-row">
-          <Link to="/register" className="choice-card register">
-            <div className="card-icon-wrap">
-              <div className="card-badge">FREE</div>
-              <PathWiseLogo size={52} text={false} />
-            </div>
-            <h3>New to PathWise?</h3>
-            <p>Create your free account and start discovering your ideal career path, course roadmap, and AI-powered guidance today.</p>
-            <div className="perks">
-              <div className="perk"><span className="perk-dot"></span>AI career matching</div>
-              <div className="perk"><span className="perk-dot"></span>DELSU course roadmap</div>
-              <div className="perk"><span className="perk-dot"></span>AI Advisor access</div>
-              <div className="perk"><span className="perk-dot"></span>Save and compare careers</div>
-            </div>
-            <div className="card-btn">Join Us — Create Account →</div>
-          </Link>
-
-          <Link to="/login" className="choice-card login">
-            <div className="card-icon-wrap">
-              <div className="card-badge">WELCOME BACK</div>
-              <PathWiseLogo size={52} text={false} />
-            </div>
-            <h3>Already have an account?</h3>
-            <p>Welcome back! Log in to continue your career journey, view your saved results, and pick up right where you left off.</p>
-            <div className="perks">
-              <div className="perk"><span className="perk-dot"></span>View your career matches</div>
-              <div className="perk"><span className="perk-dot"></span>Resume your roadmap</div>
-              <div className="perk"><span className="perk-dot"></span>Continue AI conversations</div>
-              <div className="perk"><span className="perk-dot"></span>Track your progress</div>
-            </div>
-            <div className="card-btn">Log In to PathWise →</div>
+          <Link
+            to="/"
+            className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs sm:text-sm font-semibold text-[#20428B] bg-[#EEF2F9] hover:bg-[#E0E7F5] border border-[#CBD5E1]/60 transition-all duration-200 group"
+          >
+            <ArrowLeft className="w-3.5 h-3.5 transition-transform duration-200 group-hover:-translate-x-0.5" />
+            <span>Back to Home</span>
           </Link>
         </div>
+      </header>
 
-        {/* Mobile Layout — Displays only one card at a time with tab & swipe control */}
-        <div className="md:hidden flex flex-col items-center w-full max-w-[340px]">
-          {/* Mobile Sliding Tabs Selector */}
-          <div className="flex p-1 bg-[var(--fog)] border border-[var(--border)] rounded-full mb-6 w-full relative">
-            <button 
+      {/* Main Content Area */}
+      <main className="flex-1 flex flex-col items-center justify-center px-4 sm:px-6 py-8 sm:py-12 md:py-16 max-w-5xl mx-auto w-full z-10">
+        
+        {/* Step / Portal Badge */}
+        <div className="anim-down inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#EEF2F9] border border-[#CBD5E1]/80 text-[#20428B] text-xs font-bold tracking-wide uppercase mb-4 shadow-sm">
+          <GraduationCap className="w-4 h-4 text-[#20428B]" />
+          <span>DELSU Career & Academic Portal</span>
+        </div>
+
+        {/* Headings */}
+        <h1 className="anim-down font-outfit text-2xl sm:text-3xl md:text-4xl font-extrabold text-[#0F172A] text-center tracking-tight max-w-xl leading-tight mb-3">
+          How would you like to get started?
+        </h1>
+        <p className="anim-down text-[#64748B] text-sm sm:text-base text-center max-w-md mb-8 sm:mb-12 leading-relaxed">
+          Select an option below to take the career assessment or pick up right where you left off.
+        </p>
+
+        {/* ─── DESKTOP DUAL CARDS (Hidden on small mobile) ─── */}
+        <div className="hidden md:grid grid-cols-2 gap-6 lg:gap-8 w-full max-w-4xl">
+          
+          {/* Card 1: Register (New Student) */}
+          <Link
+            to="/register"
+            className="anim-up-1 choice-card-shadow group relative flex flex-col bg-white border border-[#E2E8F0] hover:border-[#20428B] rounded-2xl p-7 lg:p-8 transition-all duration-300 hover:-translate-y-1 text-left no-underline"
+          >
+            {/* Top Row: Badge */}
+            <div className="flex items-center justify-start mb-6">
+              <span className="inline-flex items-center text-[11px] font-extrabold tracking-wider uppercase px-2.5 py-1 rounded-full bg-[#20428B] text-white shadow-xs">
+                New Student
+              </span>
+            </div>
+
+            {/* Title & Subtitle */}
+            <h2 className="font-outfit text-xl lg:text-2xl font-bold text-[#0F172A] group-hover:text-[#20428B] transition-colors duration-200 mb-2">
+              New to PathWise?
+            </h2>
+            <p className="text-xs lg:text-sm text-[#64748B] leading-relaxed mb-6">
+              Create your student profile to discover high-affinity career paths, explore your RIASEC code, and map out your degree.
+            </p>
+
+            {/* Value Proposition Perks */}
+            <div className="flex flex-col gap-2.5 mb-8 flex-1">
+              <div className="flex items-center gap-2.5 text-xs lg:text-sm text-[#334155]">
+                <div className="w-4 h-4 rounded-full bg-[#EEF2F9] text-[#20428B] flex items-center justify-center flex-shrink-0">
+                  <Check className="w-2.5 h-2.5 stroke-[3]" />
+                </div>
+                <span>15-Minute RIASEC Career Matching</span>
+              </div>
+              <div className="flex items-center gap-2.5 text-xs lg:text-sm text-[#334155]">
+                <div className="w-4 h-4 rounded-full bg-[#EEF2F9] text-[#20428B] flex items-center justify-center flex-shrink-0">
+                  <Check className="w-2.5 h-2.5 stroke-[3]" />
+                </div>
+                <span>DELSU Semester Course Roadmap</span>
+              </div>
+              <div className="flex items-center gap-2.5 text-xs lg:text-sm text-[#334155]">
+                <div className="w-4 h-4 rounded-full bg-[#EEF2F9] text-[#20428B] flex items-center justify-center flex-shrink-0">
+                  <Check className="w-2.5 h-2.5 stroke-[3]" />
+                </div>
+                <span>24/7 AI Academic & Career Advisor</span>
+              </div>
+              <div className="flex items-center gap-2.5 text-xs lg:text-sm text-[#334155]">
+                <div className="w-4 h-4 rounded-full bg-[#EEF2F9] text-[#20428B] flex items-center justify-center flex-shrink-0">
+                  <Check className="w-2.5 h-2.5 stroke-[3]" />
+                </div>
+                <span>Save, compare, and track dream roles</span>
+              </div>
+            </div>
+
+            {/* Primary Action Button */}
+            <div className="w-full py-3 px-4 rounded-xl bg-[#20428B] group-hover:bg-[#2A52A8] text-white font-bold text-sm text-center flex items-center justify-center gap-2 shadow-sm transition-all duration-200">
+              <span>Create Free Student Account</span>
+              <ArrowRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" />
+            </div>
+          </Link>
+
+          {/* Card 2: Login (Returning Student) */}
+          <Link
+            to="/login"
+            className="anim-up-2 choice-card-shadow group relative flex flex-col bg-white border border-[#E2E8F0] hover:border-[#20428B] rounded-2xl p-7 lg:p-8 transition-all duration-300 hover:-translate-y-1 text-left no-underline"
+          >
+            {/* Top Row: Icon and Badge */}
+            <div className="flex items-center justify-between mb-6">
+              <div className="w-14 h-14 rounded-2xl bg-[#EEF2F9] border border-[#CBD5E1]/60 flex items-center justify-center text-[#20428B] group-hover:bg-[#20428B] group-hover:text-white transition-colors duration-300 shadow-sm">
+                <UserCheck className="w-7 h-7" />
+              </div>
+              <span className="inline-flex items-center gap-1 text-[11px] font-bold tracking-wider uppercase px-2.5 py-1 rounded-full bg-[#EEF2F9] text-[#20428B] border border-[#CBD5E1]/80">
+                Welcome Back
+              </span>
+            </div>
+
+            {/* Title & Subtitle */}
+            <h2 className="font-outfit text-xl lg:text-2xl font-bold text-[#0F172A] group-hover:text-[#20428B] transition-colors duration-200 mb-2">
+              Already have an account?
+            </h2>
+            <p className="text-xs lg:text-sm text-[#64748B] leading-relaxed mb-6">
+              Sign in with your matric number or email to access your personal dashboard, saved career analysis, and study tools.
+            </p>
+
+            {/* Value Proposition Perks */}
+            <div className="flex flex-col gap-2.5 mb-8 flex-1">
+              <div className="flex items-center gap-2.5 text-xs lg:text-sm text-[#334155]">
+                <div className="w-4 h-4 rounded-full bg-[#EEF2F9] text-[#20428B] flex items-center justify-center flex-shrink-0">
+                  <Check className="w-2.5 h-2.5 stroke-[3]" />
+                </div>
+                <span>Access your saved RIASEC matches</span>
+              </div>
+              <div className="flex items-center gap-2.5 text-xs lg:text-sm text-[#334155]">
+                <div className="w-4 h-4 rounded-full bg-[#EEF2F9] text-[#20428B] flex items-center justify-center flex-shrink-0">
+                  <Check className="w-2.5 h-2.5 stroke-[3]" />
+                </div>
+                <span>Resume ongoing chats with AI Advisor</span>
+              </div>
+              <div className="flex items-center gap-2.5 text-xs lg:text-sm text-[#334155]">
+                <div className="w-4 h-4 rounded-full bg-[#EEF2F9] text-[#20428B] flex items-center justify-center flex-shrink-0">
+                  <Check className="w-2.5 h-2.5 stroke-[3]" />
+                </div>
+                <span>Monitor CGPA progress & targets</span>
+              </div>
+              <div className="flex items-center gap-2.5 text-xs lg:text-sm text-[#334155]">
+                <div className="w-4 h-4 rounded-full bg-[#EEF2F9] text-[#20428B] flex items-center justify-center flex-shrink-0">
+                  <Check className="w-2.5 h-2.5 stroke-[3]" />
+                </div>
+                <span>Export comprehensive Career Report PDF</span>
+              </div>
+            </div>
+
+            {/* Secondary Action Button */}
+            <div className="w-full py-3 px-4 rounded-xl bg-[#EEF2F9] hover:bg-[#E0E7F5] border border-[#CBD5E1]/80 text-[#20428B] font-bold text-sm text-center flex items-center justify-center gap-2 transition-all duration-200">
+              <span>Sign In to Dashboard</span>
+              <ArrowRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" />
+            </div>
+          </Link>
+
+        </div>
+
+        {/* ─── MOBILE VIEW (Single Focused Card with Interactive Slider) ─── */}
+        <div className="md:hidden flex flex-col items-center w-full max-w-[360px]">
+          
+          {/* Sliding Tab Switcher */}
+          <div className="flex p-1 bg-[#F1F5F9] border border-[#E2E8F0] rounded-full mb-5 w-full relative shadow-xs">
+            <button
               type="button"
               onClick={() => setActiveTab('register')}
-              className={`flex-1 py-2 text-xs font-bold rounded-full transition-all duration-300 relative z-10 ${activeTab === 'register' ? 'text-white' : 'text-[var(--graphite)]'}`}
-              style={{ background: 'none', border: 'none', cursor: 'pointer', outline: 'none' }}
+              className={`flex-1 py-2 text-xs font-bold rounded-full transition-all duration-300 relative z-10 flex items-center justify-center ${
+                activeTab === 'register' ? 'text-white' : 'text-[#64748B]'
+              }`}
             >
-              Create Account
+              <span>Create Account</span>
             </button>
-            <button 
+
+            <button
               type="button"
               onClick={() => setActiveTab('login')}
-              className={`flex-1 py-2 text-xs font-bold rounded-full transition-all duration-300 relative z-10 ${activeTab === 'login' ? 'text-white' : 'text-[var(--graphite)]'}`}
-              style={{ background: 'none', border: 'none', cursor: 'pointer', outline: 'none' }}
+              className={`flex-1 py-2 text-xs font-bold rounded-full transition-all duration-300 relative z-10 flex items-center justify-center ${
+                activeTab === 'login' ? 'text-white' : 'text-[#64748B]'
+              }`}
             >
-              Sign In
+              <span>Sign In</span>
             </button>
-            <div 
-              className="absolute top-1 bottom-1 bg-[var(--blue)] rounded-full transition-all duration-300"
+
+            {/* Active Pill Slider */}
+            <div
+              className="absolute top-1 bottom-1 bg-[#20428B] rounded-full transition-all duration-300 shadow-sm"
               style={{
                 width: 'calc(50% - 4px)',
                 left: activeTab === 'register' ? '4px' : 'calc(50%)',
@@ -269,70 +249,127 @@ const ChoicePage = () => {
             />
           </div>
 
-          {/* Active Card with Swipe Handlers */}
-          <div 
+          {/* Touch Swipeable Card Wrapper */}
+          <div
             onTouchStart={handleTouchStart}
             onTouchMove={handleTouchMove}
             onTouchEnd={handleTouchEnd}
-            className="w-full transition-all duration-300"
+            className="w-full"
           >
             {activeTab === 'register' ? (
-              <Link to="/register" className="choice-card register w-full">
-                <div className="card-icon-wrap">
-                  <div className="card-badge">FREE</div>
-                  <PathWiseLogo size={52} text={false} />
+              <Link
+                to="/register"
+                className="choice-card-shadow block bg-white border border-[#20428B]/30 rounded-2xl p-6 text-left no-underline"
+              >
+                <div className="flex items-center justify-start mb-4">
+                  <span className="text-[10px] font-extrabold uppercase px-2.5 py-0.5 rounded-full bg-[#20428B] text-white">
+                    New Student
+                  </span>
                 </div>
-                <h3>New to PathWise?</h3>
-                <p>Create your free account and start discovering your ideal career path, course roadmap, and AI-powered guidance today.</p>
-                <div className="perks">
-                  <div className="perk"><span className="perk-dot"></span>AI career matching</div>
-                  <div className="perk"><span className="perk-dot"></span>DELSU course roadmap</div>
-                  <div className="perk"><span className="perk-dot"></span>AI Advisor access</div>
-                  <div className="perk"><span className="perk-dot"></span>Save and compare careers</div>
+
+                <h3 className="font-outfit text-lg font-bold text-[#0F172A] mb-1.5">
+                  New to PathWise?
+                </h3>
+                <p className="text-xs text-[#64748B] leading-relaxed mb-4">
+                  Create your profile to start your RIASEC career assessment and build your semester-by-semester roadmap.
+                </p>
+
+                <div className="flex flex-col gap-2 mb-6">
+                  <div className="flex items-center gap-2 text-xs text-[#334155]">
+                    <Check className="w-3.5 h-3.5 text-[#20428B] stroke-[3]" />
+                    <span>AI-powered career matching</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-xs text-[#334155]">
+                    <Check className="w-3.5 h-3.5 text-[#20428B] stroke-[3]" />
+                    <span>DELSU semester course roadmap</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-xs text-[#334155]">
+                    <Check className="w-3.5 h-3.5 text-[#20428B] stroke-[3]" />
+                    <span>24/7 AI Academic Advisor</span>
+                  </div>
                 </div>
-                <div className="card-btn">Join Us — Create Account →</div>
+
+                <div className="w-full py-2.5 px-4 rounded-xl bg-[#20428B] text-white font-bold text-xs text-center flex items-center justify-center gap-1.5 shadow-sm">
+                  <span>Create Account</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </div>
               </Link>
             ) : (
-              <Link to="/login" className="choice-card login w-full">
-                <div className="card-icon-wrap">
-                  <div className="card-badge">WELCOME BACK</div>
-                  <PathWiseLogo size={52} text={false} />
+              <Link
+                to="/login"
+                className="choice-card-shadow block bg-white border border-[#CBD5E1] rounded-2xl p-6 text-left no-underline"
+              >
+                <div className="flex items-center justify-between mb-4">
+                  <div className="w-12 h-12 rounded-xl bg-[#EEF2F9] text-[#20428B] flex items-center justify-center shadow-xs">
+                    <UserCheck className="w-6 h-6" />
+                  </div>
+                  <span className="text-[10px] font-bold uppercase px-2.5 py-0.5 rounded-full bg-[#EEF2F9] text-[#20428B] border border-[#CBD5E1]/70">
+                    Welcome Back
+                  </span>
                 </div>
-                <h3>Already have an account?</h3>
-                <p>Welcome back! Log in to continue your career journey, view your saved results, and pick up right where you left off.</p>
-                <div className="perks">
-                  <div className="perk"><span className="perk-dot"></span>View your career matches</div>
-                  <div className="perk"><span className="perk-dot"></span>Resume your roadmap</div>
-                  <div className="perk"><span className="perk-dot"></span>Continue AI conversations</div>
-                  <div className="perk"><span className="perk-dot"></span>Track your progress</div>
+
+                <h3 className="font-outfit text-lg font-bold text-[#0F172A] mb-1.5">
+                  Already have an account?
+                </h3>
+                <p className="text-xs text-[#64748B] leading-relaxed mb-4">
+                  Sign in with your matric number or email to access your saved career assessment and track progress.
+                </p>
+
+                <div className="flex flex-col gap-2 mb-6">
+                  <div className="flex items-center gap-2 text-xs text-[#334155]">
+                    <Check className="w-3.5 h-3.5 text-[#20428B] stroke-[3]" />
+                    <span>View your RIASEC matches</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-xs text-[#334155]">
+                    <Check className="w-3.5 h-3.5 text-[#20428B] stroke-[3]" />
+                    <span>Resume your course roadmap</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-xs text-[#334155]">
+                    <Check className="w-3.5 h-3.5 text-[#20428B] stroke-[3]" />
+                    <span>Continue AI Advisor chats</span>
+                  </div>
                 </div>
-                <div className="card-btn">Log In to PathWise →</div>
+
+                <div className="w-full py-2.5 px-4 rounded-xl bg-[#EEF2F9] border border-[#CBD5E1] text-[#20428B] font-bold text-xs text-center flex items-center justify-center gap-1.5">
+                  <span>Sign In</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </div>
               </Link>
             )}
           </div>
 
-          {/* Carousel Dots Indicator */}
-          <div className="flex gap-2.5 justify-center mt-6">
-            <button 
+          {/* Swipe indicator dots */}
+          <div className="flex gap-2 justify-center mt-4">
+            <button
               type="button"
               onClick={() => setActiveTab('register')}
-              className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${activeTab === 'register' ? 'bg-[var(--blue)] scale-125' : 'bg-[var(--ash)]'}`}
-              style={{ border: 'none', cursor: 'pointer', padding: 0 }}
-              aria-label="Register card"
+              className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                activeTab === 'register' ? 'bg-[#20428B] w-5' : 'bg-[#CBD5E1]'
+              }`}
+              aria-label="New Student tab"
             />
-            <button 
+            <button
               type="button"
               onClick={() => setActiveTab('login')}
-              className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${activeTab === 'login' ? 'bg-[var(--blue)] scale-125' : 'bg-[var(--ash)]'}`}
-              style={{ border: 'none', cursor: 'pointer', padding: 0 }}
-              aria-label="Login card"
+              className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                activeTab === 'login' ? 'bg-[#20428B] w-5' : 'bg-[#CBD5E1]'
+              }`}
+              aria-label="Sign In tab"
             />
           </div>
-        </div>
-      </main>
 
+        </div>
+
+        {/* Micro Trust / Security Footer */}
+        <div className="mt-12 sm:mt-16 flex items-center justify-center gap-2 text-xs text-[#94A3B8]">
+          <ShieldCheck className="w-4 h-4 text-[#20428B]" />
+          <span>Secure student portal • Delta State University, Abraka</span>
+        </div>
+
+      </main>
     </div>
   );
 };
 
 export default ChoicePage;
+

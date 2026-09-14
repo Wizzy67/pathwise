@@ -1,20 +1,21 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
 import { useAuth } from '../contexts/AuthContext';
 import { useNotification } from '../contexts/NotificationContext';
 import api from '../services/api';
-import { Mail, Eye, EyeOff, Lock, ArrowRight, User, Compass, CheckCircle2, ShieldCheck, Sparkles } from 'lucide-react';
+import {
+  Mail, Eye, EyeOff, Lock, ArrowRight, ArrowLeft,
+  User, Compass, CheckCircle2, ShieldCheck
+} from 'lucide-react';
 import PathWiseLogo from '../components/PathWiseLogo';
 
-/* ─── MODERN AUTH LOADING SCREEN ─────────────────────────────────── */
+/* ─── AUTHENTICATING OVERLAY ─────────────────────────────── */
 const AuthenticatingScreen = ({ onSuccess }) => {
   const [currentStep, setCurrentStep] = useState(0);
   const [progress, setProgress] = useState(15);
   const [isSuccess, setIsSuccess] = useState(false);
 
   useEffect(() => {
-    // Smooth, snappy 1.4-second authentication sequence
     const timers = [
       setTimeout(() => { setCurrentStep(1); setProgress(45); }, 300),
       setTimeout(() => { setCurrentStep(2); setProgress(80); }, 700),
@@ -25,89 +26,71 @@ const AuthenticatingScreen = ({ onSuccess }) => {
   }, [onSuccess]);
 
   const steps = [
-    { label: 'Verifying credentials', sub: 'Matriculation validation' },
-    { label: 'Securing session', sub: 'JWT token generation' },
-    { label: 'Loading workspace', sub: 'DELSU student profile' },
+    { label: 'Verifying credentials',  sub: 'Matriculation validation' },
+    { label: 'Securing session',        sub: 'JWT token generation' },
+    { label: 'Loading workspace',       sub: 'DELSU student profile' },
   ];
 
   return (
-    <div className="min-h-screen min-h-[100dvh] w-full flex items-center justify-center p-4 bg-[var(--canvas)] relative overflow-hidden select-none">
-      <style>{`
-        .heading-font { font-family: 'Nunito', sans-serif; }
-        .body-font { font-family: 'Open Sans', sans-serif; }
-      `}</style>
+    <div className="min-h-screen flex items-center justify-center p-4 bg-[#FAFBFD] relative overflow-hidden">
+      {/* Ambient glows */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-[#EEF2F9]/80 blur-3xl pointer-events-none" />
+      <div className="absolute bottom-0 right-0 w-[350px] h-[250px] bg-[#EEF2F9]/50 blur-3xl pointer-events-none" />
 
-      {/* Ambient background glow orbs */}
-      <div className="absolute -top-32 -left-32 w-80 h-80 rounded-full bg-[var(--blue)]/10 blur-3xl pointer-events-none" />
-      <div className="absolute -bottom-32 -right-32 w-80 h-80 rounded-full bg-[var(--azure)]/10 blur-3xl pointer-events-none" />
+      <div className="w-full max-w-[420px] bg-white border border-[#E2E8F0] rounded-3xl p-6 sm:p-8 shadow-lg text-center space-y-6 relative z-10">
 
-      {/* Floating Center Card */}
-      <motion.div
-        initial={{ opacity: 0, scale: 0.94, y: 12 }}
-        animate={{ opacity: 1, scale: 1, y: 0 }}
-        transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-        className="w-full max-w-[420px] bg-[var(--surface)] border border-[var(--border)] rounded-3xl p-6 sm:p-8 shadow-2xl text-center relative z-10 space-y-6"
-      >
-        {/* Top Institutional Badge */}
-        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[var(--mist)] border border-[var(--border)] text-[10px] font-extrabold uppercase tracking-wider text-[var(--graphite)]">
-          <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
+        {/* Badge */}
+        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#EEF2F9] border border-[#CBD5E1]/70 text-[10px] font-extrabold uppercase tracking-wider text-[#20428B]">
+          <ShieldCheck className="w-3.5 h-3.5" />
           <span>DELSU Secure Gateway</span>
         </div>
 
-        {/* Center Animated Icon Emblem */}
+        {/* Animated emblem */}
         <div className="relative w-20 h-20 mx-auto flex items-center justify-center">
-          {/* Orbital Spinner Ring */}
           {!isSuccess ? (
-            <div className="absolute inset-0 rounded-full border-3 border-[var(--lavender)] border-t-[var(--blue)] animate-spin" />
-          ) : (
-            <motion.div
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-              className="absolute inset-0 rounded-full bg-emerald-50 border-2 border-emerald-500/30"
+            <div
+              className="absolute inset-0 rounded-full border-[3px] border-[#EEF2F9] animate-spin"
+              style={{ borderTopColor: '#20428B' }}
             />
+          ) : (
+            <div className="absolute inset-0 rounded-full bg-emerald-50 border-2 border-emerald-400/40 transition-all duration-300" />
           )}
-
-          {/* Inner Icon Box */}
-          <div className={`w-14 h-14 rounded-2xl flex items-center justify-center transition-all duration-500 shadow-md ${
-            isSuccess
-              ? 'bg-emerald-500 text-white shadow-emerald-500/30'
-              : 'bg-[var(--blue)] text-white shadow-[var(--blue)]/30'
+          <div className={`w-14 h-14 rounded-2xl flex items-center justify-center shadow-md transition-all duration-500 ${
+            isSuccess ? 'bg-emerald-500 text-white' : 'bg-[#20428B] text-white'
           }`}>
-            {isSuccess ? (
-              <CheckCircle2 className="w-7 h-7 text-white" />
-            ) : (
-              <Compass className="w-7 h-7 text-white animate-pulse" />
-            )}
+            {isSuccess
+              ? <CheckCircle2 className="w-7 h-7 text-white" />
+              : <Compass className="w-7 h-7 text-white animate-pulse" />
+            }
           </div>
         </div>
 
-        {/* Headings */}
+        {/* Heading */}
         <div className="space-y-1">
-          <h2 className="text-xl sm:text-2xl font-black heading-font text-[var(--ink)] tracking-tight">
+          <h2 className="text-xl sm:text-2xl font-extrabold font-outfit text-[#0F172A] tracking-tight">
             {isSuccess ? 'Welcome Back!' : 'Authenticating...'}
           </h2>
-          <p className="text-xs sm:text-sm text-[var(--graphite)] body-font">
+          <p className="text-xs sm:text-sm text-[#64748B]">
             {isSuccess ? 'Session verified. Opening your dashboard...' : 'Verifying your institutional credentials'}
           </p>
         </div>
 
-        {/* Sleek Gradient Progress Bar */}
+        {/* Progress bar */}
         <div className="space-y-2">
-          <div className="w-full h-2 rounded-full bg-[var(--mist)] overflow-hidden p-0.5">
+          <div className="w-full h-2 rounded-full bg-[#EEF2F9] overflow-hidden">
             <div
-              className="h-full rounded-full bg-gradient-to-r from-[var(--blue)] to-[var(--azure)] transition-all duration-300"
+              className="h-full rounded-full bg-gradient-to-r from-[#20428B] to-[#2A52A8] transition-all duration-300"
               style={{ width: `${progress}%` }}
             />
           </div>
-          <div className="flex justify-between items-center text-[10px] text-[var(--ash)] font-bold">
+          <div className="flex justify-between text-[10px] text-[#94A3B8] font-bold">
             <span>Authentication</span>
             <span>{progress}%</span>
           </div>
         </div>
 
-        {/* Step Checkpoints List */}
-        <div className="space-y-2 text-left bg-[var(--mist)] border border-[var(--border)] rounded-2xl p-3.5">
+        {/* Steps */}
+        <div className="space-y-2 text-left bg-[#F8FAFC] border border-[#E2E8F0] rounded-2xl p-3.5">
           {steps.map((s, idx) => {
             const isDone = currentStep > idx;
             const isCurrent = currentStep === idx;
@@ -116,10 +99,10 @@ const AuthenticatingScreen = ({ onSuccess }) => {
                 key={idx}
                 className={`flex items-center justify-between p-2 rounded-xl transition-all ${
                   isCurrent
-                    ? 'bg-[var(--surface)] text-[var(--blue)] shadow-2xs font-bold'
+                    ? 'bg-white text-[#20428B] shadow-sm font-bold'
                     : isDone
-                    ? 'text-[var(--ink)] font-semibold'
-                    : 'text-[var(--ash)] opacity-60'
+                    ? 'text-[#0F172A] font-semibold'
+                    : 'text-[#94A3B8] opacity-60'
                 }`}
               >
                 <div className="flex items-center gap-2.5 min-w-0">
@@ -127,14 +110,14 @@ const AuthenticatingScreen = ({ onSuccess }) => {
                     isDone
                       ? 'bg-emerald-500 text-white'
                       : isCurrent
-                      ? 'bg-[var(--lavender)] text-[var(--blue)]'
-                      : 'bg-[var(--border)] text-[var(--ash)]'
+                      ? 'bg-[#EEF2F9] text-[#20428B]'
+                      : 'bg-[#E2E8F0] text-[#94A3B8]'
                   }`}>
                     {isDone ? '✓' : idx + 1}
                   </div>
                   <span className="text-xs truncate">{s.label}</span>
                 </div>
-                <span className="text-[10px] text-[var(--graphite)] font-medium">
+                <span className="text-[10px] text-[#94A3B8] font-medium">
                   {isDone ? 'Done' : isCurrent ? 'Verifying...' : 'Pending'}
                 </span>
               </div>
@@ -142,12 +125,12 @@ const AuthenticatingScreen = ({ onSuccess }) => {
           })}
         </div>
 
-        {/* Encryption Assurance */}
-        <div className="pt-2 text-[10px] text-[var(--ash)] font-medium flex items-center justify-center gap-1">
-          <Lock className="w-3 h-3 text-[var(--ash)]" />
+        {/* Footer */}
+        <div className="text-[10px] text-[#94A3B8] flex items-center justify-center gap-1">
+          <Lock className="w-3 h-3 text-[#20428B]" />
           <span>256-Bit Encrypted Academic Portal</span>
         </div>
-      </motion.div>
+      </div>
     </div>
   );
 };
@@ -183,464 +166,240 @@ const LoginPage = () => {
   }
 
   return (
-    <>
+    <div className="min-h-screen bg-[#F8FAFC] flex flex-col font-sans">
       <style>{`
-        /* ─── FULL-PAGE BACKGROUND + GLASS PANEL ─────────── */
-        .lp-wrapper {
-          position: relative;
-          min-height: 100vh;
-          min-height: 100dvh;
+        @keyframes fadeInUp {
+          from { opacity: 0; transform: translateY(14px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+        .log-field-anim { animation: fadeInUp 0.45s cubic-bezier(0.16,1,0.3,1) both; }
+        .log-input {
           width: 100%;
-          overflow-x: hidden;
-          font-family: 'Inter', 'Open Sans', sans-serif;
-          color: #ffffff;
-          background-color: #0A0C16;
-        }
-
-        .lp-bg {
-          position: absolute;
-          inset: -10%;
-          background:
-            url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1920&q=80')
-            center / cover no-repeat;
-          z-index: 0;
-          animation: kenBurns 20s ease-in-out infinite alternate;
-        }
-
-        @keyframes kenBurns {
-          0% { transform: scale(1) translate(0, 0); }
-          100% { transform: scale(1.08) translate(-1%, -1%); }
-        }
-
-        .lp-bg::after {
-          content: '';
-          position: absolute;
-          inset: 0;
-          background: linear-gradient(
-            to right,
-            rgba(10, 12, 22, 0.05) 0%,
-            rgba(10, 12, 22, 0.25) 30%,
-            rgba(10, 12, 22, 0.75) 65%,
-            rgba(10, 12, 22, 0.98) 100%
-          );
-        }
-
-        /* ── Right Container (formerly glass panel) ── */
-        .lp-glass {
-          position: relative;
-          z-index: 1;
-          min-height: 100vh;
-          min-height: 100dvh;
-          width: 50%;
-          max-width: 650px;
-          margin-left: auto; /* Anchors content to the right side */
-          display: flex;
-          flex-direction: column;
-        }
-
-        /* ── Full-width Header ── */
-        .lp-header {
-          position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          padding: 2.5rem 4rem;
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          z-index: 10;
-        }
-
-        .lp-logo {
-          flex: 1;
-        }
-
-        .lp-nav-center {
-          flex: 1;
-          display: flex;
-          justify-content: center;
-          gap: 3rem;
-        }
-        .lp-nav-center a {
-          color: rgba(255,255,255,0.6);
-          text-decoration: none;
+          padding: 0.75rem 2.8rem 0.75rem 2.75rem;
+          border: 1.5px solid #E2E8F0;
+          border-radius: 10px;
           font-size: 0.9rem;
-          font-weight: 500;
-          transition: color 0.2s;
-        }
-        .lp-nav-center a:hover { color: #fff; }
-        .lp-nav-center a.active { color: #fff; font-weight: 700; }
-
-        .lp-header-right {
-          flex: 1; /* Balances the flex layout so nav stays perfectly centered */
-        }
-
-        /* ── Form area ── */
-        .lp-content {
-          flex: 1;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          padding: 6rem 4rem 4rem 2rem;
-          max-width: 460px;
-          margin: 0 auto; /* Centers it nicely inside the right half */
-        }
-
-        .lp-heading {
-          font-family: 'Nunito', 'Outfit', sans-serif;
-          font-size: 2.2rem;
-          font-weight: 900;
-          color: #ffffff;
-          line-height: 1.15;
-          margin-bottom: 0.6rem;
-        }
-
-        .lp-switch {
-          font-size: 0.84rem;
-          color: rgba(255,255,255,0.35);
-          margin-bottom: 2.2rem;
-        }
-        .lp-switch a {
-          color: #20428B;
-          text-decoration: none;
-          font-weight: 600;
-        }
-        .lp-switch a:hover { text-decoration: underline; }
-
-        /* ── Inputs ── */
-        .lp-form {
-          display: flex;
-          flex-direction: column;
-          gap: 1.35rem;
-        }
-
-        .lp-field {
-          display: flex;
-          flex-direction: column;
-          gap: 0.55rem;
-        }
-
-        .lp-field-header {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          padding: 0 0.15rem;
-        }
-
-        .lp-field-label {
-          font-size: 0.82rem;
-          color: rgba(255, 255, 255, 0.92);
-          font-weight: 600;
-          letter-spacing: 0.01em;
-        }
-
-        .lp-field-hint {
-          font-size: 0.73rem;
-          color: rgba(255, 255, 255, 0.45);
-          font-weight: 400;
-        }
-
-        .lp-input-wrap {
-          position: relative;
-          display: flex;
-          align-items: center;
-          width: 100%;
-        }
-
-        .lp-input {
-          width: 100%;
-          background: rgba(255, 255, 255, 0.06);
-          backdrop-filter: blur(16px);
-          -webkit-backdrop-filter: blur(16px);
-          border: 1px solid rgba(255, 255, 255, 0.18);
-          border-radius: 12px;
-          padding: 0.95rem 1.2rem;
-          color: #ffffff;
-          font-size: 15px;
-          font-weight: 500;
-          font-family: inherit;
+          color: #0F172A;
+          background: #fff;
           outline: none;
-          transition: all 0.2s ease;
+          transition: border-color 0.2s, box-shadow 0.2s;
           box-sizing: border-box;
+          font-family: inherit;
         }
-        .lp-input.lp-input-has-left {
-          padding-left: 2.85rem;
-        }
-        .lp-input.lp-input-has-right {
-          padding-right: 2.85rem;
-        }
-        .lp-input::placeholder {
-          color: rgba(255, 255, 255, 0.38);
-          font-size: 0.88rem;
-          font-weight: 400;
-        }
-        .lp-input:focus {
+        .log-input::placeholder { color: #94A3B8; }
+        .log-input:focus {
           border-color: #20428B;
-          background: rgba(255, 255, 255, 0.1);
-          box-shadow: 0 0 0 3px rgba(32, 66, 139, 0.2);
+          box-shadow: 0 0 0 3px rgba(32,66,139,0.1);
         }
-
-        .lp-icon-left {
+        .log-icon-left {
           position: absolute;
-          left: 0.95rem;
+          left: 0.75rem;
           top: 50%;
           transform: translateY(-50%);
+          color: #94A3B8;
           display: flex;
           align-items: center;
-          justify-content: center;
-          color: rgba(255, 255, 255, 0.45);
           pointer-events: none;
-          transition: color 0.2s ease;
+          transition: color 0.2s;
         }
-        .lp-input-wrap:focus-within .lp-icon-left {
-          color: #20428B;
-        }
-
-        .lp-icon-right {
+        .log-input-wrap:focus-within .log-icon-left { color: #20428B; }
+        .log-icon-btn {
           position: absolute;
           right: 0.75rem;
           top: 50%;
           transform: translateY(-50%);
-          width: 30px;
-          height: 30px;
-          border-radius: 8px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          color: rgba(255, 255, 255, 0.5);
-          transition: all 0.2s ease;
-        }
-        .lp-icon-right.click {
-          pointer-events: auto;
+          color: #94A3B8;
           cursor: pointer;
-        }
-        .lp-icon-right.click:hover {
-          color: #ffffff;
-          background: rgba(255, 255, 255, 0.12);
-        }
-
-        /* ── Submit button ── */
-        .lp-actions {
+          background: none;
+          border: none;
+          padding: 0;
           display: flex;
           align-items: center;
-          justify-content: space-between;
-          margin-top: 1rem;
+          transition: color 0.2s;
         }
-
-        .lp-btn-fill {
-          width: 100%;
-          padding: 0.95rem;
-          background: transparent;
-          border: 1px solid rgba(255, 255, 255, 0.15);
-          border-radius: 12px;
-          color: rgba(255, 255, 255, 0.9);
-          font-size: 0.95rem;
-          font-weight: 700;
-          font-family: inherit;
-          cursor: pointer;
-          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-        }
-        .lp-btn-fill:hover {
-          background: #20428B;
-          border-color: #20428B;
-          color: #ffffff;
-          box-shadow: 0 8px 35px rgba(67,97,238,0.5);
-          transform: translateY(-2px) scale(1.02);
-        }
-        .lp-btn-fill:active {
-          transform: scale(0.98);
-        }
-        .lp-btn-fill:disabled {
-          opacity: 0.5;
-          cursor: not-allowed;
-          transform: none;
-          box-shadow: none;
-        }
-
-        /* Security footer */
-        .lp-security {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          gap: 0.4rem;
-          color: rgba(255, 255, 255, 0.5);
-          font-size: 0.72rem;
-          margin-top: 2.5rem;
-        }
-
-        /* ── MOBILE ── */
-        @media (max-width: 768px) {
-          .lp-glass {
-            width: 100%;
-            max-width: 100%;
-            background: rgba(13, 15, 28, 0.85);
-            min-height: 100vh;
-            min-height: 100dvh;
-            display: flex;
-            flex-direction: column;
-            overflow-y: auto;
-          }
-          .lp-header {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            padding: max(1.25rem, env(safe-area-inset-top)) 1.5rem 0.5rem;
-            z-index: 10;
-          }
-          .lp-nav-center {
-            display: none; /* Hide on mobile */
-          }
-          .lp-content {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            padding: max(4.5rem, env(safe-area-inset-top)) 1.5rem max(2rem, env(safe-area-inset-bottom));
-            max-width: 440px;
-            margin: 0 auto;
-            width: 100%;
-            box-sizing: border-box;
-          }
-          .lp-heading {
-            font-size: 1.85rem;
-          }
-          .lp-actions {
-            flex-direction: column;
-          }
-        }
-
-        @media (max-width: 420px) {
-          .lp-header { padding: max(1rem, env(safe-area-inset-top)) 1.25rem 0.5rem; }
-          .lp-content { padding: max(4rem, env(safe-area-inset-top)) 1.25rem max(1.5rem, env(safe-area-inset-bottom)); }
-          .lp-heading { font-size: 1.7rem; }
+        .log-icon-btn:hover { color: #20428B; }
+        .left-panel-pattern {
+          background-color: #1A346C;
+          background-image:
+            radial-gradient(circle at 15% 15%, rgba(255,255,255,0.07) 0%, transparent 50%),
+            radial-gradient(circle at 85% 85%, rgba(32,66,139,0.9) 0%, transparent 55%);
         }
       `}</style>
 
-      <div className="lp-wrapper">
-        {/* Background image */}
-        <div className="lp-bg"></div>
-        
-        {/* Full-width Header */}
-        <header className="lp-header">
-          <div className="lp-logo">
-            <PathWiseLogo href="/" size={28} textColor="#ffffff" />
+      {/* ── Split Panel ── */}
+      <div className="flex flex-1 min-h-screen">
+
+        {/* Left — Blue Branding */}
+        <aside className="hidden lg:flex lg:w-[42%] xl:w-[38%] left-panel-pattern flex-col justify-between px-10 xl:px-14 py-12 min-h-screen">
+          <div>
+            <div className="mb-10">
+              <PathWiseLogo href="/" size={28} textColor="#ffffff" />
+            </div>
+
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/20 text-white/80 text-xs font-semibold tracking-wide uppercase mb-8">
+              <ShieldCheck className="w-3.5 h-3.5" />
+              <span>DELSU Secure Portal</span>
+            </div>
+
+            <h2 className="text-white font-outfit text-3xl xl:text-4xl font-extrabold leading-tight tracking-tight mb-4">
+              Welcome back<br />
+              <span className="text-[#93B4E8]">to PathWise.</span>
+            </h2>
+
+            <p className="text-white/65 text-sm leading-relaxed mb-10 max-w-xs">
+              Sign in to continue your career journey, review your RIASEC results, and get personalised academic guidance.
+            </p>
+
+            {/* What awaits them */}
+            <div className="flex flex-col gap-3.5">
+              {[
+                'Your saved career matches & RIASEC scores',
+                'Ongoing AI Advisor conversations',
+                'DELSU semester course roadmap progress',
+                'CGPA tracking & degree milestones',
+              ].map((item, i) => (
+                <div key={i} className="flex items-start gap-3">
+                  <div className="w-5 h-5 rounded-full bg-white/15 border border-white/25 flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <CheckCircle2 className="w-3 h-3 text-white stroke-[2.5]" />
+                  </div>
+                  <span className="text-white/80 text-sm leading-relaxed">{item}</span>
+                </div>
+              ))}
+            </div>
           </div>
-          <nav className="lp-nav-center">
-            <Link to="/">Home</Link>
-            <Link to="/register">Join</Link>
-          </nav>
-          <div className="lp-header-right"></div>
-        </header>
 
-        {/* Right Container */}
-        <motion.div
-          className="lp-glass"
-          initial={{ opacity: 0, x: 40 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-        >
-          {/* Form content */}
-          <div className="lp-content">
-
-            <motion.h1
-              className="lp-heading"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.35, duration: 0.5 }}
-              style={{ marginBottom: '2rem' }}
-            >
-              Welcome back.
-            </motion.h1>
-
-            <form className="lp-form" onSubmit={handleLogin}>
-              {/* Student ID / Email */}
-              <motion.div
-                className="lp-field"
-                initial={{ opacity: 0, y: 15 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.45, duration: 0.4 }}
-              >
-                <div className="lp-field-header">
-                  <label className="lp-field-label">Student ID or Email</label>
-                  <span className="lp-field-hint">Matric / Email</span>
-                </div>
-                <div className="lp-input-wrap">
-                  <div className="lp-icon-left">
-                    <User size={16} />
-                  </div>
-                  <input
-                    type="text"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="FOS/22/23/... or email"
-                    className="lp-input lp-input-has-left"
-                    autoComplete="username"
-                    required
-                  />
-                </div>
-              </motion.div>
-
-              {/* Password */}
-              <motion.div
-                className="lp-field"
-                initial={{ opacity: 0, y: 15 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.5, duration: 0.4 }}
-              >
-                <div className="lp-field-header">
-                  <label className="lp-field-label">Password</label>
-                </div>
-                <div className="lp-input-wrap">
-                  <div className="lp-icon-left">
-                    <Lock size={16} />
-                  </div>
-                  <input
-                    type={showPassword ? 'text' : 'password'}
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    placeholder="Enter your password"
-                    className="lp-input lp-input-has-left lp-input-has-right"
-                    autoComplete="current-password"
-                    required
-                  />
-                  <div className="lp-icon-right click" onClick={() => setShowPassword(!showPassword)}>
-                    {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
-                  </div>
-                </div>
-              </motion.div>
-
-              {/* Action buttons & Switch */}
-              <motion.div
-                className="lp-actions"
-                initial={{ opacity: 0, y: 15 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.55, duration: 0.4 }}
-                style={{ flexDirection: 'column', alignItems: 'center', gap: '1.2rem' }}
-              >
-                <button type="submit" className="lp-btn-fill" disabled={isSubmitting}>
-                  {isSubmitting ? 'Logging in...' : 'Log In'}
-                </button>
-                
-                <div style={{ fontSize: '0.85rem', color: 'rgba(255,255,255,0.7)' }}>
-                  Don't have an account? <Link to="/register" style={{ color: '#20428B', textDecoration: 'none', fontWeight: 600 }}>Sign Up</Link>
-                </div>
-              </motion.div>
-            </form>
-
-            <motion.div
-              className="lp-security"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.65, duration: 0.4 }}
-            >
-              <Lock size={11} /> Secured with end-to-end encryption
-            </motion.div>
+          <div className="border-t border-white/15 pt-6 mt-8">
+            <p className="text-white/45 text-xs leading-relaxed">
+              B.Sc. Final Year Degree Project<br />
+              <span className="text-white/65 font-medium">Dept. of Computer Science — DELSU, Abraka</span>
+            </p>
           </div>
-        </motion.div>
+        </aside>
+
+        {/* Right — Login Form */}
+        <main className="flex-1 flex flex-col items-center justify-center px-4 sm:px-8 py-10 bg-[#FAFBFD]">
+          <div className="w-full max-w-md">
+
+            {/* Top Bar above card */}
+            <div className="flex items-center justify-between mb-5">
+              <Link
+                to="/"
+                className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#64748B] hover:text-[#20428B] transition-colors group"
+              >
+                <ArrowLeft className="w-3.5 h-3.5 transition-transform group-hover:-translate-x-0.5" />
+                <span>Back to Home</span>
+              </Link>
+              <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-semibold text-[#20428B] bg-[#EEF2F9] border border-[#CBD5E1]/50">
+                <ShieldCheck className="w-3 h-3" />
+                <span>Secure Portal</span>
+              </span>
+            </div>
+
+            {/* Elevated White Card */}
+            <div className="bg-white border border-[#E2E8F0] rounded-2xl p-7 sm:p-8 shadow-[0_4px_24px_rgba(32,66,139,0.06)]">
+
+              {/* Heading */}
+              <div className="mb-6">
+                <h1 className="font-outfit text-2xl sm:text-3xl font-extrabold text-[#0F172A] tracking-tight mb-1.5">
+                  Sign in to PathWise
+                </h1>
+                <p className="text-xs sm:text-sm text-[#64748B]">
+                  Enter your student credentials to access your dashboard.
+                </p>
+              </div>
+
+              {/* Form */}
+              <form onSubmit={handleLogin} className="flex flex-col gap-4">
+
+                {/* Matric No. or Email */}
+                <div className="log-field-anim flex flex-col gap-1.5" style={{ animationDelay: '0.05s' }}>
+                  <label className="text-xs font-semibold text-[#374151] tracking-wide">
+                    Matric No. or Email
+                  </label>
+                  <div className="relative log-input-wrap">
+                    <span className="log-icon-left"><User className="w-4 h-4" /></span>
+                    <input
+                      type="text"
+                      value={email}
+                      onChange={e => setEmail(e.target.value)}
+                      placeholder="e.g. FOS/22/23/0001 or email"
+                      className="log-input"
+                      autoComplete="username"
+                      required
+                    />
+                  </div>
+                </div>
+
+                {/* Password */}
+                <div className="log-field-anim flex flex-col gap-1.5" style={{ animationDelay: '0.1s' }}>
+                  <label className="text-xs font-semibold text-[#374151] tracking-wide">Password</label>
+                  <div className="relative log-input-wrap">
+                    <span className="log-icon-left"><Lock className="w-4 h-4" /></span>
+                    <input
+                      type={showPassword ? 'text' : 'password'}
+                      value={password}
+                      onChange={e => setPassword(e.target.value)}
+                      placeholder="Enter your password"
+                      className="log-input"
+                      autoComplete="current-password"
+                      required
+                    />
+                    <button
+                      type="button"
+                      className="log-icon-btn"
+                      onClick={() => setShowPassword(p => !p)}
+                      aria-label={showPassword ? 'Hide password' : 'Show password'}
+                    >
+                      {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                    </button>
+                  </div>
+                </div>
+
+                {/* Submit */}
+                <div className="log-field-anim mt-2" style={{ animationDelay: '0.15s' }}>
+                  <button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="w-full py-3 px-4 rounded-xl bg-[#20428B] hover:bg-[#2A52A8] disabled:opacity-60 disabled:cursor-not-allowed text-white font-bold text-sm flex items-center justify-center gap-2 shadow-sm transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0"
+                  >
+                    {isSubmitting ? (
+                      <span>Signing in...</span>
+                    ) : (
+                      <>
+                        <span>Sign In</span>
+                        <ArrowRight className="w-4 h-4" />
+                      </>
+                    )}
+                  </button>
+                </div>
+
+                <p className="text-center text-[11px] text-[#94A3B8] leading-relaxed">
+                  By signing in you agree to our{' '}
+                  <span className="text-[#20428B] cursor-pointer hover:underline">Terms of Service</span>.
+                </p>
+              </form>
+
+              {/* Dedicated Account Switcher Footer inside Card */}
+              <div className="mt-6 pt-5 border-t border-[#F1F5F9] text-center">
+                <p className="text-xs text-[#64748B]">
+                  New to PathWise?{' '}
+                  <Link to="/register" className="text-[#20428B] font-bold hover:underline">
+                    Create an account
+                  </Link>
+                </p>
+              </div>
+
+            </div>
+
+            {/* Security footer below card */}
+            <div className="mt-6 flex items-center justify-center gap-1.5 text-xs text-[#94A3B8]">
+              <ShieldCheck className="w-3.5 h-3.5 text-[#20428B]" />
+              <span>Secured with end-to-end encryption</span>
+            </div>
+          </div>
+        </main>
       </div>
-    </>
+    </div>
   );
 };
 
