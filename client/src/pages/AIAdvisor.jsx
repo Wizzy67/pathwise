@@ -157,7 +157,7 @@ const AIAdvisor = () => {
         return;
       }
       window.speechSynthesis.cancel();
-      const cleanText = text.replace(/\*\*|•|-/g, '');
+      const cleanText = text.replace(/\*\*|â€¢|-/g, '');
       const utterance = new SpeechSynthesisUtterance(cleanText);
       utterance.onend = () => setSpeakingMsgIdx(null);
       utterance.onerror = () => setSpeakingMsgIdx(null);
@@ -328,7 +328,90 @@ ${m.content}
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
       `}</style>
 
-      {/* ── ChatGPT Style Slide-over Sidebar Drawer ────────────────── */}
+      {/* â”€â”€ Desktop Persistent History Sidebar â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+      <aside className="hidden lg:flex w-72 xl:w-80 flex-col border-r border-[var(--border)] bg-[var(--surface)] h-full flex-shrink-0">
+        {/* Top: New Chat button */}
+        <div className="p-3.5 border-b border-[var(--border)] flex items-center justify-between">
+          <button
+            onClick={startNewSession}
+            className="flex-1 flex items-center justify-between px-3.5 py-2 rounded-xl bg-[var(--lavender)] text-[var(--blue)] text-xs font-bold transition-all hover:bg-[var(--blue)] hover:text-white shadow-sm"
+          >
+            <span className="flex items-center gap-2">
+              <SquarePen className="w-4 h-4" /> New Chat
+            </span>
+            <span className="text-[10px] opacity-75">Ctrl+K</span>
+          </button>
+        </div>
+
+        {/* History Search */}
+        <div className="p-3 border-b border-[var(--border)]">
+          <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-[var(--mist)] border border-[var(--border)] text-xs">
+            <Search className="w-3.5 h-3.5 text-[var(--graphite)]" />
+            <input
+              type="text"
+              placeholder="Search past conversations..."
+              value={searchHistoryQuery}
+              onChange={e => setSearchHistoryQuery(e.target.value)}
+              className="w-full bg-transparent text-[var(--ink)] placeholder-[var(--ash)] outline-none text-xs"
+            />
+          </div>
+        </div>
+
+        {/* Session List */}
+        <div className="flex-1 overflow-y-auto p-2 space-y-1">
+          <div className="px-3 py-1 text-[10px] font-extrabold uppercase tracking-wider text-[var(--graphite)]">
+            Recent Conversations
+          </div>
+          {filteredSessions.length === 0 ? (
+            <div className="p-6 text-center text-xs text-[var(--graphite)]">
+              No conversation history found.
+            </div>
+          ) : (
+            filteredSessions.map((session) => {
+              const isActive = activeSession === session.id;
+              return (
+                <div
+                  key={session.id}
+                  onClick={() => loadSession(session.id)}
+                  className={`group flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-medium cursor-pointer transition-all ${
+                    isActive
+                      ? 'bg-[var(--lavender)] text-[var(--blue)] font-bold'
+                      : 'text-[var(--ink)] hover:bg-[var(--mist)]'
+                  }`}
+                >
+                  <span className="truncate flex-1 pr-2">
+                    {session.title || 'Career Advisory Session'}
+                  </span>
+                  <button
+                    onClick={(e) => deleteSession(session.id, e)}
+                    className="opacity-0 group-hover:opacity-100 p-1 hover:text-red-500 transition-opacity"
+                    title="Delete session"
+                  >
+                    <Trash2 className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+              );
+            })
+          )}
+        </div>
+
+        {/* Footer */}
+        <div className="p-3 border-t border-[var(--border)] bg-[var(--mist)] flex items-center gap-3">
+          <div className="w-9 h-9 rounded-full bg-[var(--blue)] text-white flex items-center justify-center font-bold text-xs shadow-sm">
+            {user?.fullName ? user.fullName[0] : 'U'}
+          </div>
+          <div className="min-w-0 flex-1">
+            <p className="text-xs font-bold text-[var(--ink)] truncate leading-tight">
+              {user?.fullName || 'DELSU Student'}
+            </p>
+            <p className="text-[10px] text-[var(--graphite)] truncate">
+              {user?.matricNo || 'Matric Pending'}
+            </p>
+          </div>
+        </div>
+      </aside>
+
+      {/* â”€â”€ Mobile Slide-over Sidebar Drawer â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <AnimatePresence>
         {isSidebarOpen && (
           <>
@@ -337,14 +420,14 @@ ${m.content}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setIsSidebarOpen(false)}
-              className="fixed inset-0 bg-black/40 backdrop-blur-xs z-40 md:hidden"
+              className="fixed inset-0 bg-black/40 backdrop-blur-xs z-40 lg:hidden"
             />
             <motion.aside
               initial={{ x: '-100%' }}
               animate={{ x: 0 }}
               exit={{ x: '-100%' }}
               transition={{ type: 'spring', damping: 26, stiffness: 260 }}
-              className="fixed inset-y-0 left-0 z-50 w-72 sm:w-80 bg-[var(--surface)] border-r border-[var(--border)] shadow-2xl flex flex-col md:relative md:translate-x-0"
+              className="fixed inset-y-0 left-0 z-50 w-72 sm:w-80 bg-[var(--surface)] border-r border-[var(--border)] shadow-2xl flex flex-col lg:hidden"
             >
               {/* Drawer Top Header */}
               <div className="p-3.5 border-b border-[var(--border)] flex items-center justify-between">
@@ -437,15 +520,16 @@ ${m.content}
         )}
       </AnimatePresence>
 
-      {/* ── Main Chat Canvas ─────────────────────────────────────────── */}
+      {/* â”€â”€ Main Chat Canvas â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <div className="flex-1 flex flex-col min-w-0 h-full relative">
 
-        {/* ── ChatGPT Style Top Bar ──────────────────────────────────── */}
+        {/* â”€â”€ ChatGPT Style Top Bar â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
         <header className="h-14 border-b border-[var(--border)] bg-[var(--surface)] px-3.5 sm:px-6 flex items-center justify-between z-10 shadow-2xs">
           <div className="flex items-center gap-2.5">
+            {/* Mobile-only hamburger */}
             <button
               onClick={() => setIsSidebarOpen(true)}
-              className="p-2 rounded-xl text-[var(--graphite)] hover:text-[var(--ink)] hover:bg-[var(--mist)] transition-colors"
+              className="p-2 rounded-xl text-[var(--graphite)] hover:text-[var(--ink)] hover:bg-[var(--mist)] transition-colors lg:hidden"
               title="Chat History"
             >
               <Menu className="w-5 h-5" />
@@ -477,7 +561,7 @@ ${m.content}
           </div>
         </header>
 
-        {/* ── Chat Messages Scroll Stream ────────────────────────────── */}
+        {/* â”€â”€ Chat Messages Scroll Stream â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
         <div className="flex-1 overflow-y-auto px-3.5 sm:px-6 py-4 space-y-6">
           <div className="max-w-3xl mx-auto w-full space-y-6">
 
@@ -632,8 +716,8 @@ ${m.content}
           </div>
         </div>
 
-        {/* ── Signature ChatGPT Mobile Capsule Input Bar ─────────────── */}
-        <div className="px-3 sm:px-6 pb-[78px] md:pb-4 bg-gradient-to-t from-[var(--canvas)] via-[var(--canvas)] to-transparent pt-2">
+        {/* â”€â”€ Signature ChatGPT Mobile Capsule Input Bar â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+        <div className="px-3 sm:px-6 pb-[78px] lg:pb-4 bg-gradient-to-t from-[var(--canvas)] via-[var(--canvas)] to-transparent pt-2">
           <div className="max-w-3xl mx-auto w-full">
             <div className="flex items-center gap-2 bg-[var(--surface)] border border-[var(--border)] rounded-full pl-2 pr-2 py-1.5 shadow-sm focus-within:border-[var(--blue)] focus-within:ring-2 focus-within:ring-[var(--blue)]/15 transition-all">
               {/* Plus / Attachment Button */}

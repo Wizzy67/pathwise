@@ -121,7 +121,7 @@ const MyProfile = () => {
     .toUpperCase();
 
   return (
-    <div className="max-w-4xl mx-auto w-full px-3.5 sm:px-6 py-4 space-y-4 pb-28 md:pb-12" style={{ fontFamily: 'var(--font-body, "Open Sans")' }}>
+    <div className="max-w-4xl lg:max-w-none mx-auto w-full px-3.5 sm:px-6 py-4 space-y-4 pb-28 md:pb-12" style={{ fontFamily: 'var(--font-body, "Open Sans")' }}>
       <style>{`
         h1, h2, h3, h4, h5, h6 { font-family: var(--font-heading, 'Nunito'); }
         .no-scrollbar::-webkit-scrollbar { display: none; }

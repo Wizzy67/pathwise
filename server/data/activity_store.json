@@ -1,5 +1,15 @@
 [
   {
+    "id": "6d24c6ef-fc9c-477f-8818-610e4e34634f",
+    "userId": "accba9ed-6341-466d-a4a8-2e0f5f7aedf2",
+    "action": "ai_query",
+    "metadata": {
+      "promptSnippet": "What courses should I focus on for Software Engine"
+    },
+    "hiddenByUser": false,
+    "timestamp": "2026-09-11T00:29:23.774Z"
+  },
+  {
     "id": "cb891144-4a59-4fe7-92ff-3213e2a5a3d2",
     "userId": "313b3427-e56d-4da6-90a8-01e885d3d43c",
     "action": "logged_in",

@@ -66,28 +66,28 @@ const SavedCareers = () => {
           </Link>
         </div>
       ) : (
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
           {savedCareers.map(career => (
-            <div key={career.id} className="bg-[var(--surface)] border border-[var(--border)] rounded-2xl p-6 flex flex-col group hover:border-[var(--azure)] transition-colors shadow-sm">
-              <div className="flex justify-between items-start mb-4">
-                <h3 className="text-2xl font-bold text-[var(--ink)]" style={{ fontFamily: 'var(--font-heading, "Nunito")' }}>{career.title}</h3>
+            <div key={career.id} className="bg-[var(--surface)] border border-[var(--border)] rounded-2xl p-5 flex flex-col group hover:border-[var(--azure)] hover:shadow-md transition-all shadow-sm">
+              <div className="flex justify-between items-start mb-3">
+                <h3 className="text-lg font-bold text-[var(--ink)] leading-snug pr-2" style={{ fontFamily: 'var(--font-heading, "Nunito")' }}>{career.title}</h3>
                 <button 
                   onClick={() => handleRemove(career.id)}
-                  className="p-2 text-[var(--graphite)] hover:text-red-600 hover:bg-red-50 rounded-xl transition-colors"
+                  className="p-1.5 text-[var(--graphite)] hover:text-red-600 hover:bg-red-50 rounded-xl transition-colors flex-shrink-0"
                   title="Remove from saved"
                 >
-                  <Trash2 className="w-5 h-5" />
+                  <Trash2 className="w-4 h-4" />
                 </button>
               </div>
-              <p className="text-[var(--graphite)] mb-6 flex-1 line-clamp-2">{career.description}</p>
-              <div className="flex flex-wrap gap-2 mb-6">
-                <span className="px-3 py-1 bg-[var(--mist)] border border-[var(--border)] rounded-lg text-xs font-bold text-[var(--graphite)]">{career.demand} Demand</span>
-                <span className="px-3 py-1 bg-[var(--mist)] border border-[var(--border)] rounded-lg text-xs font-bold text-[var(--graphite)]">{career.salary_range}</span>
+              <p className="text-sm text-[var(--graphite)] mb-4 flex-1 line-clamp-3 leading-relaxed">{career.description}</p>
+              <div className="flex flex-wrap gap-2 mb-4">
+                <span className="px-2.5 py-1 bg-[var(--mist)] border border-[var(--border)] rounded-lg text-xs font-bold text-[var(--graphite)]">{career.demand} Demand</span>
+                <span className="px-2.5 py-1 bg-[var(--mist)] border border-[var(--border)] rounded-lg text-xs font-bold text-[var(--graphite)]">{career.salary_range}</span>
               </div>
-              <div className="pt-4 border-t border-[var(--border)] flex justify-between items-center">
+              <div className="pt-3 border-t border-[var(--border)] flex justify-between items-center">
                 <span className="text-xs text-[var(--graphite)]">Target CGPA: <strong className="text-[var(--blue)]">{career.required_cgpa_hint}</strong></span>
-                <Link to={`/career/${career.id}`} className="flex items-center gap-2 text-[var(--azure)] font-bold hover:text-[var(--blue)] transition-colors">
-                  View Details <ArrowRight className="w-4 h-4" />
+                <Link to={`/career/${career.id}`} className="flex items-center gap-1.5 text-[var(--azure)] font-bold text-sm hover:text-[var(--blue)] transition-colors">
+                  View <ArrowRight className="w-3.5 h-3.5" />
                 </Link>
               </div>
             </div>

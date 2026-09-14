@@ -30,48 +30,85 @@ const ActivityLog = () => {
     fetchLogs();
   }, []);
 
+  const loginCount = logs.filter(l => l.action === 'login').length;
+  const aiChatCount = logs.filter(l => l.action === 'ai_chat').length;
+  const assessmentCount = logs.filter(l => l.action === 'quiz_taken' || l.action === 'quiz_completed').length;
+  const savedCount = logs.filter(l => l.action === 'career_saved').length;
+
   return (
     <div className="max-w-6xl mx-auto w-full pb-28 md:pb-8" style={{ fontFamily: 'var(--font-body, "Open Sans")' }}>
-      <div className="flex items-center gap-3 mb-8">
+      <div className="flex items-center gap-3 mb-6">
         <div className="w-12 h-12 rounded-xl bg-[var(--fog)] flex items-center justify-center border border-[var(--border)]">
           <History className="w-6 h-6 text-[var(--ink)]" />
         </div>
         <div>
-          <h1 className="text-3xl font-extrabold tracking-tight text-[var(--ink)]" style={{ fontFamily: 'var(--font-heading, "Nunito")' }}>Activity Log</h1>
-          <p className="text-[var(--graphite)]">Track your engagement and history on PathWise.</p>
+          <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-[var(--ink)]" style={{ fontFamily: 'var(--font-heading, "Nunito")' }}>Activity Log</h1>
+          <p className="text-sm text-[var(--graphite)]">Track your engagement and history on PathWise.</p>
         </div>
       </div>
 
-      <div className="bg-[var(--surface)] border border-[var(--border)] rounded-2xl p-6 md:p-8">
-        {loading ? (
-          <div className="flex justify-center py-10"><Loader2 className="w-8 h-8 animate-spin text-[var(--blue)]" /></div>
-        ) : logs.length === 0 ? (
-          <p className="text-center text-[var(--graphite)] py-10">No recent activity found.</p>
-        ) : (
-          <div className="relative border-l border-[var(--border)] ml-4 space-y-8 pb-4">
-            {logs.map((log, idx) => (
-              <div key={log.id} className="relative pl-8">
-                <div className="absolute -left-[17px] top-1 w-8 h-8 rounded-full bg-[var(--surface)] border-2 border-[var(--border)] flex items-center justify-center z-10">
-                  <ActionIcon action={log.action} />
+      {/* Desktop 2-col layout */}
+      <div className="grid grid-cols-1 lg:grid-cols-[1fr_280px] gap-6 lg:items-start">
+
+        {/* Timeline */}
+        <div className="bg-[var(--surface)] border border-[var(--border)] rounded-2xl p-6 md:p-8">
+          {loading ? (
+            <div className="flex justify-center py-10"><Loader2 className="w-8 h-8 animate-spin text-[var(--blue)]" /></div>
+          ) : logs.length === 0 ? (
+            <p className="text-center text-[var(--graphite)] py-10">No recent activity found.</p>
+          ) : (
+            <div className="relative border-l border-[var(--border)] ml-4 space-y-8 pb-4">
+              {logs.map((log, idx) => (
+                <div key={log.id} className="relative pl-8">
+                  <div className="absolute -left-[17px] top-1 w-8 h-8 rounded-full bg-[var(--surface)] border-2 border-[var(--border)] flex items-center justify-center z-10">
+                    <ActionIcon action={log.action} />
+                  </div>
+                  <div className="bg-[var(--fog)] border border-[var(--border)] rounded-2xl p-4 hover:border-[var(--blue)] transition-colors">
+                    <h4 className="text-sm font-bold text-[var(--ink)] capitalize mb-1" style={{ fontFamily: 'var(--font-heading, "Nunito")' }}>
+                      {log.action === 'quiz_completed' ? 'assessment completed' : log.action.replace('_', ' ')}
+                    </h4>
+                    <p className="text-sm text-[var(--graphite)] mb-2">
+                      {log.details || 'Performed action on the platform.'}
+                    </p>
+                    <p className="text-xs text-[var(--ash)] font-medium">
+                      {new Date(log.timestamp).toLocaleDateString()} at {new Date(log.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
+                    </p>
+                  </div>
                 </div>
-                <div className="bg-[var(--fog)] border border-[var(--border)] rounded-2xl p-4 hover:border-[var(--blue)] transition-colors">
-                  <h4 className="text-sm font-bold text-[var(--ink)] capitalize mb-1" style={{ fontFamily: 'var(--font-heading, "Nunito")' }}>
-                    {log.action === 'quiz_completed' ? 'assessment completed' : log.action.replace('_', ' ')}
-                  </h4>
-                  <p className="text-sm text-[var(--graphite)] mb-2">
-                    {log.details || 'Performed action on the platform.'}
-                  </p>
-                  <p className="text-xs text-[var(--ash)] font-medium">
-                    {new Date(log.timestamp).toLocaleDateString()} at {new Date(log.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
-                  </p>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Stats Panel (desktop only) */}
+        <div className="hidden lg:flex flex-col gap-4">
+          <div className="bg-[var(--surface)] border border-[var(--border)] rounded-2xl p-5">
+            <h3 className="text-sm font-bold text-[var(--ink)] mb-4" style={{ fontFamily: 'Nunito, sans-serif' }}>Activity Summary</h3>
+            <div className="space-y-3">
+              {[
+                { label: 'Total Sessions', value: logs.length, icon: Clock, color: 'text-[var(--blue)]', bg: 'bg-[var(--lavender)]' },
+                { label: 'AI Chats', value: aiChatCount, icon: Sparkles, color: 'text-[var(--azure)]', bg: 'bg-[var(--lavender)]' },
+                { label: 'Assessments Taken', value: assessmentCount, icon: Target, color: 'text-emerald-600', bg: 'bg-emerald-50' },
+                { label: 'Careers Saved', value: savedCount, icon: Brain, color: 'text-purple-600', bg: 'bg-purple-50' },
+                { label: 'Platform Logins', value: loginCount, icon: User, color: 'text-[var(--graphite)]', bg: 'bg-[var(--fog)]' },
+              ].map(({ label, value, icon: Icon, color, bg }) => (
+                <div key={label} className="flex items-center justify-between p-3 rounded-xl bg-[var(--mist)]">
+                  <div className="flex items-center gap-2.5">
+                    <div className={`w-7 h-7 rounded-xl ${bg} flex items-center justify-center`}>
+                      <Icon className={`w-3.5 h-3.5 ${color}`} />
+                    </div>
+                    <span className="text-xs font-semibold text-[var(--ink)]">{label}</span>
+                  </div>
+                  <span className="text-sm font-black text-[var(--ink)]" style={{ fontFamily: 'Nunito, sans-serif' }}>{value}</span>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
-        )}
+        </div>
       </div>
     </div>
   );
 };
 
 export default ActivityLog;
+

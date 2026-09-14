@@ -1,1 +1,19 @@
-[]
+[
+  {
+    "id": "afd6c870-bf3c-485d-bbb0-82141878d92f",
+    "userId": "accba9ed-6341-466d-a4a8-2e0f5f7aedf2",
+    "title": "DELSU 300L Software Engineering",
+    "messages": [
+      {
+        "role": "user",
+        "content": "What courses should I focus on for Software Engineering in my 300L year at DELSU?"
+      },
+      {
+        "role": "assistant",
+        "content": "Hello Wisdom! It is great to connect with you. With a CGPA of 4.2, you are clearly a top performer at DELSU, which puts you in a strong position for competitive opportunities like internships or further studies. Since your specific career assessment (Holland Code) hasn't been taken yet, I recommend completing it soon. This will help us determine if you lean more towards the analytical side of coding (Investigative) or the team-leading aspects of software development (Enterprising), allowing us to tailor your focus more precisely.\n\nFor your 300L year, you should prioritize core courses that build a strong foundation for software engineering, such as Data Structures and Algorithms, System Design, and Software Engineering principles. These are critical for both local tech roles in Nigeria and international standards. Since we haven't assessed your dominant learning style yet, I suggest combining theoretical study with practical projects. For example, after learning about algorithms, try implementing them in a small app or contributing to a local open-source project. This hands-on approach helps solidify concepts and builds your portfolio, which is highly valued by Nigerian tech companies like Flutterwave, Paystack, and Andela.\n\nTo build confidence (self-efficacy), set small, achievable goals for each course. For instance, aim to master one design pattern per week or complete a mini-project by the end of each module. This incremental success will boost your confidence and prepare you for the rigors of 400L and beyond. Keep up the excellent academic performance, and let’s continue to align your studies with your career aspirations!"
+      }
+    ],
+    "createdAt": "2026-09-11T00:29:25.560Z",
+    "updatedAt": "2026-09-11T00:29:25.560Z"
+  }
+]
