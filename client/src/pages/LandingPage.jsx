@@ -4,8 +4,7 @@ import { motion } from 'framer-motion';
 import {
   Brain, BookOpen, MessageSquare, BarChart2,
   ArrowRight, ChevronDown, GraduationCap, Briefcase, Compass,
-  Zap, Shield, Target, GitCompare, Check, Sparkles, Search, Bell,
-  TrendingUp, Award, Layers, ExternalLink
+  Zap, Shield, Target, GitCompare, Check, Sparkles
 } from 'lucide-react';
 import PathWiseLogo from '../components/PathWiseLogo';
 
@@ -44,62 +43,62 @@ const LandingPage = () => {
   const features = [
     {
       icon: Brain,
-      title: 'AI-Powered Career Matching',
-      desc: 'Our weighted algorithmic scoring analyzes your academic strengths, interests, and personality across Holland\'s 6 RIASEC dimensions to calculate your best-fit career match with precision.',
+      title: 'AI-Powered RIASEC Matching',
+      desc: 'Our weighted algorithmic engine scores you across Holland\'s 6 personality dimensions and SCCT self-efficacy to recommend your highest-affinity career paths with confidence scores.',
     },
     {
       icon: BookOpen,
-      title: 'DELSU Course Roadmap',
-      desc: 'Get a semester-by-semester course plan aligned with the Delta State University curriculum — from 100L all the way to graduation — tailored to your chosen career path.',
+      title: 'DELSU Semester Course Roadmap',
+      desc: 'Get a clear, semester-by-semester course sequencing plan aligned directly with the Delta State University academic catalog from 100L all the way to graduation.',
     },
     {
       icon: MessageSquare,
-      title: 'AI Career Advisor',
-      desc: 'Ask anything, anytime. Our intelligent AI advisor answers your career inquiries, compares paths, and generates personalized study milestones for DELSU courses.',
+      title: 'Interactive AI Career Advisor',
+      desc: 'Get instantaneous, contextual answers about SIWES industrial training placements, CGPA optimization, departmental electives, and industry technical certifications.',
     },
     {
       icon: BarChart2,
-      title: 'Skill Gap Analyzer',
-      desc: 'See exactly which technical and industry skills you need to develop for your target career, with actionable steps to prepare for SIWES and graduate opportunities.',
+      title: 'Skill Gap & Readiness Analyzer',
+      desc: 'Visualize the exact technical, analytical, and professional competencies required by Nigerian and global tech employers, with guided steps to close any gaps.',
     },
   ];
 
   const howSteps = [
-    { number: '01', icon: Target, title: 'Take Assessment', desc: 'Answer 18 calibrated Likert statements exploring your interests and strengths. Takes under 5 minutes.' },
-    { number: '02', icon: Brain, title: 'Multi-Theory Scoring', desc: 'Our engine computes your Holland RIASEC code, SCCT self-efficacy, and academic alignment.' },
-    { number: '03', icon: TrendingUp, title: 'Explore Ranked Matches', desc: 'Discover your top career matches with confidence scores, salary benchmarks, and local Nigerian market insights.' },
-    { number: '04', icon: BookOpen, title: 'Follow Your Roadmap', desc: 'Execute your semester-by-semester DELSU course schedule and targeted skill goals.' },
+    { number: '01', icon: Target, title: 'Take Assessment', desc: 'Answer 18 calibrated Likert-scale statements exploring your vocational inclinations and strengths in under 5 minutes.' },
+    { number: '02', icon: Brain, title: 'Multi-Theory Scoring', desc: 'Our decision engine analyzes your responses using Holland\'s RIASEC model and your current academic level.' },
+    { number: '03', icon: Zap, title: 'Explore Ranked Matches', desc: 'Review top career matches complete with compatibility percentages, expected salary ranges, and market demand.' },
+    { number: '04', icon: BookOpen, title: 'Follow Your Roadmap', desc: 'Execute your custom semester-by-semester DELSU course schedule and targeted skill development milestones.' },
   ];
 
   const audiences = [
     {
       icon: GraduationCap,
       title: 'Current Students',
-      desc: 'Get matched to your optimal career path and follow a DELSU-aligned course roadmap from Year 1 to graduation.',
+      desc: 'Get matched to your best career path and follow a DELSU-aligned course roadmap from your very first semester to stay on track.',
       bullets: [
         'Semester-by-semester course plans',
-        'Academic prerequisite planning',
+        'Academic prerequisite bottleneck warnings',
         'Direct alignment with DELSU syllabus'
       ]
     },
     {
       icon: Briefcase,
       title: 'Graduating Finalists',
-      desc: 'Translate your academic degree into targeted tech career options and prepare for national youth service & hiring.',
+      desc: 'Translate your academic qualifications into targeted tech career options and navigate the graduate tech job market with confidence.',
       bullets: [
         'Nigerian & remote tech industry mapping',
         'Personalized skill gap analyzers',
-        'Portfolio & CV alignment guidance'
+        'Portfolio & CV compatibility guidelines'
       ]
     },
     {
       icon: GitCompare,
       title: 'Career Switchers',
-      desc: 'Identify transferable skill adjacencies and map out transitional milestones to pivot fields without restarting.',
+      desc: 'Identify transferable skill adjacencies and map out transitional milestones to pivot fields without starting from scratch.',
       bullets: [
         'Transferable skill adjacency reports',
-        'High-impact certification roadmaps',
-        'Practical portfolio building tips'
+        'Fast-track certification matching',
+        'Targeted practical project milestones'
       ]
     },
   ];
@@ -164,7 +163,7 @@ const LandingPage = () => {
           animation: fall linear infinite;
         }
         @keyframes fall {
-          0% { transform: translateY(0) translateX(0) scale(1); opacity: 0; }
+          0% { transform: translateY(0) scale(1); opacity: 0; }
           10% { opacity: 0.8; }
           50% { transform: translateY(50vh) translateX(var(--drift)) scale(0.8); opacity: 1; }
           90% { opacity: 0.6; }
@@ -368,38 +367,84 @@ const LandingPage = () => {
           }
         }
 
-        /* ─── CREDIX DESKTOP BLUE-SKY & CLOUD STYLING (≥ 1024px) ─── */
-        .credix-hero-bg {
+        /* ─── CREDIX SKY HERO + 3D ANIMATION STYLING (≥ 1024px) ─── */
+        .credix-sky-wrapper {
           position: relative;
           background:
-            linear-gradient(to bottom, rgba(58, 125, 232, 0.65) 0%, rgba(90, 155, 248, 0.45) 45%, #f4f8fe 98%),
+            linear-gradient(to bottom, rgba(20, 80, 210, 0.72) 0%, rgba(55, 125, 245, 0.52) 40%, rgba(248, 250, 252, 0.92) 88%, #F8FAFC 100%),
             url('https://images.unsplash.com/photo-1513002749550-c59d786b8e6c?w=1920&q=80') center top / cover no-repeat;
         }
 
         .credix-glass-pill {
           background: rgba(255, 255, 255, 0.22);
-          backdrop-filter: blur(20px);
-          -webkit-backdrop-filter: blur(20px);
-          border: 1px solid rgba(255, 255, 255, 0.35);
+          backdrop-filter: blur(24px);
+          -webkit-backdrop-filter: blur(24px);
+          border: 1px solid rgba(255, 255, 255, 0.4);
         }
 
-        .credix-mockup-card {
-          background: #ffffff;
-          border-radius: 28px;
-          border: 1px solid rgba(255, 255, 255, 0.6);
-          box-shadow: 0 35px 80px -20px rgba(18, 52, 120, 0.28), 0 10px 30px -10px rgba(0, 0, 0, 0.12);
+        /* 3D Perspective Floating Dashboard */
+        .credix-perspective-scene {
+          perspective: 1400px;
+          perspective-origin: 50% 0%;
         }
 
-        .credix-card-surface {
-          background: #ffffff;
-          border: 1px solid #e2e8f4;
-          border-radius: 24px;
-          transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        .credix-floating-frame {
+          transform-style: preserve-3d;
+          transform: rotateX(10deg) translateY(0px) scale(0.98);
+          animation: credixLevitate 6s ease-in-out infinite alternate;
+          transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.6s ease;
         }
-        .credix-card-surface:hover {
-          border-color: #3b82f6;
-          transform: translateY(-4px);
-          box-shadow: 0 20px 40px -15px rgba(59, 130, 246, 0.15);
+
+        .credix-floating-frame:hover {
+          transform: rotateX(2deg) translateY(-8px) scale(1.005);
+          box-shadow: 0 45px 100px -15px rgba(25, 68, 241, 0.38), 0 20px 45px -10px rgba(0, 0, 0, 0.16);
+        }
+
+        @keyframes credixLevitate {
+          0% {
+            transform: rotateX(11deg) translateY(0px) scale(0.98);
+            box-shadow: 0 30px 75px -15px rgba(25, 68, 241, 0.28), 0 15px 35px -10px rgba(0, 0, 0, 0.12);
+          }
+          100% {
+            transform: rotateX(6deg) translateY(-16px) scale(0.995);
+            box-shadow: 0 45px 95px -15px rgba(25, 68, 241, 0.36), 0 20px 45px -10px rgba(0, 0, 0, 0.15);
+          }
+        }
+
+        .credix-float-badge-1 {
+          animation: badgeFloat1 5s ease-in-out infinite alternate;
+        }
+        @keyframes badgeFloat1 {
+          0% { transform: translateY(0px); }
+          100% { transform: translateY(-8px); }
+        }
+
+        .credix-float-badge-2 {
+          animation: badgeFloat2 5.5s ease-in-out infinite alternate-reverse;
+        }
+        @keyframes badgeFloat2 {
+          0% { transform: translateY(0px); }
+          100% { transform: translateY(-10px); }
+        }
+
+        .credix-float-badge-3 {
+          animation: badgeFloat3 6s ease-in-out infinite alternate;
+        }
+        @keyframes badgeFloat3 {
+          0% { transform: translateY(0px); }
+          100% { transform: translateY(-6px); }
+        }
+
+        .credix-card-clean {
+          background: #ffffff;
+          border: 1px solid #E2E8F0;
+          border-radius: 20px;
+          transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .credix-card-clean:hover {
+          border-color: #1944F1;
+          transform: translateY(-3px);
+          box-shadow: 0 16px 32px -8px rgba(25, 68, 241, 0.12);
         }
       `}</style>
 
@@ -509,25 +554,25 @@ const LandingPage = () => {
       {/* ========================================================================= */}
       {/* 2. CREDIX-INSPIRED WHITE & BLUE DESKTOP DISPLAY (Screens ≥ 1024px)        */}
       {/* ========================================================================= */}
-      <div className="hidden lg:block min-h-screen bg-[#f4f8fe] text-[#0f172a] font-['Inter',sans-serif] selection:bg-[#2563eb] selection:text-white relative overflow-x-hidden">
+      <div className="hidden lg:block min-h-screen bg-[#F8FAFC] text-[#111827] font-['Open_Sans',sans-serif] selection:bg-[#1944F1] selection:text-white relative overflow-x-hidden">
 
         {/* ── SKY HERO WRAPPER ─────────────────────────────────────────────── */}
-        <section className="credix-hero-bg pt-6 pb-28 px-8 relative overflow-hidden">
+        <section className="credix-sky-wrapper pt-6 pb-24 px-8 relative overflow-hidden">
 
           {/* Floating Glass Top Navigation */}
-          <header className="max-w-6xl mx-auto flex items-center justify-between py-4 px-8 rounded-full credix-glass-pill shadow-lg shadow-[#1e3a8a]/10 mb-14">
+          <header className="max-w-6xl mx-auto flex items-center justify-between py-3.5 px-8 rounded-full credix-glass-pill shadow-lg shadow-[#1944F1]/10 mb-14">
             
             {/* Logo + Final Year Project Tag */}
             <div className="flex items-center gap-3">
               <PathWiseLogo href="/" size={28} textColor="#ffffff" />
               <div className="h-4 w-[1px] bg-white/30" />
-              <span className="text-[11px] font-semibold text-white/90 bg-white/15 px-2.5 py-0.5 rounded-full border border-white/20">
+              <span className="text-[11px] font-semibold text-white/95 bg-white/15 px-2.5 py-0.5 rounded-full border border-white/25">
                 B.Sc. Final Year Project · DELSU
               </span>
             </div>
 
             {/* Nav links */}
-            <nav className="flex items-center gap-8 text-sm font-semibold text-white/90">
+            <nav className="flex items-center gap-8 text-sm font-semibold text-white/95">
               <a href="#features" className="hover:text-white transition-colors">Features</a>
               <a href="#how-it-works" className="hover:text-white transition-colors">How It Works</a>
               <a href="#for-who" className="hover:text-white transition-colors">Who It's For</a>
@@ -537,13 +582,13 @@ const LandingPage = () => {
             <div className="flex items-center gap-4">
               <Link
                 to="/login"
-                className="text-sm font-bold text-white hover:text-white/80 transition-colors px-3 py-1.5"
+                className="text-sm font-bold text-white hover:text-white/85 transition-colors px-3 py-1.5"
               >
                 Sign In
               </Link>
               <Link
                 to="/choice"
-                className="bg-white hover:bg-white/95 text-[#1e40af] px-6 py-2.5 rounded-full font-extrabold text-sm shadow-md transition-all hover:scale-[1.02] active:scale-[0.98]"
+                className="bg-white hover:bg-white/95 text-[#1944F1] px-6 py-2.5 rounded-full font-bold text-sm shadow-md transition-all hover:scale-[1.02] active:scale-[0.98]"
               >
                 Get Started
               </Link>
@@ -551,7 +596,7 @@ const LandingPage = () => {
           </header>
 
           {/* Hero Typography & CTA */}
-          <div className="max-w-5xl mx-auto text-center flex flex-col items-center pt-6">
+          <div className="max-w-5xl mx-auto text-center flex flex-col items-center pt-4">
             
             {/* Academic badge */}
             <motion.div
@@ -564,12 +609,12 @@ const LandingPage = () => {
               <span>Delta State University · Dept. of Computer Science · Degree Project</span>
             </motion.div>
 
-            {/* Credix-style Bold Headline */}
+            {/* Credix Bold Headline */}
             <motion.h1
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.1 }}
-              className="font-outfit font-black text-6xl lg:text-7xl text-white tracking-tight leading-[1.06] drop-shadow-sm max-w-4xl"
+              className="font-['Nunito',sans-serif] font-black text-6xl lg:text-7xl text-white tracking-tight leading-[1.06] drop-shadow-sm max-w-4xl"
             >
               Your Ambition. Your Degree.<br />
               Your Future is here.
@@ -602,183 +647,86 @@ const LandingPage = () => {
                 />
                 <Link
                   to={matricInput ? `/register?id=${encodeURIComponent(matricInput)}` : '/choice'}
-                  className="bg-white hover:bg-white/95 text-[#1e40af] px-6 py-3 rounded-full font-black text-sm whitespace-nowrap shadow-md transition-all flex items-center gap-2 shrink-0 hover:scale-[1.02] active:scale-[0.98]"
+                  className="bg-white hover:bg-white/95 text-[#1944F1] px-6 py-3 rounded-full font-bold text-sm whitespace-nowrap shadow-md transition-all flex items-center gap-2 shrink-0 hover:scale-[1.02] active:scale-[0.98]"
                 >
                   <span>Start Assessment</span>
                   <ArrowRight className="w-4 h-4" />
                 </Link>
               </div>
-              <span className="text-xs text-white/80 font-medium drop-shadow-xs">
+              <span className="text-xs text-white/85 font-medium drop-shadow-xs">
                 100% Free for all DELSU undergraduates · Takes under 5 minutes
               </span>
             </motion.div>
 
-            {/* ── THE CENTERPIECE: FLOATING DASHBOARD MOCKUP CARD ──────────── */}
+            {/* ── THE CENTERPIECE: 3D ANIMATED FLOATING USER DASHBOARD SHOWCASE ── */}
             <motion.div
-              initial={{ opacity: 0, y: 35 }}
+              initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.45, ease: [0.16, 1, 0.3, 1] }}
-              className="mt-16 w-full max-w-5xl credix-mockup-card p-6 lg:p-8 text-left relative overflow-hidden"
+              className="credix-perspective-scene mt-14 w-full max-w-5xl mx-auto px-2 relative"
             >
-              {/* Mock Dashboard Top Header Bar */}
-              <div className="flex items-center justify-between pb-6 border-b border-[#e8effc]">
-                <div className="flex items-center gap-6 flex-1">
-                  <div className="flex items-center gap-2">
-                    <div className="w-8 h-8 rounded-xl bg-[#2563eb] flex items-center justify-center text-white font-black text-sm">
-                      P
+              <div className="credix-floating-frame relative">
+
+                {/* Floating Chip 1 (Top-Left) */}
+                <div className="credix-float-badge-1 absolute -top-4 -left-4 z-20 flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-white shadow-xl border border-blue-100 text-xs font-bold text-[#1944F1]">
+                  <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping" />
+                  <span>94% Career Compatibility · RIASEC Engine</span>
+                </div>
+
+                {/* Floating Chip 2 (Top-Right) */}
+                <div className="credix-float-badge-2 absolute -top-4 -right-4 z-20 flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-white shadow-xl border border-blue-100 text-xs font-bold text-[#111827]">
+                  <GraduationCap className="w-4 h-4 text-[#1944F1]" />
+                  <span>DELSU Syllabus Aligned · 100L - 400L</span>
+                </div>
+
+                {/* Application Window Frame */}
+                <div className="rounded-[28px] overflow-hidden bg-white border border-white/70 shadow-[0_30px_90px_-15px_rgba(25,68,241,0.28),0_15px_40px_-10px_rgba(0,0,0,0.12)]">
+                  
+                  {/* Chrome Browser Header Bar */}
+                  <div className="h-10 bg-[#F8FAFC] border-b border-[#E2E8F0] px-5 flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <div className="w-3 h-3 rounded-full bg-[#EF4444]" />
+                      <div className="w-3 h-3 rounded-full bg-[#F59E0B]" />
+                      <div className="w-3 h-3 rounded-full bg-[#10B981]" />
                     </div>
-                    <span className="font-outfit font-extrabold text-[#0f172a] text-lg">PathWise</span>
+                    <div className="px-5 py-1 rounded-full bg-white border border-[#E2E8F0] text-[11px] font-mono text-[#64748B] flex items-center gap-2 shadow-2xs">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                      <span>https://pathwise.delsu.edu.ng/dashboard</span>
+                    </div>
+                    <div className="w-10" />
                   </div>
 
-                  {/* Mock Search Bar */}
-                  <div className="flex items-center gap-2.5 px-4 py-2 rounded-xl bg-[#f4f7fc] border border-[#e2e8f4] text-xs text-[#64748b] w-72">
-                    <Search className="w-3.5 h-3.5 text-[#94a3b8]" />
-                    <span>Search careers, courses, skills...</span>
+                  {/* Actual Real PathWise Dashboard (From User's Uploaded Screenshot) */}
+                  <div className="relative bg-[#F8FAFC] overflow-hidden">
+                    <img
+                      src="/dashboard-preview.png"
+                      alt="PathWise Student Dashboard Interface"
+                      className="w-full h-auto object-cover object-top block select-none pointer-events-none"
+                    />
+                    {/* Subtle Sheen Gradient */}
+                    <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-transparent to-white/10 pointer-events-none" />
                   </div>
                 </div>
 
-                {/* Mock User Area */}
-                <div className="flex items-center gap-4">
-                  <div className="w-8 h-8 rounded-xl bg-[#f4f7fc] flex items-center justify-center text-[#64748b]">
-                    <Bell className="w-4 h-4" />
+                {/* Floating Chip 3 (Bottom-Right) */}
+                <div className="credix-float-badge-3 absolute -bottom-5 right-6 z-20 flex items-center gap-3 px-5 py-3 rounded-2xl bg-white shadow-2xl border border-blue-100">
+                  <div className="w-8 h-8 rounded-xl bg-[#EEF2FF] flex items-center justify-center text-[#1944F1]">
+                    <Sparkles className="w-4 h-4" />
                   </div>
-                  <div className="flex items-center gap-2.5 pl-2 border-l border-[#e2e8f4]">
-                    <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-[#2563eb] to-[#60a5fa] text-white font-bold text-xs flex items-center justify-center shadow-sm">
-                      IW
-                    </div>
-                    <div className="text-xs">
-                      <div className="font-bold text-[#0f172a]">Ifeanyi Wisdom</div>
-                      <div className="text-[#64748b] text-[11px]">DELSU · 400L Comp Sci</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Mock Dashboard Body Columns */}
-              <div className="grid grid-cols-12 gap-6 pt-6">
-                
-                {/* Left Mini-Sidebar */}
-                <div className="col-span-3 space-y-1.5 pr-4 border-r border-[#e8effc]">
-                  <div className="text-[10px] font-extrabold uppercase tracking-wider text-[#94a3b8] px-3 mb-2">Navigation</div>
-                  <div className="flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl bg-[#2563eb]/10 text-[#2563eb] font-bold text-xs">
-                    <Compass className="w-4 h-4" />
-                    <span>Overview</span>
-                  </div>
-                  <div className="flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl text-[#64748b] hover:bg-[#f8fafc] font-semibold text-xs">
-                    <Briefcase className="w-4 h-4" />
-                    <span>Career Explorer</span>
-                  </div>
-                  <div className="flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl text-[#64748b] hover:bg-[#f8fafc] font-semibold text-xs">
-                    <BookOpen className="w-4 h-4" />
-                    <span>Course Roadmap</span>
-                  </div>
-                  <div className="flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl text-[#64748b] hover:bg-[#f8fafc] font-semibold text-xs">
-                    <MessageSquare className="w-4 h-4" />
-                    <span>AI Advisor</span>
-                  </div>
-                </div>
-
-                {/* Center Main Match Card */}
-                <div className="col-span-5 space-y-4">
-                  <div className="p-5 rounded-2xl bg-gradient-to-br from-[#eff6ff] to-[#f8fafc] border border-[#dbeafe]">
-                    <div className="flex items-center justify-between mb-3">
-                      <span className="text-[10px] font-extrabold uppercase tracking-wider bg-[#2563eb] text-white px-2.5 py-0.5 rounded-full">
-                        Top Career Match · 94%
-                      </span>
-                      <span className="font-mono text-xs font-bold text-[#2563eb]">Holland: IRC</span>
-                    </div>
-                    <h4 className="font-outfit font-black text-xl text-[#0f172a]">
-                      Cloud & Distributed Systems Architect
-                    </h4>
-                    <p className="text-xs text-[#64748b] mt-1 leading-relaxed">
-                      High alignment with your Investigative and Realistic problem-solving dimensions.
-                    </p>
-                    <div className="mt-4 pt-3 border-t border-[#dbeafe] flex items-center justify-between text-xs">
-                      <span className="text-[#64748b]">Nigerian Industry Benchmark</span>
-                      <span className="font-bold text-[#0f172a]">₦8,500,000 – ₦18,000,000 / yr</span>
-                    </div>
-                  </div>
-
-                  {/* Mini RIASEC Traits Strip */}
-                  <div className="p-4 rounded-2xl bg-[#ffffff] border border-[#e2e8f4]">
-                    <div className="text-xs font-bold text-[#0f172a] mb-2.5">Holland RIASEC Dimension Scores</div>
-                    <div className="grid grid-cols-6 gap-2 text-center">
-                      {[
-                        { k: 'R', val: 82, l: 'Realistic' },
-                        { k: 'I', val: 94, l: 'Investigative' },
-                        { k: 'A', val: 58, l: 'Artistic' },
-                        { k: 'S', val: 42, l: 'Social' },
-                        { k: 'E', val: 68, l: 'Enterprising' },
-                        { k: 'C', val: 88, l: 'Conventional' },
-                      ].map(t => (
-                        <div key={t.k} className="flex flex-col items-center gap-1">
-                          <div className="w-full h-12 bg-[#f1f5f9] rounded-lg p-1 flex flex-col justify-end">
-                            <div
-                              className="w-full rounded-md bg-gradient-to-t from-[#2563eb] to-[#60a5fa]"
-                              style={{ height: `${t.val}%` }}
-                            />
-                          </div>
-                          <span className="font-mono font-bold text-[11px] text-[#0f172a]">{t.k}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-
-                {/* Right Column: Roadmap & Academic Standing */}
-                <div className="col-span-4 space-y-4">
-                  {/* Semester Courses Card */}
-                  <div className="p-4 rounded-2xl bg-[#f8fafc] border border-[#e2e8f4]">
-                    <div className="flex items-center justify-between mb-2.5">
-                      <span className="text-xs font-bold text-[#0f172a]">DELSU Semester Roadmap</span>
-                      <span className="text-[10px] font-semibold text-[#2563eb] bg-[#dbeafe] px-2 py-0.5 rounded-md">400 Level</span>
-                    </div>
-                    <div className="space-y-2 text-xs">
-                      <div className="p-2 rounded-xl bg-white border border-[#e2e8f4] flex justify-between items-center">
-                        <div>
-                          <div className="font-bold text-[#0f172a]">CSC 401</div>
-                          <div className="text-[10px] text-[#64748b]">Artificial Intelligence</div>
-                        </div>
-                        <span className="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded">Core · 3U</span>
-                      </div>
-                      <div className="p-2 rounded-xl bg-white border border-[#e2e8f4] flex justify-between items-center">
-                        <div>
-                          <div className="font-bold text-[#0f172a]">CSC 411</div>
-                          <div className="text-[10px] text-[#64748b]">Distributed Computing</div>
-                        </div>
-                        <span className="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded">Core · 3U</span>
-                      </div>
-                      <div className="p-2 rounded-xl bg-white border border-[#e2e8f4] flex justify-between items-center">
-                        <div>
-                          <div className="font-bold text-[#0f172a]">CSC 499</div>
-                          <div className="text-[10px] text-[#64748b]">Final Year Degree Project</div>
-                        </div>
-                        <span className="text-[10px] font-bold text-[#2563eb] bg-[#dbeafe] px-2 py-0.5 rounded">6 Units</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Advisor Tip Chip */}
-                  <div className="p-3.5 rounded-2xl bg-gradient-to-r from-[#2563eb] to-[#1d4ed8] text-white text-xs space-y-1 shadow-md shadow-[#2563eb]/20">
-                    <div className="flex items-center gap-1.5 font-bold">
-                      <Sparkles className="w-3.5 h-3.5 text-amber-300" />
-                      <span>AI Career Advisor Insight</span>
-                    </div>
-                    <p className="text-[11px] text-white/90 leading-snug">
-                      Your high investigative score pairs directly with systems engineering. Start building distributed prototypes before graduation.
-                    </p>
+                  <div className="text-left">
+                    <div className="text-xs font-bold text-[#111827]">Live Career Decision Engine</div>
+                    <div className="text-[11px] text-[#64748B]">Personalized to your CGPA & courses</div>
                   </div>
                 </div>
 
               </div>
-
             </motion.div>
 
           </div>
         </section>
 
         {/* ── STATS STRIP ──────────────────────────────────────────────────── */}
-        <section className="py-12 bg-white border-b border-[#e2e8f4]">
+        <section className="py-12 bg-white border-b border-[#E2E8F0]">
           <div className="max-w-5xl mx-auto px-8 grid grid-cols-4 gap-8 text-center">
             {[
               { num: '30+', label: 'Tech & Science Career Tracks' },
@@ -787,10 +735,10 @@ const LandingPage = () => {
               { num: '100%', label: 'Free for Nigerian Undergraduates' },
             ].map(s => (
               <div key={s.label}>
-                <div className="font-outfit text-3xl lg:text-4xl font-black text-[#1e40af] font-mono">
+                <div className="font-['Nunito',sans-serif] text-3xl lg:text-4xl font-black text-[#1944F1] font-mono">
                   {s.num}
                 </div>
-                <div className="text-[#64748b] text-xs mt-1 font-medium">{s.label}</div>
+                <div className="text-[#64748B] text-xs mt-1 font-medium">{s.label}</div>
               </div>
             ))}
           </div>
@@ -799,34 +747,34 @@ const LandingPage = () => {
         {/* ── FOUR CORE FEATURES ───────────────────────────────────────────── */}
         <section className="py-24 max-w-6xl mx-auto px-8" id="features">
           <div className="text-center max-w-2xl mx-auto mb-16">
-            <span className="text-xs font-extrabold uppercase tracking-widest text-[#2563eb] bg-[#dbeafe] px-3 py-1 rounded-full">
+            <span className="text-xs font-bold uppercase tracking-widest text-[#1944F1] bg-[#EEF2FF] px-3.5 py-1 rounded-full border border-blue-100">
               System Capabilities
             </span>
-            <h2 className="font-outfit font-black text-4xl text-[#0f172a] mt-4 tracking-tight">
+            <h2 className="font-['Nunito',sans-serif] font-black text-4xl text-[#111827] mt-4 tracking-tight">
               Intelligent Career Guidance, Tailored for DELSU
             </h2>
-            <p className="text-[#64748b] text-base mt-3 leading-relaxed">
+            <p className="text-[#64748B] text-base mt-3 leading-relaxed">
               PathWise bridges the gap between university coursework and high-impact technology industries.
             </p>
           </div>
 
           <div className="grid grid-cols-2 gap-8">
-            {features.map((f, i) => {
+            {features.map((f) => {
               const Icon = f.icon;
               return (
-                <div key={f.title} className="credix-card-surface p-8 flex flex-col justify-between">
+                <div key={f.title} className="credix-card-clean p-8 flex flex-col justify-between">
                   <div>
-                    <div className="w-12 h-12 rounded-2xl bg-[#eff6ff] border border-[#bfdbfe] flex items-center justify-center text-[#2563eb] mb-6">
+                    <div className="w-12 h-12 rounded-2xl bg-[#EEF2FF] border border-blue-100 flex items-center justify-center text-[#1944F1] mb-6">
                       <Icon className="w-6 h-6" />
                     </div>
-                    <h3 className="font-outfit font-bold text-xl text-[#0f172a] mb-2.5">
+                    <h3 className="font-['Nunito',sans-serif] font-bold text-xl text-[#111827] mb-2.5">
                       {f.title}
                     </h3>
-                    <p className="text-sm text-[#64748b] leading-relaxed">
+                    <p className="text-sm text-[#64748B] leading-relaxed">
                       {f.desc}
                     </p>
                   </div>
-                  <div className="mt-6 pt-4 border-t border-[#f1f5f9] flex items-center gap-2 text-xs font-bold text-[#2563eb]">
+                  <div className="mt-6 pt-4 border-t border-[#F1F5F9] flex items-center gap-2 text-xs font-bold text-[#1944F1]">
                     <span>Integrated with DELSU Syllabus</span>
                     <Check className="w-3.5 h-3.5" />
                   </div>
@@ -837,16 +785,16 @@ const LandingPage = () => {
         </section>
 
         {/* ── HOW IT WORKS ─────────────────────────────────────────────────── */}
-        <section className="py-24 bg-[#ffffff] border-y border-[#e2e8f4]" id="how-it-works">
+        <section className="py-24 bg-[#FFFFFF] border-y border-[#E2E8F0]" id="how-it-works">
           <div className="max-w-6xl mx-auto px-8">
             <div className="text-center max-w-2xl mx-auto mb-16">
-              <span className="text-xs font-extrabold uppercase tracking-widest text-[#2563eb] bg-[#dbeafe] px-3 py-1 rounded-full">
+              <span className="text-xs font-bold uppercase tracking-widest text-[#1944F1] bg-[#EEF2FF] px-3.5 py-1 rounded-full border border-blue-100">
                 Simple Methodology
               </span>
-              <h2 className="font-outfit font-black text-4xl text-[#0f172a] mt-4 tracking-tight">
+              <h2 className="font-['Nunito',sans-serif] font-black text-4xl text-[#111827] mt-4 tracking-tight">
                 From Assessment to Career Clarity in 4 Steps
               </h2>
-              <p className="text-[#64748b] text-base mt-3">
+              <p className="text-[#64748B] text-base mt-3">
                 Complete our fast, validated assessment in under 5 minutes to unlock your full roadmap.
               </p>
             </div>
@@ -855,15 +803,15 @@ const LandingPage = () => {
               {howSteps.map((step) => {
                 const StepIcon = step.icon;
                 return (
-                  <div key={step.number} className="p-6 rounded-2xl bg-[#f8fafc] border border-[#e2e8f4] flex flex-col h-full">
+                  <div key={step.number} className="p-6 rounded-2xl bg-[#F8FAFC] border border-[#E2E8F0] flex flex-col h-full hover:border-[#1944F1]/40 transition-colors">
                     <div className="flex items-center justify-between mb-4">
-                      <div className="w-11 h-11 rounded-xl bg-[#eff6ff] border border-[#bfdbfe] flex items-center justify-center text-[#2563eb]">
+                      <div className="w-11 h-11 rounded-xl bg-[#EEF2FF] border border-blue-100 flex items-center justify-center text-[#1944F1]">
                         <StepIcon className="w-5 h-5" />
                       </div>
-                      <span className="font-mono text-xl font-black text-[#94a3b8]">{step.number}</span>
+                      <span className="font-mono text-xl font-black text-[#94A3B8]">{step.number}</span>
                     </div>
-                    <h4 className="font-bold text-base text-[#0f172a] mb-2">{step.title}</h4>
-                    <p className="text-xs text-[#64748b] leading-relaxed flex-grow">{step.desc}</p>
+                    <h4 className="font-bold text-base text-[#111827] mb-2">{step.title}</h4>
+                    <p className="text-xs text-[#64748B] leading-relaxed flex-grow">{step.desc}</p>
                   </div>
                 );
               })}
@@ -874,10 +822,10 @@ const LandingPage = () => {
         {/* ── TARGET AUDIENCE CARDS ────────────────────────────────────────── */}
         <section className="py-24 max-w-6xl mx-auto px-8" id="for-who">
           <div className="text-center max-w-2xl mx-auto mb-16">
-            <span className="text-xs font-extrabold uppercase tracking-widest text-[#2563eb] bg-[#dbeafe] px-3 py-1 rounded-full">
+            <span className="text-xs font-bold uppercase tracking-widest text-[#1944F1] bg-[#EEF2FF] px-3.5 py-1 rounded-full border border-blue-100">
               Student Segments
             </span>
-            <h2 className="font-outfit font-black text-4xl text-[#0f172a] mt-4 tracking-tight">
+            <h2 className="font-['Nunito',sans-serif] font-black text-4xl text-[#111827] mt-4 tracking-tight">
               Tailored Guidance for Every Stage at DELSU
             </h2>
           </div>
@@ -886,18 +834,18 @@ const LandingPage = () => {
             {audiences.map((a) => {
               const AudIcon = a.icon;
               return (
-                <div key={a.title} className="credix-card-surface p-8 flex flex-col justify-between">
+                <div key={a.title} className="credix-card-clean p-8 flex flex-col justify-between">
                   <div>
-                    <div className="w-12 h-12 rounded-2xl bg-[#eff6ff] border border-[#bfdbfe] flex items-center justify-center text-[#2563eb] mb-6">
+                    <div className="w-12 h-12 rounded-2xl bg-[#EEF2FF] border border-blue-100 flex items-center justify-center text-[#1944F1] mb-6">
                       <AudIcon className="w-6 h-6" />
                     </div>
-                    <h3 className="font-outfit font-bold text-xl text-[#0f172a] mb-2">
+                    <h3 className="font-['Nunito',sans-serif] font-bold text-xl text-[#111827] mb-2">
                       {a.title}
                     </h3>
-                    <p className="text-xs text-[#64748b] leading-relaxed mb-6">
+                    <p className="text-xs text-[#64748B] leading-relaxed mb-6">
                       {a.desc}
                     </p>
-                    <div className="space-y-2.5 pt-4 border-t border-[#f1f5f9]">
+                    <div className="space-y-2.5 pt-4 border-t border-[#F1F5F9]">
                       {a.bullets.map((b, idx) => (
                         <div key={idx} className="flex items-start gap-2.5 text-xs text-[#334155] font-medium">
                           <Check className="w-3.5 h-3.5 text-emerald-600 shrink-0 mt-0.5" />
@@ -912,9 +860,9 @@ const LandingPage = () => {
           </div>
         </section>
 
-        {/* ── BOTTOM CTA BANNER (Atmospheric Sky Glow) ─────────────────────── */}
+        {/* ── BOTTOM CTA BANNER (Atmospheric Blue Glow) ─────────────────────── */}
         <section className="py-20 px-8">
-          <div className="max-w-5xl mx-auto rounded-3xl p-12 text-center text-white relative overflow-hidden shadow-2xl bg-gradient-to-r from-[#1e40af] via-[#2563eb] to-[#3b82f6]">
+          <div className="max-w-5xl mx-auto rounded-3xl p-12 text-center text-white relative overflow-hidden shadow-2xl bg-gradient-to-r from-[#1944F1] via-[#2563EB] to-[#3B82F6]">
             
             <div className="relative z-10 max-w-2xl mx-auto">
               <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/20 text-xs font-bold uppercase tracking-wider mb-5">
@@ -922,7 +870,7 @@ const LandingPage = () => {
                 <span>Delta State University Undergraduates</span>
               </span>
 
-              <h2 className="font-outfit font-black text-4xl lg:text-5xl leading-tight">
+              <h2 className="font-['Nunito',sans-serif] font-black text-4xl lg:text-5xl leading-tight">
                 Ready to Find Your Career Path?
               </h2>
               <p className="mt-4 text-base text-white/90 leading-relaxed max-w-xl mx-auto">
@@ -932,7 +880,7 @@ const LandingPage = () => {
               <div className="mt-8 flex items-center justify-center gap-4">
                 <Link
                   to="/choice"
-                  className="bg-white hover:bg-white/95 text-[#1e40af] px-8 py-4 rounded-full font-black text-base shadow-xl transition-all hover:scale-[1.02] active:scale-[0.98]"
+                  className="bg-white hover:bg-white/95 text-[#1944F1] px-8 py-4 rounded-full font-black text-base shadow-xl transition-all hover:scale-[1.02] active:scale-[0.98]"
                 >
                   Start Your Assessment
                 </Link>
@@ -949,31 +897,31 @@ const LandingPage = () => {
         </section>
 
         {/* ── DESKTOP FOOTER ───────────────────────────────────────────────── */}
-        <footer className="border-t border-[#e2e8f4] bg-white py-12 text-xs text-[#64748b]">
+        <footer className="border-t border-[#E2E8F0] bg-white py-12 text-xs text-[#64748B]">
           <div className="max-w-6xl mx-auto px-8">
-            <div className="flex items-center justify-between pb-8 border-b border-[#f1f5f9]">
+            <div className="flex items-center justify-between pb-8 border-b border-[#F1F5F9]">
               <div className="space-y-1.5">
                 <div className="flex items-center gap-3">
-                  <PathWiseLogo href="/" size={24} textColor="#0f172a" />
-                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-[#f1f5f9] text-[#1e40af] border border-[#e2e8f4] font-bold">
+                  <PathWiseLogo href="/" size={24} textColor="#111827" />
+                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-[#F1F5F9] text-[#1944F1] border border-[#E2E8F0] font-bold">
                     B.Sc. Final Year Degree Project
                   </span>
                 </div>
-                <p className="text-[#64748b] text-xs max-w-lg leading-relaxed">
+                <p className="text-[#64748B] text-xs max-w-lg leading-relaxed">
                   PathWise · B.Sc. Final Year Degree Project by Ifeanyi Wisdom (Matric: FOS/19/20/248102) · Department of Computer Science, Faculty of Computing, Delta State University (DELSU), Abraka.
                 </p>
               </div>
 
               <div className="flex items-center gap-6 text-xs font-semibold text-[#475569]">
-                <a href="#features" className="hover:text-[#2563eb] transition-colors">Features</a>
-                <a href="#how-it-works" className="hover:text-[#2563eb] transition-colors">How It Works</a>
-                <a href="#for-who" className="hover:text-[#2563eb] transition-colors">Who It's For</a>
-                <Link to="/login" className="hover:text-[#2563eb] transition-colors">Sign In</Link>
-                <Link to="/choice" className="hover:text-[#2563eb] transition-colors">Assessment</Link>
+                <a href="#features" className="hover:text-[#1944F1] transition-colors">Features</a>
+                <a href="#how-it-works" className="hover:text-[#1944F1] transition-colors">How It Works</a>
+                <a href="#for-who" className="hover:text-[#1944F1] transition-colors">Who It's For</a>
+                <Link to="/login" className="hover:text-[#1944F1] transition-colors">Sign In</Link>
+                <Link to="/choice" className="hover:text-[#1944F1] transition-colors">Assessment</Link>
               </div>
             </div>
 
-            <div className="pt-6 flex items-center justify-between text-[#94a3b8] text-[11px]">
+            <div className="pt-6 flex items-center justify-between text-[#94A3B8] text-[11px]">
               <div>© {new Date().getFullYear()} PathWise. Delta State University Undergraduate Degree Project. All rights reserved.</div>
               <div>Abraka, Delta State, Nigeria</div>
             </div>
