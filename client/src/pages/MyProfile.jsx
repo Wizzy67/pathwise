@@ -145,20 +145,9 @@ const MyProfile = () => {
             Verified Delta State University Academic Identity
           </p>
         </div>
-        <div className="flex items-center gap-2">
-          <div className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 text-xs font-bold">
-            <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
-            <span>Matric Verified</span>
-          </div>
-          <button
-            type="button"
-            onClick={handleLogout}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-red-50 hover:bg-red-100 text-red-600 border border-red-200 text-xs font-bold transition-all active:scale-95 cursor-pointer"
-            title="Log out of PathWise"
-          >
-            <LogOut className="w-3.5 h-3.5" />
-            <span>Log Out</span>
-          </button>
+        <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 text-xs font-bold">
+          <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
+          <span>Matric Verified</span>
         </div>
       </div>
 
