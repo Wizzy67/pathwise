@@ -30,7 +30,7 @@ import AdminDashboard from './pages/AdminDashboard';
 import ResultsAnalysis from './pages/ResultsAnalysis';
 
 // Pages that should NOT show the Navbar/Footer
-const BARE_ROUTES = ['/login', '/register', '/forgot-password', '/quiz', '/welcome', '/secure-admin-access', '/choice'];
+const BARE_ROUTES = ['/login', '/register', '/forgot-password', '/quiz', '/welcome', '/secure-admin-access', '/choice', '/admin'];
 
 function App() {
   const location = useLocation();
