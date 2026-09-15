@@ -428,9 +428,15 @@ const LoginPage = () => {
             </div>
 
             {/* Security footer below card */}
-            <div className="mt-6 flex items-center justify-center gap-1.5 text-xs text-[#94A3B8]">
-              <ShieldCheck className="w-3.5 h-3.5 text-[#20428B]" />
-              <span>Secured with end-to-end encryption</span>
+            <div className="mt-6 flex items-center justify-center gap-2 text-xs text-[#94A3B8]">
+              <div className="flex items-center gap-1.5">
+                <ShieldCheck className="w-3.5 h-3.5 text-[#20428B]" />
+                <span>Secured with end-to-end encryption</span>
+              </div>
+              <span>·</span>
+              <Link to="/secure-admin-access" className="hover:text-[#20428B] text-[#64748B] font-medium transition-colors">
+                Admin
+              </Link>
             </div>
 
           </div>

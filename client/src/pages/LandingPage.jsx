@@ -924,9 +924,15 @@ const LandingPage = () => {
               </div>
             </div>
 
-            <div className="pt-6 flex items-center justify-between text-[#94A3B8] text-[11px]">
-              <div>© {new Date().getFullYear()} PathWise. Delta State University Undergraduate Degree Project. All rights reserved.</div>
-              <div>Abraka, Delta State, Nigeria</div>
+            <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-[#94A3B8] text-[11px]">
+              <div className="text-center sm:text-left">© {new Date().getFullYear()} PathWise. Delta State University Undergraduate Degree Project. All rights reserved.</div>
+              <div className="flex items-center gap-3">
+                <Link to="/secure-admin-access" className="hover:text-[#20428B] text-[#64748B] font-semibold transition-colors">
+                  Admin Portal
+                </Link>
+                <span>·</span>
+                <div>Abraka, Delta State, Nigeria</div>
+              </div>
             </div>
           </div>
         </footer>
