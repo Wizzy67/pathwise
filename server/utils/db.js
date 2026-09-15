@@ -382,12 +382,67 @@ export const deleteChatSession = async (id) => {
   return true;
 };
 
+// --- User Deletion & Administration ---
+
+export const deleteUser = async (id) => {
+  let deleted = false;
+  if (isDbLive()) {
+    try {
+      const res = await User.findOneAndDelete({ id });
+      if (res) {
+        await ActivityLog.deleteMany({ userId: id });
+        await ChatSession.deleteMany({ userId: id });
+        deleted = true;
+      }
+    } catch (e) {
+      console.warn('[DB] Mongo delete failed, deleting from local store:', e.message);
+    }
+  }
+  const users = readJsonSafe(USERS_FILE);
+  const idx = users.findIndex(u => u.id === id);
+  if (idx !== -1) {
+    users.splice(idx, 1);
+    writeJsonSafe(USERS_FILE, users);
+    const logs = readJsonSafe(ACTIVITY_FILE).filter(l => l.userId !== id);
+    writeJsonSafe(ACTIVITY_FILE, logs);
+    const chats = readJsonSafe(CHAT_FILE).filter(c => c.userId !== id);
+    writeJsonSafe(CHAT_FILE, chats);
+    deleted = true;
+  }
+  return deleted;
+};
+
+// --- Broadcast Notifications ---
+
+const NOTIFICATIONS_FILE = path.join(DATA_DIR, 'notifications_store.json');
+
+export const getBroadcasts = async () => {
+  return readJsonSafe(NOTIFICATIONS_FILE);
+};
+
+export const createBroadcast = async (broadcastData) => {
+  const item = {
+    id: uuidv4(),
+    title: broadcastData.title || 'Departmental Notice',
+    message: broadcastData.message,
+    targetFaculty: broadcastData.targetFaculty || 'All',
+    targetLevel: broadcastData.targetLevel || 'All',
+    createdBy: broadcastData.createdBy || 'System Administrator',
+    timestamp: new Date().toISOString()
+  };
+  const list = readJsonSafe(NOTIFICATIONS_FILE);
+  list.unshift(item);
+  writeJsonSafe(NOTIFICATIONS_FILE, list);
+  return item;
+};
+
 export default {
   createUser,
   getUserByMatric,
   getUserByEmail,
   getUserById,
   updateUser,
+  deleteUser,
   logActivity,
   getUserActivity,
   getAllUsers,
@@ -398,4 +453,6 @@ export default {
   getChatSessionById,
   addMessagesToSession,
   deleteChatSession,
+  getBroadcasts,
+  createBroadcast
 };
