@@ -2,18 +2,13 @@ import axios from 'axios';
 import { Capacitor } from '@capacitor/core';
 
 const RENDER_BACKEND_URL = 'https://pathwise-u2re.onrender.com/api';
-const LOCAL_WIFI_BACKEND_URL = 'http://172.20.10.7:5000/api';
 
 const getBaseUrl = () => {
   // Check if user specified a custom API endpoint in settings/localStorage
   const customUrl = typeof window !== 'undefined' ? localStorage.getItem('custom_api_url') : null;
   if (customUrl) return customUrl;
 
-  if (import.meta.env.VITE_API_URL) {
-    return import.meta.env.VITE_API_URL;
-  }
-
-  // When running inside native mobile app (Capacitor Android/iOS)
+  // When running inside native mobile app (Capacitor Android/iOS), always use cloud backend
   const isCapacitorNative =
     Capacitor.isNativePlatform() ||
     (typeof window !== 'undefined' && (
@@ -24,8 +19,11 @@ const getBaseUrl = () => {
     ));
 
   if (isCapacitorNative) {
-    // Default to the online cloud backend
     return RENDER_BACKEND_URL;
+  }
+
+  if (import.meta.env.VITE_API_URL) {
+    return import.meta.env.VITE_API_URL;
   }
 
   if (typeof window !== 'undefined' && window.location) {
@@ -160,5 +158,5 @@ api.interceptors.response.use(
   }
 );
 
-export { RENDER_BACKEND_URL, LOCAL_WIFI_BACKEND_URL };
+export { RENDER_BACKEND_URL };
 export default api;
