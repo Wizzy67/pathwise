@@ -14,7 +14,16 @@ const getBaseUrl = () => {
   }
 
   // When running inside native mobile app (Capacitor Android/iOS)
-  if (Capacitor.isNativePlatform()) {
+  const isCapacitorNative =
+    Capacitor.isNativePlatform() ||
+    (typeof window !== 'undefined' && (
+      window.location.protocol === 'capacitor:' ||
+      window.location.protocol === 'ionic:' ||
+      window.Capacitor?.isNativePlatform?.() ||
+      (window.location.hostname === 'localhost' && !window.location.port)
+    ));
+
+  if (isCapacitorNative) {
     // Default to the online cloud backend
     return RENDER_BACKEND_URL;
   }
@@ -22,16 +31,15 @@ const getBaseUrl = () => {
   if (typeof window !== 'undefined' && window.location) {
     const host = window.location.hostname;
     const isTunnel = host.includes('loca.lt') || host.includes('trycloudflare') || host.includes('ngrok') || host.includes('pinggy');
-    const isLocal = host === 'localhost' || host === '127.0.0.1' || host.startsWith('192.168.') || host.startsWith('172.') || host.startsWith('10.');
-    
-    if (isLocal || isTunnel) {
+
+    // Only route to relative /api when running with Vite dev server (e.g. port 5173) or tunnel
+    if (window.location.port === '5173' || window.location.port === '3000' || isTunnel) {
       return '/api';
     }
 
     if (host.includes('vercel.app')) {
       return RENDER_BACKEND_URL;
     }
-    return '/api';
   }
   return RENDER_BACKEND_URL;
 };

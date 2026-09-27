@@ -11,9 +11,20 @@ router.post('/register', async (req, res) => {
   try {
     const { fullName, email, matricNo, faculty, department, level, cgpa, password } = req.body;
 
+    if (!fullName || !matricNo || !password) {
+      return res.status(400).json({ error: 'Please fill in all required fields' });
+    }
+
     const existingUser = await db.getUserByMatric(matricNo);
     if (existingUser) {
       return res.status(400).json({ error: 'Matric number already registered' });
+    }
+
+    if (email) {
+      const existingEmail = await db.getUserByEmail(email);
+      if (existingEmail) {
+        return res.status(400).json({ error: 'An account with this email address already exists' });
+      }
     }
 
     const salt = await bcrypt.genSalt(10);

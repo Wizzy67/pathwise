@@ -269,7 +269,24 @@ const RegisterPage = () => {
       navigate('/welcome');
     } catch (error) {
       console.error('Registration error:', error);
-      const errMsg = error.response?.data?.error || error.response?.data?.message || 'Registration failed. Please check your details.';
+      let errMsg = 'Registration failed. Please check your details.';
+
+      if (error.response?.data?.error) {
+        errMsg = error.response.data.error;
+      } else if (error.response?.data?.message) {
+        errMsg = error.response.data.message;
+      } else if (typeof error.response?.data === 'string' && error.response.data.length < 150) {
+        errMsg = error.response.data;
+      } else if (error.response?.status === 502 || error.response?.status === 503) {
+        errMsg = 'Cloud server is updating or waking up. Please wait 10 seconds and try again.';
+      } else if (error.code === 'ECONNABORTED' || error.message?.includes('timeout')) {
+        errMsg = 'Server took too long to respond. The cloud server may be waking up — please try again in a few seconds.';
+      } else if (!error.response || error.code === 'ERR_NETWORK') {
+        errMsg = 'Unable to reach PathWise server. Please check your internet connection.';
+      } else if (error.message) {
+        errMsg = error.message;
+      }
+
       setServerError(errMsg);
       addNotification(errMsg, 'error');
     } finally {
