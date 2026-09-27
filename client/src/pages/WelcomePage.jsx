@@ -568,13 +568,32 @@ const WelcomePage = () => {
           })}
         </nav>
 
-        {/* Skip to Dashboard Button */}
-        <button
-          onClick={handleComplete}
-          className="text-xs font-bold text-[var(--graphite)] hover:text-[var(--blue)] px-2.5 py-1 rounded-full hover:bg-[var(--lavender)] transition-all heading-font"
-        >
-          Skip to Dashboard
-        </button>
+        {/* Top Action Controls: Continue & Skip */}
+        <div className="flex items-center gap-2">
+          <button
+            onClick={handleComplete}
+            className="text-xs font-bold text-[var(--graphite)] hover:text-[var(--blue)] px-2.5 py-1.5 rounded-full hover:bg-[var(--lavender)] transition-all heading-font"
+          >
+            Skip
+          </button>
+          {isLast ? (
+            <button
+              onClick={handleStartQuiz}
+              className="py-1.5 px-3.5 rounded-full bg-[var(--blue)] text-white font-bold text-xs hover:bg-[var(--azure)] active:scale-95 transition-all flex items-center gap-1 shadow-sm heading-font"
+            >
+              <span>Start Quiz</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </button>
+          ) : (
+            <button
+              onClick={handleNext}
+              className="py-1.5 px-4 rounded-full bg-[var(--blue)] text-white font-bold text-xs hover:bg-[var(--azure)] active:scale-95 transition-all flex items-center gap-1.5 shadow-sm heading-font"
+            >
+              <span>Continue</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </button>
+          )}
+        </div>
       </header>
 
       {/* ── MAIN TOUR STUDIO CONTAINER (FITS THE SCREEN COMFORTABLY) ── */}
@@ -661,13 +680,13 @@ const WelcomePage = () => {
                   </div>
                 </div>
 
-                {/* Desktop Embedded Navigation Controls (Left Column Footer) */}
-                <div className="hidden lg:flex items-center justify-between pt-2.5 border-t border-[var(--border)] mt-2">
+                {/* Embedded Navigation Controls (Visible on all devices) */}
+                <div className="flex items-center justify-between pt-3 border-t border-[var(--border)] mt-3">
                   <div className="flex items-center gap-2">
                     {currentStep > 0 && (
                       <button
                         onClick={handlePrev}
-                        className="py-2 px-3.5 rounded-xl border border-[var(--border)] bg-[var(--surface)] text-[var(--graphite)] hover:text-[var(--ink)] hover:bg-[var(--fog)] active:scale-95 transition-all flex items-center gap-1 text-xs font-bold heading-font"
+                        className="py-2 px-3 rounded-xl border border-[var(--border)] bg-[var(--surface)] text-[var(--graphite)] hover:text-[var(--ink)] hover:bg-[var(--fog)] active:scale-95 transition-all flex items-center gap-1 text-xs font-bold heading-font"
                       >
                         <ChevronLeft className="w-3.5 h-3.5" />
                         <span>Previous</span>
@@ -680,7 +699,7 @@ const WelcomePage = () => {
                           onClick={handleComplete}
                           className="py-2 px-3.5 rounded-xl bg-[var(--surface)] border border-[var(--border)] text-[var(--ink)] font-bold text-xs hover:bg-[var(--fog)] active:scale-95 transition-all text-center heading-font"
                         >
-                          Go to Dashboard
+                          Dashboard
                         </button>
                         <button
                           onClick={handleStartQuiz}
@@ -693,17 +712,29 @@ const WelcomePage = () => {
                     ) : (
                       <button
                         onClick={handleNext}
-                        className="py-2 px-5 rounded-xl bg-[var(--blue)] text-white font-extrabold text-xs hover:bg-[var(--azure)] active:scale-95 transition-all flex items-center justify-center gap-1.5 shadow-md heading-font"
+                        className="py-2 px-4 sm:px-5 rounded-xl bg-[var(--blue)] text-white font-extrabold text-xs hover:bg-[var(--azure)] active:scale-95 transition-all flex items-center justify-center gap-1.5 shadow-md heading-font"
                       >
-                        <span>Continue to {ONBOARDING_STEPS[currentStep + 1].stepNavTitle}</span>
+                        <span>Continue</span>
                         <ArrowRight className="w-3.5 h-3.5" />
                       </button>
                     )}
                   </div>
 
-                  <span className="text-[10px] text-[var(--ash)] font-mono ml-2 shrink-0">
-                    Press → to advance
-                  </span>
+                  {/* Step dots */}
+                  <div className="flex items-center gap-1.5">
+                    {ONBOARDING_STEPS.map((_, i) => (
+                      <button
+                        key={i}
+                        onClick={() => setCurrentStep(i)}
+                        className={`h-1.5 rounded-full transition-all duration-300 ${
+                          i === currentStep
+                            ? 'w-5 sm:w-6 bg-[var(--blue)]'
+                            : 'w-1.5 bg-[var(--ash)] opacity-40 hover:opacity-80'
+                        }`}
+                        aria-label={`Go to step ${i + 1}`}
+                      />
+                    ))}
+                  </div>
                 </div>
               </div>
 
@@ -717,64 +748,6 @@ const WelcomePage = () => {
           </motion.div>
         </AnimatePresence>
       </main>
-
-      {/* ── MOBILE BOTTOM CONTROLS BAR (Retained for Mobile & Tablet) ── */}
-      <footer className="lg:hidden px-4 sm:px-6 pb-4 pt-1 max-w-lg mx-auto w-full z-10 flex flex-col gap-2.5">
-        {/* Pagination Dots */}
-        <div className="flex items-center justify-center gap-1.5">
-          {ONBOARDING_STEPS.map((_, i) => (
-            <button
-              key={i}
-              onClick={() => setCurrentStep(i)}
-              className={`h-1.5 rounded-full transition-all duration-300 ${
-                i === currentStep
-                  ? 'w-7 bg-[var(--blue)]'
-                  : 'w-1.5 bg-[var(--ash)] opacity-40 hover:opacity-80'
-              }`}
-              aria-label={`Go to step ${i + 1}`}
-            />
-          ))}
-        </div>
-
-        {/* Action Buttons */}
-        <div className="flex items-center gap-2.5">
-          {currentStep > 0 && (
-            <button
-              onClick={handlePrev}
-              className="p-3 rounded-xl border border-[var(--border)] bg-[var(--surface)] text-[var(--graphite)] hover:text-[var(--ink)] hover:bg-[var(--fog)] active:scale-95 transition-all flex items-center justify-center flex-shrink-0"
-              aria-label="Previous step"
-            >
-              <ChevronLeft className="w-4 h-4" />
-            </button>
-          )}
-
-          {isLast ? (
-            <div className="flex-1 flex gap-2">
-              <button
-                onClick={handleComplete}
-                className="flex-1 py-3 px-3 rounded-xl bg-[var(--surface)] border border-[var(--border)] text-[var(--ink)] font-bold text-xs hover:bg-[var(--fog)] active:scale-95 transition-all text-center heading-font"
-              >
-                Go to Dashboard
-              </button>
-              <button
-                onClick={handleStartQuiz}
-                className="flex-1 py-3 px-3.5 rounded-xl bg-[var(--blue)] text-white font-bold text-xs hover:bg-[var(--azure)] active:scale-95 transition-all flex items-center justify-center gap-1.5 shadow-md heading-font"
-              >
-                <span>Start Quiz</span>
-                <ArrowRight className="w-3.5 h-3.5" />
-              </button>
-            </div>
-          ) : (
-            <button
-              onClick={handleNext}
-              className="flex-1 py-3 px-5 rounded-xl bg-[var(--blue)] text-white font-bold text-xs hover:bg-[var(--azure)] active:scale-95 transition-all flex items-center justify-center gap-1.5 shadow-md heading-font"
-            >
-              <span>Continue</span>
-              <ArrowRight className="w-3.5 h-3.5" />
-            </button>
-          )}
-        </div>
-      </footer>
 
       {/* ── DESKTOP MINIMAL FOOTER ── */}
       <footer className="hidden lg:flex items-center justify-between px-6 lg:px-8 py-2 border-t border-[var(--border)] bg-[var(--surface)]/80 text-[10.5px] text-[var(--graphite)] z-10">

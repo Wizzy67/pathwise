@@ -765,7 +765,7 @@ const ResultsPage = () => {
               Discuss Results with AI
             </p>
             <p className="text-[10px] truncate" style={{ color: 'var(--graphite)' }}>
-              Llama 3.3 70B knows your Holland Code ({hollandCode})
+              PathWise Advisor knows your Holland Code ({hollandCode})
             </p>
           </div>
         </div>

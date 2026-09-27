@@ -547,11 +547,10 @@ ${m.content}
               <Menu className="w-5 h-5" />
             </button>
 
-            {/* ChatGPT Model Selector Pill */}
+            {/* PathWise Advisor Indicator */}
             <div className="flex items-center gap-1.5 px-3 py-1 rounded-full border border-[var(--border)] bg-[var(--mist)] text-xs font-bold text-[var(--ink)] shadow-2xs">
               <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-              <span>PathWise Llama 3.3 70B</span>
-              <ChevronDown className="w-3.5 h-3.5 text-[var(--graphite)] opacity-70" />
+              <span>PathWise Advisor</span>
             </div>
           </div>
 
@@ -646,9 +645,6 @@ ${m.content}
                           <Compass className="w-3.5 h-3.5" />
                         </div>
                         <span className="text-xs font-bold text-[var(--ink)]">PathWise Advisor</span>
-                        <span className="text-[9px] px-1.5 py-0.2 rounded bg-[var(--mist)] text-[var(--graphite)] font-bold">
-                          70B
-                        </span>
                       </div>
 
                       <div className="text-sm text-[var(--ink)] leading-relaxed pl-8 space-y-2 whitespace-pre-wrap">
