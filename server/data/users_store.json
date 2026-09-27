@@ -2,17 +2,73 @@
   {
     "id": "accba9ed-6341-466d-a4a8-2e0f5f7aedf2",
     "fullName": "Wisdom Ifeanyi",
-    "email": "wisdom@student.delsu.edu.ng",
+    "email": "ifeanyiwisdom67@gmail.com",
     "matricNo": "FOS/20/21/248900",
     "faculty": "Science",
     "department": "Computer Science",
-    "level": "300",
-    "cgpa": 4.2,
-    "password": "$2a$10$bDFiN1U5UYiqSkBJ/.RhiOwBMZlcG2Izhd4G8qL0Gwmw/hcEsg6mC",
+    "level": "400",
+    "cgpa": 4.38,
+    "password": "$2a$10$cDLZd117vXtMJus.tENqqOG9r4yqcvySx3lqC2uZcRDBCrvSlDlVq",
     "role": "student",
-    "savedCareers": [],
-    "xp": 2,
-    "createdAt": "2026-09-05T15:52:39.385Z"
+    "savedCareers": [
+      "c_se",
+      "c_ds",
+      "c_cyber"
+    ],
+    "xp": 154,
+    "hollandCode": "IRC",
+    "hollandLabel": "Investigative · Realistic · Conventional",
+    "riasecScores": {
+      "R": 78,
+      "I": 94,
+      "A": 50,
+      "S": 58,
+      "E": 68,
+      "C": 84
+    },
+    "quizResults": [
+      {
+        "careerId": "c_se",
+        "id": "c_se",
+        "score": 96
+      },
+      {
+        "careerId": "c_ds",
+        "id": "c_ds",
+        "score": 92
+      },
+      {
+        "careerId": "c_cyber",
+        "id": "c_cyber",
+        "score": 88
+      }
+    ],
+    "selfEfficacy": {
+      "STEM": 5,
+      "Science": 4,
+      "Business": 3,
+      "Law": 2,
+      "Medicine": 2,
+      "Arts": 2,
+      "Social Sciences": 3
+    },
+    "outcomeExpectations": {
+      "income": 5,
+      "technical": 5,
+      "autonomy": 4,
+      "stability": 4,
+      "impact": 4
+    },
+    "learningStyle": "hands_on",
+    "priorExperiences": [
+      "coding",
+      "research",
+      "math"
+    ],
+    "lastQuizDate": "2026-09-25T14:00:00.000Z",
+    "createdAt": "2026-09-05T15:52:39.385Z",
+    "resetPasswordCode": "650369",
+    "resetPasswordExpires": "2026-09-27T11:26:24.570Z"
   },
   {
     "id": "313b3427-e56d-4da6-90a8-01e885d3d43c",
@@ -28,5 +84,50 @@
     "savedCareers": [],
     "xp": 22,
     "createdAt": "2026-09-05T15:53:46.711Z"
+  },
+  {
+    "id": "e790d454-8f94-4749-9a49-48ea59b16790",
+    "fullName": "Blessing Chukwuma",
+    "email": "blessing@test.delsu.edu.ng",
+    "matricNo": "FOS/23/24/999001",
+    "faculty": "Faculty of Science",
+    "department": "Computer Science",
+    "level": "100",
+    "cgpa": null,
+    "password": "$2a$10$7ysMXOeyThyUMMPnQlUyl.yfAB0wHn6ug1cAZ/OemKAfurptvzcam",
+    "role": "student",
+    "savedCareers": [],
+    "xp": 0,
+    "createdAt": "2026-09-27T10:15:06.095Z"
+  },
+  {
+    "id": "cdd623f6-f95c-46ab-a861-74d4ed77d5f0",
+    "fullName": "Wisdom Live Tester",
+    "email": "ifeanyiwisdom67@gmail.com",
+    "matricNo": "FOS/24/25/112233",
+    "faculty": "Faculty of Science",
+    "department": "Computer Science",
+    "level": "200",
+    "cgpa": null,
+    "password": "$2a$10$1NxybU3Z3r.KJqu6llBmqeI3AlWJN4rd3.KyQiWerxP7NeuWrtepq",
+    "role": "student",
+    "savedCareers": [],
+    "xp": 0,
+    "createdAt": "2026-09-27T10:53:22.194Z"
+  },
+  {
+    "id": "36381ced-c80b-4160-8546-18de56a85d24",
+    "fullName": "Wisdom Ifeanyi",
+    "email": "ifeanyiwisdom67@gmail.com",
+    "matricNo": "FOS/25/26/556677",
+    "faculty": "Faculty of Science",
+    "department": "Computer Science",
+    "level": "400",
+    "cgpa": null,
+    "password": "$2a$10$aJl6om7Sk1qvvQbPA/iNGeTqPdix7MbSvDJEB6N/MuDgHfWgJowWi",
+    "role": "student",
+    "savedCareers": [],
+    "xp": 0,
+    "createdAt": "2026-09-27T11:11:52.293Z"
   }
 ]

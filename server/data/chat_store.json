@@ -1,5 +1,39 @@
 [
   {
+    "id": "262d1e12-3f5c-42b6-a2ae-2e813f75988f",
+    "userId": "accba9ed-6341-466d-a4a8-2e0f5f7aedf2",
+    "title": "Software Engineering Electives",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Which 300L/400L electives should I register to prepare for Software Engineering roles?"
+      },
+      {
+        "role": "assistant",
+        "content": "Given your strong Investigative (94) and Conventional (84) scores, you naturally thrive in structured, analytical environments. To bridge the gap between your CS curriculum and the rigorous demands of Software Engineering, prioritize electives that emphasize system architecture and rigorous logic. I strongly recommend registering for **Distributed Systems**, **Advanced Algorithms**, and **Software Engineering/Project Management**. These courses align perfectly with your high self-efficacy in STEM (5/5) and your value for technical depth (5/5), allowing you to leverage your existing coding and research strengths while building the structural knowledge Nigerian tech companies like Flutterwave and Paystack highly value.\n\nSince you learn best through hands-on application, don’t just memorize the theory in these classes. For every lecture on system design or algorithmic complexity, immediately build a small-scale prototype or contribute to a local open-source project. This constructivist approach turns abstract concepts into tangible portfolio pieces, which are critical for internships in Lagos or remote roles. Ask yourself: *How can I apply the principles from Distributed Systems to solve a real problem I’ve seen in my own coding experience?*\n\nFinally, aim to complete your final year project in a domain that showcases these advanced skills, such as a scalable backend service or a complex data processing tool. This will not only solidify your technical confidence but also provide a concrete discussion point for interviews, proving you can handle the autonomy and technical challenges you value in your career."
+      }
+    ],
+    "createdAt": "2026-09-25T15:07:20.834Z",
+    "updatedAt": "2026-09-25T15:07:20.834Z"
+  },
+  {
+    "id": "ab72dabd-c137-4faf-821f-43c6cbbfc2b3",
+    "userId": "accba9ed-6341-466d-a4a8-2e0f5f7aedf2",
+    "title": "Software Engineering Electives",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Which 300L/400L electives should I register to prepare for Software Engineering roles?"
+      },
+      {
+        "role": "assistant",
+        "content": "With a CGPA of 4.38 and a Holland Code of **IRC** (Investigative, Realistic, Conventional), you are perfectly aligned for a technical, structured career in Software Engineering. Your high self-efficacy in **STEM (5/5)** and value for **technical depth (5/5)** confirm that you are ready to tackle complex, logic-driven coursework. Since you learn best through **hands-on** experiences, you should prioritize electives that allow you to build tangible projects rather than just memorizing theory.\n\nI recommend focusing on three key areas for your 300L/400L electives:\n\n1.  **Database Management Systems (Advanced):** Your strong **Conventional (C=84)** trait means you thrive with structured data. Mastering SQL, NoSQL, and database design is fundamental for backend engineering roles in Nigeria.\n2.  **Software Engineering & Project Management:** This aligns with your **Realistic (R=78)** side, focusing on the practical lifecycle of building software. Look for courses that include team-based projects or capstone components.\n3.  **Operating Systems or Computer Networks:** Your **Investigative (I=94)** nature will appreciate the deep analytical dive into how systems work under the hood. This knowledge is highly valued by tech companies like Andela, Kuda, and Paystack.\n\n**Socratic Question for You:**\nWhen you think about your final year project, do you see yourself building a full-stack web application, a mobile app, or a specialized system (like an AI tool)? Knowing this will help you choose between electives like *Web Technologies* vs. *Machine Learning*.\n\n**Action Step:**\nCheck the DELSU Computer Science handbook for the specific elective codes. Since you are Level 400, ensure you have the prerequisite 200L/300L courses cleared. If you have any doubt about a specific course code, share it here, and we can analyze if it fits your hands-on learning style!"
+      }
+    ],
+    "createdAt": "2026-09-25T15:03:42.304Z",
+    "updatedAt": "2026-09-25T15:03:42.304Z"
+  },
+  {
     "id": "afd6c870-bf3c-485d-bbb0-82141878d92f",
     "userId": "accba9ed-6341-466d-a4a8-2e0f5f7aedf2",
     "title": "DELSU 300L Software Engineering",

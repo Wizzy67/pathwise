@@ -1,5 +1,87 @@
 [
   {
+    "id": "d85e3b07-cd82-4d23-9568-d18f0a39e0fe",
+    "userId": "36381ced-c80b-4160-8546-18de56a85d24",
+    "action": "registered",
+    "metadata": {},
+    "hiddenByUser": false,
+    "timestamp": "2026-09-27T11:11:52.294Z"
+  },
+  {
+    "id": "e15f8af6-7be9-4203-8c36-e4993bdbf3b1",
+    "userId": "cdd623f6-f95c-46ab-a861-74d4ed77d5f0",
+    "action": "registered",
+    "metadata": {},
+    "hiddenByUser": false,
+    "timestamp": "2026-09-27T10:53:22.196Z"
+  },
+  {
+    "id": "3ff287b8-7c2a-43fc-befa-12c4faa13113",
+    "userId": "e790d454-8f94-4749-9a49-48ea59b16790",
+    "action": "registered",
+    "metadata": {},
+    "hiddenByUser": false,
+    "timestamp": "2026-09-27T10:15:06.099Z"
+  },
+  {
+    "id": "f131d0f3-545d-425d-937f-1a5e78c8a285",
+    "userId": "accba9ed-6341-466d-a4a8-2e0f5f7aedf2",
+    "action": "logged_in",
+    "metadata": {},
+    "hiddenByUser": false,
+    "timestamp": "2026-09-27T10:14:48.522Z"
+  },
+  {
+    "id": "0d1c496f-5700-41b9-a20b-fbbea23ad1cc",
+    "userId": "accba9ed-6341-466d-a4a8-2e0f5f7aedf2",
+    "action": "password_reset",
+    "metadata": {
+      "timestamp": "2026-09-27T10:14:31.947Z"
+    },
+    "hiddenByUser": false,
+    "timestamp": "2026-09-27T10:14:31.949Z"
+  },
+  {
+    "id": "eca8481d-d85e-4784-a22a-b224f00f8695",
+    "userId": "accba9ed-6341-466d-a4a8-2e0f5f7aedf2",
+    "action": "ai_query",
+    "metadata": {
+      "promptSnippet": "Which 300L/400L electives should I register to pre"
+    },
+    "hiddenByUser": false,
+    "timestamp": "2026-09-25T15:06:35.208Z"
+  },
+  {
+    "id": "309fd00b-642c-4c00-8bbd-97ac923f8b4e",
+    "userId": "accba9ed-6341-466d-a4a8-2e0f5f7aedf2",
+    "action": "roadmap_viewed",
+    "metadata": {
+      "careerId": "c_se"
+    },
+    "hiddenByUser": false,
+    "timestamp": "2026-09-25T15:06:23.863Z"
+  },
+  {
+    "id": "ac2839e7-bc6a-4a9f-a165-ef84388c88e8",
+    "userId": "accba9ed-6341-466d-a4a8-2e0f5f7aedf2",
+    "action": "ai_query",
+    "metadata": {
+      "promptSnippet": "Which 300L/400L electives should I register to pre"
+    },
+    "hiddenByUser": false,
+    "timestamp": "2026-09-25T15:03:37.643Z"
+  },
+  {
+    "id": "3c98b1e6-c9e7-4fc2-b369-c4b74a4f3c36",
+    "userId": "accba9ed-6341-466d-a4a8-2e0f5f7aedf2",
+    "action": "roadmap_viewed",
+    "metadata": {
+      "careerId": "c_se"
+    },
+    "hiddenByUser": false,
+    "timestamp": "2026-09-25T15:03:25.671Z"
+  },
+  {
     "id": "26b695db-d69e-4bb6-89c3-c1816ab93600",
     "userId": "313b3427-e56d-4da6-90a8-01e885d3d43c",
     "action": "career_unsaved",

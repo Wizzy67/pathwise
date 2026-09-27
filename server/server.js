@@ -15,7 +15,7 @@ const __dirname = path.dirname(__filename);
 const app = express();
 
 // Middleware
-app.use(helmet());
+app.use(helmet({ contentSecurityPolicy: false }));
 app.use(cors());
 app.use(express.json());
 
@@ -55,6 +55,16 @@ app.get('/api/data/careers', (req, res) => res.json(dataCache.careers));
 app.get('/api/data/courses', (req, res) => res.json(dataCache.courses));
 app.get('/api/data/questions', (req, res) => res.json(dataCache.questions));
 app.get('/api/data/translations', (req, res) => res.json(dataCache.translations));
+
+// Serve frontend static build if available
+const clientDistPath = path.join(__dirname, '../client/dist');
+if (fs.existsSync(clientDistPath)) {
+  app.use(express.static(clientDistPath));
+  app.get('*', (req, res, next) => {
+    if (req.path.startsWith('/api')) return next();
+    res.sendFile(path.join(clientDistPath, 'index.html'));
+  });
+}
 
 // Error handler
 app.use((err, req, res, next) => {

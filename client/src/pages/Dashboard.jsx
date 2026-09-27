@@ -95,7 +95,7 @@ const Dashboard = () => {
   const assessmentDone = user?.quizResults && user.quizResults.length > 0;
   const topMatch = assessmentDone ? user.quizResults[0] : null;
   const topMatchScore = topMatch ? `${topMatch.score}%` : '0%';
-  const topCareerDetail = topMatch ? careersList.find(c => c.id === topMatch.id) : null;
+  const topCareerDetail = topMatch ? careersList.find(c => c.id === (topMatch.id || topMatch.careerId)) : null;
   const careersSavedCount = user?.savedCareers?.length || savedCareers.length;
 
   const hollandCode = user?.hollandCode || null;
@@ -114,13 +114,14 @@ const Dashboard = () => {
 
   // Top Matches List
   const matchedCareers = (user?.quizResults || []).slice(0, 3).map(match => {
-    const detail = careersList.find(c => c.id === match.id);
+    const matchId = match.id || match.careerId;
+    const detail = careersList.find(c => c.id === matchId);
     return {
-      id: match.id,
-      title: detail?.title || match.id,
+      id: matchId,
+      title: detail?.title || matchId,
       field: detail?.field || 'General',
       score: match.score,
-      salary: detail?.salary_entry || '₦3.5M – ₦7M/yr'
+      salary: detail?.salary_range || detail?.salary_entry || '₦3.5M – ₦7M/yr'
     };
   });
 

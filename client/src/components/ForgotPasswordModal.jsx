@@ -3,7 +3,7 @@ import { createPortal } from 'react-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import {
   KeyRound, ShieldCheck, Mail, Lock, Eye, EyeOff,
-  ArrowRight, RotateCw, CheckCircle2, X, Check, ArrowLeft
+  ArrowRight, RotateCw, CheckCircle2, X, Check, ArrowLeft, GraduationCap
 } from 'lucide-react';
 import api from '../services/api';
 
@@ -85,23 +85,37 @@ const ForgotPasswordModal = ({ isOpen, onClose, onSuccess }) => {
   const handleRequestCode = async (e) => {
     e.preventDefault();
     setErrorMessage('');
-    const cleanEmail = email.trim();
+    const cleanIdent = email.trim();
 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!cleanEmail || !emailRegex.test(cleanEmail)) {
-      setErrorMessage('Please enter a valid student email address.');
+    if (!cleanIdent) {
+      setErrorMessage('Please enter your DELSU matric number or student email address.');
+      return;
+    }
+
+    if (cleanIdent.includes('@')) {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(cleanIdent)) {
+        setErrorMessage('Please enter a valid student email address (e.g. name@student.delsu.edu.ng).');
+        return;
+      }
+    } else if (cleanIdent.length < 4) {
+      setErrorMessage('Please enter a valid DELSU matric number (e.g. FOS/20/21/248900).');
       return;
     }
 
     setIsSubmitting(true);
     try {
-      const res = await api.post('/auth/forgot-password', { email: cleanEmail });
-      setEmailHint(res.data.emailHint || cleanEmail);
+      const res = await api.post('/auth/forgot-password', {
+        identifier: cleanIdent,
+        email: cleanIdent,
+        matricNo: cleanIdent
+      });
+      setEmailHint(res.data.emailHint || cleanIdent);
       setStep(2);
       setResendTimer(60);
     } catch (err) {
       setErrorMessage(
-        err.response?.data?.error || 'No student account found with this email address.'
+        err.response?.data?.error || 'No student account found with this Matric Number or Email.'
       );
     } finally {
       setIsSubmitting(false);
@@ -114,7 +128,12 @@ const ForgotPasswordModal = ({ isOpen, onClose, onSuccess }) => {
     setErrorMessage('');
     setIsSubmitting(true);
     try {
-      await api.post('/auth/forgot-password', { email: email.trim() });
+      const cleanIdent = email.trim();
+      await api.post('/auth/forgot-password', {
+        identifier: cleanIdent,
+        email: cleanIdent,
+        matricNo: cleanIdent
+      });
       setResendTimer(60);
     } catch (err) {
       setErrorMessage(err.response?.data?.error || 'Unable to resend verification code right now.');
@@ -249,26 +268,27 @@ const ForgotPasswordModal = ({ isOpen, onClose, onSuccess }) => {
                   <h3 className="text-2xl font-extrabold text-slate-900 tracking-tight font-outfit">
                     Forgot Password?
                   </h3>
-                  <p className="text-xs sm:text-[13px] text-slate-500 mt-1.5 leading-relaxed max-w-[310px] mx-auto">
-                    Enter your student email address and we'll send a 6-digit verification code to reset your account.
+                  <p className="text-xs sm:text-[13px] text-slate-500 mt-1.5 leading-relaxed max-w-[320px] mx-auto">
+                    Enter your DELSU matric number or student email address to receive your 6-digit recovery OTP.
                   </p>
                 </div>
 
                 {/* Form */}
-                <form onSubmit={handleRequestCode} className="flex flex-col gap-4 text-left">
+                <form onSubmit={handleRequestCode} noValidate className="flex flex-col gap-4 text-left">
                   <div className="flex flex-col gap-1.5">
                     <label className="text-xs font-bold text-slate-700 tracking-wide">
-                      Student Email Address
+                      DELSU Matric Number or Email
                     </label>
                     <div className="relative">
-                      <Mail className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+                      <GraduationCap className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
                       <input
-                        type="email"
+                        type="text"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        placeholder="e.g. yourname@gmail.com"
+                        placeholder="e.g. FOS/20/21/248900 or name@gmail.com"
                         className="w-full pl-10 pr-3.5 py-3 rounded-xl border border-slate-200 text-sm text-slate-800 placeholder:text-slate-400 focus:outline-none focus:border-[#20428B] focus:ring-2 focus:ring-[#20428B]/10 transition-all font-medium"
-                        autoComplete="email"
+                        autoCapitalize="none"
+                        autoCorrect="off"
                         autoFocus
                         required
                       />
@@ -344,7 +364,7 @@ const ForgotPasswordModal = ({ isOpen, onClose, onSuccess }) => {
                 </div>
 
                 {/* Form */}
-                <form onSubmit={handleResetPassword} className="flex flex-col gap-3 text-left">
+                <form onSubmit={handleResetPassword} noValidate className="flex flex-col gap-3 text-left">
                   {/* Group 1: 6-Digit Code */}
                   <div className="flex flex-col gap-1">
                     <div className="flex items-center justify-between">

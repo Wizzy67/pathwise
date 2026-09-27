@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import Navbar from './components/Navbar';
@@ -28,17 +28,62 @@ import PDFReport from './pages/PDFReport';
 import AdminLogin from './pages/AdminLogin';
 import AdminDashboard from './pages/AdminDashboard';
 import ResultsAnalysis from './pages/ResultsAnalysis';
+import { useNavigate } from 'react-router-dom';
+import { App as CapApp } from '@capacitor/app';
+import { StatusBar, Style } from '@capacitor/status-bar';
+import { SplashScreen } from '@capacitor/splash-screen';
+import { Capacitor } from '@capacitor/core';
 
 // Pages that should NOT show the Navbar/Footer
 const BARE_ROUTES = ['/login', '/register', '/forgot-password', '/quiz', '/welcome', '/secure-admin-access', '/choice', '/admin'];
 
 function App() {
   const location = useLocation();
+  const navigate = useNavigate();
+
+  const currentPathRef = useRef(location.pathname);
+  useEffect(() => {
+    currentPathRef.current = location.pathname;
+  }, [location.pathname]);
 
   // Reset scroll to top on every page transition
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
   }, [location.pathname]);
+
+  // Mobile Native App Lifecycle and Back Button - registered ONCE to prevent bridge thrashing
+  useEffect(() => {
+    if (Capacitor.isNativePlatform()) {
+      try {
+        SplashScreen.hide();
+      } catch (e) {}
+
+      try {
+        StatusBar.setBackgroundColor({ color: '#20428B' });
+        StatusBar.setStyle({ style: Style.Dark });
+      } catch (e) {}
+
+      let backHandler = null;
+      CapApp.addListener('backButton', ({ canGoBack }) => {
+        const path = currentPathRef.current;
+        if (path === '/dashboard' || path === '/' || path === '/login') {
+          CapApp.exitApp();
+        } else if (canGoBack) {
+          window.history.back();
+        } else {
+          navigate('/dashboard');
+        }
+      }).then((handle) => {
+        backHandler = handle;
+      }).catch(() => {});
+
+      return () => {
+        if (backHandler) {
+          backHandler.remove();
+        }
+      };
+    }
+  }, [navigate]);
 
   const isBare = location.pathname === '/' || BARE_ROUTES.some(r => location.pathname === r || location.pathname.startsWith(r + '/'));
   const isAppView = ['/dashboard', '/explore', '/career', '/saved', '/activity', '/profile', '/results-analysis', '/advisor', '/study-plan', '/report'].some(r => location.pathname.startsWith(r));

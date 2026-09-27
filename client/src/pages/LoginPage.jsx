@@ -6,7 +6,7 @@ import { useModal } from '../contexts/ModalContext';
 import api from '../services/api';
 import {
   Mail, Eye, EyeOff, Lock, ArrowRight, ArrowLeft,
-  User, Compass, CheckCircle2, ShieldCheck
+  User, Compass, CheckCircle2, ShieldCheck, AlertCircle
 } from 'lucide-react';
 import PathWiseLogo from '../components/PathWiseLogo';
 import ForgotPasswordModal from '../components/ForgotPasswordModal';
@@ -19,10 +19,10 @@ const AuthenticatingScreen = ({ onSuccess }) => {
 
   useEffect(() => {
     const timers = [
-      setTimeout(() => { setCurrentStep(1); setProgress(45); }, 300),
-      setTimeout(() => { setCurrentStep(2); setProgress(80); }, 700),
-      setTimeout(() => { setCurrentStep(3); setProgress(100); setIsSuccess(true); }, 1100),
-      setTimeout(() => { if (onSuccess) onSuccess(); }, 1600),
+      setTimeout(() => { setCurrentStep(1); setProgress(50); }, 120),
+      setTimeout(() => { setCurrentStep(2); setProgress(85); }, 280),
+      setTimeout(() => { setCurrentStep(3); setProgress(100); setIsSuccess(true); }, 450),
+      setTimeout(() => { if (onSuccess) onSuccess(); }, 650),
     ];
     return () => timers.forEach(clearTimeout);
   }, [onSuccess]);
@@ -146,6 +146,10 @@ const LoginPage = () => {
   const [showAuthScreen, setShowAuthScreen] = useState(false);
   const [showForgotModal, setShowForgotModal] = useState(false);
 
+  const [errors, setErrors] = useState({});
+  const [touched, setTouched] = useState({});
+  const [serverError, setServerError] = useState('');
+
   const [searchParams, setSearchParams] = useSearchParams();
   const { login } = useAuth();
   const { addNotification } = useNotification();
@@ -168,16 +172,48 @@ const LoginPage = () => {
     });
   };
 
+  const handleBlur = (field) => {
+    setTouched((prev) => ({ ...prev, [field]: true }));
+    if (field === 'email' && !email.trim()) {
+      setErrors((prev) => ({ ...prev, email: 'Please enter your Matric Number or Email' }));
+    } else if (field === 'email') {
+      setErrors((prev) => ({ ...prev, email: '' }));
+    }
+    if (field === 'password' && !password) {
+      setErrors((prev) => ({ ...prev, password: 'Please enter your password' }));
+    } else if (field === 'password') {
+      setErrors((prev) => ({ ...prev, password: '' }));
+    }
+  };
+
   const handleLogin = async (e) => {
     e.preventDefault();
+    setServerError('');
+    const newErrors = {};
+    const trimmed = email.trim();
+
+    if (!trimmed) {
+      newErrors.email = 'Please enter your Matric Number or Email';
+    }
+    if (!password) {
+      newErrors.password = 'Please enter your password';
+    }
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      setTouched({ email: true, password: true });
+      return;
+    }
+
     setIsSubmitting(true);
     try {
-      const trimmed = email.trim();
       const res = await api.post('/auth/login', { matricNo: trimmed, email: trimmed, password });
       await login(res.data.token, res.data.user);
       setShowAuthScreen(true);
     } catch (error) {
-      addNotification(error.response?.data?.error || 'Login failed. Check your credentials.', 'error');
+      const errMsg = error.response?.data?.error || error.response?.data?.message || 'Login failed. Check your credentials.';
+      setServerError(errMsg);
+      addNotification(errMsg, 'error');
       setIsSubmitting(false);
     }
   };
@@ -203,14 +239,21 @@ const LoginPage = () => {
           color: #0F172A;
           background: #fff;
           outline: none;
-          transition: border-color 0.2s, box-shadow 0.2s;
+          transition: border-color 0.15s, box-shadow 0.15s;
           box-sizing: border-box;
           font-family: inherit;
         }
         .log-input::placeholder { color: #94A3B8; }
         .log-input:focus {
           border-color: #20428B;
-          box-shadow: 0 0 0 3px rgba(32,66,139,0.1);
+          box-shadow: 0 0 0 3px rgba(32,66,139,0.08);
+        }
+        .log-input.has-error {
+          border-color: #EF4444;
+          background-color: #FEF2F2;
+        }
+        .log-input.has-error:focus {
+          box-shadow: 0 0 0 3px rgba(239,68,68,0.1);
         }
         .log-icon-left {
           position: absolute;
@@ -329,8 +372,16 @@ const LoginPage = () => {
                 </p>
               </div>
 
+              {/* Server Error Alert Banner */}
+              {serverError && (
+                <div className="mb-5 p-3.5 rounded-xl bg-red-50 border border-red-200 text-red-700 text-xs sm:text-sm font-medium leading-relaxed flex items-start gap-2.5">
+                  <AlertCircle className="w-4 h-4 text-red-600 flex-shrink-0 mt-0.5" />
+                  <div className="flex-1">{serverError}</div>
+                </div>
+              )}
+
               {/* Form */}
-              <form onSubmit={handleLogin} className="flex flex-col gap-4">
+              <form onSubmit={handleLogin} noValidate className="flex flex-col gap-4">
 
                 {/* Matric No. or Email */}
                 <div className="log-field-anim flex flex-col gap-1.5" style={{ animationDelay: '0.05s' }}>
@@ -342,13 +393,24 @@ const LoginPage = () => {
                     <input
                       type="text"
                       value={email}
-                      onChange={e => setEmail(e.target.value)}
-                      placeholder="e.g. FOS/22/23/0001 or email"
-                      className="log-input"
+                      onChange={e => {
+                        setEmail(e.target.value);
+                        if (errors.email) setErrors(prev => ({ ...prev, email: '' }));
+                        if (serverError) setServerError('');
+                      }}
+                      onBlur={() => handleBlur('email')}
+                      placeholder="e.g. FOS/20/21/248900 or email"
+                      className={`log-input ${touched.email && errors.email ? 'has-error' : ''}`}
+                      autoCapitalize="none"
+                      autoCorrect="off"
                       autoComplete="username"
-                      required
                     />
                   </div>
+                  {touched.email && errors.email && (
+                    <p className="text-[11px] text-red-600 font-medium flex items-center gap-1 mt-0.5">
+                      <AlertCircle className="w-3 h-3" /> {errors.email}
+                    </p>
+                  )}
                 </div>
 
                 {/* Password */}
@@ -359,11 +421,15 @@ const LoginPage = () => {
                     <input
                       type={showPassword ? 'text' : 'password'}
                       value={password}
-                      onChange={e => setPassword(e.target.value)}
+                      onChange={e => {
+                        setPassword(e.target.value);
+                        if (errors.password) setErrors(prev => ({ ...prev, password: '' }));
+                        if (serverError) setServerError('');
+                      }}
+                      onBlur={() => handleBlur('password')}
                       placeholder="Enter your password"
-                      className="log-input"
+                      className={`log-input ${touched.password && errors.password ? 'has-error' : ''}`}
                       autoComplete="current-password"
-                      required
                     />
                     <button
                       type="button"
@@ -374,6 +440,11 @@ const LoginPage = () => {
                       {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                     </button>
                   </div>
+                  {touched.password && errors.password && (
+                    <p className="text-[11px] text-red-600 font-medium flex items-center gap-1 mt-0.5">
+                      <AlertCircle className="w-3 h-3" /> {errors.password}
+                    </p>
+                  )}
                   <div className="flex justify-end mt-1">
                     <button
                       type="button"
