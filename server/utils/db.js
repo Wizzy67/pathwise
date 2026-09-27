@@ -44,7 +44,7 @@ let isMongoConnected = false;
 if (MONGODB_URI) {
   mongoose.connect(MONGODB_URI, { 
     family: 4, 
-    serverSelectionTimeoutMS: 3000 // fail fast if Atlas cluster is paused or unreachable
+    serverSelectionTimeoutMS: 30000 // 30s connection timeout for reliable replicaSet handshake
   })
     .then(() => {
       isMongoConnected = true;
